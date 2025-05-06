@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <nav>
-        <img src={tut25} />
+        <img src={tut25} classname="bcolor"/>
         <h1>EduConnect</h1>
         <button>LOGIN</button>
       </nav>
