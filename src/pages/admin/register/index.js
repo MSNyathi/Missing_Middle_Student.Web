@@ -123,11 +123,6 @@ const RegisterTechnician = () => {
                   </div>
                 </form>
 
-                {/* Approve/Reject Buttons */}
-                <div className="d-flex justify-content-center gap-3 mt-4">
-                  <button className="btn btn-success" onClick={() => { setActionType('approve'); setShowPasswordModal(true); }}>Approve</button>
-                  <button className="btn btn-danger" onClick={() => { setActionType('reject'); setShowPasswordModal(true); }}>Reject</button>
-                </div>
 
               </div>
             </div>
@@ -135,39 +130,6 @@ const RegisterTechnician = () => {
           </div>
         </div>
 
-        {/* Password Confirmation Modal */}
-        {showPasswordModal && (
-          <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content rounded-4">
-                <div className="modal-header">
-                  <h5 className="modal-title">
-                    {actionType === 'approve' ? 'Approve' : 'Reject'} Confirmation
-                  </h5>
-                  <button type="button" className="btn-close" onClick={() => setShowPasswordModal(false)}></button>
-                </div>
-                <div className="modal-body">
-                  <p>Please enter your password to continue.</p>
-                  <input
-                    type="password"
-                    className={`form-control ${passwordError ? 'is-invalid' : ''}`}
-                    value={adminPassword}
-                    onChange={(e) => {
-                      setAdminPassword(e.target.value);
-                      setPasswordError('');
-                    }}
-                    placeholder="Enter your password"
-                  />
-                  {passwordError && <div className="invalid-feedback">{passwordError}</div>}
-                </div>
-                <div className="modal-footer">
-                  <button className="btn btn-secondary" onClick={() => setShowPasswordModal(false)}>Cancel</button>
-                  <button className="btn btn-primary" onClick={handleConfirmAction}>Confirm</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
