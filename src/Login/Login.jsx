@@ -15,7 +15,7 @@ function Login() {
             </nav>
             </div>
             <div id="mydiv">
-            <i className="bi bi-person-circle" style={{ fontSize: '3rem' }}></i>
+            <i className="bi bi-person-circle" style={{ fontSize: '4rem' }}></i>
                 <h1>Student Login</h1>
                 <p>Welcome back! Please enter your login details below.</p>
                 <form>
