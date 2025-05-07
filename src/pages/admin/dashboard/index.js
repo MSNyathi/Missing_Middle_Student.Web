@@ -1,16 +1,76 @@
 import React from 'react';
 import AdminNavbar from '../../../commponents/adminNavbar';
-import { Bar, Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Bar, Pie, Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  ArcElement,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+  Title,
+} from 'chart.js';
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, ArcElement, Tooltip, Legend);
+ChartJS.register(
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  ArcElement,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+  Title
+);
 
 const Dashboard = () => {
-  // Sample static data
+  // Static data
   const totalDevices = 120;
   const totalApplicants = 75;
   const eligible = 45;
   const notEligible = 30;
+
+  // Monthly applicants (sample data)
+  const applicantTrendData = {
+    labels: [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ],
+    datasets: [
+      {
+        label: 'Applicants per Month',
+        data: [5, 8, 12, 10, 9, 6, 15, 20, 18, 10, 8, 7],
+        fill: false,
+        borderColor: '#0d6efd',
+        backgroundColor: '#0d6efd',
+        tension: 0.3,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        showLine: true,
+      },
+    ],
+  };
+
+  const applicantTrendOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' },
+      title: { display: true, text: 'Monthly Applicant Trend' },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Applicants' },
+      },
+      x: {
+        title: { display: true, text: 'Month' },
+      },
+    },
+  };
 
   const eligibilityData = {
     labels: ['Eligible', 'Not Eligible'],
@@ -23,6 +83,15 @@ const Dashboard = () => {
     ],
   };
 
+  const eligibilityOptions = {
+    cutout: '60%', // Donut effect
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom' },
+    },
+  };
+
   const deviceChartData = {
     labels: ['Laptops Issued', 'Laptops Remaining'],
     datasets: [
@@ -32,6 +101,14 @@ const Dashboard = () => {
         backgroundColor: ['#0d6efd', '#ffc107'],
       },
     ],
+  };
+
+  const deviceOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom' },
+    },
   };
 
   return (
@@ -71,18 +148,30 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Charts Section */}
+        {/* Chart Section */}
         <div className="row">
-          <div className="col-md-6">
-            <div className="card p-3">
-              <h6>Eligibility Overview</h6>
-              <Pie data={eligibilityData} />
+          {/* Line Chart */}
+          <div className="col-12 mb-4">
+            <div className="card p-3" style={{ height: '300px' }}>
+              <Line data={applicantTrendData} options={applicantTrendOptions} />
             </div>
           </div>
-          <div className="col-md-6">
-            <div className="card p-3">
+
+          {/* Donut & Bar Chart */}
+          <div className="col-md-6 mb-3">
+            <div className="card p-3" style={{ height: '300px' }}>
+              <h6>Eligibility Overview</h6>
+              <div className="h-100 d-flex justify-content-center align-items-center">
+                <Pie data={eligibilityData} options={eligibilityOptions} />
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6 mb-3">
+            <div className="card p-3" style={{ height: '300px' }}>
               <h6>Device Distribution</h6>
-              <Bar data={deviceChartData} />
+              <div className="h-100 d-flex justify-content-center align-items-center">
+                <Bar data={deviceChartData} options={deviceOptions} />
+              </div>
             </div>
           </div>
         </div>

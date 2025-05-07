@@ -5,7 +5,7 @@ import Dashboard from '../pages/admin/dashboard';
 import Applicants from '../pages/admin/applicants';
 import RegisterTechnician from '../pages/admin/register'; // registration page
 import App from '../App'; // default landing component
-import AssignDevicePage from '../pages/admin/Devices/AssignDevices/assignDevice';
+import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice';
 // import other pages here as needed
 
 const AppRoutes = () => {
