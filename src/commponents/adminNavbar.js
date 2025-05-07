@@ -1,6 +1,7 @@
 // src/components/adminNavbar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './adminNavbar.css'
 
 const AdminNavbar = () => {
   return (
@@ -13,9 +14,19 @@ const AdminNavbar = () => {
         <li className="nav-item">
           <Link to="/admin/applicants" className="nav-link text-white">📄 Applications</Link>
         </li>
-        <li className="nav-item">
-          <Link to="/admin/devices" className="nav-link text-white">💻 Devices</Link>
+
+         {/* Devices Dropdown (Hover-enabled) */}
+         <li className="nav-item dropdown hover-dropdown">
+          <div className="nav-link text-white dropdown-toggle" role="button">
+            💻 Devices
+          </div>
+          <ul className="dropdown-menu show-on-hover">
+            <li><Link to="/admin/assign-device" className="dropdown-item">Assign Devices</Link></li>
+            <li><Link to="/admin/devices/view" className="dropdown-item">View Devices</Link></li>
+          </ul>
         </li>
+
+
         <li className="nav-item">
           <Link to="/admin/register" className="nav-link text-white">📝 Register</Link>
         </li>
