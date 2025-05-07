@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FaLaptopCode,
   FaMapMarkedAlt,
@@ -9,6 +9,14 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const StudentDashboard = () => {
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleConfirmLogout = () => {
+    setShowModal(false);
+    navigate('/'); // Redirect to home
+  };
+
   return (
     <div className="container-fluid p-4">
       {/* Top Header */}
@@ -79,11 +87,32 @@ const StudentDashboard = () => {
           Need Help?
         </Link>
 
-        <button className="btn btn-danger">
+        <button className="btn btn-danger" onClick={() => setShowModal(true)}>
           <FaSignOutAlt className="me-2" />
           Logout
         </button>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {showModal && (
+        <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Confirm Logout</h5>
+                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+              </div>
+              <div className="modal-body">
+                <p>Are you sure you want to logout?</p>
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
+                <button className="btn btn-danger" onClick={handleConfirmLogout}>Yes, Logout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
