@@ -5,9 +5,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("./laptop.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 code {
@@ -15,20 +12,3 @@ code {
     monospace;
 }
 
-#mydiv{
-  background-color: rgba(151, 112, 13, 0.597);
-  width: 30%;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.537);
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  height: auto;
-}
-
-
-
-p{
-  color: bisque;
-}

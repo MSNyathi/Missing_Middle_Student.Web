@@ -15,15 +15,75 @@ code {
     monospace;
 }
 
-.login-container {
+#mydiv{
+  background-color: rgba(120, 91, 19, 0.75);
+  width: 30%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.537);
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: auto;
+
+}
+
+#btn{
+  border-radius: 30%;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
-.login-form {
+
+#btn2{
+  border-radius: 30%;
+  height: 40px;
   background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+i{
+  color: bisque;
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+#i{
+  color: rgb(0, 0, 0);
+  font-size: 20px;
+  margin-right: 5px;
+  padding: 5px;
+  
+}
+
+p{
+  color: bisque;
+  font-size: 120%;
+}
+
+td{
+  color: bisque;
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+#tbl{
+  padding: 10px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.537);
+  align-items: left;
+  text-align: left;
+  margin-left: 0;
 }

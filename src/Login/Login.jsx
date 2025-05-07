@@ -1,6 +1,7 @@
 import React from 'react';
 import tut25 from '../tut25.png';
-import '../index.css';
+import './Login.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 function Login() {
@@ -10,12 +11,13 @@ function Login() {
             <nav>
                 <img src={tut25} classname="bcolor"/>
                 <h1>EduConnect</h1>
-                <button>LOGIN</button>
+                <button id="btn"><i id="i" className="bi bi-person-circle" style={{ fontSize: '1.5rem' } }></i>SWITCH USER</button>
             </nav>
             </div>
             <div id="mydiv">
+            <i className="bi bi-person-circle" style={{ fontSize: '3rem' }}></i>
                 <h1>Student Login</h1>
-                <p>Welcome back! Please enter your credentials to log in.</p>
+                <p>Welcome back! Please enter your login details below.</p>
                 <form>
                     <table>
                         <tr>
@@ -40,12 +42,13 @@ function Login() {
                         </tr>
                         <tr>
                             <td>
-                                <button type="submit">Login</button>
+                            <button type="submit" id="btn2">Login</button>
                             </td>
                         </tr>
                     </table>
+                    
                 </form>
-                <p>Don't have an account? <a href="/signup">Sign up</a></p>
+                <p>Don't have an account? <a href="/Register.jsx">Sign up</a></p>
             </div>
         </>
     )
