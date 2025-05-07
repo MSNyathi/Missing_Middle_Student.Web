@@ -1,0 +1,23 @@
+/* adminNavbar.css */
+
+.hover-dropdown {
+    position: relative;
+  }
+  
+  .hover-dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    color: black;
+    min-width: 180px;
+    border-radius: 0.25rem;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  .hover-dropdown:hover .dropdown-menu {
+    display: block;
+    z-index: 1000;
+  }
+  
