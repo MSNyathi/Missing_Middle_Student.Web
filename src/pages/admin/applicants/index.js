@@ -1,7 +1,6 @@
-// src/pages/admin/applicants/index.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminNavbar from '../../../commponents/adminNavbar';
-import { Form, Table } from 'react-bootstrap';
+import { Form, Table, Image, Modal, Button } from 'react-bootstrap';
 
 const mockApplicants = [
   {
@@ -20,6 +19,7 @@ const mockApplicants = [
     ethnicity: 'Black',
     averageMark: 72,
     eligible: true,
+    proofOfIncomeUrl: 'https://via.placeholder.com/400x300?text=Proof+of+Income',
   },
   {
     id: 2,
@@ -37,30 +37,68 @@ const mockApplicants = [
     ethnicity: 'White',
     averageMark: 58,
     eligible: false,
+    proofOfIncomeUrl: 'https://via.placeholder.com/400x300?text=Proof+of+Income',
   },
-  // Add more applicants as needed
 ];
 
 const ApplicantsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+  const [selectedApplicant, setSelectedApplicant] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date().toLocaleTimeString());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleRowClick = (applicant) => {
+    setSelectedApplicant(applicant);
+    setShowModal(true);
+  };
+
+  const handleApprove = () => {
+    alert(`Approved ${selectedApplicant.name}`);
+    setShowModal(false);
+  };
+
+  const handleReject = () => {
+    alert(`Rejected ${selectedApplicant.name}`);
+    setShowModal(false);
+  };
 
   const filteredApplicants = mockApplicants.filter((applicant) => {
-    const matchesSearch = applicant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch =
+      applicant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       applicant.studentNum.includes(searchTerm);
     const matchesFilter =
       filterStatus === 'all' ||
       (filterStatus === 'eligible' && applicant.eligible) ||
       (filterStatus === 'not_eligible' && !applicant.eligible);
-
     return matchesSearch && matchesFilter;
   });
 
   return (
     <div className="d-flex">
       <AdminNavbar />
-      <div className="flex-grow-1 p-4">
-        <h2>Applicants</h2>
+      <div className="flex-grow-1 p-4 overflow-auto">
+        {/* Top Bar */}
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h2 className="mb-0">Applicants</h2>
+          <div className="d-flex align-items-center gap-3">
+            <span className="text-muted">{currentTime}</span>
+            <Image
+              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+              roundedCircle
+              alt="Profile"
+              width={32}
+              height={32}
+            />
+          </div>
+        </div>
 
         {/* Filters */}
         <div className="row mb-3">
@@ -107,7 +145,7 @@ const ApplicantsPage = () => {
           </thead>
           <tbody>
             {filteredApplicants.map((applicant, index) => (
-              <tr key={applicant.id}>
+              <tr key={applicant.id} onClick={() => handleRowClick(applicant)} style={{ cursor: 'pointer' }}>
                 <td>{index + 1}</td>
                 <td>{applicant.studentNum}</td>
                 <td>{applicant.initials}</td>
@@ -137,6 +175,30 @@ const ApplicantsPage = () => {
             No applicants match your search or filter criteria.
           </div>
         )}
+
+        {/* Modal */}
+        <Modal show={showModal} onHide={() => setShowModal(false)} centered size="lg">
+          <Modal.Header closeButton>
+            <Modal.Title>Applicant Information</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {selectedApplicant && (
+              <>
+                <p><strong>Name:</strong> {selectedApplicant.name}</p>
+                <p><strong>Student Number:</strong> {selectedApplicant.studentNum}</p>
+                <p><strong>Email:</strong> {selectedApplicant.email}</p>
+                <p><strong>Contact:</strong> {selectedApplicant.contact}</p>
+                <hr />
+                <h5>Proof of Income</h5>
+                <Image src={selectedApplicant.proofOfIncomeUrl} fluid />
+              </>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="danger" onClick={handleReject}>Reject</Button>
+            <Button variant="success" onClick={handleApprove}>Approve</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );
