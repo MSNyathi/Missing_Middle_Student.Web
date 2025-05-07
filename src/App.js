@@ -1,16 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
-import tut25 from './tut25.png';
+import React from 'react';
+import Login from './Login/Login.jsx';
 
 function App() {
   return (
-    <div className="App">
-      <nav>
-        <img src={tut25} classname="bcolor"/>
-        <h1>EduConnect</h1>
-        <button>LOGIN</button>
-      </nav>
-    </div>
+    <>
+      <Login />
+    </>
   );
 }
 

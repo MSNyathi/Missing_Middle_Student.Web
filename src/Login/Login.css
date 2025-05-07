@@ -15,20 +15,15 @@ code {
     monospace;
 }
 
-#mydiv{
-  background-color: rgba(151, 112, 13, 0.597);
-  width: 30%;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.537);
+.login-container {
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin: auto;
-  height: auto;
+  height: 100vh;
 }
-
-
-
-p{
-  color: bisque;
+.login-form {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
