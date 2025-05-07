@@ -21,7 +21,7 @@ const AdminNavbar = () => {
           </div>
           <ul className="dropdown-menu show-on-hover">
             <li><Link to="/admin/assign-device" className="dropdown-item">Assign Devices</Link></li>
-            <li><Link to="/admin/devices/view" className="dropdown-item">View Devices</Link></li>
+            <li><Link to="/admin/devices/view-devices" className="dropdown-item">View Devices</Link></li>
           </ul>
         </li>
 

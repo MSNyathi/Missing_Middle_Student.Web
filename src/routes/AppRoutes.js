@@ -6,6 +6,7 @@ import Applicants from '../pages/admin/applicants';
 import RegisterTechnician from '../pages/admin/register'; // registration page
 import App from '../App'; // default landing component
 import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice';
+import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 // import other pages here as needed
 
 const AppRoutes = () => {
@@ -16,6 +17,7 @@ const AppRoutes = () => {
       <Route path="/admin/applicants" element={<Applicants />} />
       <Route path="/admin/register" element={<RegisterTechnician />} />
       <Route path="/admin/assign-device" element={<AssignDevicePage />} />
+      <Route path="/admin/devices/view-devices" element={<ViewDevices />} />
 
       {/* Add more routes here */}
     </Routes>
