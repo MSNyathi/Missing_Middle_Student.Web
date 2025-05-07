@@ -1,4 +1,3 @@
-// src/pages/admin/dashboard/index.js
 import React from 'react';
 import AdminNavbar from '../../../commponents/adminNavbar';
 import { Bar, Pie } from 'react-chartjs-2';
@@ -36,35 +35,37 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="d-flex">
+    <div className="d-flex vh-100 overflow-hidden">
       <AdminNavbar />
-      <div className="flex-grow-1 p-4">
-        <h1>Admin Dashboard</h1>
-        <p className="text-muted">Welcome to the dashboard!</p>
+      <div className="flex-grow-1 p-4 d-flex flex-column justify-content-between">
+        <div>
+          <h1>Admin Dashboard</h1>
+          <p className="text-muted">Welcome to the dashboard!</p>
 
-        {/* Stats Summary */}
-        <div className="row text-center mt-4">
-          <div className="col-md-4">
-            <div className="card bg-primary text-white mb-3">
-              <div className="card-body">
-                <h5 className="card-title">Total Devices</h5>
-                <p className="card-text fs-4">{totalDevices}</p>
+          {/* Stats Summary */}
+          <div className="row text-center mt-4">
+            <div className="col-md-4">
+              <div className="card bg-primary text-white mb-3">
+                <div className="card-body">
+                  <h5 className="card-title">Total Devices</h5>
+                  <p className="card-text fs-4">{totalDevices}</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="col-md-4">
-            <div className="card bg-info text-white mb-3">
-              <div className="card-body">
-                <h5 className="card-title">Total Applicants</h5>
-                <p className="card-text fs-4">{totalApplicants}</p>
+            <div className="col-md-4">
+              <div className="card bg-info text-white mb-3">
+                <div className="card-body">
+                  <h5 className="card-title">Total Applicants</h5>
+                  <p className="card-text fs-4">{totalApplicants}</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="col-md-4">
-            <div className="card bg-success text-white mb-3">
-              <div className="card-body">
-                <h5 className="card-title">Eligible Applicants</h5>
-                <p className="card-text fs-4">{eligible}</p>
+            <div className="col-md-4">
+              <div className="card bg-success text-white mb-3">
+                <div className="card-body">
+                  <h5 className="card-title">Eligible Applicants</h5>
+                  <p className="card-text fs-4">{eligible}</p>
+                </div>
               </div>
             </div>
           </div>
