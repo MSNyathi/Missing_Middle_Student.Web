@@ -7,7 +7,7 @@ function SuccessPage() {
     const navigate = useNavigate();
 
     return (
-        <div className="success_container">
+        <div className="success-container">
             <div className="success-modal">
                 <h2 className="success-title">SUCCESS!!</h2>
                 <p className="success-subtitle">Registration Complete</p>

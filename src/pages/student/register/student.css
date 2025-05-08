@@ -78,14 +78,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: transparent; /* or your background if needed */
+    background: transparent; 
     position: fixed;
     top: 0;
     left: 0;
+    position: relative;
     z-index: 999;
+  
 }
 
 .success-modal {
+   
+
     background: rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(10px);
     border-radius: 20px;
