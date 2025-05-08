@@ -39,7 +39,7 @@ const AdminNavbar = () => {
           <Link to="/admin/students" className="nav-link text-white">👨‍🎓 Students</Link>
         </li>
         <li className="nav-item">
-          <Link to="/" className="nav-link text-white">🚪 Logout</Link>
+          <Link to="/admin/login" className="nav-link text-white">🚪 Logout</Link>
         </li>
       </ul>
     </div>
