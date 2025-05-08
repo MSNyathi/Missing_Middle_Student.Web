@@ -9,6 +9,7 @@ import {
   FaUserSlash,
   FaCalendarAlt,
 } from "react-icons/fa";
+import backgroundImage from '../../../../assets/backgroundAdmin.jpeg';
 
 export default function ViewDevices() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -100,12 +101,21 @@ export default function ViewDevices() {
     }
   };
 
+  const backgroundStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    height: '100vh',
+    color: 'white',
+  }; 
+
   return (
     <div className="d-flex" style={{ minHeight: '100vh' }}>
       <AdminNavbar />
 
-      <div className="container py-5">
-        <h2 className="mb-4 text-primary">View Devices</h2>
+      <div style={backgroundStyle}  className="flex-grow-1 p-4">
+        <h2 className="mb-4 text-white">View Devices</h2>
 
         {/* Search & Filters */}
         <div className="mb-4">
@@ -163,7 +173,7 @@ export default function ViewDevices() {
 
         {/* Device Table */}
         <table className="table table-hover table-bordered">
-          <thead className="table-primary">
+          <thead className="table-dark">
             <tr>
               <th>ID</th>
               <th>Name</th>

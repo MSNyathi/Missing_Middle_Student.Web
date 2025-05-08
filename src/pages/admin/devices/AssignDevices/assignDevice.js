@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import AdminNavbar from '../../../../commponents/adminNavbar';
+import backgroundImage from '../../../../assets/backgroundAdmin.jpeg';
 
 export default function AssignDevicePage() {
   const [applications, setApplications] = useState([]);
@@ -100,12 +101,22 @@ export default function AssignDevicePage() {
       return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
     });
 
+    const backgroundStyle = {
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      height: '100vh',
+      color: 'white',
+    }; 
+
+
   return (
     <div className="d-flex" style={{ minHeight: '100vh' }}>
       <AdminNavbar />
     
 
-      <div className="flex-grow-1 p-4">
+      <div style={backgroundStyle} className="flex-grow-1 p-4">
         <h2 className="text-center mb-4">Assign Devices</h2>
 
         <div className="d-flex justify-content-between align-items-center mb-3">
@@ -132,7 +143,7 @@ export default function AssignDevicePage() {
 
         <div className="table-responsive">
           <table className="table table-bordered table-hover text-center">
-            <thead className="table-light">
+            <thead className="table-dark">
               <tr>
                 <th>Student Number</th>
                 <th>Surname</th>
