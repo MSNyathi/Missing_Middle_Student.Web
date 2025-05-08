@@ -115,18 +115,6 @@ const ApplyLaptop = () => {
           ))}
 
 <div className="mb-3">
-  <label className="form-label">Upload NSFAS Document:</label>
-  <input
-    type="file"
-    className="form-control"
-    name="nsfasDocument"
-    accept=".pdf,.doc,.docx,.jpg,.png"
-    onChange={handleChange}
-    required
-  />
-</div>
-
-<div className="mb-3">
   <label className="form-label">Upload Proof of Income:</label>
   <input
     type="file"
