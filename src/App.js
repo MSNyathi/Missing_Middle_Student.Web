@@ -1,5 +1,7 @@
-// src/App.js
+
+import './App.css';
 import React from 'react';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function App() {
   return (
