@@ -1,0 +1,124 @@
+.register-container {
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    
+}
+
+.register-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #000;
+    letter-spacing: 1px;
+}
+
+.register-container p {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+.register-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #222;
+}
+
+.register-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.register-container .buttons {
+    display: flex;
+    justify-content:space-evenly;
+    margin-top: 20px;
+}
+
+.register-container .buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.register-container .buttons .cancel-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+.register-container .buttons .cancel-btn:hover {
+    background-color: #5a6268;
+}
+
+.register-container .buttons .next-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.register-container .buttons .next-btn:hover {
+    background-color: #0069d9;
+}
+.success-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent; /* or your background if needed */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+
+.success-modal {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    color: #000;
+}
+
+.success-title {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.success-subtitle {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.success-button {
+    background-color: #0057FF;
+    color: #fff;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+}
+span{
+    color: red;
+    margin-top: -8px;
+    margin-bottom: 10px;
+    display: block;
+}

@@ -10,7 +10,8 @@ import StudentDashboard from '../pages/student/dashboard';
 import ApplyLaptop from '../pages/student/applyLaptop';
 import TrackApplication from '../pages/student/trackApplication';
 import Login from '../Login/Login'
-
+import RegisterForm from '../pages/student/register/RegisterForm';
+import SuccessPage from '../pages/student/register/SuccessPage';
 
 // import other pages here as needed
 
@@ -26,6 +27,9 @@ const AppRoutes = () => {
       <Route path="/student/apply" element={<ApplyLaptop />} />
       <Route path="/student/track" element={<TrackApplication />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/success" element={<SuccessPage />} />
+      <Route path="/register" element={<RegisterForm />} />
+
       {/* Add more routes here */}
     </Routes>
   );

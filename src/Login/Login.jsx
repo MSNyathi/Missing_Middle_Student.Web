@@ -52,7 +52,7 @@ function Login() {
                     </table>
                     
                 </form>
-                <p>Don't have an account? <a href="/Register.jsx">Sign up</a></p>
+                <p>Don't have an account? <Link to="/register">Sign up</Link></p>
             </div>
         </>
     )
