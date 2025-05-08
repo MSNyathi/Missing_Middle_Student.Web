@@ -45,16 +45,15 @@ const mockApplicants = [
 const ApplicantsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
-  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [showModal, setShowModal] = useState(false);
-
-  const correctAdminPassword = 'admin123'; // You can replace this with secure backend validation
+  const correctAdminPassword = 'admin123';
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentTime(new Date().toLocaleTimeString());
-    }, 1000);
+      setCurrentTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }, 60000);
     return () => clearInterval(timer);
   }, []);
 
@@ -90,20 +89,29 @@ const ApplicantsPage = () => {
   };
 
   const handleApprove = async () => {
-    const isValid = await handlePasswordPrompt('Approve');
-    if (isValid) {
-      Swal.fire('Approved', `${selectedApplicant.name} has been approved.`, 'success');
-      setShowModal(false);
-    }
+    setShowModal(false); // Close modal before prompt
+    setTimeout(async () => {
+      const isValid = await handlePasswordPrompt('Approve');
+      if (isValid) {
+        Swal.fire('Approved', `${selectedApplicant.name} has been approved.`, 'success');
+      } else {
+        setShowModal(true); // Reopen if canceled or failed
+      }
+    }, 300); // slight delay to ensure modal closes cleanly
   };
-
+  
   const handleReject = async () => {
-    const isValid = await handlePasswordPrompt('Reject');
-    if (isValid) {
-      Swal.fire('Rejected', `${selectedApplicant.name} has been rejected.`, 'success');
-      setShowModal(false);
-    }
+    setShowModal(false);
+    setTimeout(async () => {
+      const isValid = await handlePasswordPrompt('Reject');
+      if (isValid) {
+        Swal.fire('Rejected', `${selectedApplicant.name} has been rejected.`, 'success');
+      } else {
+        setShowModal(true);
+      }
+    }, 300);
   };
+  
 
   const filteredApplicants = mockApplicants.filter((applicant) => {
     const matchesSearch =
@@ -135,7 +143,7 @@ const ApplicantsPage = () => {
         </div>
 
         <div className="row mb-3">
-          <div className="col-md-6">
+          <div className="col-md-6 mb-2">
             <Form.Control
               type="text"
               placeholder="Search by name or student number"
@@ -220,13 +228,25 @@ const ApplicantsPage = () => {
           <Modal.Body>
             {selectedApplicant && (
               <>
-                <p><strong>Name:</strong> {selectedApplicant.name}</p>
-                <p><strong>Student Number:</strong> {selectedApplicant.studentNum}</p>
-                <p><strong>Email:</strong> {selectedApplicant.email}</p>
-                <p><strong>Contact:</strong> {selectedApplicant.contact}</p>
+                <div className="row">
+                  <div className="col-md-6">
+                    <p><strong>Name:</strong> {selectedApplicant.name}</p>
+                    <p><strong>Student #:</strong> {selectedApplicant.studentNum}</p>
+                    <p><strong>Course:</strong> {selectedApplicant.courseName}</p>
+                    <p><strong>Email:</strong> {selectedApplicant.email}</p>
+                    <p><strong>Contact:</strong> {selectedApplicant.contact}</p>
+                  </div>
+                  <div className="col-md-6">
+                    <p><strong>Faculty:</strong> {selectedApplicant.faculty}</p>
+                    <p><strong>Campus:</strong> {selectedApplicant.campus}</p>
+                    <p><strong>NSFAS Status:</strong> {selectedApplicant.nsfasStatus}</p>
+                    <p><strong>Year:</strong> {selectedApplicant.yearOfStudy}</p>
+                    <p><strong>Ethnicity:</strong> {selectedApplicant.ethnicity}</p>
+                  </div>
+                </div>
                 <hr />
                 <h5>Proof of Income</h5>
-                <Image src={selectedApplicant.proofOfIncomeUrl} fluid />
+                <Image src={selectedApplicant.proofOfIncomeUrl} fluid rounded />
               </>
             )}
           </Modal.Body>
