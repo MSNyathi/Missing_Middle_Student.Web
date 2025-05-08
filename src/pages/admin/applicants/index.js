@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminNavbar from '../../../commponents/adminNavbar';
 import { Form, Table, Image, Modal, Button } from 'react-bootstrap';
+import Swal from 'sweetalert2';
 
 const mockApplicants = [
   {
@@ -48,6 +49,8 @@ const ApplicantsPage = () => {
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  const correctAdminPassword = 'admin123'; // You can replace this with secure backend validation
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString());
@@ -60,14 +63,46 @@ const ApplicantsPage = () => {
     setShowModal(true);
   };
 
-  const handleApprove = () => {
-    alert(`Approved ${selectedApplicant.name}`);
-    setShowModal(false);
+  const handlePasswordPrompt = async (actionType) => {
+    const { value: password } = await Swal.fire({
+      title: `Enter Admin Password to ${actionType}`,
+      input: 'password',
+      inputLabel: 'Password',
+      inputPlaceholder: 'Enter your password',
+      showCancelButton: true,
+      inputAttributes: {
+        autocapitalize: 'off',
+        autocorrect: 'off',
+      },
+    });
+
+    if (!password) {
+      Swal.fire('Error', 'Password cannot be empty.', 'error');
+      return false;
+    }
+
+    if (password !== correctAdminPassword) {
+      Swal.fire('Incorrect Password', 'You entered an invalid password.', 'error');
+      return false;
+    }
+
+    return true;
   };
 
-  const handleReject = () => {
-    alert(`Rejected ${selectedApplicant.name}`);
-    setShowModal(false);
+  const handleApprove = async () => {
+    const isValid = await handlePasswordPrompt('Approve');
+    if (isValid) {
+      Swal.fire('Approved', `${selectedApplicant.name} has been approved.`, 'success');
+      setShowModal(false);
+    }
+  };
+
+  const handleReject = async () => {
+    const isValid = await handlePasswordPrompt('Reject');
+    if (isValid) {
+      Swal.fire('Rejected', `${selectedApplicant.name} has been rejected.`, 'success');
+      setShowModal(false);
+    }
   };
 
   const filteredApplicants = mockApplicants.filter((applicant) => {
@@ -85,7 +120,6 @@ const ApplicantsPage = () => {
     <div className="d-flex">
       <AdminNavbar />
       <div className="flex-grow-1 p-4 overflow-auto">
-        {/* Top Bar */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="mb-0">Applicants</h2>
           <div className="d-flex align-items-center gap-3">
@@ -100,7 +134,6 @@ const ApplicantsPage = () => {
           </div>
         </div>
 
-        {/* Filters */}
         <div className="row mb-3">
           <div className="col-md-6">
             <Form.Control
@@ -122,7 +155,6 @@ const ApplicantsPage = () => {
           </div>
         </div>
 
-        {/* Applicants Table */}
         <Table striped bordered hover responsive>
           <thead className="table-dark">
             <tr>
@@ -145,7 +177,11 @@ const ApplicantsPage = () => {
           </thead>
           <tbody>
             {filteredApplicants.map((applicant, index) => (
-              <tr key={applicant.id} onClick={() => handleRowClick(applicant)} style={{ cursor: 'pointer' }}>
+              <tr
+                key={applicant.id}
+                onClick={() => handleRowClick(applicant)}
+                style={{ cursor: 'pointer' }}
+              >
                 <td>{index + 1}</td>
                 <td>{applicant.studentNum}</td>
                 <td>{applicant.initials}</td>
