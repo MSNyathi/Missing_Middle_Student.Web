@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import "./adminLogin.css"; // Import your CSS file for styling
 
+
 export default function AdminLogin() {
   const navigate = useNavigate();
 
@@ -46,13 +47,15 @@ export default function AdminLogin() {
     }
   };
 
+
+
   return (
-    <div className="glass-bg d-flex align-items-center justify-content-center min-vh-100">
+    <div  className="glass-bg d-flex align-items-center justify-content-center min-vh-100">
       <div className="decor-circle blue"></div>
       <div className="decor-circle orange"></div>
 
       <ToastContainer />
-      <div className="glass-card text-white p-4">
+      <div   className="glass-card text-white p-4">
         <h3 className="text-center mb-4">Admin Login</h3>
 
         <form onSubmit={handleLogin}>
