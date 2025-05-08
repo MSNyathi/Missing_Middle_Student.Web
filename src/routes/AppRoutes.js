@@ -7,6 +7,8 @@ import RegisterTechnician from '../pages/admin/register'; // registration page
 import App from '../App'; // default landing component
 import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice';
 import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
+import AdminLogin from '../pages/admin/login/adminLogin';
+import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 // import other pages here as needed
 
 const AppRoutes = () => {
@@ -18,6 +20,8 @@ const AppRoutes = () => {
       <Route path="/admin/register" element={<RegisterTechnician />} />
       <Route path="/admin/assign-device" element={<AssignDevicePage />} />
       <Route path="/admin/devices/view-devices" element={<ViewDevices />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/forgot-password" element={<ForgotPassword />} />
 
       {/* Add more routes here */}
     </Routes>
