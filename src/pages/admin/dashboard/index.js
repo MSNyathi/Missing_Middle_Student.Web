@@ -13,6 +13,9 @@ import {
   Legend,
   Title,
 } from 'chart.js';
+import backgroundImage from '../../../assets/backgroundAdmin.jpeg'
+
+
 
 ChartJS.register(
   BarElement,
@@ -32,6 +35,15 @@ const Dashboard = () => {
   const totalApplicants = 75;
   const eligible = 45;
   const notEligible = 30;
+
+  const backgroundStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    height: '100vh',
+    color: 'white',
+  };
 
   // Monthly applicants (sample data)
   const applicantTrendData = {
@@ -114,7 +126,7 @@ const Dashboard = () => {
   return (
     <div className="d-flex vh-100 overflow-hidden">
       <AdminNavbar />
-      <div className="flex-grow-1 p-4 d-flex flex-column overflow-auto">
+      <div style={backgroundStyle} className="flex-grow-1 p-4 d-flex flex-column overflow-auto">
         {/* Top Bar */}
         <div className="d-flex justify-content-between align-items-center mb-3">
           {/* Search Bar */}
@@ -127,7 +139,7 @@ const Dashboard = () => {
 
           {/* Right Side Icons */}
           <div className="d-flex align-items-center gap-3">
-            <span className="text-muted">
+            <span className="text-white">
               {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </span>
             <i className="bi bi-bell fs-5"></i>

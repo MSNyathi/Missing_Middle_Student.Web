@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AdminNavbar from '../../../commponents/adminNavbar';
 import { Form, Table, Image, Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import backgroundImage from '../../../assets/backgroundAdmin.jpeg'
 
 const mockApplicants = [
   {
@@ -49,6 +50,14 @@ const ApplicantsPage = () => {
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const correctAdminPassword = 'admin123';
+  const backgroundStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    height: '100vh',
+    color: 'white',
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -127,11 +136,11 @@ const ApplicantsPage = () => {
   return (
     <div className="d-flex">
       <AdminNavbar />
-      <div className="flex-grow-1 p-4 overflow-auto">
+      <div style={backgroundStyle} className="flex-grow-1 p-4 overflow-auto">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="mb-0">Applicants</h2>
           <div className="d-flex align-items-center gap-3">
-            <span className="text-muted">{currentTime}</span>
+            <span className=" text-white">{currentTime}</span>
             <Image
               src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
               roundedCircle
