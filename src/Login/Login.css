@@ -1,18 +1,8 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  
   background-image: url("./laptop.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }
 
 #mydiv{
@@ -32,7 +22,7 @@ code {
   left: 50%;
   transform: translate(-50%, -50%);
   height: auto;
-
+  
 }
 
 #btn{
@@ -43,18 +33,12 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 5px;
+  margin-top: 20px;
+  margin-bottom: 5px;
 }
 
-#btn2{
-  border-radius: 30%;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.8);
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-i{
+#i1{
   color: bisque;
   font-size: 20px;
   margin-right: 5px;
@@ -68,12 +52,12 @@ i{
   
 }
 
-p{
+#p1{
   color: bisque;
   font-size: 120%;
 }
 
-td{
+#td1{
   color: bisque;
   font-size: 20px;
   margin-right: 5px;
@@ -96,26 +80,20 @@ td{
 .bcolor{
   width: 100%;
   height: 100vh;
+  margin: 3px;
+  width: 200px;
 }
-nav {
+#mynav {
   display: flex;
   justify-content: space-between;
   width: 100%;
   background-color: rgba(93, 67, 0, 0.829);
 }
-img {
-  margin: 3px;;
-  width: 200px;
+#myimg {
+  
   height: 65px;
 }
 
-h1{
+#myh1{
   color: antiquewhite;
-}
-
-button{
-  margin-right: 5px;
-  margin-top: 20px;
-  border-radius: 40%;
-  height: 30px;
 }
