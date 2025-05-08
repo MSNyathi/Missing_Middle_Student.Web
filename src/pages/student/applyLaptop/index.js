@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaArrowLeft, FaSignOutAlt } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import tutLogo from '../../../assets/tut.png'; // Adjust the path as necessary
+import tutLogo from '../../../assets/tut.png'; // Update path if needed
+import backgroundImage from '../../../assets/background.png'; // Path to the uploaded image
 
 const ApplyLaptop = () => {
   const navigate = useNavigate();
@@ -46,7 +47,15 @@ const ApplyLaptop = () => {
   };
 
   return (
-    <div className="position-relative d-flex flex-column justify-content-center align-items-center vh-100 bg-dark bg-opacity-75 p-3">
+    <div
+      className="position-relative d-flex flex-column justify-content-center align-items-center vh-100 p-3"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       {/* Top Left Logo */}
       <img
         src={tutLogo}
@@ -91,18 +100,11 @@ const ApplyLaptop = () => {
       )}
 
       {/* Main Form Card */}
-      <div className="bg-light p-5 rounded shadow" style={{ width: '100%', maxWidth: '600px' }}>
+      <div className="bg-light p-5 rounded shadow" style={{ width: '100%', maxWidth: '600px', opacity: 0.95 }}>
         <h2 className="text-center mb-4">APPLY FOR LAPTOP</h2>
         <p className="text-center mb-4">Please enter the details below</p>
         <form onSubmit={handleNext}>
-          {[
-            { label: 'Student Number', name: 'studentNumber' },
-            { label: 'Surname', name: 'surname' },
-            { label: 'Initials', name: 'initials' },
-            { label: 'Student Email', name: 'email', type: 'email' },
-            { label: 'Current Programme', name: 'currentProgramme' },
-            { label: 'Phone', name: 'phone', type: 'tel' },
-          ].map(({ label, name, type = 'text' }) => (
+          {[{ label: 'Student Number', name: 'studentNumber' }, { label: 'Surname', name: 'surname' }, { label: 'Initials', name: 'initials' }, { label: 'Student Email', name: 'email', type: 'email' }, { label: 'Current Programme', name: 'currentProgramme' }, { label: 'Phone', name: 'phone', type: 'tel' }].map(({ label, name, type = 'text' }) => (
             <div className="mb-3" key={name}>
               <label className="form-label">{label}:</label>
               <input
@@ -118,13 +120,7 @@ const ApplyLaptop = () => {
 
           <div className="mb-3">
             <label className="form-label">Campus:</label>
-            <select
-              className="form-select"
-              name="campus"
-              value={formData.campus}
-              onChange={handleChange}
-              required
-            >
+            <select className="form-select" name="campus" value={formData.campus} onChange={handleChange} required>
               <option value="">Select your campus</option>
               <option value="Arcadia Campus">Arcadia Campus</option>
               <option value="Arts Campus">Arts Campus</option>
@@ -137,13 +133,7 @@ const ApplyLaptop = () => {
 
           <div className="mb-3">
             <label className="form-label">Citizenship:</label>
-            <select
-              className="form-select"
-              name="citizenship"
-              value={formData.citizenship}
-              onChange={handleChange}
-              required
-            >
+            <select className="form-select" name="citizenship" value={formData.citizenship} onChange={handleChange} required>
               <option value="">Select your citizenship</option>
               <option value="South African">South African</option>
             </select>
@@ -153,27 +143,11 @@ const ApplyLaptop = () => {
             <label className="form-label">Do you have a Recommendation Letter?</label>
             <div>
               <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="hasRecommendation"
-                  value="yes"
-                  checked={formData.hasRecommendation === 'yes'}
-                  onChange={handleChange}
-                  required
-                />
+                <input className="form-check-input" type="radio" name="hasRecommendation" value="yes" checked={formData.hasRecommendation === 'yes'} onChange={handleChange} required />
                 <label className="form-check-label">Yes</label>
               </div>
               <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="hasRecommendation"
-                  value="no"
-                  checked={formData.hasRecommendation === 'no'}
-                  onChange={handleChange}
-                  required
-                />
+                <input className="form-check-input" type="radio" name="hasRecommendation" value="no" checked={formData.hasRecommendation === 'no'} onChange={handleChange} required />
                 <label className="form-check-label">No</label>
               </div>
             </div>
@@ -182,13 +156,7 @@ const ApplyLaptop = () => {
           {formData.hasRecommendation === 'yes' && (
             <div className="mb-3">
               <label className="form-label">Upload Recommendation Letter:</label>
-              <input
-                type="file"
-                className="form-control"
-                name="recommendationFile"
-                accept=".pdf,.doc,.docx,.jpg,.png"
-                onChange={handleChange}
-              />
+              <input type="file" className="form-control" name="recommendationFile" accept=".pdf,.doc,.docx,.jpg,.png" onChange={handleChange} />
             </div>
           )}
 
