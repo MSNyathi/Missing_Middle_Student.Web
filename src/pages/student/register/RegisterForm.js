@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import './student.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import tut25 from './tut25.png';
 
 function RegisterForm() {
 
@@ -70,6 +72,14 @@ function RegisterForm() {
     }
 
     return (
+        <>
+        <div className="App">
+            <nav id="mynav">
+                <img id="myimg" src={tut25} classname="bcolor"/>
+                
+                
+            </nav>
+            </div>
         <div className="register-container">
             <h2>Register</h2>
             <p>Please enter the details below</p>
@@ -144,6 +154,7 @@ function RegisterForm() {
 
             </form>
         </div>
+        </>
     );
 
 }
