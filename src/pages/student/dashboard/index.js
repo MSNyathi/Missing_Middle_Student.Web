@@ -19,7 +19,7 @@ const StudentDashboard = () => {
 
   // Background image style
   const backgroundStyle = {
-    backgroundImage: "url('/background.png')",
+    backgroundImage: "url('/background2.jpeg')",
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     minHeight: '100vh',

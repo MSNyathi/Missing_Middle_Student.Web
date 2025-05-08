@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaSignOutAlt } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import tutLogo from '../../../assets/tut.png';
-import backgroundImage from '../../../assets/background.png'; // Make sure this matches your actual file path
+import backgroundImage from '../../../assets/background2.jpeg'; // Make sure this matches your actual file path
 
 const TrackApplication = () => {
   const navigate = useNavigate();

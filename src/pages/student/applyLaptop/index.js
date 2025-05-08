@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FaArrowLeft, FaSignOutAlt } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import tutLogo from '../../../assets/tut.png'; // Update path if needed
-import backgroundImage from '../../../assets/background.png'; // Path to the uploaded image
+import backgroundImage from '../../../assets/background2.jpeg'; // Path to the uploaded image
 
 const ApplyLaptop = () => {
   const navigate = useNavigate();
@@ -12,11 +12,7 @@ const ApplyLaptop = () => {
     surname: '',
     initials: '',
     email: '',
-    currentProgramme: '',
-    campus: '',
     hasRecommendation: '',
-    citizenship: '',
-    phone: '',
     recommendationFile: null,
   });
 
@@ -104,7 +100,7 @@ const ApplyLaptop = () => {
         <h2 className="text-center mb-4">APPLY FOR LAPTOP</h2>
         <p className="text-center mb-4">Please enter the details below</p>
         <form onSubmit={handleNext}>
-          {[{ label: 'Student Number', name: 'studentNumber' }, { label: 'Surname', name: 'surname' }, { label: 'Initials', name: 'initials' }, { label: 'Student Email', name: 'email', type: 'email' }, { label: 'Current Programme', name: 'currentProgramme' }, { label: 'Phone', name: 'phone', type: 'tel' }].map(({ label, name, type = 'text' }) => (
+          {[{ label: 'Student Number', name: 'studentNumber' }, { label: 'Surname', name: 'surname' }, { label: 'Initials', name: 'initials' }, { label: 'Student Email', name: 'email', type: 'email' }].map(({ label, name, type = 'text' }) => (
             <div className="mb-3" key={name}>
               <label className="form-label">{label}:</label>
               <input
@@ -118,26 +114,42 @@ const ApplyLaptop = () => {
             </div>
           ))}
 
-          <div className="mb-3">
-            <label className="form-label">Campus:</label>
-            <select className="form-select" name="campus" value={formData.campus} onChange={handleChange} required>
-              <option value="">Select your campus</option>
-              <option value="Arcadia Campus">Arcadia Campus</option>
-              <option value="Arts Campus">Arts Campus</option>
-              <option value="Pretoria Campus">Pretoria Campus</option>
-              <option value="Ga-Rankuwa Campus">Ga-Rankuwa Campus</option>
-              <option value="Soshanguve North Campus">Soshanguve North Campus</option>
-              <option value="Soshanguve South Campus">Soshanguve South Campus</option>
-            </select>
-          </div>
+<div className="mb-3">
+  <label className="form-label">Upload NSFAS Document:</label>
+  <input
+    type="file"
+    className="form-control"
+    name="nsfasDocument"
+    accept=".pdf,.doc,.docx,.jpg,.png"
+    onChange={handleChange}
+    required
+  />
+</div>
 
-          <div className="mb-3">
-            <label className="form-label">Citizenship:</label>
-            <select className="form-select" name="citizenship" value={formData.citizenship} onChange={handleChange} required>
-              <option value="">Select your citizenship</option>
-              <option value="South African">South African</option>
-            </select>
-          </div>
+<div className="mb-3">
+  <label className="form-label">Upload Proof of Income:</label>
+  <input
+    type="file"
+    className="form-control"
+    name="proofOfIncome"
+    accept=".pdf,.doc,.docx,.jpg,.png"
+    onChange={handleChange}
+    required
+  />
+</div>
+
+<div className="mb-3">
+  <label className="form-label">Upload Academic Record:</label>
+  <input
+    type="file"
+    className="form-control"
+    name="academicRecord"
+    accept=".pdf,.doc,.docx,.jpg,.png"
+    onChange={handleChange}
+    required
+  />
+</div>
+
 
           <div className="mb-3">
             <label className="form-label">Do you have a Recommendation Letter?</label>
@@ -159,6 +171,7 @@ const ApplyLaptop = () => {
               <input type="file" className="form-control" name="recommendationFile" accept=".pdf,.doc,.docx,.jpg,.png" onChange={handleChange} />
             </div>
           )}
+          
 
           <div className="d-flex justify-content-between">
             <button type="button" className="btn btn-secondary" onClick={handleCancel}>
