@@ -13,6 +13,9 @@ import {
   Legend,
   Title,
 } from 'chart.js';
+import backgroundImage from '../../../assets/backgroundAdmin.jpeg'
+
+
 
 ChartJS.register(
   BarElement,
@@ -32,6 +35,15 @@ const Dashboard = () => {
   const totalApplicants = 75;
   const eligible = 45;
   const notEligible = 30;
+
+  const backgroundStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    height: '100vh',
+    color: 'white',
+  };
 
   // Monthly applicants (sample data)
   const applicantTrendData = {
@@ -84,7 +96,7 @@ const Dashboard = () => {
   };
 
   const eligibilityOptions = {
-    cutout: '60%', // Donut effect
+    cutout: '60%',
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -114,41 +126,64 @@ const Dashboard = () => {
   return (
     <div className="d-flex vh-100 overflow-hidden">
       <AdminNavbar />
-      <div className="flex-grow-1 p-4 d-flex flex-column justify-content-between">
-        <div>
-          <h1>Admin Dashboard</h1>
-          <p className="text-muted">Welcome to the dashboard!</p>
+      <div style={backgroundStyle} className="flex-grow-1 p-4 d-flex flex-column overflow-auto">
+        {/* Top Bar */}
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          {/* Search Bar */}
+          <input
+            type="text"
+            className="form-control w-50"
+            placeholder="Search by Student Number, Surname or initials"
+            style={{ borderRadius: '20px' }}
+          />
 
-          {/* Stats Summary */}
-          <div className="row text-center mt-4">
-            <div className="col-md-4">
-              <div className="card bg-primary text-white mb-3">
-                <div className="card-body">
-                  <h5 className="card-title">Total Devices</h5>
-                  <p className="card-text fs-4">{totalDevices}</p>
-                </div>
+          {/* Right Side Icons */}
+          <div className="d-flex align-items-center gap-3">
+            <span className="text-white">
+              {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </span>
+            <i className="bi bi-bell fs-5"></i>
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+              alt="Profile"
+              style={{ width: '35px', height: '35px', borderRadius: '50%' }}
+            />
+          </div>
+        </div>
+
+        {/* Welcome Message */}
+        <h1>Admin Dashboard</h1>
+        <p className="text-muted">Welcome to the dashboard!</p>
+
+        {/* Stats Summary */}
+        <div className="row text-center mt-4">
+          <div className="col-md-4">
+            <div className="card bg-primary text-white mb-3">
+              <div className="card-body">
+                <h5 className="card-title">Total Devices</h5>
+                <p className="card-text fs-4">{totalDevices}</p>
               </div>
             </div>
-            <div className="col-md-4">
-              <div className="card bg-info text-white mb-3">
-                <div className="card-body">
-                  <h5 className="card-title">Total Applicants</h5>
-                  <p className="card-text fs-4">{totalApplicants}</p>
-                </div>
+          </div>
+          <div className="col-md-4">
+            <div className="card bg-info text-white mb-3">
+              <div className="card-body">
+                <h5 className="card-title">Total Applicants</h5>
+                <p className="card-text fs-4">{totalApplicants}</p>
               </div>
             </div>
-            <div className="col-md-4">
-              <div className="card bg-success text-white mb-3">
-                <div className="card-body">
-                  <h5 className="card-title">Eligible Applicants</h5>
-                  <p className="card-text fs-4">{eligible}</p>
-                </div>
+          </div>
+          <div className="col-md-4">
+            <div className="card bg-success text-white mb-3">
+              <div className="card-body">
+                <h5 className="card-title">Eligible Applicants</h5>
+                <p className="card-text fs-4">{eligible}</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Chart Section */}
+        {/* Charts Section */}
         <div className="row">
           {/* Line Chart */}
           <div className="col-12 mb-4">
@@ -157,7 +192,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Donut & Bar Chart */}
+          {/* Pie and Bar Charts */}
           <div className="col-md-6 mb-3">
             <div className="card p-3" style={{ height: '300px' }}>
               <h6>Eligibility Overview</h6>

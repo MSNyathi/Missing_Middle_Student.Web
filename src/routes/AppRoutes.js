@@ -13,7 +13,11 @@ import Login from '../Login/Login'
 import RegisterForm from '../pages/student/register/RegisterForm';
 import SuccessPage from '../pages/student/register/SuccessPage';
 import AdminLogin from '../Login/AdminLogin';
-
+import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice';
+import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
+import AdminLogin from '../pages/admin/login/adminLogin';
+import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
+import Students from '../pages/admin/students/students';
 // import other pages here as needed
 
 const AppRoutes = () => {
@@ -31,6 +35,10 @@ const AppRoutes = () => {
       <Route path="/adminlogin" element={<AdminLogin />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/register" element={<RegisterForm />} />
+      <Route path="/admin/devices/view-devices" element={<ViewDevices />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/forgot-password" element={<ForgotPassword />} />
+      <Route path="/admin/students" element={<Students />} />
 
       {/* Add more routes here */}
     </Routes>

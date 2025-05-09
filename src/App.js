@@ -1,11 +1,25 @@
+
 import tut25 from './tut25.png';
 import './App.css';
 import React from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
+import React from 'react';
+import backgroundImage from '../src/assets/backgroundAdmin.jpeg'; // Adjust path if needed
+
 
 function App() {
+  const backgroundStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    height: '100vh',
+    color: 'white', // Optional: ensure text is readable
+  };
+
   return (
+
     <>
     <nav id="mynav">
       <Link to="/">
@@ -15,7 +29,7 @@ function App() {
       <Link to="/login">
       <button id="btn"><i id="i" className="bi bi-person-circle" style={{ fontSize: '1.5rem' } }></i>SIGN IN</button>
       </Link>
-      </nav>
+    </nav>
     <div className="text-center p-5">
       
       
@@ -25,6 +39,10 @@ function App() {
         <p id="p1">Recognizing this need, our initiative is dedicated to providing refurbished laptops to deserving students within Tshwane University of Technology. </p>
         <p id="p1">By donating your old or unused laptops, you can help bridge the digital divide and empower the next generation of leaders</p>
         </div>
+    <div style={backgroundStyle} className="text-center p-5 d-flex flex-column justify-content-center align-items-center">
+      <h1>Welcome to the Missing Middle Student System</h1>
+      <p>This is the homepage. Navigate using the URL or menu.</p>
+    </div>
     </div>
     </>
   );
