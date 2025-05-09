@@ -4,7 +4,6 @@ import './App.css';
 import React from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
-import React from 'react';
 import backgroundImage from '../src/assets/backgroundAdmin.jpeg'; // Adjust path if needed
 
 
@@ -39,10 +38,7 @@ function App() {
         <p id="p1">Recognizing this need, our initiative is dedicated to providing refurbished laptops to deserving students within Tshwane University of Technology. </p>
         <p id="p1">By donating your old or unused laptops, you can help bridge the digital divide and empower the next generation of leaders</p>
         </div>
-    <div style={backgroundStyle} className="text-center p-5 d-flex flex-column justify-content-center align-items-center">
-      <h1>Welcome to the Missing Middle Student System</h1>
-      <p>This is the homepage. Navigate using the URL or menu.</p>
-    </div>
+    
     </div>
     </>
   );

@@ -5,7 +5,7 @@ import Dashboard from '../pages/admin/dashboard';
 import Applicants from '../pages/admin/applicants';
 import RegisterTechnician from '../pages/admin/register'; // registration page
 import App from '../App'; // default landing component
-import AssignDevicePage from '../pages/admin/Devices/AssignDevices/assignDevice';
+import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice'
 import StudentDashboard from '../pages/student/dashboard';
 import ApplyLaptop from '../pages/student/applyLaptop';
 import TrackApplication from '../pages/student/trackApplication';
@@ -13,9 +13,7 @@ import Login from '../Login/Login'
 import RegisterForm from '../pages/student/register/RegisterForm';
 import SuccessPage from '../pages/student/register/SuccessPage';
 import AdminLogin from '../Login/AdminLogin';
-import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice';
 import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
-import AdminLogin from '../pages/admin/login/adminLogin';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
 // import other pages here as needed
@@ -36,7 +34,7 @@ const AppRoutes = () => {
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/admin/devices/view-devices" element={<ViewDevices />} />
-      <Route path="/admin/login" element={<AdminLogin />} />
+      
       <Route path="/admin/forgot-password" element={<ForgotPassword />} />
       <Route path="/admin/students" element={<Students />} />
 
