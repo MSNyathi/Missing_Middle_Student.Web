@@ -11,7 +11,10 @@ function AdminLogin() {
             
             <div className="App">
             <nav id="mynav">
-                <img id="myimg" src={tut25} classname="bcolor"/>
+                <Link to="/">
+                    <img id="myimg" src={tut25} classname="bcolor"/>
+                </Link>
+                
                 <h1 id="myh1">EduConnect</h1>
                 <Link to="/login">
                     <button id="btn"><i id="i" className="bi bi-person-circle" style={{ fontSize: '1.5rem' } }></i>SWITCH USER</button>
@@ -55,7 +58,7 @@ function AdminLogin() {
                         </tr>
                         <tr>
                             <td>
-                                <Link to="/student">
+                                <Link to="/admin/dashboard">
                             <button type="submit" id="btn">Login</button>
                             </Link>
                             </td>
