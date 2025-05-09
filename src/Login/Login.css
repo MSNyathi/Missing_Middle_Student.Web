@@ -96,3 +96,19 @@ body {
 #myh1{
   color: antiquewhite;
 }
+#td00 {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+}
+#td00 label {
+    margin-right: 15px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+#td00 input[type="radio"] {
+    margin-right: 6px;
+    cursor: pointer;
+}

@@ -27,7 +27,7 @@ function RegisterForm() {
             newError.studentNumber = "Student Number should be 9 digits long";
         }
         if(!formData.surname.trim()) newError.surname = "Surname is required";
-        if(!formData.initials.trim()) newError.surname = "Initials are required";
+        if(!formData.initials.trim()) newError.initials = "Initials are required";
         if(!/\S+@\S+\.\S+/.test(formData.email)){
             newError.email = "Enter a valid email address";
         }

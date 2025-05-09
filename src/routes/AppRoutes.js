@@ -12,6 +12,7 @@ import TrackApplication from '../pages/student/trackApplication';
 import Login from '../Login/Login'
 import RegisterForm from '../pages/student/register/RegisterForm';
 import SuccessPage from '../pages/student/register/SuccessPage';
+import AdminLogin from '../Login/AdminLogin';
 
 // import other pages here as needed
 
@@ -27,6 +28,7 @@ const AppRoutes = () => {
       <Route path="/student/apply" element={<ApplyLaptop />} />
       <Route path="/student/track" element={<TrackApplication />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/adminlogin" element={<AdminLogin />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/register" element={<RegisterForm />} />
 
