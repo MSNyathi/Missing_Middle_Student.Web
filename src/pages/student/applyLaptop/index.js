@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { FaArrowLeft, FaSignOutAlt } from 'react-icons/fa';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import tutLogo from '../../../assets/tut.png'; // Update path if needed
-import backgroundImage from '../../../assets/background2.jpeg'; // Path to the uploaded image
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { FaArrowLeft, FaSignOutAlt } from "react-icons/fa";
+import "bootstrap/dist/css/bootstrap.min.css";
+import tutLogo from "../../../assets/tut.png"; // Update path if needed
+import backgroundImage from "../../../assets/background2.jpeg"; // Path to the uploaded image
 
 const ApplyLaptop = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    studentNumber: '',
-    surname: '',
-    initials: '',
-    email: '',
-    hasRecommendation: '',
+    studentNumber: "",
+    surname: "",
+    initials: "",
+    email: "",
+    hasRecommendation: "",
     recommendationFile: null,
   });
 
@@ -20,7 +20,7 @@ const ApplyLaptop = () => {
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-    if (type === 'file') {
+    if (type === "file") {
       setFormData((prev) => ({ ...prev, [name]: files[0] }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
@@ -28,18 +28,18 @@ const ApplyLaptop = () => {
   };
 
   const handleCancel = () => {
-    navigate('/student');
+    navigate("/student");
   };
 
   const handleNext = (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-    alert('Application submitted!');
+    console.log("Form Data:", formData);
+    alert("Application submitted!");
   };
 
   const handleConfirmLogout = () => {
     setShowModal(false);
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -47,9 +47,9 @@ const ApplyLaptop = () => {
       className="position-relative d-flex flex-column justify-content-center align-items-center vh-100 p-3"
       style={{
         backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       {/* Top Left Logo */}
@@ -57,11 +57,14 @@ const ApplyLaptop = () => {
         src={tutLogo}
         alt="TUT Logo"
         className="position-absolute top-0 start-0 m-3"
-        style={{ height: '60px', width: 'auto' }}
+        style={{ height: "60px", width: "auto" }}
       />
 
       {/* Back Button Bottom-Left */}
-      <Link to="/student" className="position-fixed bottom-0 start-0 m-3 btn btn-outline-secondary">
+      <Link
+        to="/student"
+        className="position-fixed bottom-0 start-0 m-3 btn btn-outline-secondary"
+      >
         <FaArrowLeft className="me-2" />
         Back to Dashboard
       </Link>
@@ -76,19 +79,37 @@ const ApplyLaptop = () => {
 
       {/* Modal for Logout Confirmation */}
       {showModal && (
-        <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        <div
+          className="modal fade show d-block"
+          tabIndex="-1"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Confirm Logout</h5>
-                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowModal(false)}
+                ></button>
               </div>
               <div className="modal-body">
                 <p>Are you sure you want to logout?</p>
               </div>
               <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
-                <button className="btn btn-danger" onClick={handleConfirmLogout}>Yes, Logout</button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={handleConfirmLogout}
+                >
+                  Yes, Logout
+                </button>
               </div>
             </div>
           </div>
@@ -96,11 +117,19 @@ const ApplyLaptop = () => {
       )}
 
       {/* Main Form Card */}
-      <div className="bg-light p-5 rounded shadow" style={{ width: '100%', maxWidth: '600px', opacity: 0.95 }}>
+      <div
+        className="bg-light p-5 rounded shadow"
+        style={{ width: "100%", maxWidth: "600px", opacity: 0.95 }}
+      >
         <h2 className="text-center mb-4">APPLY FOR LAPTOP</h2>
         <p className="text-center mb-4">Please enter the details below</p>
         <form onSubmit={handleNext}>
-          {[{ label: 'Student Number', name: 'studentNumber' }, { label: 'Surname', name: 'surname' }, { label: 'Initials', name: 'initials' }, { label: 'Student Email', name: 'email', type: 'email' }].map(({ label, name, type = 'text' }) => (
+          {[
+            { label: "Student Number", name: "studentNumber" },
+            { label: "Surname", name: "surname" },
+            { label: "Initials", name: "initials" },
+            { label: "Student Email", name: "email", type: "email" },
+          ].map(({ label, name, type = "text" }) => (
             <div className="mb-3" key={name}>
               <label className="form-label">{label}:</label>
               <input
@@ -114,55 +143,71 @@ const ApplyLaptop = () => {
             </div>
           ))}
 
-<div className="mb-3">
-  <label className="form-label">Upload Proof of Income:</label>
-  <input
-    type="file"
-    className="form-control"
-    name="proofOfIncome"
-    accept=".pdf,.doc,.docx,.jpg,.png"
-    onChange={handleChange}
-    required
-  />
-</div>
-
-<div className="mb-3">
-  <label className="form-label">Upload Academic Record:</label>
-  <input
-    type="file"
-    className="form-control"
-    name="academicRecord"
-    accept=".pdf,.doc,.docx,.jpg,.png"
-    onChange={handleChange}
-    required
-  />
-</div>
-
+          <div className="mb-3">
+            <label className="form-label">Upload Proof of Income:</label>
+            <input
+              type="file"
+              className="form-control"
+              name="proofOfIncome"
+              accept=".pdf,.doc,.docx,.jpg,.png"
+              onChange={handleChange}
+              required
+            />
+          </div>
 
           <div className="mb-3">
-            <label className="form-label">Do you have a Recommendation Letter?</label>
+            <label className="form-label">
+              Do you have a Recommendation Letter?
+            </label>
             <div>
               <div className="form-check form-check-inline">
-                <input className="form-check-input" type="radio" name="hasRecommendation" value="yes" checked={formData.hasRecommendation === 'yes'} onChange={handleChange} required />
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="hasRecommendation"
+                  value="yes"
+                  checked={formData.hasRecommendation === "yes"}
+                  onChange={handleChange}
+                  required
+                />
                 <label className="form-check-label">Yes</label>
               </div>
               <div className="form-check form-check-inline">
-                <input className="form-check-input" type="radio" name="hasRecommendation" value="no" checked={formData.hasRecommendation === 'no'} onChange={handleChange} required />
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="hasRecommendation"
+                  value="no"
+                  checked={formData.hasRecommendation === "no"}
+                  onChange={handleChange}
+                  required
+                />
                 <label className="form-check-label">No</label>
               </div>
             </div>
           </div>
 
-          {formData.hasRecommendation === 'yes' && (
+          {formData.hasRecommendation === "yes" && (
             <div className="mb-3">
-              <label className="form-label">Upload Recommendation Letter:</label>
-              <input type="file" className="form-control" name="recommendationFile" accept=".pdf,.doc,.docx,.jpg,.png" onChange={handleChange} />
+              <label className="form-label">
+                Upload Recommendation Letter:
+              </label>
+              <input
+                type="file"
+                className="form-control"
+                name="recommendationFile"
+                accept=".pdf,.doc,.docx,.jpg,.png"
+                onChange={handleChange}
+              />
             </div>
           )}
-          
 
           <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-secondary" onClick={handleCancel}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={handleCancel}
+            >
               CANCEL
             </button>
             <button type="submit" className="btn btn-primary">
