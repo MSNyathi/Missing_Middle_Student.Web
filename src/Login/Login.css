@@ -123,13 +123,17 @@ body {
 #td00 {
     font-family: Arial, sans-serif;
     padding: 10px;
+    color: bisque;
+    font-size: 20px;
+    margin-right: 5px;
+    text-align: left;
 }
 #td00 label {
     margin-right: 15px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 20px;
 }
 
 #td00 input[type="radio"] {
