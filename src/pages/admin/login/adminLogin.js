@@ -3,59 +3,94 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import "./adminLogin.css"; // Import your CSS file for styling
+import backgroundImage from "../../../assets/backgroundAdmin.jpeg"; // Adjust the path as needed
+import LoginNavbar from "../../../commponents/loginNavbar";
 
 
 export default function AdminLogin() {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({ email: "", password: "" });
+  const [user, setUser] = useState({ email: "", password: "", role: "" });
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setButtonDisabled(!(user.email && user.password));
+    setButtonDisabled(!(user.email && user.password && user.role));
   }, [user]);
 
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    if (!validateEmail(user.email)) {
-      toast.error("Please enter a valid email.", { position: "top-center" });
-      return;
-    }
-
-    setLoading(true);
-    try {
-      // Simulated login
-      if (
-        user.email.trim().toLowerCase() === "southadmin@tut.ac.za" &&
-        user.password === "Sadmin123"
-      ) {
-        toast.success("Login successful!", { position: "top-center" });
-        setTimeout(() => navigate("/admin/dashboard"), 1000);
-      } else {
-        toast.error("Invalid credentials. Please try again.", { position: "top-center" });
-      }
-    } catch (error) {
-      toast.error("Login failed. Please try again.", { position: "top-center" });
-    } finally {
-      setLoading(false);
-    }
+  const handleRoleChange = (e) => {
+    setUser({ ...user, role: e.target.value });
   };
 
+  const handleLogin = async (e) => {
+  e.preventDefault();
 
+  if (!validateEmail(user.email)) {
+    toast.error("Please enter a valid email.", { position: "top-center" });
+    return;
+  }
+
+  if (user.role === "") {
+    toast.error("Please select a role.", { position: "top-center" });
+    return;
+  }
+
+  setLoading(true);
+
+  // Choose the correct endpoint based on role
+  const loginEndpoint =
+    user.role === "admin"
+      ? "https://localhost:7102/loginAdmin"
+      : "https://localhost:7102/loginTechnician";
+
+  try {
+    const response = await fetch(loginEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: user.email,
+        password: user.password,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Login failed.");
+    }
+
+    const data = await response.json();
+    toast.success("Login successful!", { position: "top-center" });
+
+    setTimeout(() => {
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else if (user.role === "technician") {
+        navigate("/technician/dashboard"); // <-- update to technician route
+      }
+    }, 1000);
+  } catch (error) {
+    toast.error(error.message || "Login failed. Please try again.", {
+      position: "top-center",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
-    <div  className="glass-bg d-flex align-items-center justify-content-center min-vh-100">
-      <div className="decor-circle blue"></div>
-      <div className="decor-circle orange"></div>
+    <div  className="glass-bg d-flex align-items-center justify-content-center min-vh-100"
+      style={{ backgroundImage: `url(${backgroundImage})` }} >
+        <LoginNavbar />
+    
 
       <ToastContainer />
-      <div   className="glass-card text-white p-4">
+      <div className="glass-card text-white p-4">
         <h3 className="text-center mb-4">Admin Login</h3>
 
         <form onSubmit={handleLogin}>
@@ -85,6 +120,33 @@ export default function AdminLogin() {
             />
           </div>
 
+          {/* Role Selection */}
+          <div className="mb-3">
+            <label className="form-label">Role</label>
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="admin"
+                  onChange={handleRoleChange}
+                  checked={user.role === "admin"}
+                />
+                Admin
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="technician"
+                  onChange={handleRoleChange}
+                  checked={user.role === "technician"}
+                />
+                Technician
+              </label>
+            </div>
+          </div>
+
           <div className="d-flex justify-content-between mb-3">
             <span
               className="text-primary"
@@ -93,13 +155,7 @@ export default function AdminLogin() {
             >
               Forgot password?
             </span>
-            <span
-              className="text-primary"
-              style={{ cursor: "pointer" }}
-              onClick={() => navigate("/signup")} // Link to the signup page
-            >
-              Don't have an account?
-            </span>
+           
           </div>
 
           <button

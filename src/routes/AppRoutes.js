@@ -12,7 +12,7 @@ import TrackApplication from '../pages/student/trackApplication';
 import Login from '../Login/Login'
 import RegisterForm from '../pages/student/register/RegisterForm';
 import SuccessPage from '../pages/student/register/SuccessPage';
-import AdminLogin from '../Login/AdminLogin';
+import AdminLogin from '../pages/admin/login/adminLogin';
 import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
@@ -30,7 +30,7 @@ const AppRoutes = () => {
       <Route path="/student/apply" element={<ApplyLaptop />} />
       <Route path="/student/track" element={<TrackApplication />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/adminlogin" element={<AdminLogin />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/admin/devices/view-devices" element={<ViewDevices />} />

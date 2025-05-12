@@ -1,5 +1,5 @@
 
-import tut25 from './tut25.png';
+import tut25 from './assets/tut25.png'; // Adjust the path to your image
 import './App.css';
 import React from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';

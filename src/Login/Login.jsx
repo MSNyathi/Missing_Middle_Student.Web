@@ -1,5 +1,5 @@
 import React from 'react';
-import tut25 from '../tut25.png';
+import tut25 from '../assets/tut25.png'; // Adjust the path to your image
 import './Login.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
@@ -15,7 +15,7 @@ function Login() {
                 <img id="myimg" src={tut25} classname="bcolor"/>
                 </Link>
                 <h1 id="myh1">EduConnect</h1>
-                <Link to ="/adminlogin">
+                <Link to ="/admin/login">
                     <button id="btn"><i id="i" className="bi bi-person-circle" style={{ fontSize: '1.5rem' } }></i>SWITCH USER</button>
                 </Link>
                 
