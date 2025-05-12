@@ -1,0 +1,26 @@
+.table-3d {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: perspective(1000px) rotateX(1deg);
+  transition: transform 0.3s ease;
+}
+
+.table-3d:hover {
+  transform: perspective(1000px) rotateX(0deg);
+}
+
+.typing-text {
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  animation: typing 1.5s steps(40, end), blink-caret .75s step-end infinite;
+  border-right: 2px solid black;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  50% { border-color: transparent; }
+}
