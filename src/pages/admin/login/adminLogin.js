@@ -93,13 +93,6 @@ export default function AdminLogin() {
             >
               Forgot password?
             </span>
-            <span
-              className="text-primary"
-              style={{ cursor: "pointer" }}
-              onClick={() => navigate("/signup")} // Link to the signup page
-            >
-              Don't have an account?
-            </span>
           </div>
 
           <button
