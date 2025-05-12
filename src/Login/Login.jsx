@@ -3,24 +3,14 @@ import tut25 from '../assets/tut25.png'; // Adjust the path to your image
 import './Login.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
+import LoginNavbar from '../commponents/loginNavbar';
 
 
 function Login() {
     return (
         <>
-            
-            <div className="App">
-            <nav id="mynav">
-                <Link to="/">
-                <img id="myimg" src={tut25} classname="bcolor"/>
-                </Link>
-                <h1 id="myh1">EduConnect</h1>
-                <Link to ="/admin/login">
-                    <button id="btn"><i id="i" className="bi bi-person-circle" style={{ fontSize: '1.5rem' } }></i>SWITCH USER</button>
-                </Link>
-                
-            </nav>
-            </div>
+            <LoginNavbar />
+           
             <div id="mydiv">
             <i className="bi bi-person-circle" id="i1" style={{ fontSize: '4rem' }}></i>
                 <h1 id="myh1">Student Login</h1>

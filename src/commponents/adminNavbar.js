@@ -58,7 +58,7 @@ const AdminNavbar = () => {
         </li>
 
         <li className="nav-item">
-          <Link to="/adminlogin" className="nav-link text-white">🚪 Logout</Link>
+          <Link to="/admin/login" className="nav-link text-white">🚪 Logout</Link>
         </li>
       </ul>
     </div>
