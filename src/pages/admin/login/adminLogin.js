@@ -2,25 +2,22 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import "./adminLogin.css"; // Import your CSS file for styling
-
+import "./adminLogin.css";
+import axios from "axios";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
-
   const [user, setUser] = useState({ email: "", password: "" });
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   useEffect(() => {
     setButtonDisabled(!(user.email && user.password));
   }, [user]);
 
-  const validateEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
-  const handleLogin = async (e) => {
+  const handle_admin_login = async (e) => {
     e.preventDefault();
 
     if (!validateEmail(user.email)) {
@@ -30,40 +27,38 @@ export default function AdminLogin() {
 
     setLoading(true);
     try {
-      // Simulated login
-      if (
-        user.email.trim().toLowerCase() === "southadmin@tut.ac.za" &&
-        user.password === "Sadmin123"
-      ) {
+      const response = await axios.post("https://localhost:7102/loginAdmin", user);
+
+      if (response.data) {
         toast.success("Login successful!", { position: "top-center" });
+        console.log("Server response:", response.data);
         setTimeout(() => navigate("/admin/dashboard"), 1000);
       } else {
         toast.error("Invalid credentials. Please try again.", { position: "top-center" });
       }
     } catch (error) {
+      console.error(error);
       toast.error("Login failed. Please try again.", { position: "top-center" });
     } finally {
       setLoading(false);
     }
   };
 
-
-
   return (
-    <div  className="glass-bg d-flex align-items-center justify-content-center min-vh-100">
+    <div className="glass-bg d-flex align-items-center justify-content-center min-vh-100">
       <div className="decor-circle blue"></div>
       <div className="decor-circle orange"></div>
 
       <ToastContainer />
-      <div   className="glass-card text-white p-4">
+      <div className="glass-card text-white p-4">
         <h3 className="text-center mb-4">Admin Login</h3>
 
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handle_admin_login}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">Email</label>
             <input
               type="email"
-              className="form-control rounded-pill" // Add rounded-pill for curved edges
+              className="form-control rounded-pill"
               id="email"
               placeholder="Enter your email"
               value={user.email}
@@ -76,7 +71,7 @@ export default function AdminLogin() {
             <label htmlFor="password" className="form-label">Password</label>
             <input
               type="password"
-              className="form-control rounded-pill" // Add rounded-pill for curved edges
+              className="form-control rounded-pill"
               id="password"
               placeholder="Enter your password"
               value={user.password}
