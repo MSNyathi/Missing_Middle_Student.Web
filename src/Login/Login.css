@@ -25,7 +25,7 @@ body {
 }
 
 #btn{
-  border-radius: 30%;
+  border-radius: 10%;
   height: 40px;
   background-color: rgba(255, 255, 255, 0.8);
   text-align: center;
@@ -194,7 +194,7 @@ body {
 }
 #footer{
   background-color: rgba(93, 67, 0, 0.829);
-  box-shadow: 8px 4px 8px rgba(255, 255, 255, 0.555);
+  box-shadow: 8px -4px 8px rgba(255, 255, 255, 0.555);
   color: bisque;
   padding: 1px;
   text-align: center;
