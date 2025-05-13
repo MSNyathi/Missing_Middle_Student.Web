@@ -1,10 +1,35 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import './adminNavbar.css';
 
 const AdminNavbar = () => {
   const [showDeviceMenu, setShowDeviceMenu] = useState(false);
   const [showRegisterMenu, setShowRegisterMenu] = useState(false);
+  const navigate = useNavigate(); // for navigation after confirmation
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will be logged out of the admin panel.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, logout',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate('/admin/login');
+        Swal.fire({
+          title: 'Logged out!',
+          text: 'You have been logged out successfully.',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    });
+  };
 
   return (
     <div className="d-flex flex-column vh-100 p-3 bg-dark text-white" style={{ width: '220px' }}>
@@ -19,7 +44,7 @@ const AdminNavbar = () => {
           <Link to="/admin/applicants" className="nav-link text-white">📄 Applications</Link>
         </li>
 
-        {/* Devices Dropdown (Click to toggle) */}
+        {/* Devices Dropdown */}
         <li className="nav-item">
           <div
             className="nav-link text-white dropdown-toggle"
@@ -36,7 +61,7 @@ const AdminNavbar = () => {
           )}
         </li>
 
-        {/* Register Dropdown (Click to toggle) */}
+        {/* Register Dropdown */}
         <li className="nav-item">
           <div
             className="nav-link text-white dropdown-toggle"
@@ -58,7 +83,9 @@ const AdminNavbar = () => {
         </li>
 
         <li className="nav-item">
-          <Link to="/admin/login" className="nav-link text-white">🚪 Logout</Link>
+          <button className="nav-link text-white btn btn-link p-0" onClick={handleLogout}>
+            🚪 Logout
+          </button>
         </li>
       </ul>
     </div>
