@@ -16,6 +16,7 @@ import AdminLogin from '../pages/admin/login/adminLogin';
 import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
+import TechnicianProfile from '../pages/admin/register/viewTechnicians'
 // import other pages here as needed
 
 const AppRoutes = () => {
@@ -37,6 +38,7 @@ const AppRoutes = () => {
       
       <Route path="/admin/forgot-password" element={<ForgotPassword />} />
       <Route path="/admin/students" element={<Students />} />
+      <Route path="/admin/technicians" element={<TechnicianProfile />} />
 
       {/* Add more routes here */}
     </Routes>

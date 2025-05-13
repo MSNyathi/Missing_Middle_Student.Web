@@ -140,7 +140,7 @@ const Dashboard = () => {
       title: {
         display: true,
         text: 'Eligibility Distribution',
-        color: '#fff',
+        color: '#ffffff',
         font: { size: 16 }
       },
     },
@@ -248,7 +248,7 @@ const Dashboard = () => {
 
           <div className="col-md-6 mb-3">
             <motion.div {...hoverEffect} className="card p-3" style={{ height: '300px', ...glassCardStyle }}>
-              <h6 className="text-white">Eligibility Overview</h6>
+              <h6 className="text-black">Eligibility Overview</h6>
               <div className="h-100">
                 <Pie data={eligibilityData} options={eligibilityOptions} />
               </div>
@@ -257,7 +257,7 @@ const Dashboard = () => {
 
           <div className="col-md-6 mb-3">
             <motion.div {...hoverEffect} className="card p-3" style={{ height: '300px', ...glassCardStyle }}>
-              <h6 className="text-white">Device Distribution</h6>
+              <h6 className="text-black">Device Distribution</h6>
               <div className="h-100">
                 <Bar data={deviceChartData} options={deviceOptions} />
               </div>
