@@ -12,7 +12,7 @@ body {
   flex-direction: column;
   text-align: center;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.537);
+  box-shadow: 0 4px 8px rgb(255, 255, 255);
   justify-content: center;
   align-items: center;
   margin: auto;
@@ -32,12 +32,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 5px;
-  margin-top: 20px;
-  margin-bottom: 5px;
+  margin: 15px;
+  padding: 10px;
+}
+#btn:hover{
+  background-color: rgb(255, 255, 255);
+  font-size: 120%;
+  cursor: pointer;
 }
 #btn2{
-  border-radius: 10%;
+  border-radius: 30%;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.8);
   text-align: center;
@@ -66,7 +70,11 @@ body {
   color: bisque;
   font-size: 120%;
 }
-
+#p3{
+  color: bisque;
+  font-size: 120%;
+  margin-top: 10px;
+}
 #td1{
   color: bisque;
   font-size: 20px;
@@ -101,6 +109,7 @@ body {
   justify-content: space-between;
   width: 100%;
   background-color: rgba(93, 67, 0, 0.829);
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.555);
 }
 
 #mynav2 {
@@ -162,4 +171,35 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+#mylink{
+  text-decoration: none;
+}
+#simp{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 45px;
+
+}
+.fp{
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.555);
+  border-radius: 10px;
+  color: bisque;
+}
+.fp:hover {
+  color: lightblue; /* Change the color when hovered */
+  cursor: pointer; /* Optional: Add a pointer cursor */
+}
+#footer{
+  background-color: rgba(93, 67, 0, 0.829);
+  box-shadow: 8px 4px 8px rgba(255, 255, 255, 0.555);
+  color: bisque;
+  padding: 1px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: 50%;
 }
