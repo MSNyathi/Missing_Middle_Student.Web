@@ -1,25 +1,76 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaSignOutAlt } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import tutLogo from '../../../assets/tut.png';
-import backgroundImage from '../../../assets/background2.jpeg'; // Make sure this matches your actual file path
+import backgroundImage from '../../../assets/background2.jpeg';
+
+const applicationSteps = [
+  'Application Submitted',
+  'Document Upload Pending',
+  'Documents Under Review',
+  'Document Verification',
+  'Awaiting Correction (if needed)',
+  'Documents Verified',
+  'Validation in Progress',
+  'Academic Review',
+  'Financial Review',
+  'Under Evaluation',
+  'Recommendation Made',
+  'Awaiting Final Approval',
+  'Approved',
+  'Rejected'
+];
 
 const TrackApplication = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
-  const currentStep = 1; // Update based on actual logic
-  const steps = ['Application Received', 'Under Review', 'Approved / Rejected'];
+  const applicationStatus = 'Academic Review';
+  const currentStep = applicationSteps.indexOf(applicationStatus) + 1;
 
-  const handleConfirmLogout = () => {
+  const handleLogout = () => {
     setShowModal(false);
     navigate('/');
   };
 
+  const renderStep = (label, index) => {
+    const stepNum = index + 1;
+    const isActive = stepNum === currentStep;
+    const isCompleted = stepNum < currentStep;
+    const isRejected = label === 'Rejected' && isActive;
+
+    let circleClass = 'bg-light border';
+    if (isRejected) circleClass = 'bg-danger text-white';
+    else if (isActive) circleClass = 'bg-primary text-white';
+    else if (isCompleted) circleClass = 'bg-success text-white';
+
+    return (
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3, delay: index * 0.05 }}
+        className="text-center d-flex flex-column align-items-center"
+        style={{ minWidth: '120px', maxWidth: '160px' }}
+      >
+        <div
+          className={`rounded-circle mb-2 d-flex align-items-center justify-content-center ${circleClass}`}
+          style={{ width: '45px', height: '45px' }}
+        >
+          {stepNum}
+        </div>
+        <div className={`small ${stepNum <= currentStep ? 'fw-bold' : 'text-muted'}`}>
+          {label}
+        </div>
+      </motion.div>
+    );
+  };
+
   return (
     <div
-      className="position-relative d-flex flex-column justify-content-start align-items-center vh-100 p-4"
+      className="position-relative d-flex flex-column justify-content-start align-items-center min-vh-100 p-4"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
@@ -27,15 +78,15 @@ const TrackApplication = () => {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      {/* TUT Logo Top-Left */}
+      {/* Logo */}
       <img
         src={tutLogo}
         alt="TUT Logo"
-        className="position-absolute top-0 start-0 m-3"
-        style={{ height: '60px' }}
+        className="position-absolute"
+        style={{ top: '20px', left: '20px', height: '60px' }}
       />
 
-      {/* Back Button Bottom-Left */}
+      {/* Navigation Buttons */}
       <div className="position-fixed bottom-0 start-0 p-3">
         <Link to="/student" className="btn btn-outline-secondary">
           <FaArrowLeft className="me-2" />
@@ -43,7 +94,6 @@ const TrackApplication = () => {
         </Link>
       </div>
 
-      {/* Logout Button Bottom-Right */}
       <div className="position-fixed bottom-0 end-0 p-3">
         <button className="btn btn-danger" onClick={() => setShowModal(true)}>
           <FaSignOutAlt className="me-2" />
@@ -51,39 +101,19 @@ const TrackApplication = () => {
         </button>
       </div>
 
-      {/* Main Content */}
-      <div className="container mt-5 pt-5 bg-light rounded shadow p-4" style={{ maxWidth: '700px', opacity: 0.95 }}>
+      {/* Application Progress Tracker */}
+      <div
+        className="container-fluid bg-light rounded shadow p-4"
+        style={{
+          maxWidth: '90vw',
+          marginTop: '120px',
+          opacity: 0.95,
+        }}
+      >
         <h2 className="mb-3 text-center">Track Your Application</h2>
         <p className="text-center mb-4">Monitor the status of your laptop application below:</p>
-
-        {/* Step Progress Visual */}
-        <div className="d-flex justify-content-between align-items-center mb-4 px-3">
-          {steps.map((label, index) => (
-            <div key={index} className="text-center flex-fill position-relative">
-              <div
-                className={`rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center
-                ${index + 1 === currentStep
-                    ? 'bg-primary text-white'
-                    : index + 1 < currentStep
-                    ? 'bg-success text-white'
-                    : 'bg-light border'}`}
-                style={{ width: '40px', height: '40px', zIndex: 1 }}
-              >
-                {index + 1}
-              </div>
-              <div className={`small ${index + 1 <= currentStep ? 'fw-bold' : 'text-muted'}`}>{label}</div>
-              {index < steps.length - 1 && (
-                <div
-                  className="position-absolute top-50 start-100 translate-middle-y w-100"
-                  style={{
-                    height: '2px',
-                    backgroundColor: index + 1 < currentStep ? '#198754' : '#dee2e6',
-                    zIndex: 0,
-                  }}
-                ></div>
-              )}
-            </div>
-          ))}
+        <div className="d-flex flex-wrap justify-content-center gap-4">
+          {applicationSteps.map(renderStep)}
         </div>
       </div>
 
@@ -101,7 +131,7 @@ const TrackApplication = () => {
               </div>
               <div className="modal-footer">
                 <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
-                <button className="btn btn-danger" onClick={handleConfirmLogout}>Yes, Logout</button>
+                <button className="btn btn-danger" onClick={handleLogout}>Yes, Logout</button>
               </div>
             </div>
           </div>
