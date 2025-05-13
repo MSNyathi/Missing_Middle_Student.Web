@@ -1,9 +1,8 @@
-/* Body padding to prevent content hiding behind navbar */
 body {
-  padding-top: 60px;
+  margin: 0;
 }
 
-/* Navbar Container */
+/* Navbar */
 #mynav {
   position: fixed;
   top: 0;
@@ -19,22 +18,20 @@ body {
   z-index: 1000;
 }
 
-/* Logo Image */
+/* Logo */
 #myimg {
-  
   height: 65px;
 }
 
-#myh1{
+#myh1 {
   color: antiquewhite;
 }
 
-/* Dropdown Container */
+/* Dropdown */
 .dropdown {
   position: relative;
 }
 
-/* Switch User Button */
 .switch-user-btn {
   display: flex;
   align-items: center;
@@ -55,7 +52,6 @@ body {
   background-color: #f0e6d0;
 }
 
-/* Dropdown Content */
 .dropdown-content {
   position: absolute;
   top: 120%;
@@ -80,7 +76,6 @@ body {
   border-radius: 8px;
 }
 
-/* Caret Icon */
 .dropdown-icon {
   font-size: 0.8rem;
 }

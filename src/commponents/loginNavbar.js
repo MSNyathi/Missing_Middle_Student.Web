@@ -1,7 +1,7 @@
+// src/components/LoginNavbar.jsx
 import React, { useState } from 'react';
 import tut25 from '../assets/tut25.png';
 import './loginNavbar.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 
 const LoginNavbar = () => {
