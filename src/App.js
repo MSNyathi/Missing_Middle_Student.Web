@@ -1,11 +1,24 @@
 
+
 import tut25 from './tut25.png';
 import './App.css';
 import React from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 import backgroundImage from '../src/assets/backgroundAdmin.jpeg'; // Adjust path if needed
-
+// App.jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import TechnicianDashboard from './components/TechnicianDashboard';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css'; 
+import { Container } from 'react-bootstrap';
+import Sidebar from './components/Sidebar';
+import TopBar from './components/TopBar';
+import SummaryCards from './components/SummaryCards';
+import ChartsSection from './components/ChartsSection';
+import DeviceTable from './components/DeviceTable';
+import RegisterDevice from './components/RegisterDevice';
 
 function App() {
   const backgroundStyle = {
@@ -57,6 +70,7 @@ function App() {
       </p>
     </footer>
     </>
+
   );
 }
 
