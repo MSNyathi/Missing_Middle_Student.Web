@@ -16,7 +16,7 @@ const Sidebar = () => (
       <Nav.Link as={Link} to="/" className="text-white d-flex align-items-center gap-2">
         <FaHome /> Home
       </Nav.Link>
-      <Nav.Link as={Link} to="/register" className="text-white d-flex align-items-center gap-2">
+      <Nav.Link as={Link} to="/RegisterDevice" className="text-white d-flex align-items-center gap-2">
         <FaPlusSquare /> Register Device
       </Nav.Link>
       <Nav.Link as={Link} to="/devices" className="text-white d-flex align-items-center gap-2">
