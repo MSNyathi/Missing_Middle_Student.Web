@@ -43,7 +43,7 @@ export default function ForgotPassword() {
       <div className="decor-circle orange"></div>
 
       <ToastContainer />
-      <div className="glass-card text-white p-4">
+      <div id="mydiv" className="glass-card text-white p-4">
         <h3 className="text-center mb-4">Forgot Password</h3>
 
         <form onSubmit={handleSubmit}>
@@ -61,6 +61,7 @@ export default function ForgotPassword() {
           </div>
 
           <button
+            id="btn2"
             type="submit"
             className={`btn w-100 ${loading ? "btn-secondary" : "btn-primary"}`}
             disabled={loading}

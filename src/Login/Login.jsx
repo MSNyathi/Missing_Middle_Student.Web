@@ -15,11 +15,12 @@ function Login() {
                 <img id="myimg" src={tut25} classname="bcolor"/>
                 </Link>
                 <h1 id="myh1">EduConnect</h1>
-                <Link to ="/adminlogin">
+                <Link to ="/adminlogin" id="mylink">
                     <button id="btn"><i id="i" className="bi bi-person-circle" style={{ fontSize: '1.5rem' } }></i>SWITCH USER</button>
                 </Link>
                 
             </nav>
+            
             </div>
             <div id="mydiv">
             <i className="bi bi-person-circle" id="i1" style={{ fontSize: '4rem' }}></i>
@@ -49,15 +50,24 @@ function Login() {
                             </td>
                         </tr>
                         <tr id="trbtn">
-                        <Link to="/student">
-                            <button type="submit" id="btn2">Login</button>
+                        <Link to="/student" id="mylink">
+                            <button type="submit" id="btn" className="">LOGIN</button>
                             </Link>
                             
                         </tr>
                     </table>
                     
                 </form>
-                <p>Don't have an account? <Link to="/register">Sign up</Link></p>
+                <div>
+                    <Link to="/admin/forgot-password" id="mylink">
+                    <p id="p1" className="fp">Forgot Password?</p>
+                    </Link>
+                    <p id="p1">Don't have an account?  <Link to="/register" id="mylink" className="fp">Sign up</Link></p>
+                </div>
+                
+            </div>
+            <div id="simp">
+                <h2 id="myh1">Simplify Your Learning Journey</h2>
             </div>
         </>
     )
