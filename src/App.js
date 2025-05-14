@@ -6,8 +6,6 @@ import React from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 import backgroundImage from '../src/assets/backgroundAdmin.jpeg'; // Adjust path if needed
-// App.jsx
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TechnicianDashboard from './components/TechnicianDashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
