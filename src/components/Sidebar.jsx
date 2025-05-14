@@ -22,7 +22,7 @@ const Sidebar = () => (
       <Nav.Link as={Link} to="/devices" className="text-white d-flex align-items-center gap-2">
         <FaLaptop /> Devices
       </Nav.Link>
-      <Nav.Link as={Link} to="/logout" className="text-white d-flex align-items-center gap-2">
+      <Nav.Link as={Link} to="/adminlogin" className="text-white d-flex align-items-center gap-2">
         <FaSignOutAlt /> Logout
       </Nav.Link>
     </Nav>
