@@ -16,7 +16,9 @@ import AdminLogin from '../Login/AdminLogin';
 import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
-// import other pages here as needed
+import RegisterDevice from '../components/RegisterDevice';
+import DeviceTable from '../components/DeviceTable';
+import TechnicianDashboard from '../components/TechnicianDashboard';
 
 const AppRoutes = () => {
   return (
@@ -33,10 +35,12 @@ const AppRoutes = () => {
       <Route path="/adminlogin" element={<AdminLogin />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/register" element={<RegisterForm />} />
-      <Route path="/admin/devices/view-devices" element={<ViewDevices />} />
-      
+      <Route path="/admin/devices/view-devices" element={<ViewDevices />} />      
       <Route path="/admin/forgot-password" element={<ForgotPassword />} />
       <Route path="/admin/students" element={<Students />} />
+      <Route path="/technician/dashboard" element={<TechnicianDashboard />} />
+      <Route path="/Devicetable" element={<DeviceTable />} />
+      <Route path="/RegisterDevice" element={<RegisterDevice />} />
 
       {/* Add more routes here */}
     </Routes>
