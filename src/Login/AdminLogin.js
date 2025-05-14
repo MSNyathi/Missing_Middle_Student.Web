@@ -1,11 +1,31 @@
-import React from 'react';
+import React,{useState} from 'react';
 import tut25 from '../tut25.png';
 import './Login.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 
 
 function AdminLogin() {
+    
+    const [role, setRole] = useState('');
+    const navigate = useNavigate();
+
+    const handleRoleChange = (e)=>{
+        setRole(e.target.value);
+    }
+
+    const  handleLogin = (e)=>{
+        e.preventDefault();
+        if(role==='admin'){
+            navigate('/admin/dashboard');
+        }else if(role==='technician'){
+            navigate('/technician/dashboard');
+        }else{
+            alert('Please select a role');
+        }
+
+    }
+
     return (
         <>
             
@@ -26,14 +46,14 @@ function AdminLogin() {
             <i className="bi bi-person-circle" id="i1" style={{ fontSize: '4rem' }}></i>
                 <h1 id="myh1">Staff Login</h1>
                 <p id="p1">Welcome back! Please enter your login details below.</p>
-                <form>
+                <form onSubmit={handleLogin}>
                     <table>
                         <tr>
                             <td id = "td00">
                                 <label htmlFor='role'>Role: </label>
 
-                                <label><input type='radio' name='role'/>Admin</label>
-                                <label><input type='radio' name='role'/>Technician</label>
+                                <label><input type='radio' name='role' value='admin' onChange={handleRoleChange}/>Admin</label>
+                                <label><input type='radio' name='role' value='technician' onChange={handleRoleChange}/>Technician</label>
                             </td>
                         </tr>
                         <tr>
@@ -43,7 +63,7 @@ function AdminLogin() {
                         </tr>
                         <tr>
                             <td>
-                                <input type="text" id="username" name="username" required />
+                                <input type="text" id="username" name="username"  />
                             </td>
                         </tr>
                         <tr>
@@ -53,14 +73,14 @@ function AdminLogin() {
                         </tr>
                         <tr>
                             <td>
-                                <input type="password" id="password" name="password" required />
+                                <input type="password" id="password" name="password"  />
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <Link to="/admin/dashboard">
+                                
                             <button type="submit" id="btn">Login</button>
-                            </Link>
+                            
                             </td>
                         </tr>
                     </table>
@@ -68,7 +88,9 @@ function AdminLogin() {
                 </form>
                 
             </div>
+            
         </>
+        
     )
 }
 export default AdminLogin;

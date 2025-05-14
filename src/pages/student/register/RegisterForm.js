@@ -154,7 +154,7 @@ function RegisterForm() {
 
             </form>
         </div>
-        </>
+        </>        
     );
 
 }
