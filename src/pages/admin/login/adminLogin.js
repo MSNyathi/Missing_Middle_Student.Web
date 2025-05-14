@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./adminLogin.css"; // Import your CSS file for styling
 import backgroundImage from "../../../assets/backgroundAdmin.jpeg"; // Adjust the path as needed
 import LoginNavbar from "../../../commponents/loginNavbar";
+import axios from "axios"; // add this at the top
 
 
 export default function AdminLogin() {
@@ -26,7 +27,9 @@ export default function AdminLogin() {
     setUser({ ...user, role: e.target.value });
   };
 
-  const handleLogin = async (e) => {
+
+
+const handleLogin = async (e) => {
   e.preventDefault();
 
   if (!validateEmail(user.email)) {
@@ -41,43 +44,30 @@ export default function AdminLogin() {
 
   setLoading(true);
 
-  // Choose the correct endpoint based on role
   const loginEndpoint =
     user.role === "admin"
       ? "https://localhost:7102/loginAdmin"
       : "https://localhost:7102/loginTechnician";
 
   try {
-    const response = await fetch(loginEndpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: user.email,
-        password: user.password,
-      }),
+    const response = await axios.post(loginEndpoint, {
+      email: user.email,
+      password: user.password,
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Login failed.");
-    }
-
-    const data = await response.json();
     toast.success("Login successful!", { position: "top-center" });
-
+    
     setTimeout(() => {
       if (user.role === "admin") {
         navigate("/admin/dashboard");
       } else if (user.role === "technician") {
-        navigate("/technician/dashboard"); // <-- update to technician route
+        navigate("/technician/dashboard");
       }
     }, 1000);
   } catch (error) {
-    toast.error(error.message || "Login failed. Please try again.", {
-      position: "top-center",
-    });
+    const errorMessage =
+      error.response?.data?.message || "Login failed. Please try again.";
+    toast.error(errorMessage, { position: "top-center" });
   } finally {
     setLoading(false);
   }
