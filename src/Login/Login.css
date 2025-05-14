@@ -158,6 +158,10 @@ body {
   text-align: center;
 }
 
+.lbl{
+  margin-right: 15px;
+}
+
 #myform1{
   display: flex;
   justify-content: center;

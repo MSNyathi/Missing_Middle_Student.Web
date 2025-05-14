@@ -36,7 +36,7 @@ function AdminLogin() {
                 </Link>
                 
                 <h1 id="myh1">EduConnect</h1>
-                <Link to="/login">
+                <Link to="/login" id="mylink">
                     <button id="btn"><i id="i" className="bi bi-person-circle" style={{ fontSize: '1.5rem' } }></i>SWITCH USER</button>
                 </Link>
                 
@@ -46,14 +46,14 @@ function AdminLogin() {
             <i className="bi bi-person-circle" id="i1" style={{ fontSize: '4rem' }}></i>
                 <h1 id="myh1">Staff Login</h1>
                 <p id="p1">Welcome back! Please enter your login details below.</p>
-                <form onSubmit={handleLogin}>
+                <form id="myform1" onSubmit={handleLogin}>
                     <table>
                         <tr>
-                            <td id = "td00">
-                                <label htmlFor='role'>Role: </label>
+                            <td id = "td1">
+                                <label className="lbl" htmlFor='role'>Role: </label>
 
-                                <label><input type='radio' name='role' value='admin' onChange={handleRoleChange}/>Admin</label>
-                                <label><input type='radio' name='role' value='technician' onChange={handleRoleChange}/>Technician</label>
+                                <label className="lbl"><input type='radio' name='role' value='admin' onChange={handleRoleChange}/>Admin</label>
+                                <label className="lbl"><input type='radio' name='role' value='technician' onChange={handleRoleChange}/>Technician</label>
                             </td>
                         </tr>
                         <tr>
@@ -63,7 +63,7 @@ function AdminLogin() {
                         </tr>
                         <tr>
                             <td>
-                                <input type="text" id="username" name="username"  />
+                                <input type="text" id="input1" name="username"  />
                             </td>
                         </tr>
                         <tr>
@@ -73,7 +73,7 @@ function AdminLogin() {
                         </tr>
                         <tr>
                             <td>
-                                <input type="password" id="password" name="password"  />
+                                <input type="password" id="input1" name="password"  />
                             </td>
                         </tr>
                         <tr>

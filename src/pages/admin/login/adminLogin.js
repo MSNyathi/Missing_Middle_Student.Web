@@ -58,8 +58,9 @@ export default function AdminLogin() {
       <div   className="glass-card text-white p-4">
         <h3 className="text-center mb-4">Admin Login</h3>
 
-        <form onSubmit={handleLogin}>
-          <div className="mb-3">
+        <form id="myform1" onSubmit={handleLogin}>
+          <table id="tbl">
+          <div className="mb-3" id="td1">
             <label htmlFor="email" className="form-label">Email</label>
             <input
               type="email"
@@ -113,6 +114,7 @@ export default function AdminLogin() {
               ? "Fill in all fields"
               : "Login"}
           </button>
+          </table>
         </form>
       </div>
     </div>
