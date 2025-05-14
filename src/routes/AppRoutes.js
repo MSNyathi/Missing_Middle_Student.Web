@@ -19,6 +19,9 @@ import Students from '../pages/admin/students/students';
 import RegisterDevice from '../components/RegisterDevice';
 import DeviceTable from '../components/DeviceTable';
 import TechnicianDashboard from '../components/TechnicianDashboard';
+import TechnicianProfile from '../pages/admin/register/viewTechnicians'
+// import other pages here as needed
+
 
 const AppRoutes = () => {
   return (
@@ -41,6 +44,8 @@ const AppRoutes = () => {
       <Route path="/technician/dashboard" element={<TechnicianDashboard />} />
       <Route path="/Devicetable" element={<DeviceTable />} />
       <Route path="/RegisterDevice" element={<RegisterDevice />} />
+      <Route path="/admin/technicians" element={<TechnicianProfile />} />
+
 
       {/* Add more routes here */}
     </Routes>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Image, Modal, Button, Form } from 'react-bootstrap';
+import { motion } from 'framer-motion';
 import AdminNavbar from '../../../commponents/adminNavbar';
-import { Image } from 'react-bootstrap';
+import backgroundImage from '../../../assets/backgroundAdmin.jpeg';
 
 const RegisterTechnician = () => {
   const [formData, setFormData] = useState({
@@ -14,12 +16,16 @@ const RegisterTechnician = () => {
   });
 
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [currentPwd, setCurrentPwd] = useState('');
+  const [newPwd, setNewPwd] = useState('');
+  const [confirmPwd, setConfirmPwd] = useState('');
 
-  // Modal and validation state
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [actionType, setActionType] = useState(''); // 'approve' or 'reject'
-  const [adminPassword, setAdminPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const adminName = 'John Doe';
+  const adminEmail = 'admin@example.com';
+  const adminRole = 'Admin';
+  const adminInitials = 'JD';
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -38,80 +44,110 @@ const RegisterTechnician = () => {
     console.log('Technician registered:', formData);
   };
 
-  const handleConfirmAction = () => {
-    if (!adminPassword) {
-      setPasswordError('Password is required.');
+  const handlePasswordChange = () => {
+    if (!currentPwd || !newPwd || !confirmPwd) {
+      alert('Please fill in all password fields.');
       return;
     }
-
-    const correctPassword = 'admin123'; // simulate actual auth
-
-    if (adminPassword !== correctPassword) {
-      setPasswordError('Incorrect password.');
+    if (newPwd !== confirmPwd) {
+      alert('New passwords do not match.');
       return;
     }
+    alert('Password updated successfully!');
+    setCurrentPwd('');
+    setNewPwd('');
+    setConfirmPwd('');
+    setShowSettings(false);
+  };
 
-    setShowPasswordModal(false);
-    setAdminPassword('');
-    setPasswordError('');
-
-    if (actionType === 'approve') {
-      console.log('Application approved.');
-    } else if (actionType === 'reject') {
-      console.log('Application rejected.');
-    }
+  const backgroundStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    minHeight: '100vh',
+    color: 'white',
   };
 
   return (
     <div className="d-flex">
       <AdminNavbar />
-      <div className="flex-grow-1 p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="flex-grow-1 p-4"
+        style={backgroundStyle}
+      >
         {/* Top Bar */}
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h2 className="mb-0">Add Technician</h2>
+          <h2
+            className="mb-0 text-white text-uppercase"
+            style={{
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)',
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              padding: '6px 12px',
+              borderRadius: '8px',
+            }}
+          >
+            Add Technician
+          </h2>
           <div className="d-flex align-items-center gap-3">
-            <span className="text-muted">{currentTime}</span>
+            <span className="text-white">{currentTime}</span>
             <Image
               src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
               roundedCircle
               alt="Profile"
               width={32}
               height={32}
+              style={{ cursor: 'pointer' }}
+              onClick={() => setShowProfileModal(true)}
             />
           </div>
         </div>
 
         {/* Registration Form */}
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
-          <div className="container" style={{ maxWidth: '700px' }}>
-            <div className="card shadow-sm border-0 rounded-4">
+          <motion.div
+            className="container"
+            style={{ maxWidth: '700px' }}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            <div
+              className="card shadow-sm border-0 rounded-4"
+              style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                color: 'white',
+              }}
+            >
               <div className="card-body p-4">
                 <h3 className="card-title text-center mb-4">🛠️ Register Technician</h3>
                 <form onSubmit={handleSubmit} className="row g-3">
-                  <div className="col-md-6">
-                    <label className="form-label">Staff Number</label>
-                    <input type="text" name="staffNum" value={formData.staffNum} onChange={handleChange} className="form-control" required />
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label">Surname</label>
-                    <input type="text" name="surname" value={formData.surname} onChange={handleChange} className="form-control" required />
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label">Initials</label>
-                    <input type="text" name="initials" value={formData.initials} onChange={handleChange} className="form-control" required />
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label">Email</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-control" required />
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label">Contact</label>
-                    <input type="text" name="contact" value={formData.contact} onChange={handleChange} className="form-control" required />
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label">Password</label>
-                    <input type="password" name="password" value={formData.password} onChange={handleChange} className="form-control" required />
-                  </div>
+                  {[
+                    { label: 'Staff Number', name: 'staffNum' },
+                    { label: 'Surname', name: 'surname' },
+                    { label: 'Initials', name: 'initials' },
+                    { label: 'Email', name: 'email', type: 'email' },
+                    { label: 'Contact', name: 'contact' },
+                    { label: 'Password', name: 'password', type: 'password' },
+                  ].map(({ label, name, type = 'text' }, idx) => (
+                    <div className="col-md-6" key={idx}>
+                      <label className="form-label">{label}</label>
+                      <input
+                        type={type}
+                        name={name}
+                        value={formData[name]}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                      />
+                    </div>
+                  ))}
                   <div className="col-md-6">
                     <label className="form-label">Role</label>
                     <select name="role" value={formData.role} onChange={handleChange} className="form-select" required>
@@ -122,15 +158,64 @@ const RegisterTechnician = () => {
                     <button type="submit" className="btn btn-primary w-100">Register Technician</button>
                   </div>
                 </form>
-
-
               </div>
             </div>
             <p className="text-muted text-center mt-3">Only technician roles are currently supported.</p>
-          </div>
+          </motion.div>
         </div>
+      </motion.div>
 
-      </div>
+      {/* Admin Profile Modal */}
+      <Modal show={showProfileModal} onHide={() => setShowProfileModal(false)} centered>
+        <motion.div
+          initial={{ rotateY: 90, opacity: 0 }}
+          animate={{ rotateY: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Modal.Header closeButton className="bg-light bg-opacity-75 shadow-sm">
+            <Modal.Title>Admin Profile</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center bg-white bg-opacity-75 shadow-lg rounded-4 p-4">
+            <Image
+              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+              roundedCircle
+              width={100}
+              height={100}
+              className="mb-3"
+            />
+            <div className="typing-text">
+              <h5>Admin Name: {adminName}</h5>
+              <p>Email: {adminEmail}</p>
+              <p>Role: {adminRole}</p>
+              <p>Last Login: {currentTime}</p>
+              <p>Initials: {adminInitials}</p>
+              <p>Contact: 0761981783</p>
+            </div>
+            <Button variant="outline-secondary" className="mt-3" onClick={() => setShowSettings(!showSettings)}>
+              ⚙️ Settings
+            </Button>
+            {showSettings && (
+              <Form className="mt-3 text-start">
+                <Form.Group className="mb-2">
+                  <Form.Label>Current Password</Form.Label>
+                  <Form.Control type="password" value={currentPwd} onChange={(e) => setCurrentPwd(e.target.value)} />
+                </Form.Group>
+                <Form.Group className="mb-2">
+                  <Form.Label>New Password</Form.Label>
+                  <Form.Control type="password" value={newPwd} onChange={(e) => setNewPwd(e.target.value)} />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Confirm New Password</Form.Label>
+                  <Form.Control type="password" value={confirmPwd} onChange={(e) => setConfirmPwd(e.target.value)} />
+                </Form.Group>
+                <Button variant="primary" onClick={handlePasswordChange}>
+                  Update Password
+                </Button>
+              </Form>
+            )}
+          </Modal.Body>
+        </motion.div>
+      </Modal>
     </div>
   );
 };
