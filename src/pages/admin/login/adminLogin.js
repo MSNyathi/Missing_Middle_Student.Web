@@ -59,9 +59,9 @@ const handleLogin = async (e) => {
     
     setTimeout(() => {
       if (user.role === "admin") {
-        navigate("/admin/dashboard");
+        navigate("/admin/dashboard", { state: { mydata: response.data } });
       } else if (user.role === "technician") {
-        navigate("/technician/dashboard");
+        navigate("/technician/dashboard", { state: { mydata: response.data } });
       }
     }, 1000);
   } catch (error) {

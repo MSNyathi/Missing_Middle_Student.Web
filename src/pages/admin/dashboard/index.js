@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import AdminNavbar from '../../../commponents/adminNavbar';
 import { Bar, Pie, Line } from 'react-chartjs-2';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 import {
   Chart as ChartJS,
   BarElement,
@@ -15,6 +16,7 @@ import {
   Title,
 } from 'chart.js';
 import backgroundImage from '../../../assets/backgroundAdmin.jpeg';
+import { useLocation } from 'react-router-dom';
 
 ChartJS.register(
   BarElement,
@@ -30,11 +32,25 @@ ChartJS.register(
 
 const Dashboard = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [totalDevices, setTotalDevices] = useState(0);
+  const [allocatedDevices, setAllocatedDevices] = useState(0);
+  const [totalApplicants, setTotalApplicants] = useState(0);
+  const [approvedApplicants, setApprovedApplicants] = useState(0);
+  const [unapprovedApplicants, setUnapprovedApplicants] = useState(0);
+  const [monthlyApplicants, setMonthlyApplicants] = useState(
+    Array(12).fill(0)
+  );
+  const data = useLocation().state?.mydata || {};
+  console.log('Data from API:', data);
+  useEffect(() => {
+  setTotalDevices(data.data.device_Info?.Total_devices || 0);
+  setAllocatedDevices(data.data.device_Info?.Allocated_devices || 0);
+   setApprovedApplicants(data.data.applicants_Data?.Approved_Applicants || 0);
+    setUnapprovedApplicants(data.data.applicants_Data?.Unapproved_Applicants || 0);
+    setTotalApplicants(data.data.applicants_Data?.Total_Applicants || 0);
+    setMonthlyApplicants(data.data.applicants_Montly_Data || Array(12).fill(0));
+  }, []);
 
-  const totalDevices = 120;
-  const totalApplicants = 75;
-  const eligible = 45;
-  const notEligible = 30;
 
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImage})`,
@@ -62,11 +78,7 @@ const Dashboard = () => {
   const pulseLine = {
     animate: {
       opacity: [1, 0.5, 1],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      },
+      transition: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
     },
   };
 
@@ -74,7 +86,7 @@ const Dashboard = () => {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [{
       label: 'Applicants per Month',
-      data: [5, 8, 12, 10, 9, 6, 15, 20, 18, 10, 8, 7],
+      data: monthlyApplicants,
       fill: false,
       borderColor: '#00ffff',
       backgroundColor: '#00ffff',
@@ -93,10 +105,7 @@ const Dashboard = () => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        labels: { color: '#fff' },
-        position: 'top'
-      },
+      legend: { labels: { color: '#fff' }, position: 'top' },
       title: {
         display: true,
         text: 'Monthly Applicant Trend',
@@ -118,10 +127,10 @@ const Dashboard = () => {
   };
 
   const eligibilityData = {
-    labels: ['Eligible', 'Not Eligible'],
+    labels: ['Approved', 'Unapproved'],
     datasets: [{
       label: 'Applicants',
-      data: [eligible, notEligible],
+      data: [approvedApplicants, unapprovedApplicants],
       backgroundColor: ['#28a745', '#dc3545'],
       borderColor: ['#ffffff', '#ffffff'],
       borderWidth: 2,
@@ -133,10 +142,7 @@ const Dashboard = () => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        position: 'bottom',
-        labels: { color: '#fff' },
-      },
+      legend: { position: 'bottom', labels: { color: '#fff' } },
       title: {
         display: true,
         text: 'Eligibility Distribution',
@@ -147,10 +153,10 @@ const Dashboard = () => {
   };
 
   const deviceChartData = {
-    labels: ['Laptops Issued', 'Laptops Remaining'],
+    labels: ['Allocated', 'Unallocated'],
     datasets: [{
       label: 'Devices',
-      data: [80, 40],
+      data: [allocatedDevices, totalDevices - allocatedDevices],
       backgroundColor: ['#00d8ff', '#ffcd56'],
       borderColor: '#fff',
       borderWidth: 2,
@@ -161,10 +167,7 @@ const Dashboard = () => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        position: 'bottom',
-        labels: { color: '#fff' },
-      },
+      legend: { position: 'bottom', labels: { color: '#fff' } },
       title: {
         display: true,
         text: 'Laptop Allocation',
@@ -184,6 +187,7 @@ const Dashboard = () => {
       },
     },
   };
+
 
   return (
     <div className="d-flex vh-100 overflow-hidden">
@@ -224,7 +228,7 @@ const Dashboard = () => {
             color: 'info'
           }, {
             title: 'Eligible Applicants',
-            value: eligible,
+            value: approvedApplicants,
             color: 'success'
           }].map((stat, idx) => (
             <div className="col-md-4 mb-3" key={idx}>
