@@ -43,11 +43,13 @@ const handleLogin = async (e) => {
   }
 
   setLoading(true);
-
+  
+  const API_URL = process.env.REACT_APP_API_URL;
+  
   const loginEndpoint =
     user.role === "admin"
-      ? "https://localhost:7102/loginAdmin"
-      : "https://localhost:7102/loginTechnician";
+      ? `${API_URL}loginAdmin`
+      : `${API_URL}loginTechnician`;
 
   try {
     const response = await axios.post(loginEndpoint, {
