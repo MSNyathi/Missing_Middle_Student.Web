@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { FaArrowLeft, FaSignOutAlt } from "react-icons/fa";
+import { FaArrowLeft, FaSignOutAlt, FaSun, FaMoon } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-import tutLogo from "../../../assets/tut.png"; // Update path if needed
-import backgroundImage from "../../../assets/background2.jpeg"; // Path to the uploaded image
+import tutLogo from "../../../assets/tut.png";
+import backgroundImage from "../../../assets/background2.jpeg";
+import "./index.css";
 
 const ApplyLaptop = () => {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     studentNumber: "",
     surname: "",
@@ -17,6 +19,15 @@ const ApplyLaptop = () => {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
+
+  useEffect(() => {
+    const theme = darkMode ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [darkMode]);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -27,9 +38,7 @@ const ApplyLaptop = () => {
     }
   };
 
-  const handleCancel = () => {
-    navigate("/student");
-  };
+  const handleCancel = () => navigate("/student");
 
   const handleNext = (e) => {
     e.preventDefault();
@@ -50,9 +59,10 @@ const ApplyLaptop = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
+        transition: "background 0.3s ease-in-out",
       }}
     >
-      {/* Top Left Logo */}
+      {/* TUT Logo */}
       <img
         src={tutLogo}
         alt="TUT Logo"
@@ -60,7 +70,23 @@ const ApplyLaptop = () => {
         style={{ height: "60px", width: "auto" }}
       />
 
-      {/* Back Button Bottom-Left */}
+      {/* Theme Toggle */}
+      <div className="position-fixed top-0 end-0 m-3 d-flex align-items-center text-white">
+        <FaSun className="me-2" color={darkMode ? "#bbb" : "#f39c12"} />
+        <div className="form-check form-switch">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            checked={darkMode}
+            onChange={() => setDarkMode(!darkMode)}
+            id="themeSwitch"
+            style={{ cursor: "pointer" }}
+          />
+        </div>
+        <FaMoon className="ms-2" color={darkMode ? "#f1c40f" : "#999"} />
+      </div>
+
+      {/* Back to Dashboard */}
       <Link
         to="/student"
         className="position-fixed bottom-0 start-0 m-3 btn btn-outline-secondary"
@@ -69,7 +95,7 @@ const ApplyLaptop = () => {
         Back to Dashboard
       </Link>
 
-      {/* Logout Button Bottom-Right */}
+      {/* Logout Button */}
       <div className="position-fixed bottom-0 end-0 p-3">
         <button className="btn btn-danger" onClick={() => setShowModal(true)}>
           <FaSignOutAlt className="me-2" />
@@ -77,7 +103,7 @@ const ApplyLaptop = () => {
         </button>
       </div>
 
-      {/* Modal for Logout Confirmation */}
+      {/* Logout Modal */}
       {showModal && (
         <div
           className="modal fade show d-block"
@@ -85,7 +111,7 @@ const ApplyLaptop = () => {
           style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
         >
           <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
+            <div className={`modal-content ${darkMode ? "glass-card-dark" : "glass-card-light"}`}>
               <div className="modal-header">
                 <h5 className="modal-title">Confirm Logout</h5>
                 <button
@@ -98,16 +124,10 @@ const ApplyLaptop = () => {
                 <p>Are you sure you want to logout?</p>
               </div>
               <div className="modal-footer">
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => setShowModal(false)}
-                >
+                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
                   Cancel
                 </button>
-                <button
-                  className="btn btn-danger"
-                  onClick={handleConfirmLogout}
-                >
+                <button className="btn btn-danger" onClick={handleConfirmLogout}>
                   Yes, Logout
                 </button>
               </div>
@@ -116,15 +136,16 @@ const ApplyLaptop = () => {
         </div>
       )}
 
-      {/* Main Form Card */}
+      {/* Form Card */}
       <div
-        className="bg-light p-5 rounded shadow"
-        style={{ width: "100%", maxWidth: "600px", opacity: 0.95 }}
+        className={`glass-card p-5 rounded shadow ${darkMode ? "glass-card-dark" : "glass-card-light"}`}
+        style={{ width: "100%", maxWidth: "600px" }}
       >
         <h2 className="text-center mb-4">APPLY FOR LAPTOP</h2>
         <p className="text-center mb-4">Please enter the details below</p>
+
         <form onSubmit={handleNext}>
-          {[
+          {[ 
             { label: "Student Number", name: "studentNumber" },
             { label: "Surname", name: "surname" },
             { label: "Initials", name: "initials" },
@@ -189,9 +210,7 @@ const ApplyLaptop = () => {
 
           {formData.hasRecommendation === "yes" && (
             <div className="mb-3">
-              <label className="form-label">
-                Upload Recommendation Letter:
-              </label>
+              <label className="form-label">Upload Recommendation Letter:</label>
               <input
                 type="file"
                 className="form-control"
@@ -203,11 +222,7 @@ const ApplyLaptop = () => {
           )}
 
           <div className="d-flex justify-content-between">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={handleCancel}
-            >
+            <button type="button" className="btn btn-secondary" onClick={handleCancel}>
               CANCEL
             </button>
             <button type="submit" className="btn btn-primary">

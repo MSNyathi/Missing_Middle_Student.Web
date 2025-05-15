@@ -1,0 +1,113 @@
+/* Light Glass Theme */
+.glass-card-light {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #fff;
+  }
+  
+  /* Dark Glass Theme */
+  .glass-card-dark {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+  }
+  
+  /* Shared Hover Effect on all cards */
+  .glass-card-light:hover,
+  .glass-card-dark:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Transparent list items */
+  .list-group-item.bg-transparent {
+    background-color: transparent !important;
+    color: #fff !important;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Icon Glow Effect */
+  .glow-icon {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* LIGHT theme glow */
+  [data-theme='light'] .glow-icon:hover {
+    filter: drop-shadow(0 0 10px rgba(0, 123, 255, 0.8));
+  }
+  
+  /* DARK theme glow */
+  [data-theme='dark'] .glow-icon:hover {
+    filter: drop-shadow(0 0 12px rgba(0, 255, 180, 0.85));
+  }
+  
+  /* Blue Glow for Apply Card */
+  .apply-card:hover {
+    box-shadow: 0 0 25px rgba(0, 123, 255, 0.75), 0 0 35px rgba(0, 123, 255, 0.5);
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transform: scale(1.03);
+
+    /* General glow on card hover */
+.card-hover-glow:hover {
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.6), 0 0 30px rgba(0, 123, 255, 0.5);
+    border: 1px solid rgba(0, 123, 255, 0.8);
+    transform: scale(1.03);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Optional: Dark theme variant for greenish glow */
+  [data-theme='dark'] .card-hover-glow:hover {
+    box-shadow: 0 0 20px rgba(0, 255, 180, 0.6), 0 0 30px rgba(0, 255, 180, 0.5);
+    border: 1px solid rgba(0, 255, 180, 0.8);
+  }
+  
+  /* Glow Animation Keyframes */
+@keyframes pulseGlowLight {
+    0% {
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0.4), 0 0 20px rgba(0, 123, 255, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(0, 123, 255, 0.8), 0 0 40px rgba(0, 123, 255, 0.6);
+    }
+    100% {
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0.4), 0 0 20px rgba(0, 123, 255, 0.3);
+    }
+  }
+  
+  @keyframes pulseGlowDark {
+    0% {
+      box-shadow: 0 0 10px rgba(0, 255, 180, 0.4), 0 0 20px rgba(0, 255, 180, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(0, 255, 180, 0.8), 0 0 40px rgba(0, 255, 180, 0.6);
+    }
+    100% {
+      box-shadow: 0 0 10px rgba(0, 255, 180, 0.4), 0 0 20px rgba(0, 255, 180, 0.3);
+    }
+  }
+  
+  /* Apply glowing pulse on hover */
+  .card-hover-glow {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  [data-theme='light'] .card-hover-glow:hover {
+    animation: pulseGlowLight 1.5s infinite;
+    border: 1px solid rgba(0, 123, 255, 0.8);
+  }
+  
+  [data-theme='dark'] .card-hover-glow:hover {
+    animation: pulseGlowDark 1.5s infinite;
+    border: 1px solid rgba(0, 255, 180, 0.8);
+  }
+  
+  }
+  

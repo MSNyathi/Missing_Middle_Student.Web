@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaArrowLeft, FaSignOutAlt } from 'react-icons/fa';
+import { FaArrowLeft, FaSignOutAlt, FaSun, FaMoon } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../dashboard/index.css';
 import tutLogo from '../../../assets/tut.png';
 import backgroundImage from '../../../assets/background2.jpeg';
 
@@ -26,6 +27,7 @@ const applicationSteps = [
 const TrackApplication = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
   const applicationStatus = 'Academic Review';
   const currentStep = applicationSteps.indexOf(applicationStatus) + 1;
@@ -61,12 +63,14 @@ const TrackApplication = () => {
         >
           {stepNum}
         </div>
-        <div className={`small ${stepNum <= currentStep ? 'fw-bold' : 'text-muted'}`}>
+        <div className={`small fw-semibold ${darkMode ? 'text-white' : 'text-dark'}`}>
           {label}
         </div>
       </motion.div>
     );
   };
+
+  const glassClass = darkMode ? 'glass-card-dark text-white' : 'glass-card-light text-dark';
 
   return (
     <div
@@ -76,6 +80,7 @@ const TrackApplication = () => {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
+        color: darkMode ? '#fff' : '#000',
       }}
     >
       {/* Logo */}
@@ -85,6 +90,26 @@ const TrackApplication = () => {
         className="position-absolute"
         style={{ top: '20px', left: '20px', height: '60px' }}
       />
+
+      {/* Theme Toggle with Icon */}
+      <div className="d-flex justify-content-end w-100 mb-3 pe-5 align-items-center gap-2">
+        <div className="form-check form-switch d-flex align-items-center">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            checked={darkMode}
+            onChange={() => setDarkMode(!darkMode)}
+            id="themeSwitch"
+          />
+          <label htmlFor="themeSwitch" className="ms-2" style={{ cursor: 'pointer' }}>
+            {darkMode ? (
+              <FaMoon size={20} className="text-white" title="Switch to Light Mode" />
+            ) : (
+              <FaSun size={20} className="text-warning" title="Switch to Dark Mode" />
+            )}
+          </label>
+        </div>
+      </div>
 
       {/* Navigation Buttons */}
       <div className="position-fixed bottom-0 start-0 p-3">
@@ -103,11 +128,11 @@ const TrackApplication = () => {
 
       {/* Application Progress Tracker */}
       <div
-        className="container-fluid bg-light rounded shadow p-4"
+        className={`container-fluid rounded shadow p-4 ${glassClass}`}
         style={{
           maxWidth: '90vw',
           marginTop: '120px',
-          opacity: 0.95,
+          transition: 'all 0.3s ease-in-out',
         }}
       >
         <h2 className="mb-3 text-center">Track Your Application</h2>
@@ -121,7 +146,7 @@ const TrackApplication = () => {
       {showModal && (
         <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
+            <div className={`modal-content ${glassClass}`}>
               <div className="modal-header">
                 <h5 className="modal-title">Confirm Logout</h5>
                 <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
