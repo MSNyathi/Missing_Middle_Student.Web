@@ -58,6 +58,7 @@ const handleLogin = async (e) => {
     });
 
     toast.success("Login successful!", { position: "top-center" });
+    localStorage.setItem("adminData", JSON.stringify(response.data));
     
     setTimeout(() => {
       if (user.role === "admin") {

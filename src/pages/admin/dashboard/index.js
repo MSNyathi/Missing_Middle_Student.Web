@@ -1,8 +1,7 @@
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminNavbar from '../../../commponents/adminNavbar';
 import { Bar, Pie, Line } from 'react-chartjs-2';
 import { motion } from 'framer-motion';
-import axios from 'axios';
 import {
   Chart as ChartJS,
   BarElement,
@@ -37,20 +36,34 @@ const Dashboard = () => {
   const [totalApplicants, setTotalApplicants] = useState(0);
   const [approvedApplicants, setApprovedApplicants] = useState(0);
   const [unapprovedApplicants, setUnapprovedApplicants] = useState(0);
-  const [monthlyApplicants, setMonthlyApplicants] = useState(
-    Array(12).fill(0)
-  );
-  const data = useLocation().state?.mydata || {};
-  console.log('Data from API:', data);
-  useEffect(() => {
-  setTotalDevices(data.data.device_Info?.Total_devices || 0);
-  setAllocatedDevices(data.data.device_Info?.Allocated_devices || 0);
-   setApprovedApplicants(data.data.applicants_Data?.Approved_Applicants || 0);
-    setUnapprovedApplicants(data.data.applicants_Data?.Unapproved_Applicants || 0);
-    setTotalApplicants(data.data.applicants_Data?.Total_Applicants || 0);
-    setMonthlyApplicants(data.data.applicants_Montly_Data || Array(12).fill(0));
-  }, []);
+  const [monthlyApplicants, setMonthlyApplicants] = useState(Array(12).fill(0));
 
+  const location = useLocation();
+  const fallbackData = {
+    device_Info: {},
+    applicants_Data: {},
+    applicants_Montly_Data: Array(12).fill(0),
+  };
+
+  const rawData = location.state?.mydata  || JSON.parse(localStorage.getItem("adminData"));
+  const data = typeof rawData === 'object' && rawData?.data
+    ? rawData
+    : { data: fallbackData };
+
+  useEffect(() => {
+    
+
+   
+
+    const safeData = data.data || {};
+
+    setTotalDevices(safeData.device_Info?.Total_devices || 0);
+    setAllocatedDevices(safeData.device_Info?.Allocated_devices || 0);
+    setApprovedApplicants(safeData.applicants_Data?.Approved_Applicants || 0);
+    setUnapprovedApplicants(safeData.applicants_Data?.Unapproved_Applicants || 0);
+    setTotalApplicants(safeData.applicants_Data?.Total_Applicants || 0);
+    setMonthlyApplicants(safeData.applicants_Montly_Data || Array(12).fill(0));
+  }, []);
 
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImage})`,
@@ -188,12 +201,10 @@ const Dashboard = () => {
     },
   };
 
-
   return (
     <div className="d-flex vh-100 overflow-hidden">
       <AdminNavbar />
       <div style={backgroundStyle} className="flex-grow-1 p-4 overflow-auto">
-        {/* Header */}
         <div className="d-flex justify-content-between align-items-center mb-3">
           <input
             type="text"
@@ -216,7 +227,6 @@ const Dashboard = () => {
         <h1 className="text-white">Admin Dashboard</h1>
         <p className="text-light">Welcome to the dashboard!</p>
 
-        {/* Stats Cards */}
         <div className="row text-center mt-4">
           {[{
             title: 'Total Devices',
@@ -242,7 +252,6 @@ const Dashboard = () => {
           ))}
         </div>
 
-        {/* Charts */}
         <div className="row">
           <div className="col-12 mb-4">
             <motion.div {...pulseLine} className="card p-3" style={{ height: '300px', ...glassCardStyle }}>
@@ -270,7 +279,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Profile Modal */}
       {showProfileModal && (
         <motion.div
           initial={{ opacity: 0 }}
