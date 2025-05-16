@@ -1,31 +1,44 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import './adminNavbar.css';
 
 const AdminNavbar = () => {
   const [showDeviceMenu, setShowDeviceMenu] = useState(false);
   const [showRegisterMenu, setShowRegisterMenu] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You will be logged out and session data will be cleared.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, logout!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        sessionStorage.clear();
+        localStorage.clear();
+        navigate('/admin/login');
+        Swal.fire('Logged out!', 'You have been successfully logged out.', 'success');
+      }
+    });
+  };
 
   return (
     <div className="d-flex flex-column vh-100 p-3 bg-dark text-white" style={{ width: '220px' }}>
       <h2 className="mb-4">💻 eduConnect</h2>
       <ul className="nav nav-pills flex-column">
-
         <li className="nav-item">
           <Link to="/admin/dashboard" className="nav-link text-white">🏠 Home</Link>
         </li>
-
         <li className="nav-item">
           <Link to="/admin/applicants" className="nav-link text-white">📄 Applications</Link>
         </li>
-
-        {/* Devices Dropdown (Click to toggle) */}
         <li className="nav-item">
-          <div
-            className="nav-link text-white dropdown-toggle"
-            role="button"
-            onClick={() => setShowDeviceMenu(!showDeviceMenu)}
-          >
+          <div className="nav-link text-white dropdown-toggle" role="button" onClick={() => setShowDeviceMenu(!showDeviceMenu)}>
             💻 Devices
           </div>
           {showDeviceMenu && (
@@ -35,14 +48,8 @@ const AdminNavbar = () => {
             </ul>
           )}
         </li>
-
-        {/* Register Dropdown (Click to toggle) */}
         <li className="nav-item">
-          <div
-            className="nav-link text-white dropdown-toggle"
-            role="button"
-            onClick={() => setShowRegisterMenu(!showRegisterMenu)}
-          >
+          <div className="nav-link text-white dropdown-toggle" role="button" onClick={() => setShowRegisterMenu(!showRegisterMenu)}>
             📝 Register
           </div>
           {showRegisterMenu && (
@@ -52,13 +59,16 @@ const AdminNavbar = () => {
             </ul>
           )}
         </li>
-
         <li className="nav-item">
           <Link to="/admin/students" className="nav-link text-white">👨‍🎓 Students</Link>
         </li>
-
         <li className="nav-item">
-          <Link to="/admin/login" className="nav-link text-white">🚪 Logout</Link>
+          <button
+            onClick={handleLogout}
+            className="nav-link text-white btn btn-danger w-100 mt-3"
+          >
+            🚪 Logout
+          </button>
         </li>
       </ul>
     </div>
