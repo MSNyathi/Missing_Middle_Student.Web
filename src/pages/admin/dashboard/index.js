@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import AdminNavbar from "../../../commponents/adminNavbar";
 import { Bar, Pie, Line } from "react-chartjs-2";

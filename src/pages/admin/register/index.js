@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import { Image, Modal, Button, Form } from 'react-bootstrap';
 import { motion } from 'framer-motion';
