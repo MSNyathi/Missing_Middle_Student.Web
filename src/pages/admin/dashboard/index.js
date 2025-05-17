@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import AdminNavbar from "../../../commponents/adminNavbar";
 import { Bar, Pie, Line } from "react-chartjs-2";
-import { motion } from "framer-motion";
+import { motion,AnimatePresence } from "framer-motion";
 import {
   Chart as ChartJS,
   BarElement,
@@ -41,7 +41,7 @@ const Dashboard = () => {
   const [monthlyApplicants, setMonthlyApplicants] = useState(Array(12).fill(0));
   const [settingsMode, setSettingsMode] = useState("");
 
-   const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     currentEmail: "",
     newEmail: "",
     currentPassword: "",
@@ -89,47 +89,45 @@ const Dashboard = () => {
   }, []);
 
   const handleEmailChange = () => {
-  const { currentPassword, newEmail } = formData;
+    const { currentPassword, newEmail } = formData;
 
-  if (!currentPassword || !newEmail) {
-    alert("Please fill in both fields.");
-    return;
-  }
+    if (!currentPassword || !newEmail) {
+      alert("Please fill in both fields.");
+      return;
+    }
 
-  console.log("Changing email:", { currentPassword, newEmail });
-  alert("Email updated successfully.");
-  resetModal();
-};
+    console.log("Changing email:", { currentPassword, newEmail });
+    alert("Email updated successfully.");
+    resetModal();
+  };
 
-const handlePasswordChange = () => {
-  const { currentPassword, newPassword, confirmPassword } = formData;
+  const handlePasswordChange = () => {
+    const { currentPassword, newPassword, confirmPassword } = formData;
 
-  if (!currentPassword || !newPassword || !confirmPassword) {
-    alert("Please fill in all fields.");
-    return;
-  }
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      alert("Please fill in all fields.");
+      return;
+    }
 
-  if (newPassword !== confirmPassword) {
-    alert("Passwords do not match.");
-    return;
-  }
+    if (newPassword !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
 
-  console.log("Changing password:", { currentPassword, newPassword });
-  alert("Password updated successfully.");
-  resetModal();
-};
+    console.log("Changing password:", { currentPassword, newPassword });
+    alert("Password updated successfully.");
+    resetModal();
+  };
 
-const resetModal = () => {
-  setFormData({
-    currentPassword: "",
-    newEmail: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
-  setSettingsMode("");
-};
-
-
+  const resetModal = () => {
+    setFormData({
+      currentPassword: "",
+      newEmail: "",
+      newPassword: "",
+      confirmPassword: "",
+    });
+    setSettingsMode("");
+  };
 
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImage})`,
@@ -394,10 +392,14 @@ const resetModal = () => {
         </div>
       </div>
 
-      {showProfileModal && (
+      <AnimatePresence>
+        {showProfileModal && (
           <motion.div
+            key="backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
             style={{
               backdropFilter: "blur(8px)",
@@ -416,8 +418,15 @@ const resetModal = () => {
             }}
           >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              key="modal"
+              initial={{ y: "-100vh", opacity: 0, scale: 0.9 }}
+              animate={{ y: "0", opacity: 1, scale: 1 }}
+              exit={{ y: "100vh", opacity: 0, scale: 0.9 }}
+              transition={{
+                type: "spring",
+                stiffness: 100,
+                damping: 14,
+              }}
               className="p-4"
               style={{
                 width: "380px",
@@ -600,6 +609,7 @@ const resetModal = () => {
             </motion.div>
           </motion.div>
         )}
+      </AnimatePresence>
     </div>
   );
 };
