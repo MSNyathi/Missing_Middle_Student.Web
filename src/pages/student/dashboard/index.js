@@ -12,6 +12,7 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import tutLogo from "../../../assets/tut.webp";
+import E from "../../../assets/E.png" // <--- Custom E icon
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -57,7 +58,20 @@ const StudentDashboard = () => {
                 alt="TUT Logo"
                 style={{ height: "40px", marginRight: "10px" }}
               />
-              EduConnect
+              <div className="d-flex align-items-center">
+                <img
+                  src={E}
+                  alt="E icon"
+                  style={{
+                    height: "28px",
+                    marginRight: "6px",
+                    filter: darkMode
+                      ? "drop-shadow(0 0 6px #0ff)"
+                      : "drop-shadow(0 0 4px #333)",
+                  }}
+                />
+                duConnect
+              </div>
             </Link>
             <button
               className="navbar-toggler"
