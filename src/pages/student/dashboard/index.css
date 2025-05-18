@@ -108,6 +108,22 @@
     animation: pulseGlowDark 1.5s infinite;
     border: 1px solid rgba(0, 255, 180, 0.8);
   }
+
+  .navbar {
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+[data-theme='light'] .navbar {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme='dark'] .navbar {
+  background: rgba(0, 0, 0, 0.3);
+}
+
   
   }
   
