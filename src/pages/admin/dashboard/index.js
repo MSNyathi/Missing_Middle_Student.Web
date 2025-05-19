@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import AdminNavbar from "../../../commponents/adminNavbar";
 import { Bar, Pie, Line } from "react-chartjs-2";
-import { motion,AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Chart as ChartJS,
   BarElement,
@@ -19,6 +19,7 @@ import {
 import backgroundImage from "../../../assets/backgroundAdmin.jpeg";
 import { useLocation } from "react-router-dom";
 import ProfileModal from "../../../commponents/profileModal";
+import useNotification from "../../../commponents/hooks/notificationHook";
 
 ChartJS.register(
   BarElement,
@@ -41,6 +42,33 @@ const Dashboard = () => {
   const [unapprovedApplicants, setUnapprovedApplicants] = useState(0);
   const [monthlyApplicants, setMonthlyApplicants] = useState(Array(12).fill(0));
   const [settingsMode, setSettingsMode] = useState("");
+  const [notifications, setNotifications] = useState([]);
+  const { connection, notify } = useNotification();
+  const[connected,setConnected] = useState(false);
+  setInterval(() => {
+    if(connection.state === "Connected"){
+      setConnected(true);
+  }
+}
+  ,1000)
+  connection.on("newNotification", (notifications) => {
+    console.log("All notifications:", notifications);
+    setNotifications(notifications);
+  });
+  useEffect(() => {
+    const send_request = async () => {  
+if(connection.state === "Connected"){
+  console.log("sendinngS to SignalR");
+ await connection.send("getNotifications")
+  connection.on("newNotification", (notifications) => {
+    console.log("All notifications:", notifications);
+    setNotifications(notifications);
+  });
+}
+
+}
+send_request()
+  },[connected]);
 
   const [formData, setFormData] = useState({
     currentEmail: "",
@@ -303,7 +331,16 @@ const Dashboard = () => {
                 minute: "2-digit",
               })}
             </span>
-            <i className="bi bi-bell fs-5"></i>
+            <div className="position-relative d-inline-block">
+              <i className="bi bi-bell fs-5"></i>
+              {notifications.length > 0 && (
+                <span className="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-danger">
+                  {notifications.length}
+                  <span className="visually-hidden">unread messages</span>
+                </span>
+              )}
+            </div>
+
             <img
               src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
               alt="Profile"
@@ -393,7 +430,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-       <AnimatePresence>
+      <AnimatePresence>
         {showProfileModal && (
           <ProfileModal
             adminInfo={adminInfo}
