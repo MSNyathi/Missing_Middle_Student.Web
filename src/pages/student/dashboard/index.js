@@ -7,12 +7,9 @@ import {
   FaSignOutAlt,
   FaSun,
   FaMoon,
-  FaUserCircle,
 } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
-import tutLogo from "../../../assets/tut.webp";
-import E from "../../../assets/E.png" // <--- Custom E icon
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -46,80 +43,23 @@ const StudentDashboard = () => {
   return (
     <div style={backgroundStyle}>
       <div className="container-fluid text-white">
-        {/* Navbar */}
-        <nav className={`navbar navbar-expand-lg mb-4 ${glassClass}`}>
-          <div className="container-fluid">
-            <Link
-              className="navbar-brand d-flex align-items-center text-white fw-bold"
-              to="/student/dashboard"
-            >
-              <img
-                src={tutLogo}
-                alt="TUT Logo"
-                style={{ height: "40px", marginRight: "10px" }}
-              />
-              <div className="d-flex align-items-center">
-                <img
-                  src={E}
-                  alt="E icon"
-                  style={{
-                    height: "28px",
-                    marginRight: "6px",
-                    filter: darkMode
-                      ? "drop-shadow(0 0 6px #0ff)"
-                      : "drop-shadow(0 0 4px #333)",
-                  }}
-                />
-                duConnect
-              </div>
-            </Link>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNav"
-              aria-controls="navbarNav"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              style={{ borderColor: "#fff" }}
-            >
-              <span
-                className="navbar-toggler-icon"
-                style={{ filter: "invert(1)" }}
-              ></span>
-            </button>
-
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <Link className="nav-link text-white" to="/student/help">
-                    Help
-                  </Link>
-                </li>
-              </ul>
-
-              <div className="d-flex align-items-center">
-                <FaSun className="me-2" color={darkMode ? "#bbb" : "#f39c12"} />
-                <div className="form-check form-switch">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    checked={darkMode}
-                    onChange={() => setDarkMode(!darkMode)}
-                    id="themeSwitchNav"
-                    style={{ cursor: "pointer" }}
-                  />
-                </div>
-                <FaMoon
-                  className="ms-2 me-3"
-                  color={darkMode ? "#f1c40f" : "#999"}
-                />
-              </div>
-            </div>
+        {/* Theme Toggle */}
+        <div className="d-flex justify-content-end align-items-center mb-3">
+          <FaSun className="me-2" color={darkMode ? "#bbb" : "#f39c12"} />
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              checked={darkMode}
+              onChange={() => setDarkMode(!darkMode)}
+              id="themeSwitch"
+              style={{ cursor: "pointer" }}
+            />
           </div>
-        </nav>
+          <FaMoon className="ms-2" color={darkMode ? "#f1c40f" : "#999"} />
+        </div>
 
-        {/* Welcome and Status */}
+        {/* Top Header */}
         <div className="text-center mb-4">
           <h2>WELCOME TO EduConnect</h2>
           <p className="text-success">
@@ -127,15 +67,15 @@ const StudentDashboard = () => {
           </p>
         </div>
 
-        {/* Notification */}
+        {/* Notifications */}
         <div className="alert alert-info text-center" role="alert">
           <FaInfoCircle className="me-2" />
           Application submissions close on <strong>June 15, 2025!</strong>
         </div>
 
-        {/* Profile and Actions */}
+        {/* Profile and Activity Row */}
         <div className="row mb-4">
-          {/* Profile */}
+          {/* Profile Card */}
           <div className="col-md-4 mb-3">
             <div className={`card shadow-sm p-3 ${glassClass}`}>
               <h5>Student Profile</h5>
@@ -151,7 +91,7 @@ const StudentDashboard = () => {
             </div>
           </div>
 
-          {/* Actions */}
+          {/* Main Actions */}
           <div className="col-md-4 mb-3 d-flex flex-column align-items-center justify-content-center">
             <div className="row w-100">
               <div className="col-12 mb-3">
@@ -163,8 +103,7 @@ const StudentDashboard = () => {
                     <h5 className="text-white">APPLY FOR LAPTOP</h5>
                   </div>
                 </Link>
-              </div>
-              <div className="col-12">
+
                 <Link to="/student/track" className="text-decoration-none">
                   <div
                     className={`card p-4 shadow-lg text-center ${glassClass} card-hover-glow`}
@@ -193,6 +132,57 @@ const StudentDashboard = () => {
             </div>
           </div>
         </div>
+
+        {/* Help and Logout */}
+<div className="d-flex justify-content-between align-items-center mt-4 px-3">
+  {/* Help Dropdown */}
+  <div className="dropdown">
+    <button
+      className="btn btn-outline-info dropdown-toggle"
+      type="button"
+      id="helpDropdown"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <FaInfoCircle className="me-2" />
+      Help Topics
+    </button>
+    <ul className="dropdown-menu" aria-labelledby="helpDropdown">
+      <li>
+        <Link className="dropdown-item" to="/student/help/about">
+          📌 What is this project about?
+        </Link>
+      </li>
+      <li>
+        <Link className="dropdown-item" to="/student/help/eligible">
+          📝 Who is eligible?
+        </Link>
+      </li>
+      <li>
+        <Link className="dropdown-item" to="/student/help/distribution">
+          🧮 How are laptops distributed?
+        </Link>
+      </li>
+      <li>
+        <Link className="dropdown-item" to="/student/help/warranty">
+          🛠️ Warranty or support?
+        </Link>
+      </li>
+      <li>
+        <Link className="dropdown-item" to="/student/help/contact">
+          📍 Who do I contact?
+        </Link>
+      </li>
+      <li>
+        <Link className="dropdown-item" to="/student/help/security">
+          🔐 Security & support
+        </Link>
+      </li>
+    </ul>
+  </div>
+
+
+</div>
 
         {/* Logout Modal */}
         {showModal && (
@@ -232,27 +222,6 @@ const StudentDashboard = () => {
             </div>
           </div>
         )}
-
-        {/* Fixed Bottom Buttons */}
-        <div className="position-fixed bottom-0 start-0 m-3">
-          <Link
-            to="/student/help"
-            className="btn btn-outline-info d-flex align-items-center"
-          >
-            <FaInfoCircle className="me-2" />
-            Need Help?
-          </Link>
-        </div>
-
-        <div className="position-fixed bottom-0 end-0 m-3">
-          <button
-            className="btn btn-outline-danger d-flex align-items-center"
-            onClick={() => setShowModal(true)}
-          >
-            <FaSignOutAlt className="me-2" />
-            Logout
-          </button>
-        </div>
       </div>
     </div>
   );
