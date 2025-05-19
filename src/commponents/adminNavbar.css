@@ -1,34 +1,35 @@
-/* adminNavbar.css */
-
-.hover-dropdown {
-  position: relative;
+/* Reset Bootstrap dropdown interference */
+.dropdown-menu-custom {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+  background-color: #343a40; /* dark background */
+  border: none;
 }
 
-.hover-dropdown .dropdown-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: white;
-  color: black;
-  min-width: 180px;
-  border-radius: 0.25rem;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
-  padding: 0.5rem 0;
+.dropdown-menu-custom li {
+  padding: 0;
 }
 
-.hover-dropdown:hover .dropdown-menu {
+.dropdown-menu-custom .dropdown-item {
+  color: white;
+  padding: 10px 20px;
   display: block;
-  z-index: 1000;
-}
-
-.dropdown-item {
-  padding: 0.5rem 1rem;
   text-decoration: none;
-  color: black;
-  display: block;
 }
 
-.dropdown-item:hover {
-  background-color: #f1f1f1;
+.dropdown-menu-custom .dropdown-item:hover {
+  background-color: #495057;
+  color: #fff;
 }
+
+/* Optional: Add smooth expand/collapse transitions */
+.dropdown-menu-custom {
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
