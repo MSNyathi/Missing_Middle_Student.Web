@@ -19,13 +19,13 @@ export default function AssignDevicePage() {
 
   useEffect(() => {
     const dummyApplications = [
-      { id: 1, studentNumber: '2023123456', surname: 'Mokoena', initials: 'T.', approvalDate: '2025-04-20' },
-      { id: 2, studentNumber: '2023987654', surname: 'Dlamini', initials: 'L.', approvalDate: '2025-04-18' },
-      { id: 3, studentNumber: '2023765432', surname: 'Ndlovu', initials: 'S.', approvalDate: '2025-04-23' },
+      { id: 1, studentNumber: '202312345', surname: 'Mokoena', initials: 'T.', approvalDate: '2025-04-20' },
+      { id: 2, studentNumber: '202398765', surname: 'Dlamini', initials: 'L.', approvalDate: '2025-04-18' },
+      { id: 3, studentNumber: '202376543', surname: 'Ndlovu', initials: 'S.', approvalDate: '2025-04-23' },
     ];
 
     const dummyDevices = [
-      { id: 'd1', name: 'Dell Latitude 7490', assignedTo: '2023987654' },
+      { id: 'd1', name: 'Dell Latitude 7490', assignedTo: '202398765' },
       { id: 'd2', name: 'HP ProBook 450 G7', assignedTo: null },
       { id: 'd3', name: 'Lenovo ThinkPad E15', assignedTo: null },
       { id: 'd4', name: 'Acer Aspire 5', assignedTo: null },
