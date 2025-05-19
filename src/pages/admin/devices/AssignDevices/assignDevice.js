@@ -1,98 +1,110 @@
 import { useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
 import AdminNavbar from '../../../../commponents/adminNavbar';
 import backgroundImage from '../../../../assets/backgroundAdmin.jpeg';
+import Select from 'react-select';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 export default function AssignDevicePage() {
   const [applications, setApplications] = useState([]);
-  const [sortOrder, setSortOrder] = useState('asc'); // 'asc' | 'desc'
-  const [filterStatus, setFilterStatus] = useState('all'); // 'all' | 'assigned' | 'unassigned'
+  const [devices, setDevices] = useState([]);
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [filterStatus, setFilterStatus] = useState('all');
 
-  const [availableDevices, setAvailableDevices] = useState([
-    'Dell Latitude 7490',
-    'HP ProBook 450 G7',
-    'Lenovo ThinkPad E15',
-    'Acer Aspire 5',
-  ]);
+  const [selectedApplicant, setSelectedApplicant] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDeviceOption, setSelectedDeviceOption] = useState(null);
 
   useEffect(() => {
-    const dummyData = [
-      {
-        id: 1,
-        studentNumber: '2023123456',
-        surname: 'Mokoena',
-        initials: 'T.',
-        approvalDate: '2025-04-20',
-        device: '',
-      },
-      {
-        id: 2,
-        studentNumber: '2023987654',
-        surname: 'Dlamini',
-        initials: 'L.',
-        approvalDate: '2025-04-18',
-        device: 'Dell Latitude 7490',
-      },
-      {
-        id: 3,
-        studentNumber: '2023765432',
-        surname: 'Ndlovu',
-        initials: 'S.',
-        approvalDate: '2025-04-23',
-        device: '',
-      },
+    const dummyApplications = [
+      { id: 1, studentNumber: '2023123456', surname: 'Mokoena', initials: 'T.', approvalDate: '2025-04-20' },
+      { id: 2, studentNumber: '2023987654', surname: 'Dlamini', initials: 'L.', approvalDate: '2025-04-18' },
+      { id: 3, studentNumber: '2023765432', surname: 'Ndlovu', initials: 'S.', approvalDate: '2025-04-23' },
     ];
-    setApplications(dummyData);
+
+    const dummyDevices = [
+      { id: 'd1', name: 'Dell Latitude 7490', assignedTo: '2023987654' },
+      { id: 'd2', name: 'HP ProBook 450 G7', assignedTo: null },
+      { id: 'd3', name: 'Lenovo ThinkPad E15', assignedTo: null },
+      { id: 'd4', name: 'Acer Aspire 5', assignedTo: null },
+    ];
+
+    setApplications(dummyApplications);
+    setDevices(dummyDevices);
   }, []);
 
-  const handleAssignDevice = (id) => {
-    const assignedDevices = applications.map((app) => app.device).filter(Boolean);
-    const unassignedDevices = availableDevices.filter(
-      (device) => !assignedDevices.includes(device)
+  const getDeviceByStudent = (studentNumber) =>
+    devices.find((device) => device.assignedTo === studentNumber);
+
+  const unassignedDevices = devices.filter((d) => !d.assignedTo);
+
+  const handleOpenModal = (studentNumber) => {
+    setSelectedApplicant(studentNumber);
+    setSelectedDeviceOption(null);
+    setShowModal(true);
+  };
+
+  const handleAssignDevice = () => {
+    if (!selectedDeviceOption || !selectedApplicant) return;
+
+    setDevices((prev) =>
+      prev.map((d) =>
+        d.id === selectedDeviceOption.value
+          ? { ...d, assignedTo: selectedApplicant }
+          : d
+      )
     );
 
-    if (unassignedDevices.length === 0) {
-      Swal.fire('No Devices Available', 'All devices have already been assigned.', 'info');
+    setShowModal(false);
+    MySwal.fire('Assigned!', 'Device has been assigned successfully.', 'success');
+  };
+
+  const handleAssignAll = () => {
+    const unassignedApps = applications.filter(
+      (app) => !getDeviceByStudent(app.studentNumber)
+    );
+
+    const unassignedDevicesQueue = [...unassignedDevices];
+
+    if (unassignedApps.length > unassignedDevicesQueue.length) {
+      Swal.fire(
+        'Not Enough Devices',
+        `There are only ${unassignedDevicesQueue.length} devices available for ${unassignedApps.length} applicants.`,
+        'warning'
+      );
       return;
     }
 
-    Swal.fire({
-      title: 'Select a Device',
-      input: 'select',
-      inputOptions: unassignedDevices.reduce((acc, device) => {
-        acc[device] = device;
-        return acc;
-      }, {}),
-      inputPlaceholder: 'Choose a device',
-      showCancelButton: true,
-      confirmButtonText: 'Assign',
-    }).then((result) => {
-      const selectedDevice = result.value;
+    const newDeviceState = devices.map((d) => ({ ...d }));
+    const newAssignments = [];
 
-      if (result.isConfirmed) {
-        if (!selectedDevice) {
-          Swal.fire('No Selection', 'Please choose a device before assigning.', 'warning');
-          return;
-        }
-
-        setApplications((prev) =>
-          prev.map((app) =>
-            app.id === id ? { ...app, device: selectedDevice } : app
-          )
-        );
-        Swal.fire('Assigned!', `Device '${selectedDevice}' has been assigned.`, 'success');
+    for (const app of unassignedApps) {
+      const device = unassignedDevicesQueue.shift();
+      if (device) {
+        const deviceIndex = newDeviceState.findIndex((d) => d.id === device.id);
+        newDeviceState[deviceIndex].assignedTo = app.studentNumber;
+        newAssignments.push({ student: app.studentNumber, device: device.name });
       }
+    }
+
+    setDevices(newDeviceState);
+
+    MySwal.fire({
+      title: 'Devices Assigned',
+      html: newAssignments
+        .map((a) => `<div><strong>${a.student}</strong> → ${a.device}</div>`)
+        .join(''),
+      icon: 'success',
     });
   };
 
-  const isAnyDeviceAvailable = availableDevices.some(
-    (device) => !applications.some((app) => app.device === device)
-  );
-
   const sortedAndFilteredApps = applications
     .filter((app) => {
-      if (filterStatus === 'assigned') return !!app.device;
-      if (filterStatus === 'unassigned') return !app.device;
+      const isAssigned = !!getDeviceByStudent(app.studentNumber);
+      if (filterStatus === 'assigned') return isAssigned;
+      if (filterStatus === 'unassigned') return !isAssigned;
       return true;
     })
     .sort((a, b) => {
@@ -101,20 +113,23 @@ export default function AssignDevicePage() {
       return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
     });
 
-    const backgroundStyle = {
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      height: '100vh',
-      color: 'white',
-    }; 
+  const backgroundStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    height: '100vh',
+    color: 'white',
+  };
 
+  const deviceOptions = unassignedDevices.map((d) => ({
+    value: d.id,
+    label: d.name,
+  }));
 
   return (
     <div className="d-flex" style={{ minHeight: '100vh' }}>
       <AdminNavbar />
-    
 
       <div style={backgroundStyle} className="flex-grow-1 p-4">
         <h2 className="text-center mb-4">Assign Devices</h2>
@@ -133,12 +148,17 @@ export default function AssignDevicePage() {
             </select>
           </div>
 
-          <button
-            className="btn btn-outline-secondary"
-            onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-          >
-            Sort by Approval Date ({sortOrder === 'asc' ? 'Oldest First' : 'Newest First'})
-          </button>
+          <div className="d-flex gap-2">
+            <button
+              className="btn btn-outline-secondary"
+              onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+            >
+              Sort ({sortOrder === 'asc' ? 'Oldest First' : 'Newest First'})
+            </button>
+            <button className="btn btn-success" onClick={handleAssignAll}>
+              Assign All
+            </button>
+          </div>
         </div>
 
         <div className="table-responsive">
@@ -154,35 +174,39 @@ export default function AssignDevicePage() {
               </tr>
             </thead>
             <tbody>
-              {sortedAndFilteredApps.map((app) => (
-                <tr key={app.id}>
-                  <td>{app.studentNumber}</td>
-                  <td>{app.surname}</td>
-                  <td>{app.initials}</td>
-                  <td>{app.approvalDate}</td>
-                  <td>
-                    {app.device ? (
-                      <span className="badge bg-success">Assigned</span>
-                    ) : (
-                      <span className="badge bg-danger">Unassigned</span>
-                    )}
-                  </td>
-                  <td>
-                    {app.device ? (
-                      app.device
-                    ) : !isAnyDeviceAvailable ? (
-                      <span className="text-muted">No Devices</span>
-                    ) : (
-                      <button
-                        className="btn btn-sm btn-primary"
-                        onClick={() => handleAssignDevice(app.id)}
-                      >
-                        Assign
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
+              {sortedAndFilteredApps.map((app) => {
+                const assignedDevice = getDeviceByStudent(app.studentNumber);
+
+                return (
+                  <tr key={app.id}>
+                    <td>{app.studentNumber}</td>
+                    <td>{app.surname}</td>
+                    <td>{app.initials}</td>
+                    <td>{app.approvalDate}</td>
+                    <td>
+                      {assignedDevice ? (
+                        <span className="badge bg-success">Assigned</span>
+                      ) : (
+                        <span className="badge bg-danger">Unassigned</span>
+                      )}
+                    </td>
+                    <td>
+                      {assignedDevice ? (
+                        assignedDevice.name
+                      ) : unassignedDevices.length === 0 ? (
+                        <span className="text-muted">No Devices</span>
+                      ) : (
+                        <button
+                          className="btn btn-sm btn-primary"
+                          onClick={() => handleOpenModal(app.studentNumber)}
+                        >
+                          Assign
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
               {sortedAndFilteredApps.length === 0 && (
                 <tr>
                   <td colSpan={6} className="text-muted">
@@ -194,6 +218,33 @@ export default function AssignDevicePage() {
           </table>
         </div>
       </div>
+
+      {/* Device Assignment Modal */}
+      {showModal && (
+        <div
+          className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999 }}
+        >
+          <div className="bg-white p-4 rounded shadow" style={{ minWidth: '300px' }}>
+            <h5 className="mb-3">Assign Device</h5>
+            <Select
+              options={deviceOptions}
+              value={selectedDeviceOption}
+              onChange={setSelectedDeviceOption}
+              placeholder="Search and select a device..."
+              isSearchable
+            />
+            <div className="d-flex justify-content-end mt-3">
+              <button className="btn btn-secondary me-2" onClick={() => setShowModal(false)}>
+                Cancel
+              </button>
+              <button className="btn btn-primary" onClick={handleAssignDevice}>
+                Assign
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
