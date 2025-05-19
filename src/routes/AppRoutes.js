@@ -9,6 +9,13 @@ import AssignDevicePage from '../pages/admin/Devices/AssignDevices/assignDevice'
 import StudentDashboard from '../pages/student/dashboard';
 import ApplyLaptop from '../pages/student/applyLaptop';
 import TrackApplication from '../pages/student/trackApplication';
+import HelpPageLaptops from '../pages/student/help/helpPage'; // help page
+
+
+
+
+
+
 
 
 // import other pages here as needed
@@ -24,6 +31,13 @@ const AppRoutes = () => {
       <Route path="/student" element={<StudentDashboard />} />
       <Route path="/student/apply" element={<ApplyLaptop />} />
       <Route path="/student/track" element={<TrackApplication />} />
+      <Route path="/student/help" element={<HelpPageLaptops />} />
+
+
+
+ 
+  
+
 
       {/* Add more routes here */}
     </Routes>
