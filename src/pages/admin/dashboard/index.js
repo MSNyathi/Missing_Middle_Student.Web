@@ -47,12 +47,11 @@ const Dashboard = () => {
   const { connection, notify } = useNotification();
   const [connected, setConnected] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
- const markAsSeen = (index) => {
-  const updated = [...notifications];
-  updated[index].seen = true;
-  setNotifications(updated);
-  localStorage.setItem("notifications", JSON.stringify(updated));
-};
+  const markAsSeen = (index) => {
+    setNotifications((prev) =>
+      prev.map((note, i) => (i === index ? { ...note, seen: true } : note))
+    );
+  };
   
   const unseenCount = notifications.filter((note) => !note.seen).length;
   const unseen = notifications.filter(n => !n.seen);
@@ -61,7 +60,7 @@ const Dashboard = () => {
       setConnected(true);
     }
   }, 1000);
-  connection.on("newNotification", (notifications) => {
+  connection.on("newNotificaion", (notifications) => {
     console.log("All notifications:", notifications);
     setNotifications(notifications);
   });
@@ -70,7 +69,7 @@ const Dashboard = () => {
       if (connection.state === "Connected") {
         console.log("sendinngS to SignalR");
         await connection.send("getNotifications");
-        connection.on("newNotification", (notifications) => {
+        connection.on("newNotificaion", (notifications) => {
           console.log("All notifications:", notifications);
           setNotifications(notifications);
         });
@@ -88,7 +87,7 @@ const Dashboard = () => {
   });
   const [adminInfo, setAdminInfo] = useState({
     surname: "",
-    initials: "",
+    initails: "",
     email: "",
     contact: "",
   });
@@ -109,12 +108,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     const safeData = data.data || {};
-    setAdminInfo({
+    /*setAdminInfo({
       surname: safeData.admin?.surname || "Admin",
-      initials: safeData.admin?.initials || "",
+      initials: safeData.admin?.initaills || "",
       email: safeData.admin?.email || "",
       contact: safeData.admin?.contact || "",
-    });
+    });*/
 
     setTotalDevices(safeData.device_Info?.Total_devices || 0);
     setAllocatedDevices(safeData.device_Info?.Allocated_devices || 0);
@@ -461,6 +460,7 @@ const Dashboard = () => {
         {showProfileModal && (
           <ProfileModal
             adminInfo={adminInfo}
+            setAdminInfo={setAdminInfo}
             formData={formData}
             setFormData={setFormData}
             showProfileModal={showProfileModal}

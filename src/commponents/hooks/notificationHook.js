@@ -36,26 +36,20 @@ const useNotification = () => {
       }
     };
 
-   connection.on("newNotification", (incoming) => {
-  console.log("📨 New notifications received:", incoming);
+    connection.on("newNotification", (incoming) => {
+      console.log("📨 New notifications received:", incoming);
 
-  const existing = getStored();
+      const existing = getStored();
 
-  // Add only truly new notifications
-  const newOnes = incoming.filter(
-    (note) =>
-      !existing.some(
-        (n) => n.message === note.message && n.date === note.date
-      )
-  );
+      // Merge new notifications with existing, preserving seen status
+      const merged = incoming.map((note) => {
+        const match = existing.find((n) => n.message === note.message && n.date === note.date);
+        return match ? { ...note, seen: match.seen } : { ...note, seen: false };
+      });
 
-  const withSeenStatus = newOnes.map((n) => ({ ...n, seen: false }));
-  const updated = [...existing, ...withSeenStatus];
-
-  setNotifications(updated);
-  localStorage.setItem("notifications", JSON.stringify(updated));
-});
-
+      setNotifications(merged);
+      localStorage.setItem("notifications", JSON.stringify(merged));
+    });
 
     connection.onclose(async () => {
       console.warn("⚠️ SignalR disconnected. Reconnecting...");
