@@ -20,6 +20,7 @@ import backgroundImage from "../../../assets/backgroundAdmin.jpeg";
 import { useLocation } from "react-router-dom";
 import ProfileModal from "../../../commponents/profileModal";
 import useNotification from "../../../commponents/hooks/notificationHook";
+import NotificationPanel from "../../../commponents/notificationPanel";
 
 ChartJS.register(
   BarElement,
@@ -44,31 +45,39 @@ const Dashboard = () => {
   const [settingsMode, setSettingsMode] = useState("");
   const [notifications, setNotifications] = useState([]);
   const { connection, notify } = useNotification();
-  const[connected,setConnected] = useState(false);
+  const [connected, setConnected] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+ const markAsSeen = (index) => {
+  const updated = [...notifications];
+  updated[index].seen = true;
+  setNotifications(updated);
+  localStorage.setItem("notifications", JSON.stringify(updated));
+};
+  
+  const unseenCount = notifications.filter((note) => !note.seen).length;
+  const unseen = notifications.filter(n => !n.seen);
   setInterval(() => {
-    if(connection.state === "Connected"){
+    if (connection.state === "Connected") {
       setConnected(true);
-  }
-}
-  ,1000)
+    }
+  }, 1000);
   connection.on("newNotification", (notifications) => {
     console.log("All notifications:", notifications);
     setNotifications(notifications);
   });
   useEffect(() => {
-    const send_request = async () => {  
-if(connection.state === "Connected"){
-  console.log("sendinngS to SignalR");
- await connection.send("getNotifications")
-  connection.on("newNotification", (notifications) => {
-    console.log("All notifications:", notifications);
-    setNotifications(notifications);
-  });
-}
-
-}
-send_request()
-  },[connected]);
+    const send_request = async () => {
+      if (connection.state === "Connected") {
+        console.log("sendinngS to SignalR");
+        await connection.send("getNotifications");
+        connection.on("newNotification", (notifications) => {
+          console.log("All notifications:", notifications);
+          setNotifications(notifications);
+        });
+      }
+    };
+    send_request();
+  }, [connected]);
 
   const [formData, setFormData] = useState({
     currentEmail: "",
@@ -332,13 +341,31 @@ send_request()
               })}
             </span>
             <div className="position-relative d-inline-block">
-              <i className="bi bi-bell fs-5"></i>
-              {notifications.length > 0 && (
+              <i
+                className="bi bi-bell fs-5"
+                style={{ cursor: "pointer" }}
+                onClick={() => setShowNotifications((prev) => !prev)}
+              ></i>
+              {unseenCount > 0 && (
                 <span className="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-danger">
-                  {notifications.length}
-                  <span className="visually-hidden">unread messages</span>
+                  {unseenCount}
                 </span>
               )}
+
+              <AnimatePresence>
+                {showNotifications && (
+                  <NotificationPanel
+                    notifications={notifications}
+                    onClose={() => setShowNotifications(false)}
+                    markAsSeen={(idx) => {
+                      const globalIndex = notifications.findIndex(
+                        (n) => n === unseen[idx]
+                      );
+                      markAsSeen(globalIndex);
+                    }}
+                  />
+                )}
+              </AnimatePresence>
             </div>
 
             <img
