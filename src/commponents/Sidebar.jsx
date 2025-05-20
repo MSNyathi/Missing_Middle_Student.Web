@@ -1,20 +1,21 @@
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import logo from '../assets/logo2.png'
 import {
   FaHome, FaPlusSquare, FaLaptop, FaSignOutAlt,
   FaTrash, FaSyncAlt, FaTruck, FaCloudUploadAlt, FaCog
 } from 'react-icons/fa';
 
 const Sidebar = () => (
-  <div className="sidebar bg-primary text-white p-3" style={{ minHeight: '100vh', width: '250px' }}>
+  <div className="sidebar bg-primary text-white p-3" style={{ minHeight: '100vh', width: '250px',padding: 0 }}>
     <div className="mb-4">
       <img
-        src="/tut-logo.png"
+        src={logo}
         alt="TUT Logo"
         style={{ width: '100%', marginBottom: '10px' }}
       />
-      <h5>Technician</h5>
+      <h5>EduConnect</h5>
     </div>
     <Nav className="flex-column gap-2">
       <Nav.Link as={Link} to="/technician/dashboard" className="text-white d-flex align-items-center gap-2">
@@ -38,7 +39,7 @@ const Sidebar = () => (
       <Nav.Link as={Link} to="/settings" className="text-white d-flex align-items-center gap-2">
         <FaCog /> Settings
       </Nav.Link>
-      <Nav.Link as={Link} to="/logout" className="text-white d-flex align-items-center gap-2">
+      <Nav.Link as={Link} to="/adminlogin" className="text-white d-flex align-items-center gap-2">
         <FaSignOutAlt /> Logout
       </Nav.Link>
     </Nav>
