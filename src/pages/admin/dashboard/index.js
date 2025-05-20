@@ -34,6 +34,7 @@ ChartJS.register(
   Title
 );
 
+
 const Dashboard = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [totalDevices, setTotalDevices] = useState(0);
@@ -43,41 +44,56 @@ const Dashboard = () => {
   const [unapprovedApplicants, setUnapprovedApplicants] = useState(0);
   const [monthlyApplicants, setMonthlyApplicants] = useState(Array(12).fill(0));
   const [settingsMode, setSettingsMode] = useState("");
-  const [notifications, setNotifications] = useState([]);
-  const { connection, notify } = useNotification();
   const [connected, setConnected] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+
+  const {
+    notifications,
+    markAsSeen: hookMarkAsSeen,
+    clearNotifications,
+    connection,
+    setNotifications,
+  } = useNotification();
+
+  const unseen = notifications.filter((note) => !note.seen);
+  const unseenCount = unseen.length;
+
   const markAsSeen = (index) => {
-    setNotifications((prev) =>
-      prev.map((note, i) => (i === index ? { ...note, seen: true } : note))
-    );
+    const globalIndex = notifications.findIndex((n) => n === unseen[index]);
+    if (globalIndex >= 0) {
+      hookMarkAsSeen(globalIndex);
+    }
   };
-  
-  const unseenCount = notifications.filter((note) => !note.seen).length;
-  const unseen = notifications.filter(n => !n.seen);
-  setInterval(() => {
-    if (connection.state === "Connected") {
+
+  // SignalR connection status
+  useEffect(() => {
+    if (connection?.state === "Connected") {
       setConnected(true);
     }
-  }, 1000);
-  connection.on("newNotificaion", (notifications) => {
-    console.log("All notifications:", notifications);
-    setNotifications(notifications);
-  });
-  useEffect(() => {
-    const send_request = async () => {
-      if (connection.state === "Connected") {
-        console.log("sendinngS to SignalR");
-        await connection.send("getNotifications");
-        connection.on("newNotificaion", (notifications) => {
-          console.log("All notifications:", notifications);
-          setNotifications(notifications);
-        });
-      }
-    };
-    send_request();
-  }, [connected]);
+  }, [connection?.state]);
 
+  // Setup notification listener only once
+  useEffect(() => {
+    if (!connection) return;
+
+    const handleNewNotification = (incomingNotifications) => {
+      console.log("Incoming notifications:", incomingNotifications);
+      setNotifications(incomingNotifications);
+    };
+
+    if (connection.state === "Connected") {
+      connection.send("getNotifications").catch(console.error);
+    }
+
+    connection.off("newNotificaion"); // Clear existing listener
+    connection.on("newNotificaion", handleNewNotification);
+
+    return () => {
+      connection.off("newNotificaion", handleNewNotification); // Clean up on unmount
+    };
+  }, [connection]);
+
+  // Admin profile modal
   const [formData, setFormData] = useState({
     currentEmail: "",
     newEmail: "",
@@ -85,6 +101,7 @@ const Dashboard = () => {
     newPassword: "",
     confirmPassword: "",
   });
+
   const [adminInfo, setAdminInfo] = useState({
     surname: "",
     initails: "",
@@ -108,12 +125,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     const safeData = data.data || {};
-    /*setAdminInfo({
-      surname: safeData.admin?.surname || "Admin",
-      initials: safeData.admin?.initaills || "",
-      email: safeData.admin?.email || "",
-      contact: safeData.admin?.contact || "",
-    });*/
 
     setTotalDevices(safeData.device_Info?.Total_devices || 0);
     setAllocatedDevices(safeData.device_Info?.Allocated_devices || 0);
@@ -123,6 +134,15 @@ const Dashboard = () => {
     );
     setTotalApplicants(safeData.applicants_Data?.Total_Applicants || 0);
     setMonthlyApplicants(safeData.applicants_Montly_Data || Array(12).fill(0));
+
+    if (safeData.profile?.profile) {
+      setAdminInfo({
+        surname: safeData.profile.profile.surname || "",
+        initails: safeData.profile.profile.initails || "",
+        email: safeData.profile.profile.email || "",
+        contact: safeData.profile.profile.contact || "",
+      });
+    }
   }, []);
 
   const handleEmailChange = () => {
@@ -133,7 +153,6 @@ const Dashboard = () => {
       return;
     }
 
-    console.log("Changing email:", { currentPassword, newEmail });
     alert("Email updated successfully.");
     resetModal();
   };
@@ -151,7 +170,6 @@ const Dashboard = () => {
       return;
     }
 
-    console.log("Changing password:", { currentPassword, newPassword });
     alert("Password updated successfully.");
     resetModal();
   };
@@ -165,7 +183,6 @@ const Dashboard = () => {
     });
     setSettingsMode("");
   };
-
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: "cover",
@@ -382,7 +399,7 @@ const Dashboard = () => {
         </div>
 
         <h1 className="text-white">Admin Dashboard</h1>
-        <p className="text-light">Welcome, {adminInfo.surname}!</p>
+        <p className="text-light">Welcome, <strong>{adminInfo.initails}. {adminInfo.surname}.</strong></p>
 
         <div className="row text-center mt-4">
           {[

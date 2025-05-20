@@ -27,7 +27,7 @@ const ProfileModal = ({
     try {
       const parsed = JSON.parse(storedProfile);
       const profile = parsed?.data?.profile?.profile || {}; // ✅ correct access
-      console.log("Loaded profile from localStorage:", profile);
+     
 
       setAdminInfo({
         initails: profile.initails || "",  // typo in key is preserved intentionally

@@ -36,7 +36,7 @@ const useNotification = () => {
       }
     };
 
-    connection.on("newNotification", (incoming) => {
+    connection.on("newNotificaion", (incoming) => {
       console.log("📨 New notifications received:", incoming);
 
       const existing = getStored();
@@ -77,6 +77,7 @@ const useNotification = () => {
 
   return {
     connection,
+     setNotifications,
     notify: (msg) => alert(msg),
     notifications,
     markAsSeen,
