@@ -350,7 +350,7 @@ const Dashboard = () => {
             style={{ borderRadius: "20px" }}
           />
           <div className="d-flex align-items-center gap-3 text-white">
-            <span>
+            <span className="text-white">
               {new Date().toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
