@@ -8,10 +8,10 @@ import './donorDashboard.css'
 export default function DonorDashboard(){
 
     const donationData = [
-        { id: '128456', status: 'Pending', pickup: '04/20', notes: 'Good condition' },
-        { id: '654321', status: 'Received', pickup: '04/15', notes: 'Minot scratches' },
-        { id: '112233', status: 'Not Accepted', pickup: '04/15', notes: 'No power' },
-        { id: '445566', status: 'Received', pickup: '—', notes: 'Clean and functional' },
+        { id: '128456', status: 'Pending', pickup: '04/20', notes: 'Good condition',deviceNum: 13 },
+        { id: '654321', status: 'Received', pickup: '04/15', notes: 'Minor scratches',deviceNum: 5 },
+        { id: '112233', status: 'Not Accepted', pickup: '04/15', notes: 'Power problems',deviceNum: 18 },
+        { id: '445566', status: 'Received', pickup: '—', notes: 'Clean and functional',deviceNum: 1 },
     ];
     const statusColors = {
         'Pending': 'status-pending',
@@ -21,7 +21,7 @@ export default function DonorDashboard(){
 
     return(
 
-        <div className='Dashboard-container'>
+        <div className='dashboard-container'>
 
                 <DonorNavbar/>
 
@@ -63,6 +63,7 @@ export default function DonorDashboard(){
                             <th>Status</th>
                             <th>Pick-up</th>
                             <th>Notes</th>
+                            <th>Number of devices</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,6 +77,7 @@ export default function DonorDashboard(){
                                 </td>
                                 <td>{item.pickup}</td>
                                 <td>{item.notes}</td>
+                                <td>{item.deviceNum}</td>
                             </tr>
                         ))}
                     </tbody>
