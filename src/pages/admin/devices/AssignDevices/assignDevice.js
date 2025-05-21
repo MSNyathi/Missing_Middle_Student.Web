@@ -24,15 +24,18 @@ export default function AssignDevicePage() {
       { id: 3, studentNumber: '202376543', surname: 'Ndlovu', initials: 'S.', approvalDate: '2025-04-23' },
     ];
 
-    const dummyDevices = [
-      { id: 'd1', name: 'Dell Latitude 7490', assignedTo: '202398765' },
-      { id: 'd2', name: 'HP ProBook 450 G7', assignedTo: null },
-      { id: 'd3', name: 'Lenovo ThinkPad E15', assignedTo: null },
-      { id: 'd4', name: 'Acer Aspire 5', assignedTo: null },
-    ];
+    const adminData = JSON.parse(localStorage.getItem("adminData"));
+    const realDevices = adminData?.data?.allDevicesInfo || [];
+
+    const transformedDevices = realDevices.map((device, index) => ({
+      id: device.serialNumber || `real-${index}`,
+      name: `${device.brand} ${device.model}`,
+      serialNumber: device.serialNumber || "N/A",
+      assignedTo: device.status === "Distributed" ? device.assignedTo || "UNKNOWN" : null,
+    }));
 
     setApplications(dummyApplications);
-    setDevices(dummyDevices);
+    setDevices(transformedDevices);
   }, []);
 
   const getDeviceByStudent = (studentNumber) =>
@@ -124,7 +127,7 @@ export default function AssignDevicePage() {
 
   const deviceOptions = unassignedDevices.map((d) => ({
     value: d.id,
-    label: d.name,
+    label: `${d.name} (${d.serialNumber})`,
   }));
 
   return (
@@ -235,16 +238,18 @@ export default function AssignDevicePage() {
               isSearchable
             />
             <div className="d-flex justify-content-end mt-3">
-              <button className="btn btn-secondary me-2" onClick={() => setShowModal(false)}>
+              <button className="btn
+
+              btn-secondary me-2" onClick={() => setShowModal(false)}>
                 Cancel
-              </button>
-              <button className="btn btn-primary" onClick={handleAssignDevice}>
+                </button>
+                <button className="btn btn-primary" onClick={handleAssignDevice}>
                 Assign
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+                </button>
+                </div>
+                </div>
+                </div>
+                )}
+                </div>
+                );
+                }
