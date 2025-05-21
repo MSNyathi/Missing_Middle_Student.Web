@@ -33,7 +33,7 @@ function App() {
       </nav>
 
       {/* Main Content */}
-      <div className="text-center pt-5 flex-grow-1 d-flex align-items-start justify-content-center" style={{ paddingTop: '5vh' }}>
+      <div className="text-center pt-5 flex-grow-1 d-flex align-items-start justify-content-center" style={{ paddingTop: '8vh' }}>
 
         <div id="mydiv">
           <h2 id="myh1">Empowering Students Through Technology</h2>
@@ -46,7 +46,7 @@ function App() {
           <p id="p1">
             Donate your unused laptops to help bridge the digital divide and empower future leaders.
           </p>
-          <Link to="/login" id="mylink">
+          <Link to="/student/login" id="mylink">
             <button id="btn" className="btn btn-primary mt-3">Get Started</button>
           </Link>
         </div>

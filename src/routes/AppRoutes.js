@@ -28,6 +28,7 @@ import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
 import TechnicianProfile from '../pages/admin/register/viewTechnicians'
+import StudentLogin from '../pages/student/login/studentLogin';
 
 // import other pages here as needed
 
@@ -43,6 +44,7 @@ const AppRoutes = () => {
       <Route path="/student/apply" element={<ApplyLaptop />} />
       <Route path="/student/track" element={<TrackApplication />} />
       <Route path="/student/help" element={<HelpPageLaptops />} />
+      <Route path="/student/login" element={<StudentLogin />} />
 
 
 
@@ -50,7 +52,7 @@ const AppRoutes = () => {
   
 
 
-      <Route path="/login" element={<Login />} />
+      
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/register" element={<RegisterForm />} />
