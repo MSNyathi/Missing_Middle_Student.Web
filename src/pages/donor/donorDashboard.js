@@ -2,6 +2,7 @@ import React from 'react';
 import DonorNavbar from './donorNavbar';
 import { Import } from 'lucide-react';
 import './donorDashboard.css'
+import { color } from 'framer-motion';
 
 
 
@@ -27,27 +28,27 @@ export default function DonorDashboard(){
 
             <main className='main-content'>
                 
-                <div className='main-header'>DONATOR DASHBOARD</div>
+                <div className='main-header' style={{}}><b>DONATOR DASHBOARD</b></div>
                 <div className='cards'>                    
-                    <div className='custom-card'>
+                    <div className='custom-card' style={ {backgroundColor:'#3b82f6'}}>
                         <div className='card-content'>
                             <p>Laptops Donated</p>
                             <p className='count'>12</p>
                         </div>                        
                     </div>
-                    <div className='custom-card'>
+                    <div className='custom-card' style={ {backgroundColor:'yellow'}}>
                         <div className='card-content'>
                             <p>Pending Pickup</p>
                             <p className='count'>8</p>
                         </div>                        
                     </div>
-                    <div className='custom-card'>
+                    <div className='custom-card' style={ {backgroundColor:'lime'}}>
                         <div className='card-content'>
                             <p>Received Laptops</p>
                             <p className='count'>3</p>
                         </div>                        
                     </div>
-                    <div className='custom-card'>
+                    <div className='custom-card' style={ {backgroundColor:'red'}}>
                         <div className='card-content'>
                             <p>Not Accepted</p>
                             <p className='count'>1</p>

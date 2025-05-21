@@ -11,10 +11,7 @@ const DonorNavbar = () => {
           <Link to="/donor/dashboard" className="nav-link text-white">🏠 Home</Link>
         </li>
         <li className="nav-item">
-          <Link to="/donor/donate" className="nav-link text-white">📄 Donation Request</Link>
-        </li>
-        <li className="nav-item">
-          <Link to="/donor/instructions" className="nav-link text-white">📄 Instructions</Link>
+          <Link to="/donor/request" className="nav-link text-white">📄 Donation Request</Link>
         </li>        
         <li className="nav-item">
           <Link to="/" className="nav-link text-white">🚪 Logout</Link>

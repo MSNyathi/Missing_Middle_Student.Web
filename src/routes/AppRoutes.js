@@ -18,10 +18,9 @@ import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot pass
 import Students from '../pages/admin/students/students';
 import DonorDashboard from '../pages/donor/donorDashboard';
 import DonorLogin from '../pages/donor/donorLogin';
+import DonationRequest from '../pages/donor/donationRequest';
 import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
 import TechnicianProfile from '../pages/admin/register/viewTechnicians';
-
-// import other pages here as needed
 
 
 const AppRoutes = () => {
@@ -46,6 +45,7 @@ const AppRoutes = () => {
       <Route path="/admin/technicians" element={<TechnicianProfile />} />
       <Route path='/donor/dashboard' element={<DonorDashboard/>}/>
       <Route path='/donorLogin' element={<DonorLogin/>}/>
+      <Route path='/donor/request' element={<DonationRequest/>}/>
 
       {/* Add more routes here */}
     </Routes>
