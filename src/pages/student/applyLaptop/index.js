@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { FaArrowLeft, FaSignOutAlt, FaSun, FaMoon } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import tutLogo from "../../../assets/tut.png";
-import backgroundImage from "../../../assets/background2.jpeg";
 import "./index.css";
 
 const ApplyLaptop = () => {
@@ -53,13 +52,11 @@ const ApplyLaptop = () => {
 
   return (
     <div
-      className="position-relative d-flex flex-column justify-content-center align-items-center vh-100 p-3"
+      className="position-relative d-flex flex-column justify-content-center align-items-center min-vh-100 p-3"
       style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        transition: "background 0.3s ease-in-out",
+        backgroundColor: darkMode ? "#1e1e1e" : "#f2f4f8", // Clean light/dark contrast
+        color: darkMode ? "#f1f1f1" : "#333",
+        transition: "background-color 0.3s ease-in-out, color 0.3s ease-in-out",
       }}
     >
       {/* TUT Logo */}
@@ -111,7 +108,11 @@ const ApplyLaptop = () => {
           style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
         >
           <div className="modal-dialog modal-dialog-centered">
-            <div className={`modal-content ${darkMode ? "glass-card-dark" : "glass-card-light"}`}>
+            <div
+              className={`modal-content ${
+                darkMode ? "glass-card-dark" : "glass-card-light"
+              }`}
+            >
               <div className="modal-header">
                 <h5 className="modal-title">Confirm Logout</h5>
                 <button
@@ -124,10 +125,16 @@ const ApplyLaptop = () => {
                 <p>Are you sure you want to logout?</p>
               </div>
               <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowModal(false)}
+                >
                   Cancel
                 </button>
-                <button className="btn btn-danger" onClick={handleConfirmLogout}>
+                <button
+                  className="btn btn-danger"
+                  onClick={handleConfirmLogout}
+                >
                   Yes, Logout
                 </button>
               </div>
@@ -138,7 +145,9 @@ const ApplyLaptop = () => {
 
       {/* Form Card */}
       <div
-        className={`glass-card p-5 rounded shadow ${darkMode ? "glass-card-dark" : "glass-card-light"}`}
+        className={`glass-card p-5 rounded shadow ${
+          darkMode ? "glass-card-dark" : "glass-card-light"
+        }`}
         style={{ width: "100%", maxWidth: "600px" }}
       >
         <h2 className="text-center mb-4">APPLY FOR LAPTOP</h2>
@@ -169,21 +178,29 @@ const ApplyLaptop = () => {
               placeholder: "student@example.tut.ac.za",
               readOnly: true,
             },
-          ].map(({ label, name, type = "text", readOnly = false, placeholder = "" }) => (
-            <div className="mb-3" key={name}>
-              <label className="form-label">{label}:</label>
-              <input
-                type={type}
-                className="form-control"
-                name={name}
-                value={formData[name]}
-                onChange={handleChange}
-                required={!readOnly}
-                readOnly={readOnly}
-                placeholder={placeholder}
-              />
-            </div>
-          ))}
+          ].map(
+            ({
+              label,
+              name,
+              type = "text",
+              readOnly = false,
+              placeholder = "",
+            }) => (
+              <div className="mb-3" key={name}>
+                <label className="form-label">{label}:</label>
+                <input
+                  type={type}
+                  className="form-control"
+                  name={name}
+                  value={formData[name]}
+                  onChange={handleChange}
+                  required={!readOnly}
+                  readOnly={readOnly}
+                  placeholder={placeholder}
+                />
+              </div>
+            )
+          )}
 
           <div className="mb-3">
             <label className="form-label">Upload Proof of Income:</label>
@@ -231,7 +248,9 @@ const ApplyLaptop = () => {
 
           {formData.hasRecommendation === "yes" && (
             <div className="mb-3">
-              <label className="form-label">Upload Recommendation Letter:</label>
+              <label className="form-label">
+                Upload Recommendation Letter:
+              </label>
               <input
                 type="file"
                 className="form-control"
@@ -243,7 +262,11 @@ const ApplyLaptop = () => {
           )}
 
           <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-secondary" onClick={handleCancel}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={handleCancel}
+            >
               CANCEL
             </button>
             <button type="submit" className="btn btn-primary">

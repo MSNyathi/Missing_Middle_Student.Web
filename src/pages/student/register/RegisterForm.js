@@ -93,33 +93,6 @@ function RegisterForm() {
                     />
                     {errors.studentNumber && <span>{errors.studentNumber}</span>}
                 </div>
-                <div>
-                    <label htmlFor="Surname">Surname:</label>
-                    <input type="text" 
-                           name="surname"
-                           value={formData.surname}
-                           onChange={handleChange} 
-                    />
-                    {errors.surname && <span>{errors.surname}</span>}
-                </div>
-                <div>
-                    <label htmlFor="Initials">Initials:</label>
-                    <input type="text" 
-                           name="initials"
-                           value={formData.initials}
-                           onChange={handleChange} 
-                    />
-                    {errors.initials && <span>{errors.initials}</span>}
-                </div>
-                <div>
-                    <label htmlFor="Email">Email:</label>
-                    <input type="email" 
-                           name="email"
-                           value={formData.email}
-                           onChange={handleChange} 
-                    />
-                    {errors.email && <span>{errors.email}</span>}
-                </div>
 
                 <div>
                     <label htmlFor="Password">Password:</label>

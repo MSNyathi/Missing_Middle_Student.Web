@@ -86,32 +86,29 @@ const TrackApplication = () => {
   >
     {/* Navbar */}
     <nav className={`navbar navbar-expand-lg ${darkMode ? 'glass-navbar-dark navbar-dark' : 'glass-navbar-light navbar-light'} w-100 shadow`} style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
+  <div className="container-fluid px-4 d-flex justify-content-between align-items-center">
+    {/* Logo */}
+    <img src={tut25} alt="TUT Logo" style={{ height: '40px', marginRight: '10px' }} />
 
-      <div className="container-fluid px-4">
-        <img src={tut25} alt="TUT Logo" style={{ height: '40px', marginRight: '10px' }} />
-        <span className="navbar-brand mb-0 h4">Track Application</span>
-      </div>
-    </nav>
-
-    {/* Theme Toggle */}
-    <div className="d-flex justify-content-end w-100 mb-3 pe-5 align-items-center gap-2">
-      <div className="form-check form-switch d-flex align-items-center">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          checked={darkMode}
-          onChange={() => setDarkMode(!darkMode)}
-          id="themeSwitch"
-        />
-        <label htmlFor="themeSwitch" className="ms-2" style={{ cursor: 'pointer' }}>
-          {darkMode ? (
-            <FaMoon size={20} className="text-white" title="Switch to Light Mode" />
-          ) : (
-            <FaSun size={20} className="text-warning" title="Switch to Dark Mode" />
-          )}
-        </label>
-      </div>
+    {/* Theme Toggle in Navbar */}
+    <div className="form-check form-switch d-flex align-items-center ms-auto">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        checked={darkMode}
+        onChange={() => setDarkMode(!darkMode)}
+        id="themeSwitch"
+      />
+      <label htmlFor="themeSwitch" className="ms-2 mb-0" style={{ cursor: 'pointer' }}>
+        {darkMode ? (
+          <FaMoon size={20} className="text-white" title="Switch to Light Mode" />
+        ) : (
+          <FaSun size={20} className="text-warning" title="Switch to Dark Mode" />
+        )}
+      </label>
     </div>
+  </div>
+</nav>
 
     {/* Back to Dashboard Button */}
     <div className="position-fixed bottom-0 start-0 p-3">
