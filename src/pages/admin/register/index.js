@@ -8,7 +8,8 @@ import backgroundImage from "../../../assets/backgroundAdmin.jpeg";
 import axios from "axios";
 import Swal from "sweetalert2";
 import ProfileModal from "../../../commponents/profileModal";
-
+import useNotification from "../../../commponents/hooks/notificationHook";
+import NotificationPanel from "../../../commponents/notificationPanel";
 const RegisterTechnician = () => {
   const [formData, setFormData] = useState({
     surname: "",
@@ -26,6 +27,25 @@ const RegisterTechnician = () => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [settingsMode, setSettingsMode] = useState("");
+   const [showNotifications, setShowNotifications] = useState(false);
+
+  const {
+    notifications,
+    markAsSeen: hookMarkAsSeen,
+    clearNotifications,
+    connection,
+    setNotifications,
+  } = useNotification();
+
+  const unseen = notifications.filter((note) => !note.seen);
+  const unseenCount = unseen.length;
+
+  const markAsSeen = (index) => {
+    const globalIndex = notifications.findIndex((n) => n === unseen[index]);
+    if (globalIndex >= 0) {
+      hookMarkAsSeen(globalIndex);
+    }
+  };
 
   const [adminInfo, setAdminInfo] = useState({
     surname: "",
@@ -139,7 +159,9 @@ const RegisterTechnician = () => {
   };
 
   const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundColor: "rgb(255, 255, 255)",
+    backdropFilter: "blur(8px)",
+    //backgroundImage: `url(${backgroundImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -158,17 +180,38 @@ const RegisterTechnician = () => {
         style={backgroundStyle}
       >
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h2 className="mb-0 text-white text-uppercase" style={{
-              fontWeight: "bold",
-              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-              backgroundColor: "rgba(0, 0, 0, 0.3)",
-              padding: "6px 12px",
-              borderRadius: "8px",
-            }}>
+          <h2 className="mb-0 text-black text-uppercase text-bold text-center" style={{ color: "black" }}>
             Add Technician
           </h2>
           <div className="d-flex align-items-center gap-3">
-            <span className="text-white">{currentTime}</span>
+            <span className="text-black" style={{ color: "black", fontWeight: 500, paddingTop: "20px" }}>{currentTime}</span>
+            <div className="position-relative d-inline-block">
+            <i
+              className="bi bi-bell fs-5"
+              style={{ cursor: "pointer", color: "black" }}
+              onClick={() => setShowNotifications((prev) => !prev)}
+            ></i>
+            {unseenCount > 0 && (
+              <span className="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-danger">
+                {unseenCount}
+              </span>
+            )}
+
+            <AnimatePresence>
+              {showNotifications && (
+                <NotificationPanel
+                  notifications={notifications}
+                  onClose={() => setShowNotifications(false)}
+                  markAsSeen={(idx) => {
+                    const globalIndex = notifications.findIndex(
+                      (n) => n === unseen[idx]
+                    );
+                    markAsSeen(globalIndex);
+                  }}
+                />
+              )}
+            </AnimatePresence>
+          </div>
             <Image
               src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
               roundedCircle
@@ -196,16 +239,16 @@ const RegisterTechnician = () => {
                 color: "white",
               }}>
               <div className="card-body p-4">
-                <h3 className="card-title text-center mb-4">
+                <h3 className="card-title text-center mb-4" style={{ color: "blue" }}>
                   🛠️ Register Technician
                 </h3>
-                <form onSubmit={handleSubmit} className="row g-3">
-                  {[{ label: "Surname", name: "surname" },
-                    { label: "Initails", name: "initails" }, // <-- changed here
-                    { label: "Email", name: "email", type: "email" },
-                    { label: "Contact", name: "contact" },
-                    { label: "Password", name: "password", type: "password" },
-                  ].map(({ label, name, type = "text" }, idx) => (
+                <form onSubmit={handleSubmit} className="row g-3" style={{ color: "black" }}>
+                  {[{ label: "Surname", name: "surname", placeholder: "Enter your Surname" },
+                    { label: "Initails", name: "initails", placeholder: "Enter your Initails" },
+                    { label: "Email", name: "email", type: "email", placeholder: "Enter your Email" },
+                    { label: "Contact", name: "contact", placeholder: "Enter your Contact" },
+                    { label: "Password", name: "password", type: "password", placeholder: "Enter your Password" },
+                  ].map(({ label, name, type = "text", placeholder }, idx) => (
                     <div className="col-md-6" key={idx}>
                       <label className="form-label">{label}</label>
                       <input
@@ -215,6 +258,7 @@ const RegisterTechnician = () => {
                         onChange={handleChange}
                         className="form-control"
                         required
+                        placeholder={placeholder}
                       />
                     </div>
                   ))}

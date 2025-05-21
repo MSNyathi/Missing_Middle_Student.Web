@@ -1,12 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import AdminNavbar from "../../../../commponents/adminNavbar"
-import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
-import "./index.css"
-import backgroundImage from "../../../../assets/backgroundAdmin.jpeg"
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import AdminNavbar from "../../../../commponents/adminNavbar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./index.css";
+import backgroundImage from "../../../../assets/backgroundAdmin.jpeg";
+import eLogo  from '../../../../assets/e.png'
+import useNotification from "../../../../commponents/hooks/notificationHook";
+import NotificationPanel from "../../../../commponents/notificationPanel";
 
 // Mock data for technicians
 const mockTechnicians = [
@@ -24,7 +27,11 @@ const mockTechnicians = [
     casesResolved: 127,
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
     status: "Active",
-    skills: ["Laptop Repair", "Network Troubleshooting", "Software Installation"],
+    skills: [
+      "Laptop Repair",
+      "Network Troubleshooting",
+      "Software Installation",
+    ],
     availability: "Weekdays 8AM-5PM",
     bio: "Experienced hardware technician with over 5 years in educational IT support.",
   },
@@ -100,42 +107,66 @@ const mockTechnicians = [
     availability: "Weekdays 8AM-5PM",
     bio: "Cybersecurity expert focused on protecting campus data and infrastructure.",
   },
-]
+];
 
 const ViewTechnicians = () => {
-  const [technicians, setTechnicians] = useState(mockTechnicians)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [filterCampus, setFilterCampus] = useState("all")
-  const [filterSpecialization, setFilterSpecialization] = useState("all")
-  const [selectedTechnician, setSelectedTechnician] = useState(null)
-  const [showProfileModal, setShowProfileModal] = useState(false)
+  const [technicians, setTechnicians] = useState(mockTechnicians);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterCampus, setFilterCampus] = useState("all");
+  const [filterSpecialization, setFilterSpecialization] = useState("all");
+  const [selectedTechnician, setSelectedTechnician] = useState(null);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  const {
+    notifications,
+    markAsSeen: hookMarkAsSeen,
+    clearNotifications,
+    connection,
+    setNotifications,
+  } = useNotification();
+
+  const unseen = notifications.filter((note) => !note.seen);
+  const unseenCount = unseen.length;
+
+  const markAsSeen = (index) => {
+    const globalIndex = notifications.findIndex((n) => n === unseen[index]);
+    if (globalIndex >= 0) {
+      hookMarkAsSeen(globalIndex);
+    }
+  };
 
   // Get unique campuses and specializations for filters
-  const campuses = [...new Set(mockTechnicians.map((tech) => tech.campus))]
-  const specializations = [...new Set(mockTechnicians.map((tech) => tech.specialization))]
+  const campuses = [...new Set(mockTechnicians.map((tech) => tech.campus))];
+  const specializations = [
+    ...new Set(mockTechnicians.map((tech) => tech.specialization)),
+  ];
 
   // Filter technicians
   const filteredTechnicians = technicians.filter((tech) => {
     const matchesSearch =
       tech.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tech.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tech.employeeId.toLowerCase().includes(searchTerm.toLowerCase())
+      tech.employeeId.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesCampus = filterCampus === "all" || tech.campus === filterCampus
-    const matchesSpecialization = filterSpecialization === "all" || tech.specialization === filterSpecialization
+    const matchesCampus =
+      filterCampus === "all" || tech.campus === filterCampus;
+    const matchesSpecialization =
+      filterSpecialization === "all" ||
+      tech.specialization === filterSpecialization;
 
-    return matchesSearch && matchesCampus && matchesSpecialization
-  })
+    return matchesSearch && matchesCampus && matchesSpecialization;
+  });
 
   const handleViewProfile = (technician) => {
-    setSelectedTechnician(technician)
-    setShowProfileModal(true)
-  }
+    setSelectedTechnician(technician);
+    setShowProfileModal(true);
+  };
 
   const handleDeleteTechnician = (id) => {
     // In a real app, you would call an API to delete the technician
-    setTechnicians(technicians.filter((tech) => tech.id !== id))
-    setShowProfileModal(false)
+    setTechnicians(technicians.filter((tech) => tech.id !== id));
+    setShowProfileModal(false);
 
     toast.success("Technician removed successfully", {
       position: "top-right",
@@ -144,21 +175,82 @@ const ViewTechnicians = () => {
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
-    })
-  }
+    });
+  };
   const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundColor: "rgb(255, 255, 255)",
+    backdropFilter: "blur(8px)",
+    //backgroundImage: `url(${backgroundImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     minHeight: "100vh",
     color: "white",
-  }
+  };
 
   return (
     <div className="d-flex">
       <AdminNavbar />
       <div className="technician-container flex-grow-1" style={backgroundStyle}>
+        <div className="d-flex justify-content-between align-items-center mb-3" style={{ paddingTop: "20px" }}>
+          <div className="d-flex align-items-center">
+            <img
+              src={eLogo}
+              alt="eLogo"
+              style={{ width: "40px", height: "40px", objectFit: "contain" }}
+            />
+          </div>
+          <div className="d-flex align-items-center gap-3">
+            <span style={{ color: "black", fontWeight: 500, paddingTop: "20px" }}>
+              {new Date().toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </span>
+
+            <div className="position-relative d-inline-block">
+              <i
+                className="bi bi-bell fs-5"
+                style={{ cursor: "pointer", color: "black" }}
+                onClick={() => setShowNotifications((prev) => !prev)}
+              ></i>
+
+              {unseenCount > 0 && (
+                <span className="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-danger">
+                  {unseenCount}
+                </span>
+              )}
+
+              <AnimatePresence>
+                {showNotifications && (
+                  <NotificationPanel
+                    notifications={notifications}
+                    onClose={() => setShowNotifications(false)}
+                    markAsSeen={(idx) => {
+                      const globalIndex = notifications.findIndex(
+                        (n) => n === unseen[idx]
+                      );
+                      markAsSeen(globalIndex);
+                    }}
+                  />
+                )}
+              </AnimatePresence>
+            </div>
+
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+              alt="Profile"
+              style={{
+                width: "35px",
+                height: "35px",
+                borderRadius: "50%",
+                cursor: "pointer",
+              }}
+              onClick={() => setShowProfileModal(true)}
+            />
+          </div>
+        </div>
+
         <ToastContainer
           position="top-right"
           autoClose={3000}
@@ -187,20 +279,38 @@ const ViewTechnicians = () => {
             >
               <div className="header-content">
                 <div className="header-title">
-                  <h2>Technician Profiles</h2>
+                  <h2 style={{ color: "black" }}>Technician Profiles</h2>
                 </div>
-                <div className="header-stats">
+                <div className="header-stats" style={{ color: "black" }}>
                   <div className="stat-item">
-                    <div className="stat-value">{technicians.length}</div>
-                    <div className="stat-label">Total</div>
+                    <div className="stat-value" style={{ color: "black" }}>
+                      {technicians.length}
+                    </div>
+                    <div className="stat-label" style={{ color: "black" }}>
+                      Total
+                    </div>
                   </div>
                   <div className="stat-item">
-                    <div className="stat-value">{technicians.filter((tech) => tech.status === "Active").length}</div>
-                    <div className="stat-label">Active</div>
+                    <div className="stat-value" style={{ color: "green" }}>
+                      {
+                        technicians.filter((tech) => tech.status === "Active")
+                          .length
+                      }
+                    </div>
+                    <div className="stat-label" style={{ color: "green" }}>
+                      Active
+                    </div>
                   </div>
                   <div className="stat-item">
-                    <div className="stat-value">{technicians.reduce((sum, tech) => sum + tech.casesResolved, 0)}</div>
-                    <div className="stat-label">Cases</div>
+                    <div className="stat-value" style={{ color: "blue" }}>
+                      {technicians.reduce(
+                        (sum, tech) => sum + tech.casesResolved,
+                        0
+                      )}
+                    </div>
+                    <div className="stat-label" style={{ color: "blue" }}>
+                      Cases
+                    </div>
                   </div>
                 </div>
               </div>
@@ -246,9 +356,9 @@ const ViewTechnicians = () => {
                 <button
                   className="reset-button btn-glass"
                   onClick={() => {
-                    setSearchTerm("")
-                    setFilterCampus("all")
-                    setFilterSpecialization("all")
+                    setSearchTerm("");
+                    setFilterCampus("all");
+                    setFilterSpecialization("all");
                   }}
                 >
                   Reset
@@ -272,26 +382,41 @@ const ViewTechnicians = () => {
                     }}
                   >
                     <div className="technician-status">
-                      <span className={`status-dot ${technician.status === "Active" ? "active" : "inactive"}`}></span>
+                      <span
+                        className={`status-dot ${
+                          technician.status === "Active" ? "active" : "inactive"
+                        }`}
+                      ></span>
                       {technician.status}
                     </div>
                     <div className="technician-info">
                       <h3 className="technician-name">{technician.name}</h3>
-                      <p className="technician-specialization">{technician.specialization}</p>
-                      <p className="technician-campus">{technician.campus} Campus</p>
+                      <p className="technician-specialization">
+                        {technician.specialization}
+                      </p>
+                      <p className="technician-campus">
+                        {technician.campus} Campus
+                      </p>
 
                       <div className="technician-stats">
                         <div className="tech-stat glass-stat">
-                          <div className="tech-stat-value">{technician.rating}</div>
+                          <div className="tech-stat-value">
+                            {technician.rating}
+                          </div>
                           <div className="tech-stat-label">Rating</div>
                         </div>
                         <div className="tech-stat glass-stat">
-                          <div className="tech-stat-value">{technician.casesResolved}</div>
+                          <div className="tech-stat-value">
+                            {technician.casesResolved}
+                          </div>
                           <div className="tech-stat-label">Cases</div>
                         </div>
                       </div>
 
-                      <button className="view-profile-btn btn-glass" onClick={() => handleViewProfile(technician)}>
+                      <button
+                        className="view-profile-btn btn-glass"
+                        onClick={() => handleViewProfile(technician)}
+                      >
                         View Profile
                       </button>
                     </div>
@@ -318,7 +443,10 @@ const ViewTechnicians = () => {
         {/* Technician Profile Modal */}
         <AnimatePresence>
           {showProfileModal && selectedTechnician && (
-            <div className="modal-overlay" onClick={() => setShowProfileModal(false)}>
+            <div
+              className="modal-overlay"
+              onClick={() => setShowProfileModal(false)}
+            >
               <motion.div
                 className="technician-profile-modal glass-effect"
                 initial={{ opacity: 0, scale: 0.8, y: 50 }}
@@ -329,7 +457,10 @@ const ViewTechnicians = () => {
               >
                 <div className="modal-header glass-header">
                   <h3>Technician Profile</h3>
-                  <button className="close-btn" onClick={() => setShowProfileModal(false)}>
+                  <button
+                    className="close-btn"
+                    onClick={() => setShowProfileModal(false)}
+                  >
                     ×
                   </button>
                 </div>
@@ -342,10 +473,18 @@ const ViewTechnicians = () => {
                         alt={selectedTechnician.name}
                         initial={{ scale: 0.8 }}
                         animate={{ scale: 1 }}
-                        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                        transition={{
+                          delay: 0.2,
+                          type: "spring",
+                          stiffness: 200,
+                        }}
                       />
                       <span
-                        className={`status-dot ${selectedTechnician.status === "Active" ? "active" : "inactive"}`}
+                        className={`status-dot ${
+                          selectedTechnician.status === "Active"
+                            ? "active"
+                            : "inactive"
+                        }`}
                       ></span>
                     </div>
                     <div className="profile-title">
@@ -377,15 +516,25 @@ const ViewTechnicians = () => {
 
                   <div className="profile-stats">
                     <div className="stat-box glass-stat">
-                      <span className="stat-value text-black">{selectedTechnician.rating}</span>
+                      <span className="stat-value text-black">
+                        {selectedTechnician.rating}
+                      </span>
                       <span className="stat-label text-black">Rating</span>
                     </div>
                     <div className="stat-box glass-stat">
-                      <span className="stat-value text-black">{selectedTechnician.casesResolved}</span>
-                      <span className="stat-label text-black">Cases Resolved</span>
+                      <span className="stat-value text-black">
+                        {selectedTechnician.casesResolved}
+                      </span>
+                      <span className="stat-label text-black">
+                        Cases Resolved
+                      </span>
                     </div>
                     <div className="stat-box glass-stat">
-                      <span className="stat-value text-black">{new Date(selectedTechnician.joinDate).toLocaleDateString()}</span>
+                      <span className="stat-value text-black">
+                        {new Date(
+                          selectedTechnician.joinDate
+                        ).toLocaleDateString()}
+                      </span>
                       <span className="stat-label text-black">Join Date</span>
                     </div>
                   </div>
@@ -395,11 +544,15 @@ const ViewTechnicians = () => {
                       <h4>Contact Information</h4>
                       <div className="detail-row">
                         <div className="detail-label">Email:</div>
-                        <div className="detail-value">{selectedTechnician.email}</div>
+                        <div className="detail-value">
+                          {selectedTechnician.email}
+                        </div>
                       </div>
                       <div className="detail-row">
                         <div className="detail-label">Phone:</div>
-                        <div className="detail-value">{selectedTechnician.phone}</div>
+                        <div className="detail-value">
+                          {selectedTechnician.phone}
+                        </div>
                       </div>
                     </div>
 
@@ -407,15 +560,21 @@ const ViewTechnicians = () => {
                       <h4>Work Information</h4>
                       <div className="detail-row">
                         <div className="detail-label">Department:</div>
-                        <div className="detail-value">{selectedTechnician.department}</div>
+                        <div className="detail-value">
+                          {selectedTechnician.department}
+                        </div>
                       </div>
                       <div className="detail-row">
                         <div className="detail-label">Campus:</div>
-                        <div className="detail-value">{selectedTechnician.campus}</div>
+                        <div className="detail-value">
+                          {selectedTechnician.campus}
+                        </div>
                       </div>
                       <div className="detail-row">
                         <div className="detail-label">Availability:</div>
-                        <div className="detail-value">{selectedTechnician.availability}</div>
+                        <div className="detail-value">
+                          {selectedTechnician.availability}
+                        </div>
                       </div>
                     </div>
 
@@ -444,12 +603,17 @@ const ViewTechnicians = () => {
                 </div>
 
                 <div className="modal-footer glass-footer">
-                  <button className="btn-secondary btn-glass" onClick={() => setShowProfileModal(false)}>
+                  <button
+                    className="btn-secondary btn-glass"
+                    onClick={() => setShowProfileModal(false)}
+                  >
                     Close
                   </button>
                   <button
                     className="btn-danger btn-glass"
-                    onClick={() => handleDeleteTechnician(selectedTechnician.id)}
+                    onClick={() =>
+                      handleDeleteTechnician(selectedTechnician.id)
+                    }
                   >
                     Remove Technician
                   </button>
@@ -460,7 +624,7 @@ const ViewTechnicians = () => {
         </AnimatePresence>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ViewTechnicians
+export default ViewTechnicians;
