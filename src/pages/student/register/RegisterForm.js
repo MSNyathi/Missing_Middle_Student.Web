@@ -120,15 +120,7 @@ function RegisterForm() {
                     />
                     {errors.email && <span>{errors.email}</span>}
                 </div>
-                <div>
-                    <label htmlFor="Phone">Phone:</label>
-                    <input type="text" 
-                           name="phone"
-                           value={formData.phone}
-                           onChange={handleChange}
-                    />
-                    {errors.phone && <span>{errors.phone}</span>}
-                </div>
+
                 <div>
                     <label htmlFor="Password">Password:</label>
                     <input type="password" 

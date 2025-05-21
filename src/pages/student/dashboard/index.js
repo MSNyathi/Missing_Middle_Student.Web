@@ -1,3 +1,4 @@
+// src/pages/student/dashboard/StudentDashboard.jsx
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -8,8 +9,10 @@ import {
   FaSun,
   FaMoon,
 } from "react-icons/fa";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
+import tut25 from "../../../assets/tut25.png";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -26,7 +29,8 @@ const StudentDashboard = () => {
 
   const handleConfirmLogout = () => {
     setShowModal(false);
-    navigate("/");
+    localStorage.removeItem("isLoggedIn");
+    navigate("/login");
   };
 
   const backgroundStyle = {
@@ -42,11 +46,20 @@ const StudentDashboard = () => {
 
   return (
     <div style={backgroundStyle}>
-      <div className="container-fluid text-white">
-        {/* Theme Toggle */}
-        <div className="d-flex justify-content-end align-items-center mb-3">
+      <nav className="navbar glass-navbar shadow-sm px-3 py-2 fixed-top d-flex justify-content-between align-items-center">
+        {/* Left: Logo */}
+        <div className="d-flex align-items-center">
+          <img
+            src={tut25}
+            alt="TUT Logo"
+            style={{ height: "45px", objectFit: "contain" }}
+          />
+        </div>
+
+        {/* Right: Theme Toggle */}
+        <div className="d-flex align-items-center">
           <FaSun className="me-2" color={darkMode ? "#bbb" : "#f39c12"} />
-          <div className="form-check form-switch">
+          <div className="form-check form-switch me-2">
             <input
               className="form-check-input"
               type="checkbox"
@@ -56,8 +69,15 @@ const StudentDashboard = () => {
               style={{ cursor: "pointer" }}
             />
           </div>
-          <FaMoon className="ms-2" color={darkMode ? "#f1c40f" : "#999"} />
+          <FaMoon className="me-2" color={darkMode ? "#f1c40f" : "#999"} />
         </div>
+      </nav>
+
+      {/* Add top padding for fixed navbar */}
+      <div
+        className="container-fluid text-white"
+        style={{ paddingTop: "90px" }}
+      >
 
         {/* Top Header */}
         <div className="text-center mb-4">
@@ -134,55 +154,60 @@ const StudentDashboard = () => {
         </div>
 
         {/* Help and Logout */}
-<div className="d-flex justify-content-between align-items-center mt-4 px-3">
-  {/* Help Dropdown */}
-  <div className="dropdown">
-    <button
-      className="btn btn-outline-info dropdown-toggle"
-      type="button"
-      id="helpDropdown"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
-      <FaInfoCircle className="me-2" />
-      Help Topics
-    </button>
-    <ul className="dropdown-menu" aria-labelledby="helpDropdown">
-      <li>
-        <Link className="dropdown-item" to="/student/help/about">
-          📌 What is this project about?
-        </Link>
-      </li>
-      <li>
-        <Link className="dropdown-item" to="/student/help/eligible">
-          📝 Who is eligible?
-        </Link>
-      </li>
-      <li>
-        <Link className="dropdown-item" to="/student/help/distribution">
-          🧮 How are laptops distributed?
-        </Link>
-      </li>
-      <li>
-        <Link className="dropdown-item" to="/student/help/warranty">
-          🛠️ Warranty or support?
-        </Link>
-      </li>
-      <li>
-        <Link className="dropdown-item" to="/student/help/contact">
-          📍 Who do I contact?
-        </Link>
-      </li>
-      <li>
-        <Link className="dropdown-item" to="/student/help/security">
-          🔐 Security & support
-        </Link>
-      </li>
-    </ul>
-  </div>
+        <div className="d-flex justify-content-between align-items-center mt-4 px-3">
+          <div className="dropdown">
+            <button
+              className="btn btn-outline-info dropdown-toggle"
+              type="button"
+              id="helpDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <FaInfoCircle className="me-2" />
+              Help Topics
+            </button>
+            <ul className="dropdown-menu" aria-labelledby="helpDropdown">
+              <li>
+                <Link className="dropdown-item" to="/student/help/about">
+                  📌 What is this project about?
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/eligible">
+                  📝 Who is eligible?
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/distribution">
+                  🧮 How are laptops distributed?
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/warranty">
+                  🛠️ Warranty or support?
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/contact">
+                  📍 Who do I contact?
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/security">
+                  🔐 Security & support
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-
-</div>
+          <button
+            className="btn btn-outline-danger d-flex align-items-center"
+            onClick={() => setShowModal(true)}
+          >
+            <FaSignOutAlt className="me-2" />
+            Logout
+          </button>
+        </div>
 
         {/* Logout Modal */}
         {showModal && (

@@ -32,4 +32,16 @@
   .glass-card-dark .fw-bold {
     color: #fff !important;
   }
-  
+  .glass-navbar-dark {
+  background: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-navbar-light {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}

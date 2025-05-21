@@ -10,10 +10,10 @@ const ApplyLaptop = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    studentNumber: "",
+    studentNumber: "219876543",
     surname: "",
-    initials: "",
-    email: "",
+    initials: "TK",
+    email: "student@example.tut.ac.za",
     hasRecommendation: "",
     recommendationFile: null,
   });
@@ -145,12 +145,31 @@ const ApplyLaptop = () => {
         <p className="text-center mb-4">Please enter the details below</p>
 
         <form onSubmit={handleNext}>
-          {[ 
-            { label: "Student Number", name: "studentNumber" },
-            { label: "Surname", name: "surname" },
-            { label: "Initials", name: "initials" },
-            { label: "Student Email", name: "email", type: "email" },
-          ].map(({ label, name, type = "text" }) => (
+          {[
+            {
+              label: "Student Number",
+              name: "studentNumber",
+              placeholder: "219876543",
+              readOnly: true,
+            },
+            {
+              label: "Surname",
+              name: "surname",
+            },
+            {
+              label: "Initials",
+              name: "initials",
+              placeholder: "TK",
+              readOnly: true,
+            },
+            {
+              label: "Student Email",
+              name: "email",
+              type: "email",
+              placeholder: "student@example.tut.ac.za",
+              readOnly: true,
+            },
+          ].map(({ label, name, type = "text", readOnly = false, placeholder = "" }) => (
             <div className="mb-3" key={name}>
               <label className="form-label">{label}:</label>
               <input
@@ -159,7 +178,9 @@ const ApplyLaptop = () => {
                 name={name}
                 value={formData[name]}
                 onChange={handleChange}
-                required
+                required={!readOnly}
+                readOnly={readOnly}
+                placeholder={placeholder}
               />
             </div>
           ))}
