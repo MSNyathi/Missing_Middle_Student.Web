@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "./adminNavbar.css";
 import eLogo from "../assets/e.png";
+import tutLogo from "../assets/tut25.png";
 
 const AdminNavbar = () => {
   const [showDeviceMenu, setShowDeviceMenu] = useState(false);
@@ -34,29 +35,36 @@ const AdminNavbar = () => {
 
   return (
     <div
-      className="d-flex flex-column vh-100 p-3 bg-dark text-white"
+      className="d-flex flex-column vh-100 p-3 bg-primary text-white"
       style={{ width: "220px" }}
     >
       <h2 className="mb-4 text-white">
-  💻{" "}
-  <span style={{ display: "inline-flex", alignItems: "baseline" }}>
-    <img
-      src={eLogo}
-      alt="e logo"
-      style={{
-        height: "36px",
-        width: "auto",
-        marginRight: "-3px", // slight overlap to remove gap
-        transform: "translateY(8px)", // align with text baseline
-        // remove marginTop
-      }}
-    />
-    <span style={{ color: "white", fontSize: "28px", fontWeight: "500" }}>
-      duConnect
-    </span>
-  </span>
-</h2>
-
+        <img
+          src={tutLogo}
+          alt="TUT logo"
+          style={{
+            height: "50px",
+            width: "auto",
+            marginTop: "8px",
+          }}
+        />
+        <span style={{ display: "inline-flex", alignItems: "baseline" }}>
+          <img
+            src={eLogo}
+            alt="e logo"
+            style={{
+              height: "36px",
+              width: "auto",
+              marginRight: "-3px", // slight overlap to remove gap
+              transform: "translateY(8px)", // align with text baseline
+              // remove marginTop
+            }}
+          />
+          <span style={{ color: "white", fontSize: "28px", fontWeight: "500" }}>
+            duConnect
+          </span>
+        </span>
+      </h2>
 
       <ul className="nav nav-pills flex-column">
         <li className="nav-item">
