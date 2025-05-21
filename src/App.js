@@ -41,10 +41,11 @@ function App() {
       <p id="p1">In today's digital age, access to technology is essential for academic success. </p>
         <p id="p1">Recognizing this need, our initiative is dedicated to providing refurbished laptops to deserving students within Tshwane University of Technology. </p>
         <p id="p1">By donating your old or unused laptops, you can help bridge the digital divide and empower the next generation of leaders.</p>
-        <Link to="/register" id="mylink">
-          <button id="btn">Get Started</button>
-        </Link>
         
+        <nav>
+      <Link to="/supervisor/login"><button id="btn">Supervisor Login</button></Link>
+      
+    </nav>
         </div>
     
     </div>

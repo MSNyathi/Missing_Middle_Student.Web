@@ -17,7 +17,9 @@ import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
 import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
-import TechnicianProfile from '../pages/admin/register/viewTechnicians'
+import TechnicianProfile from '../pages/admin/register/viewTechnicians';
+import SupervisorLogin from '../pages/supervisor/Login/SupervisorLogin';
+import SupervisorDashboard from '../pages/supervisor/Dashboard/SupervisorDashboard';
 // import other pages here as needed
 
 
@@ -41,6 +43,8 @@ const AppRoutes = () => {
       <Route path="/admin/students" element={<Students />} />
       <Route path="/technician/dashboard" element={<TechnicianDashboard />} />
       <Route path="/admin/technicians" element={<TechnicianProfile />} />
+      <Route path="/supervisor/login" element={<SupervisorLogin />} />
+      <Route path="/supervisor/dashboard" element={<SupervisorDashboard />} />
 
 
       {/* Add more routes here */}
