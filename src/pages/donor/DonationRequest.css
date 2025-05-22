@@ -1,25 +1,40 @@
-.form-container {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 0.5rem;
-  max-width: 600px;
-  margin: 2rem auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.donation-form {
+.request-container{
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: white;
 }
-
+.main-contents{
+  flex: 1;
+  padding: 2rem;
+  max-width: 100%;
+  
+}
+.main-heading{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #003366;
+  font-weight: bold;
+  font-size: 70%;
+}
+.request-form{
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  
+}
 .donation-form label {
   display: flex;
   flex-direction: column;
   font-weight: bold;
 }
-
-.donation-form input,
+.donation-form input{
+  width: 150%;
+  border: 1px solid black;
+  border-radius: 2px;
+}
 .donation-form select,
 .donation-form textarea {
   padding: 0.5rem;
@@ -27,13 +42,12 @@
   border-radius: 4px;
   margin-top: 0.25rem;
   font-size: 1rem;
+  width: 120%;
 }
-
 .donation-form input[readonly] {
   background-color: #f3f3f3;
   color: #555;
 }
-
 .donation-form button {
   background-color: #1e3a8a;
   color: white;

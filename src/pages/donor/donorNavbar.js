@@ -8,13 +8,16 @@ const DonorNavbar = () => {
       <h2 className="mb-4">📘 eduConnect</h2>
       <ul className="nav nav-pills flex-column">
         <li className="nav-item">
-          <Link to="/donor/dashboard" className="nav-link text-white">🏠 Home</Link>
+          <Link to="/donor/dashboard" className="nav-link text-white">Home</Link>
         </li>
         <li className="nav-item">
-          <Link to="/donor/request" className="nav-link text-white">📄 Donation Request</Link>
-        </li>        
+          <Link to="/donor/request" className="nav-link text-white"> Donation Request</Link>
+        </li>     
         <li className="nav-item">
-          <Link to="/" className="nav-link text-white">🚪 Logout</Link>
+          <Link to="/donor/history" className="nav-link text-white"> Donation History</Link>
+        </li>    
+        <li className="nav-item">
+          <Link to="/" className="nav-link text-white"> Logout</Link>
         </li>
       </ul>
     </div>

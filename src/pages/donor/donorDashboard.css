@@ -12,11 +12,6 @@
   
 }
 
-/* Main Content */
-.main-content {
-  flex: 1;
-  padding: 2rem;
-}
 
 .main-header {
   display: flex;
@@ -39,13 +34,13 @@
 }
 
 .custom-card {
-  background-color: white;
+  
   border-radius: 0.5rem;
   padding: 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
   text-align: center;
   font-size: 130%;
-  filter: saturate(75%);
+  
 }
 
 .card-content .icon {

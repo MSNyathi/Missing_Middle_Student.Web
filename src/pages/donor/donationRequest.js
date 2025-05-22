@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import DonorNavbar from "./donorNavbar";
-import {v4 as uuidv4} from 'uuid';
 import './DonationRequest.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function DonationRequest(){
 
@@ -30,32 +31,26 @@ export default function DonationRequest(){
     const handleSubmit = (e) =>{
         e.preventDefault();
         console.log('Submitted:', formData);
-        alert(`Request submitted!\nDonation ID: ${formData.donationID}`);
+        
+        const confirmed = window.confirm("Are you sure?");
+        if(!confirmed)return;
 
         setFormData({
-            name: '',
-            email: '',
-            serial: generateID(),
-            condition: '',
+            numDev: '',
             pickupDate: '',
             notes: '',
         });
     }
 
     return(
-
         <div className="request-container">
-            <DonorNavbar/>
-            <h1>DONATION REQUEST</h1>
+        <DonorNavbar/>
+
+        <main className="main-contents">
+            <div className="main-heading"><h1><b>DONATION REQUEST</b></h1></div>   
+            
             <div className="request-form">
                 <form onSubmit={handleSubmit} className="donation-form">
-                    <label htmlFor="donationID">Donation ID: </label>
-                    <input 
-                        type="text" 
-                        name="donationID"
-                        value={formData.donationID} 
-                        readOnly
-                    />
                     <label htmlFor="NumberOfDevices">Number of Devices: </label>
                     <input 
                         type="number" 
@@ -63,13 +58,14 @@ export default function DonationRequest(){
                         onChange={handleChange}
                     />
                     <label htmlFor="pickUpDate">Pickup Date:</label>
-                    <label htmlFor="notes">Notes</label>
+                    
                     <input 
                         type="date"
                         name="pickUpDate"
                         value={formData.pickUpDate}
                         onChange={handleChange}
                     />
+                    <label htmlFor="notes">Notes</label>
                     <textarea
                         name="notes"
                         value={formData.notes}
@@ -78,10 +74,10 @@ export default function DonationRequest(){
                         onChange={handleChange}
                         required
                     />
-
+                    <button type="submit">Submit Request</button>
                 </form>
             </div>
-        </div>
-           
+        </main>
+       </div>    
     );
 } 
