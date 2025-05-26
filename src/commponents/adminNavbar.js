@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import "./adminNavbar.css";
+import {
+  FaHome, FaLaptop, FaUserPlus, FaUsers, FaSignOutAlt, FaClipboardList
+} from "react-icons/fa";
 import eLogo from "../assets/e.png";
 import tutLogo from "../assets/tut25.png";
+import "./adminNavbar.css"; // Make sure this file is updated too
 
 const AdminNavbar = () => {
   const [showDeviceMenu, setShowDeviceMenu] = useState(false);
@@ -24,122 +27,72 @@ const AdminNavbar = () => {
         sessionStorage.clear();
         localStorage.clear();
         navigate("/admin/login");
-        Swal.fire(
-          "Logged out!",
-          "You have been successfully logged out.",
-          "success"
-        );
+        Swal.fire("Logged out!", "You have been successfully logged out.", "success");
       }
     });
   };
 
   return (
-    <div
-      className="d-flex flex-column vh-100 p-3 bg-primary text-white"
-      style={{ width: "220px" }}
-    >
-      <h2 className="mb-4 text-white">
-        <img
-          src={tutLogo}
-          alt="TUT logo"
-          style={{
-            height: "50px",
-            width: "auto",
-            marginTop: "8px",
-          }}
-        />
-        <span style={{ display: "inline-flex", alignItems: "baseline" }}>
-          <img
-            src={eLogo}
-            alt="e logo"
-            style={{
-              height: "36px",
-              width: "auto",
-              marginRight: "-3px", // slight overlap to remove gap
-              transform: "translateY(8px)", // align with text baseline
-              // remove marginTop
-            }}
-          />
-          <span style={{ color: "white", fontSize: "28px", fontWeight: "500" }}>
-            duConnect
-          </span>
-        </span>
-      </h2>
+    <div className="sidebar bg-primary text-white p-3" style={{ minHeight: "100vh", width: "250px", padding: 0 }}>
+      <div className="text-center mb-4 p-3">
+      <img src={tutLogo} alt="TUT Logo" style={{ width: "100%", marginBottom: "10px" }} />
 
-      <ul className="nav nav-pills flex-column">
-        <li className="nav-item">
-          <Link to="/admin/dashboard" className="nav-link text-white">
-            🏠 Home
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link to="/admin/applicants" className="nav-link text-white">
-            📄 Applications
-          </Link>
-        </li>
-        <li className="nav-item">
-          <div
-            className="nav-link text-white dropdown-toggle"
-            role="button"
-            onClick={() => setShowDeviceMenu(!showDeviceMenu)}
-          >
-            💻 Devices
+        <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", justifyContent: "center" }}>
+         {/*} <img src={eLogo} alt="eLogo" style={{ height: "28px", marginTop: "4px" }} />*/}
+          <h5 className="m-0" style={{ fontSize: "1.4rem", fontWeight: "bold", color: "white" }}>
+            EduConnect
+          </h5>
+        </div>
+      </div>
+
+      <nav className="d-flex flex-column px-3 gap-3">
+        <Link to="/admin/dashboard" className="custom-link">
+          <FaHome /> Home
+        </Link>
+
+        <Link to="/admin/applicants" className="custom-link">
+          <FaClipboardList /> Applications
+        </Link>
+
+        <div
+          className="custom-link dropdown-toggle"
+          role="button"
+          onClick={() => setShowDeviceMenu(!showDeviceMenu)}
+        >
+          <FaLaptop /> Devices
+        </div>
+        {showDeviceMenu && (
+          <div className="ps-4 d-flex flex-column gap-2">
+            <Link to="/admin/assign-device" className="custom-link">Assign Devices</Link>
+            <Link to="/admin/devices/view-devices" className="custom-link">View Devices</Link>
           </div>
-          {showDeviceMenu && (
-            <ul className="dropdown-menu-custom">
-              <li>
-                <Link to="/admin/assign-device" className="dropdown-item">
-                  Assign Devices
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/devices/view-devices"
-                  className="dropdown-item"
-                >
-                  View Devices
-                </Link>
-              </li>
-            </ul>
-          )}
-        </li>
-        <li className="nav-item">
-          <div
-            className="nav-link text-white dropdown-toggle"
-            role="button"
-            onClick={() => setShowRegisterMenu(!showRegisterMenu)}
-          >
-            📝 Register
+        )}
+
+        <div
+          className="custom-link dropdown-toggle"
+          role="button"
+          onClick={() => setShowRegisterMenu(!showRegisterMenu)}
+        >
+          <FaUserPlus /> Register
+        </div>
+        {showRegisterMenu && (
+          <div className="ps-4 d-flex flex-column gap-2">
+            <Link to="/admin/register" className="custom-link">Register Technician</Link>
+            <Link to="/admin/technicians" className="custom-link">View Technicians</Link>
           </div>
-          {showRegisterMenu && (
-            <ul className="dropdown-menu-custom">
-              <li>
-                <Link to="/admin/register" className="dropdown-item">
-                  Register Technician
-                </Link>
-              </li>
-              <li>
-                <Link to="/admin/technicians" className="dropdown-item">
-                  View Technicians
-                </Link>
-              </li>
-            </ul>
-          )}
-        </li>
-        <li className="nav-item">
-          <Link to="/admin/students" className="nav-link text-white">
-            👨‍🎓 Students
-          </Link>
-        </li>
-        <li className="nav-item">
-          <button
-            onClick={handleLogout}
-            className="nav-link text-white btn btn-danger w-100 mt-3"
-          >
-            🚪 Logout
-          </button>
-        </li>
-      </ul>
+        )}
+
+        <Link to="/admin/students" className="custom-link">
+          <FaUsers /> Students
+        </Link>
+
+        <button
+          onClick={handleLogout}
+          className="btn btn-danger d-flex align-items-center justify-content-center gap-2 mt-4"
+        >
+          <FaSignOutAlt /> Logout
+        </button>
+      </nav>
     </div>
   );
 };
