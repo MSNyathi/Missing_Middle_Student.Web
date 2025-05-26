@@ -83,7 +83,7 @@ const Dashboard = () => {
           </Col>
           <Col>
             <Card body style={{ backgroundColor: '#fbf5f7', color: 'black' }}>
-              <div>Donated</div>
+              <div>Distributed</div>
               <strong style={{ fontSize: '1.4rem' }}>20</strong>
             </Card>
           </Col>

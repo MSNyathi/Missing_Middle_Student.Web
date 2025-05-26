@@ -24,10 +24,10 @@ const Sidebar = () => (
       <Nav.Link as={Link} to="/refurbishmentProgress" className="text-white d-flex align-items-center gap-2">
         <FaSyncAlt /> Refurbishment Progress
       </Nav.Link>
-      <Nav.Link as={Link} to="/devices" className="text-white d-flex align-items-center gap-2">
+      <Nav.Link as={Link} to="/technician/donatedLaptops" className="text-white d-flex align-items-center gap-2">
         <FaLaptop /> Donated Laptops
       </Nav.Link>
-      <Nav.Link as={Link} to="/writtenOffLaptops" className="text-white d-flex align-items-center gap-2">
+      <Nav.Link as={Link} to="/technician/writtenOfLaptops" className="text-white d-flex align-items-center gap-2">
         <FaTrash /> Written Off Laptops
       </Nav.Link>
       <Nav.Link as={Link} to="/logistics" className="text-white d-flex align-items-center gap-2">
