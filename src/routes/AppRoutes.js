@@ -21,7 +21,8 @@ import DonorLogin from '../pages/donor/donorLogin';
 import DonationRequest from '../pages/donor/donationRequest';
 import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
 import TechnicianProfile from '../pages/admin/register/viewTechnicians';
-
+import DonorForm from '../pages/donor/donorForm';
+import DonorHistory from '../pages/donor/donorHistory';
 
 const AppRoutes = () => {
   return (
@@ -46,7 +47,9 @@ const AppRoutes = () => {
       <Route path='/donor/dashboard' element={<DonorDashboard/>}/>
       <Route path='/donorLogin' element={<DonorLogin/>}/>
       <Route path='/donor/request' element={<DonationRequest/>}/>
-
+      <Route path='/form' element={<DonorForm/>}/>
+      <Route path='/donor/history' element={<DonorHistory/>}/>
+      
       {/* Add more routes here */}
     </Routes>
   );

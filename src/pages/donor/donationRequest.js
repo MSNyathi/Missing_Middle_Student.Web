@@ -32,18 +32,31 @@ export default function DonationRequest(){
         e.preventDefault();
         console.log('Submitted:', formData);
         
-        const confirmed = window.confirm("Are you sure?");
+        const confirmed = toast.success();
         if(!confirmed)return;
 
         setFormData({
-            numDev: '',
-            pickupDate: '',
+            devNum: '',
+            pickUpDate: '',
             notes: '',
         });
     }
 
     return(
+        
         <div className="request-container">
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
         <DonorNavbar/>
 
         <main className="main-contents">
