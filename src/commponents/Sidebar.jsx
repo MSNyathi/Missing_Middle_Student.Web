@@ -39,7 +39,7 @@ const Sidebar = () => (
       <Nav.Link as={Link} to="/settings" className="text-white d-flex align-items-center gap-2">
         <FaCog /> Settings
       </Nav.Link>
-      <Nav.Link as={Link} to="/adminlogin" className="text-white d-flex align-items-center gap-2">
+      <Nav.Link as={Link} to="/admin/login" className="text-white d-flex align-items-center gap-2">
         <FaSignOutAlt /> Logout
       </Nav.Link>
     </Nav>
