@@ -21,9 +21,7 @@ export default function AdminLogin() {
     setButtonDisabled(!(user.email && user.password && user.role));
   }, [user]);
 
-  const validateEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+  
 
   const handleRoleChange = (e) => {
     setUser({ ...user, role: e.target.value });
@@ -87,10 +85,9 @@ const handleLogin = async (e) => {
 
       <ToastContainer />
       <div className="glass-card text-white p-4">
-      <div className="glass-card text-white p-4">
         <h3 className="text-center mb-4">Admin Login</h3>
 
-        <form onSubmit={handle_admin_login}>
+        <form onSubmit={handleLogin}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">Email</label>
             <input
