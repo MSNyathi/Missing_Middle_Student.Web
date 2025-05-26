@@ -33,7 +33,16 @@ function App() {
       <button id="btn"><i id="i" className="bi bi-person-circle" style={{ fontSize: '1.5rem' } }></i>SIGN IN</button>
       </Link>
     </nav>
-    <div className="text-center p-5">
+    <div id="sidebar">
+      <i><h2 id="p1">Sections</h2></i>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/announcements">Announcements</a></li>
+        <li><a href="/application-requirements">Application Requirements</a></li>
+        <li><a href="/Supervisor/Login">Supervisor</a></li>
+      </ul>
+    </div>
+    <div>
       
       
       <div id="mydiv">
@@ -42,10 +51,7 @@ function App() {
         <p id="p1">Recognizing this need, our initiative is dedicated to providing refurbished laptops to deserving students within Tshwane University of Technology. </p>
         <p id="p1">By donating your old or unused laptops, you can help bridge the digital divide and empower the next generation of leaders.</p>
         
-        <nav>
-      <Link to="/supervisor/login"><button id="btn">Supervisor Login</button></Link>
-      
-    </nav>
+        
         </div>
     
     </div>

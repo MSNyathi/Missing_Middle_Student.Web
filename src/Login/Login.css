@@ -207,3 +207,36 @@ body {
   width: 100%;
   font-size: 50%;
 }
+
+#sidebar {
+  position: fixed;
+  left: 0;
+  top: 10;
+  width: 200px;
+  height: 78%;
+  background: rgba(93, 67, 0, 0.95);
+  color: bisque;
+  padding-top: 60px;
+  box-shadow: 8px -4px 8px rgba(255, 255, 255, 0.555);
+  z-index: 1000;
+}
+#sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+#sidebar ul li {
+  margin: 20px 0;
+}
+#sidebar ul li a {
+  color: bisque;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 10px 20px;
+  display: block;
+  border-radius: 6px;
+  /*transition: background 0.2s;*/
+}
+#sidebar ul li a:hover {
+  background: rgba(255,255,255,0.1);
+}

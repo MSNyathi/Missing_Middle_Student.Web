@@ -20,6 +20,8 @@ import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
 import TechnicianProfile from '../pages/admin/register/viewTechnicians';
 import SupervisorLogin from '../pages/supervisor/Login/SupervisorLogin';
 import SupervisorDashboard from '../pages/supervisor/Dashboard/SupervisorDashboard';
+import Announcements from '../pages/landingpage/Announcements';
+import ApplicationRequirements from '../pages/landingpage/ApplicationRequirements';
 // import other pages here as needed
 
 
@@ -45,6 +47,8 @@ const AppRoutes = () => {
       <Route path="/admin/technicians" element={<TechnicianProfile />} />
       <Route path="/supervisor/login" element={<SupervisorLogin />} />
       <Route path="/supervisor/dashboard" element={<SupervisorDashboard />} />
+      <Route path="/announcements" element={<Announcements />} />
+      <Route path="/application-requirements" element={<ApplicationRequirements />} />
 
 
       {/* Add more routes here */}
