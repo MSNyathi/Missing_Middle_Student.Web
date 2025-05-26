@@ -1,0 +1,45 @@
+/* ChartsSection.css */
+
+:root {
+  --color-bg: #f8fafc;
+  --color-chart-bg: #ffffff;
+  --color-border: #e2e8f0;
+  --color-text: #0f172a;
+  --color-primary: #3b82f6;
+  --color-secondary: #64748b;
+}
+
+.charts-section {
+  background-color: var(--color-bg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.charts-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.chart-container {
+  background-color: var(--color-chart-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 16px;
+  border-radius: 8px;
+  flex: 1 1 100%;
+  min-width: 280px;
+}
+
+.chart-container.half {
+  flex: 1 1 48%;
+}
+
+@media (max-width: 768px) {
+  .chart-container.half {
+    flex: 1 1 100%;
+  }
+}
+

@@ -39,15 +39,24 @@ function Login() {
                             </td>
                         </tr>
                         <tr id="trbtn">
-                        <Link to="/student">
-                            <button type="submit" id="btn2">Login</button>
+                        <Link to="/student" id="mylink">
+                            <button type="submit" id="btn" className="">LOGIN</button>
                             </Link>
                             
                         </tr>
                     </table>
                     
                 </form>
-                <p>Don't have an account? <Link to="/register">Sign up</Link></p>
+                <div>
+                    <Link to="/admin/forgot-password" id="mylink">
+                    <p id="p1" className="fp">Forgot Password?</p>
+                    </Link>
+                    <p id="p1">Don't have an account?  <Link to="/register" id="mylink" className="fp">Sign up</Link></p>
+                </div>
+                
+            </div>
+            <div id="simp">
+                <h2 id="myh1">Simplify Your Learning Journey</h2>
             </div>
         </>
     )

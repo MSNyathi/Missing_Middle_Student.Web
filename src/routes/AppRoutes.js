@@ -16,9 +16,11 @@ import AdminLogin from '../pages/admin/login/adminLogin';
 import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
+import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
 import TechnicianProfile from '../pages/admin/register/viewTechnicians'
 
 // import other pages here as needed
+
 
 const AppRoutes = () => {
   return (
@@ -35,12 +37,13 @@ const AppRoutes = () => {
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/register" element={<RegisterForm />} />
-      <Route path="/admin/devices/view-devices" element={<ViewDevices />} />
-      
+      <Route path="/admin/devices/view-devices" element={<ViewDevices />} />      
       <Route path="/admin/forgot-password" element={<ForgotPassword />} />
       <Route path="/admin/students" element={<Students />} />
+      <Route path="/technician/dashboard" element={<TechnicianDashboard />} />
       <Route path="/admin/technicians" element={<TechnicianProfile />} />
    
+
 
       {/* Add more routes here */}
     </Routes>

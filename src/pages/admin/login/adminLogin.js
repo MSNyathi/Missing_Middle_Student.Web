@@ -15,6 +15,8 @@ export default function AdminLogin() {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
   useEffect(() => {
     setButtonDisabled(!(user.email && user.password && user.role));
   }, [user]);
@@ -85,14 +87,15 @@ const handleLogin = async (e) => {
 
       <ToastContainer />
       <div className="glass-card text-white p-4">
+      <div className="glass-card text-white p-4">
         <h3 className="text-center mb-4">Admin Login</h3>
 
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handle_admin_login}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">Email</label>
             <input
               type="email"
-              className="form-control rounded-pill" // Add rounded-pill for curved edges
+              className="form-control rounded-pill"
               id="email"
               placeholder="Enter your email"
               value={user.email}
@@ -105,7 +108,7 @@ const handleLogin = async (e) => {
             <label htmlFor="password" className="form-label">Password</label>
             <input
               type="password"
-              className="form-control rounded-pill" // Add rounded-pill for curved edges
+              className="form-control rounded-pill"
               id="password"
               placeholder="Enter your password"
               value={user.password}
