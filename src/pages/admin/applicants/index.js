@@ -31,6 +31,7 @@ const mockApplicants = [
     eligible: true,
     proofOfIncomeUrl:
       "https://via.placeholder.com/600x400?text=Proof+of+Income",
+       status: "pending",
   },
   {
     id: 2,
@@ -50,6 +51,7 @@ const mockApplicants = [
     eligible: false,
     proofOfIncomeUrl:
       "https://via.placeholder.com/600x400?text=Proof+of+Income",
+       status: "pending",
   },
 ];
 
@@ -416,6 +418,7 @@ const ApplicantsPage = () => {
                       <th>Ethnicity</th>
                       <th>Avg. Mark</th>
                       <th>Eligibility</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -458,6 +461,20 @@ const ApplicantsPage = () => {
                             } eligibility-badge`}
                           >
                             {applicant.eligible ? "Eligible" : "Not Eligible"}
+                          </span>
+                        </td>
+                        <td>
+                          <span
+                            className={`badge ${
+                              applicant.status === "approved"
+                                ? "bg-success"
+                                : applicant.status === "rejected"
+                                ? "bg-danger"
+                                : "bg-warning"
+                            } status-badge`}
+                          >
+                            {applicant.status.charAt(0).toUpperCase() +
+                              applicant.status.slice(1)}
                           </span>
                         </td>
                       </motion.tr>
