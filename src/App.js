@@ -42,7 +42,20 @@ function App() {
         <a id="landingsection1li"href="/Supervisor/Login">Supervisor</a>
       
     </div>
-    <div>
+    <section id="landingsection2" class="py-12 px-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
+    <h2 id="p1">Welcome to the Multi-Role Platform</h2>
+    <p id="p1" class="max-w-2xl mx-auto text-lg">Serving Donors, Supervisors, Admins, Students, and Technicians to streamline collaboration and support.</p>
+    <nav id="mynav">
+
+      <p id="landingsection1li" class="mt-2 font-medium">🎁Donor</p>
+      <p id="landingsection1li" class="mt-2 font-medium">🧑‍🏫Supervisor</p>
+      <p id="landingsection1li" class="mt-2 font-medium">🛡️Admin</p>
+      <p id="landingsection1li" class="mt-2 font-medium">🎓Student</p>
+      <p id="landingsection1li" class="mt-2 font-medium">🛠️Technician</p>
+    </nav>
+
+  </section>
+    <div id="landingsection1">
       
       
       <div id="landingsection1">
@@ -52,37 +65,35 @@ function App() {
         <p id="p1">By donating your old or unused laptops, you can help bridge the digital divide and empower the next generation of leaders.</p>
         
         
-        </div>
+      </div>
 
-
-  <section id="landingsection2" class="py-12 px-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
-    <h2 class="text-3xl font-semibold mb-4">Welcome to the Multi-Role Platform</h2>
-    <p class="max-w-2xl mx-auto text-lg">Serving Donors, Supervisors, Admins, Students, and Technicians to streamline collaboration and support.</p>
-    <nav id="mynav">
-      <div class="bg-white shadow rounded-lg p-6">🎁 <p class="mt-2 font-medium">Donor</p></div>
-      <div class="bg-white shadow rounded-lg p-6">🧑‍🏫 <p class="mt-2 font-medium">Supervisor</p></div>
-      <div class="bg-white shadow rounded-lg p-6">🛡️ <p class="mt-2 font-medium">Admin</p></div>
-      <div class="bg-white shadow rounded-lg p-6">🎓 <p class="mt-2 font-medium">Student</p></div>
-      <div class="bg-white shadow rounded-lg p-6">🛠️ <p class="mt-2 font-medium">Technician</p></div>
-    </nav>
-
-  </section>
-
-  <section class="bg-white py-16 px-6">
-    <h3 class="text-2xl font-semibold text-center mb-10">Success Stories</h3>
-    <div class="max-w-4xl mx-auto space-y-6">
-      <div class="bg-gray-100 p-6 rounded-lg shadow">
+            <div id="landingsection1">
+                <h1 id="myh1">Application Requirements</h1>
+                <p id="p1">To apply for a refurbished laptop, please ensure you meet the following requirements:</p>
+                <ul id="requirements-list">
+                    <li id="p1">Must be a registered student at Tshwane University of Technology.</li>
+                    <li id="p1">Demonstrated financial need.</li>
+                    <li id="p1">Commitment to using the laptop for academic purposes.</li>
+                </ul>
+                <p id="p1">If you meet these requirements, please proceed to the application form.</p>
+            </div>
+  
+ </div>
+  <section id="landingsection3">
+    <h3 id="myh1">Success Stories</h3>
+    <div id="landingsection3div">
+      <div id="landingsection3div2">
         <p class="italic">"This system helped us coordinate thousands of donations to students in need!"</p>
         <p class="mt-2 font-medium">– A Grateful Donor</p>
       </div>
-      <div class="bg-gray-100 p-6 rounded-lg shadow">
+      <div id="landingsection3div2">
         <p class="italic">"Managing student repairs and device handouts has never been easier."</p>
         <p class="mt-2 font-medium">– Lead Technician</p>
       </div>
     </div>
   </section>
 
-    </div>
+   
     <footer id="footer">
       <p id="p3">© 2023 EduConnect. All rights reserved.</p>
       <p id="p3">Contact us: 012 123 4567</p>
