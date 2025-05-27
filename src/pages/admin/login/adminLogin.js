@@ -29,53 +29,59 @@ export default function AdminLogin() {
 
 
 
-const handleLogin = async (e) => {
-  e.preventDefault();
-
-  if (!validateEmail(user.email)) {
-    toast.error("Please enter a valid email.", { position: "top-center" });
-    return;
-  }
-
-  if (user.role === "") {
-    toast.error("Please select a role.", { position: "top-center" });
-    return;
-  }
-
-  setLoading(true);
+  const handleLogin = async (e) => {
+    e.preventDefault();
   
-  const API_URL = process.env.REACT_APP_API_URL;
+    if (!validateEmail(user.email)) {
+      toast.error("Please enter a valid email.", { position: "top-center" });
+      return;
+    }
   
-  const loginEndpoint =
-    user.role === "admin"
-      ? `${API_URL}loginAdmin`
-      : `${API_URL}loginTechnician`;
-
-  try {
-    const response = await axios.post(loginEndpoint, {
-      email: user.email,
-      password: user.password,
-    });
-
-    toast.success("Login successful!", { position: "top-center" });
-    localStorage.setItem("adminData", JSON.stringify(response.data));
-    console.log("Login successful:", response.data);
-    
-    setTimeout(() => {
-      if (user.role === "admin") {
-        navigate("/admin/dashboard", { state: { mydata: response.data } });
-      } else if (user.role === "technician") {
-        navigate("/technician/dashboard", { state: { mydata: response.data } });
+    if (user.role === "") {
+      toast.error("Please select a role.", { position: "top-center" });
+      return;
+    }
+  
+    setLoading(true);
+  
+    const API_URL = process.env.REACT_APP_API_URL;
+    // Use only one endpoint regardless of selected role
+    const loginEndpoint = `${API_URL}loginAdmin`;
+  
+    try {
+      const response = await axios.post(loginEndpoint, {
+        email: user.email,
+        password: user.password,
+      });
+  
+      const roleFromServer = response.data?.data?.profile?.profile?.role?.toLowerCase();
+      const selectedRole = user.role.toLowerCase();
+  
+      if (roleFromServer !== selectedRole) {
+        toast.error("Incorrect role selected. Please choose the correct role.", {
+          position: "top-center",
+        });
+        return;
       }
-    }, 1000);
-  } catch (error) {
-    const errorMessage =
-      error.response?.data?.message || "Login failed. Please try again.";
-    toast.error(errorMessage, { position: "top-center" });
-  } finally {
-    setLoading(false);
-  }
-};
+  
+      toast.success("Login successful!", { position: "top-center" });
+      localStorage.setItem("adminData", JSON.stringify(response.data));
+  
+      setTimeout(() => {
+        if (roleFromServer === "admin") {
+          navigate("/admin/dashboard", { state: { mydata: response.data } });
+        } else if (roleFromServer === "technician") {
+          navigate("/technician/dashboard", { state: { mydata: response.data } });
+        }
+      }, 1000);
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Login failed. Please try again.";
+      toast.error(errorMessage, { position: "top-center" });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div  className="glass-bg d-flex align-items-center justify-content-center min-vh-100"
