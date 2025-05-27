@@ -116,7 +116,7 @@ body {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: rgba(93, 67, 0, 0.829);
+  background-color: rgba(93, 67, 0, 0.1);
   margin: 0;
   padding: 20px;
 }
@@ -202,14 +202,14 @@ body {
   color: bisque;
   padding: 1px;
   text-align: center;
-  position: fixed;
+  /*position: fixed;*/
   bottom: 0;
   width: 100%;
   font-size: 50%;
 }
 
 #sidebar {
-  position: fixed;
+  position:relative;
   left: 0;
   top: 10;
   width: 200px;
@@ -250,8 +250,6 @@ body {
   max-width: 900px;
   color: #3d2c00;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 }
 
 #dashboard-section:hover {
@@ -271,4 +269,40 @@ body {
   align-Items: center;
   padding-Top: 100px;
   z-Index: 1000;
+}
+
+#landingsection1 {
+  padding: 30px;
+  margin: 20px auto;
+  background: rgba(93, 67, 0, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(93, 67, 0, 0.15);
+  max-width: 90%;
+  color: #3d2c00;
+  }
+#landingsection1li {
+  color: bisque;
+    text-decoration: none;
+
+  font-size: 24px;
+  padding: 5px;
+  display: inline-block;
+  margin: 3px;
+}
+
+#landingsection1li:hover {
+  background-color: rgb(41, 25, 6);
+  border-radius: 10%;
+  padding: 5px;
+  cursor: pointer;
+}
+
+#landingsection2{
+  padding: 30px;
+  margin: 20px auto;
+  background: rgba(93, 67, 0, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(93, 67, 0, 0.15);
+  max-width: 100%;
+  color: #3d2c00;
 }
