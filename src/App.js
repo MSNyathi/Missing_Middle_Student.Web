@@ -25,12 +25,7 @@ function App() {
       {/* Navbar */}
       <nav id="mynav" className="d-flex justify-content-between align-items-center p-3">
         <h1 id="myh1" className="m-0">Welcome to EduConnect</h1>
-        <Link to="/login" id="mylink">
-          <button id="btn" className="btn btn-light">
-            <i id="i" className="bi bi-person-circle me-2" style={{ fontSize: '1.5rem' }}></i>
-            SIGN IN
-          </button>
-        </Link>
+
       </nav>
 
       {/* Main Content */}
