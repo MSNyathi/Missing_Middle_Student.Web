@@ -17,26 +17,48 @@ export default function AssignDevicePage() {
   const [showModal, setShowModal] = useState(false);
   const [selectedDeviceOption, setSelectedDeviceOption] = useState(null);
 
+  const fetchDevices = async () => {
+    try {
+      const baseUrl = process.env.REACT_APP_API_URL;
+      const response = await fetch(`${baseUrl}AssignDevices`);
+      if (!response.ok) throw new Error('Failed to fetch devices');
+  
+      const realDevices = await response.json();
+  
+      const transformedDevices = realDevices.map((device, index) => ({
+        id: device.serialNumber || `real-${index}`,
+        name: `${device.brand} ${device.model}`,
+        serialNumber: device.serialNumber || 'N/A',
+        assignedTo: device.status === 'Distributed' ? device.assignedTo || 'UNKNOWN' : null,
+      }));
+  
+      setDevices(transformedDevices);
+    } catch (error) {
+      console.error('Error fetching devices:', error);
+      setDevices([]);
+      MySwal.fire({
+        icon: 'error',
+        title: 'Device Fetch Failed',
+        text: 'Unable to fetch device data from the server.',
+      });
+    }
+  };
+  
+  
+
+
   useEffect(() => {
     const dummyApplications = [
       { id: 1, studentNumber: '202312345', surname: 'Mokoena', initials: 'T.', approvalDate: '2025-04-20' },
       { id: 2, studentNumber: '202398765', surname: 'Dlamini', initials: 'L.', approvalDate: '2025-04-18' },
       { id: 3, studentNumber: '202376543', surname: 'Ndlovu', initials: 'S.', approvalDate: '2025-04-23' },
     ];
-
-    const adminData = JSON.parse(localStorage.getItem("adminData"));
-    const realDevices = adminData?.data?.allDevicesInfo || [];
-
-    const transformedDevices = realDevices.map((device, index) => ({
-      id: device.serialNumber || `real-${index}`,
-      name: `${device.brand} ${device.model}`,
-      serialNumber: device.serialNumber || "N/A",
-      assignedTo: device.status === "Distributed" ? device.assignedTo || "UNKNOWN" : null,
-    }));
-
+  
     setApplications(dummyApplications);
-    setDevices(transformedDevices);
+    fetchDevices();
   }, []);
+  
+  
 
   const getDeviceByStudent = (studentNumber) =>
     devices.find((device) => device.assignedTo === studentNumber);
@@ -161,6 +183,10 @@ export default function AssignDevicePage() {
             <button className="btn btn-success" onClick={handleAssignAll}>
               Assign All
             </button>
+            <button className="btn btn-outline-primary" onClick={fetchDevices}>
+              Refresh Devices
+            </button>
+
           </div>
         </div>
 
