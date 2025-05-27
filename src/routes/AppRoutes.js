@@ -18,7 +18,9 @@ import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot pass
 import Students from '../pages/admin/students/students';
 import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
 import TechnicianProfile from '../pages/admin/register/viewTechnicians';
-import RegisterDevice from '../pages/Technician/registerDevice'
+import RegisterDevice from '../pages/Technician/registerDevice';
+import WrittenOfLaptops from '../pages/Technician/writtenOfLaptops';
+import DonatedLaptops from '../pages/Technician/donatedLaptops';
 // import other pages here as needed
 
 
@@ -43,6 +45,8 @@ const AppRoutes = () => {
       <Route path="/technician/dashboard" element={<TechnicianDashboard />} />
       <Route path="/admin/technicians" element={<TechnicianProfile />} />
       <Route path="/technician/registerDevice" element={<RegisterDevice />} />
+      <Route path="/technician/writtenOfLaptops" element={<WrittenOfLaptops />} />
+      <Route path="/technician/donatedLaptops" element={<DonatedLaptops />} />
 
       {/* Add more routes here */}
     </Routes>
