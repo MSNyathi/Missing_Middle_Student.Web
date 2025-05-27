@@ -3,6 +3,18 @@
     background-color: white;
     min-width: 100%;
 }
+.header-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items:end;
+    margin-bottom: 1rem;
+    margin-right: auto;
+
+}
+.controls{
+    display: flex;
+    gap: 0.5rem;  
+}
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -33,4 +45,8 @@
     border: none;
     font-size: 1.4rem;
     cursor: pointer;
+}
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.2s;
 }

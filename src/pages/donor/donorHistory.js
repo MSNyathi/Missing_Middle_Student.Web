@@ -67,9 +67,9 @@ export default function DonorHistory(){
         <div className='container'>
            <DonorNavbar/>
         <main  className='main-content'>
-            
+            <h2><b>DONATION HISTORY</b></h2>
             <div className="header-controls">
-                <h2><b>DONATION HISTORY</b></h2>
+                
                 <div className="controls">
                     <select onChange={(e) => handleFilter(e.target.value)}>
                         <option value="">All Statuses</option>
