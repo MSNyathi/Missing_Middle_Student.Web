@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const ProfileModal = ({
-  adminInfo,
   formData,
   setFormData,
   showProfileModal,
@@ -14,6 +13,35 @@ const ProfileModal = ({
   handleEmailChange,
   handlePasswordChange,
 }) => {
+  const [adminInfo, setAdminInfo] = useState({
+    initails: "",
+    surname: "",
+    email: "",
+    contact: "",
+  });
+
+  // Load profile from localStorage on component mount
+ useEffect(() => {
+  const storedProfile = localStorage.getItem("adminData");
+  if (storedProfile) {
+    try {
+      const parsed = JSON.parse(storedProfile);
+      const profile = parsed?.data?.profile?.profile || {}; // ✅ correct access
+     
+
+      setAdminInfo({
+        initails: profile.initails || "",  // typo in key is preserved intentionally
+        surname: profile.surname || "",
+        email: profile.email || "",
+        contact: profile.contact || "",
+      });
+    } catch (error) {
+      console.error("Failed to parse adminData:", error);
+    }
+  }
+}, []);
+
+
   if (!showProfileModal) return null;
 
   return (
@@ -66,7 +94,7 @@ const ProfileModal = ({
           />
           <h5 className="mt-3">Admin Profile</h5>
           <p>
-            <strong>Initials:</strong> {adminInfo.initials}
+            <strong>Initials:</strong> {adminInfo.initails}
           </p>
           <p>
             <strong>Surname:</strong> {adminInfo.surname}

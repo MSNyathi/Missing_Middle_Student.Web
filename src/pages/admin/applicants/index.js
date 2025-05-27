@@ -8,6 +8,8 @@ import "./index.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProfileModal from "../../../commponents/profileModal";
+import NotificationPanel from "../../../commponents/notificationPanel";
+import useNotification from "../../../commponents/hooks/notificationHook";
 
 // Mock data
 const mockApplicants = [
@@ -29,6 +31,7 @@ const mockApplicants = [
     eligible: true,
     proofOfIncomeUrl:
       "https://via.placeholder.com/600x400?text=Proof+of+Income",
+       status: "pending",
   },
   {
     id: 2,
@@ -48,6 +51,7 @@ const mockApplicants = [
     eligible: false,
     proofOfIncomeUrl:
       "https://via.placeholder.com/600x400?text=Proof+of+Income",
+       status: "pending",
   },
 ];
 
@@ -78,6 +82,24 @@ const ApplicantsPage = () => {
   const [confirmPwd, setConfirmPwd] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
   const [settingsMode, setSettingsMode] = useState("");
+  const [showNotifications, setShowNotifications] = useState(false);
+  const {
+    notifications,
+    markAsSeen: hookMarkAsSeen,
+    clearNotifications,
+    connection,
+    setNotifications,
+  } = useNotification();
+  const unseen = notifications.filter((note) => !note.seen);
+  const unseenCount = unseen.length;
+
+  const markAsSeen = (index) => {
+    const globalIndex = notifications.findIndex((n) => n === unseen[index]);
+    if (globalIndex >= 0) {
+      hookMarkAsSeen(globalIndex);
+    }
+  };
+
   const [formData, setFormData] = useState({
     currentEmail: "",
     newEmail: "",
@@ -104,7 +126,7 @@ const ApplicantsPage = () => {
       contact: adminContact,
       surname: adminSurname,
     });
-  }, []);
+  }, []); //The arrays state that the use effect must run only once when the component mounts
   const glassCardStyle = {
     background: "rgba(255, 255, 255, 0.1)",
     borderRadius: "15px",
@@ -241,7 +263,9 @@ const ApplicantsPage = () => {
   });
 
   const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundColor: "rgb(255, 255, 255)",
+    backdropFilter: "blur(8px)",
+    //backgroundImage: `url(${backgroundImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -265,26 +289,76 @@ const ApplicantsPage = () => {
           pauseOnHover
           theme="dark"
         />
+        <div className="d-flex align-items-center gap-3 justify-content-between">
+          <input
+            type="text"
+            className="form-control w-50"
+            placeholder="Search by Student Number, Surname or initials"
+            style={{ borderRadius: "20px" }}
+          />
+          
 
-        <div className="bg-white bg-opacity-75 p-4 rounded shadow-lg">
+          {/* New container to align right */}
+          <div
+            className="d-flex align-items-center gap-3 ms-auto"
+            style={{ paddingTop: "20px" }}
+          >
+            <span
+            className="text-dark"
+            style={{
+              color: "black",
+              fontWeight: 500,
+              paddingTop: "20px",
+            }}
+          >
+            {currentTime}
+          </span>
+            <div className="position-relative d-inline-block">
+              <i
+                className="bi bi-bell fs-5"
+                style={{ cursor: "pointer", color: "black" }}
+                onClick={() => setShowNotifications((prev) => !prev)}
+              ></i>
+              {unseenCount > 0 && (
+                <span className="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-danger">
+                  {unseenCount}
+                </span>
+              )}
+              <AnimatePresence>
+                {showNotifications && (
+                  <NotificationPanel
+                    notifications={notifications}
+                    onClose={() => setShowNotifications(false)}
+                    markAsSeen={(idx) => {
+                      const globalIndex = notifications.findIndex(
+                        (n) => n === unseen[idx]
+                      );
+                      markAsSeen(globalIndex);
+                    }}
+                  />
+                )}
+              </AnimatePresence>
+            </div>
+
+            <motion.img
+              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+              className="rounded-circle"
+              alt="Profile"
+              width={32}
+              height={32}
+              style={{ cursor: "pointer" }}
+              onClick={() => setShowProfileModal(true)}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            />
+          </div>
+        </div>
+
+        <div className="bg-white bg-opacity-75 p-4 rounded shadow-lg" style={{ paddingTop: "20px" }}>
           <div className="mb-4">
             <div className="d-flex justify-content-between align-items-center">
               <h2 className="text-dark mb-0">Applicants</h2>
-              <div className="d-flex align-items-center gap-3">
-                <span className="text-dark">{currentTime}</span>
-                <motion.img
-                  src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                  className="rounded-circle"
-                  alt="Profile"
-                  width={32}
-                  height={32}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => setShowProfileModal(true)}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                />
-              </div>
             </div>
           </div>
 
@@ -344,6 +418,7 @@ const ApplicantsPage = () => {
                       <th>Ethnicity</th>
                       <th>Avg. Mark</th>
                       <th>Eligibility</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -386,6 +461,20 @@ const ApplicantsPage = () => {
                             } eligibility-badge`}
                           >
                             {applicant.eligible ? "Eligible" : "Not Eligible"}
+                          </span>
+                        </td>
+                        <td>
+                          <span
+                            className={`badge ${
+                              applicant.status === "approved"
+                                ? "bg-success"
+                                : applicant.status === "rejected"
+                                ? "bg-danger"
+                                : "bg-warning"
+                            } status-badge`}
+                          >
+                            {applicant.status.charAt(0).toUpperCase() +
+                              applicant.status.slice(1)}
                           </span>
                         </td>
                       </motion.tr>
@@ -574,21 +663,21 @@ const ApplicantsPage = () => {
 
         {/* Admin Profile Modal */}
 
-         <AnimatePresence>
-        {showProfileModal && (
-          <ProfileModal
-            adminInfo={adminInfo}
-            formData={formData}
-            setFormData={setFormData}
-            showProfileModal={showProfileModal}
-            setShowProfileModal={setShowProfileModal}
-            settingsMode={settingsMode}
-            setSettingsMode={setSettingsMode}
-            handleEmailChange={handleEmailChange}
-            handlePasswordChange={handlePasswordChange}
-          />
-        )}
-      </AnimatePresence>
+        <AnimatePresence>
+          {showProfileModal && (
+            <ProfileModal
+              adminInfo={adminInfo}
+              formData={formData}
+              setFormData={setFormData}
+              showProfileModal={showProfileModal}
+              setShowProfileModal={setShowProfileModal}
+              settingsMode={settingsMode}
+              setSettingsMode={setSettingsMode}
+              handleEmailChange={handleEmailChange}
+              handlePasswordChange={handlePasswordChange}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

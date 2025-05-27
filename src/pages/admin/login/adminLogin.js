@@ -15,13 +15,13 @@ export default function AdminLogin() {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
   useEffect(() => {
     setButtonDisabled(!(user.email && user.password && user.role));
   }, [user]);
 
-  const validateEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+  
 
   const handleRoleChange = (e) => {
     setUser({ ...user, role: e.target.value });
@@ -59,6 +59,7 @@ const handleLogin = async (e) => {
 
     toast.success("Login successful!", { position: "top-center" });
     localStorage.setItem("adminData", JSON.stringify(response.data));
+    console.log("Login successful:", response.data);
     
     setTimeout(() => {
       if (user.role === "admin") {
@@ -91,7 +92,7 @@ const handleLogin = async (e) => {
             <label htmlFor="email" className="form-label">Email</label>
             <input
               type="email"
-              className="form-control rounded-pill" // Add rounded-pill for curved edges
+              className="form-control rounded-pill"
               id="email"
               placeholder="Enter your email"
               value={user.email}
@@ -104,7 +105,7 @@ const handleLogin = async (e) => {
             <label htmlFor="password" className="form-label">Password</label>
             <input
               type="password"
-              className="form-control rounded-pill" // Add rounded-pill for curved edges
+              className="form-control rounded-pill"
               id="password"
               placeholder="Enter your password"
               value={user.password}

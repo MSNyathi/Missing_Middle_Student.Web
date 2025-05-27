@@ -1,0 +1,55 @@
+/* dashboard.css */
+body, html, .dashboard {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.d-flex {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #343a40;
+  color: white;
+  padding: 1rem;
+  min-height: 100vh;
+}
+
+.sidebar h4 {
+  color: #fff;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.top-bar {
+  background-color: #fff;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.top-bar h4 {
+  margin: 0;
+}
+.sidebar a.nav-link {
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+  border-radius: 6px;
+}
+
+.sidebar a.nav-link:hover {
+  background-color: #495057;
+  color: #fff;
+}
+.sidebar a.nav-link.active {
+  background-color: #007bff;
+  color: #fff;
+}
