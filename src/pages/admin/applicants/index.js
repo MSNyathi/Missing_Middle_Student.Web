@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ProfileModal from "../../../commponents/profileModal";
 import NotificationPanel from "../../../commponents/notificationPanel";
 import useNotification from "../../../commponents/hooks/notificationHook";
+import Swal from "sweetalert2";
 
 // Mock data
 const mockApplicants = [
@@ -31,7 +32,7 @@ const mockApplicants = [
     eligible: true,
     proofOfIncomeUrl:
       "https://via.placeholder.com/600x400?text=Proof+of+Income",
-       status: "pending",
+    status: "pending",
   },
   {
     id: 2,
@@ -51,7 +52,7 @@ const mockApplicants = [
     eligible: false,
     proofOfIncomeUrl:
       "https://via.placeholder.com/600x400?text=Proof+of+Income",
-       status: "pending",
+    status: "pending",
   },
 ];
 
@@ -68,6 +69,8 @@ const adminData = {
 const ApplicantsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [filteredApplicants, setFilteredApplicants] = useState([]);
+
   const [currentTime, setCurrentTime] = useState(
     new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   );
@@ -83,6 +86,8 @@ const ApplicantsPage = () => {
   const [adminPassword, setAdminPassword] = useState("");
   const [settingsMode, setSettingsMode] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
+  const [applicants, setApplicants] = useState(mockApplicants);
+
   const {
     notifications,
     markAsSeen: hookMarkAsSeen,
@@ -197,10 +202,70 @@ const ApplicantsPage = () => {
     setSettingsMode("");
   };
 
-  const handlePasswordPrompt = (type) => {
-    setActionType(type);
-    setShowApplicantModal(false);
-    setShowPasswordPrompt(true);
+  const handlePasswordPrompt = (action) => {
+    Swal.fire({
+      title: `Confirm ${action === "approve" ? "Approval" : "Rejection"}`,
+      input: "password",
+      inputLabel: "Enter your admin password",
+      inputPlaceholder: "Password",
+      inputAttributes: {
+        autocapitalize: "off",
+        autocorrect: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Confirm",
+      showLoaderOnConfirm: true,
+      preConfirm: (inputPassword) => {
+        return new Promise((resolve, reject) => {
+          if (inputPassword === adminPassword) {
+            resolve(true);
+          } else {
+            reject(new Error("Incorrect password"));
+          }
+        });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          // Proceed to update the applicant status
+          const updatedStatus = action === "approve" ? "approved" : "rejected";
+          updateApplicantStatus(selectedApplicant.id, updatedStatus);
+
+          Swal.fire({
+            icon: "success",
+            title: `Applicant ${updatedStatus}`,
+            text: `You have successfully ${updatedStatus} this application.`,
+          });
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Failed",
+          text: error.message,
+        });
+      });
+  };
+  const updateApplicantStatus = (applicantId, status) => {
+    setApplicants((prev) => {
+      const updated = prev.map((app) =>
+        app.id === applicantId ? { ...app, status } : app
+      );
+
+      // Update selectedApplicant if it matches
+      const updatedSelected = updated.find((app) => app.id === applicantId);
+      if (updatedSelected) {
+        setSelectedApplicant(updatedSelected);
+      }
+
+      return updated;
+    });
+
+    // 👇 Also update filteredApplicants so the table reflects the change
+    setFilteredApplicants((prev) =>
+      prev.map((app) => (app.id === applicantId ? { ...app, status } : app))
+    );
   };
 
   const handlePasswordSubmit = () => {
@@ -249,18 +314,22 @@ const ApplicantsPage = () => {
     );
   };
 
-  const filteredApplicants = mockApplicants.filter((applicant) => {
-    const matchesSearch =
-      applicant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      applicant.studentNum.includes(searchTerm);
+  useEffect(() => {
+    const filtered = applicants.filter((applicant) => {
+      const matchesSearch =
+        applicant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        applicant.studentNum.includes(searchTerm);
 
-    const matchesFilter =
-      filterStatus === "all" ||
-      (filterStatus === "eligible" && applicant.eligible) ||
-      (filterStatus === "not_eligible" && !applicant.eligible);
+      const matchesFilter =
+        filterStatus === "all" ||
+        (filterStatus === "eligible" && applicant.eligible) ||
+        (filterStatus === "not_eligible" && !applicant.eligible);
 
-    return matchesSearch && matchesFilter;
-  });
+      return matchesSearch && matchesFilter;
+    });
+
+    setFilteredApplicants(filtered);
+  }, [applicants, searchTerm, filterStatus]);
 
   const backgroundStyle = {
     backgroundColor: "rgb(255, 255, 255)",
@@ -296,7 +365,6 @@ const ApplicantsPage = () => {
             placeholder="Search by Student Number, Surname or initials"
             style={{ borderRadius: "20px" }}
           />
-          
 
           {/* New container to align right */}
           <div
@@ -304,15 +372,15 @@ const ApplicantsPage = () => {
             style={{ paddingTop: "20px" }}
           >
             <span
-            className="text-dark"
-            style={{
-              color: "black",
-              fontWeight: 500,
-              paddingTop: "20px",
-            }}
-          >
-            {currentTime}
-          </span>
+              className="text-dark"
+              style={{
+                color: "black",
+                fontWeight: 500,
+                paddingTop: "20px",
+              }}
+            >
+              {currentTime}
+            </span>
             <div className="position-relative d-inline-block">
               <i
                 className="bi bi-bell fs-5"
@@ -355,7 +423,10 @@ const ApplicantsPage = () => {
           </div>
         </div>
 
-        <div className="bg-white bg-opacity-75 p-4 rounded shadow-lg" style={{ paddingTop: "20px" }}>
+        <div
+          className="bg-white bg-opacity-75 p-4 rounded shadow-lg"
+          style={{ paddingTop: "20px" }}
+        >
           <div className="mb-4">
             <div className="d-flex justify-content-between align-items-center">
               <h2 className="text-dark mb-0">Applicants</h2>
@@ -600,6 +671,13 @@ const ApplicantsPage = () => {
                         >
                           <strong>Ethnicity:</strong>{" "}
                           {selectedApplicant.ethnicity}
+                        </motion.p>
+                        <motion.p
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.6 }}
+                        >
+                          <strong>Status:</strong> {selectedApplicant.status}
                         </motion.p>
                       </div>
                     </div>
