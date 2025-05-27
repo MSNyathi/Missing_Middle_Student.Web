@@ -25,12 +25,23 @@ export default function ViewDevices() {
   
     try {
       const params = new URLSearchParams();
-      // ... append params ...
+  
+      if (searchTerm) params.append("search", searchTerm);
+  
+      if (allocationFilter) {
+        params.append("status", allocationFilter);  // directly pass allocated/unallocated
+      }
+  
+      if (conditionFilter) params.append("condition", conditionFilter);
+  
+      params.append("page", page);
+      params.append("pageSize", itemsPerPage);
   
       const baseUrl = process.env.REACT_APP_API_URL;
       const response = await fetch(`${baseUrl}AllDevices?${params.toString()}`);
   
       if (!response.ok) throw new Error("Failed to fetch devices");
+  
       const data = await response.json();
   
       setDevices(data.devices || []);
