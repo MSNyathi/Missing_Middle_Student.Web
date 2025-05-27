@@ -20,12 +20,14 @@ import HelpPageLaptops from '../pages/student/help/helpPage'; // help page
 
 
 
+
 import Login from '../Login/Login'
 import RegisterForm from '../pages/student/register/RegisterForm';
 import SuccessPage from '../pages/student/register/SuccessPage';
 import AdminLogin from '../pages/admin/login/adminLogin';
 import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
+import StudentForgotPassword from '../pages/student/login/studentforgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
 import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
 import TechnicianProfile from '../pages/admin/register/viewTechnicians'
@@ -42,11 +44,13 @@ const AppRoutes = () => {
       <Route path="/admin/applicants" element={<Applicants />} />
       <Route path="/admin/register" element={<RegisterTechnician />} />
       <Route path="/admin/assign-device" element={<AssignDevicePage />} />
-      <Route path="/student" element={<StudentDashboard />} />
+      <Route path="/student/dashboard" element={<StudentDashboard />} />
       <Route path="/student/apply" element={<ApplyLaptop />} />
       <Route path="/student/track" element={<TrackApplication />} />
       <Route path="/student/help" element={<HelpPageLaptops />} />
       <Route path="/student/login" element={<StudentLogin />} />
+      <Route path="/student/login/forgot-password" element={<StudentForgotPassword />} />
+      
 
 
 

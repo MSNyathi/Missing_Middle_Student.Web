@@ -37,7 +37,7 @@ const ApplyLaptop = () => {
     }
   };
 
-  const handleCancel = () => navigate("/student");
+  const handleCancel = () => navigate("/student/dashboard");
 
   const handleNext = (e) => {
     e.preventDefault();
@@ -85,7 +85,7 @@ const ApplyLaptop = () => {
 
       {/* Back to Dashboard */}
       <Link
-        to="/student"
+        to="/student/dashboard"
         className="position-fixed bottom-0 start-0 m-3 btn btn-outline-secondary"
       >
         <FaArrowLeft className="me-2" />

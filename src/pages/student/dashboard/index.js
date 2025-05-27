@@ -13,6 +13,7 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import tut25 from "../../../assets/tut25.png";
+import StudentLogin from "../../../pages/student/login/studentLogin";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -30,13 +31,11 @@ const StudentDashboard = () => {
   const handleConfirmLogout = () => {
     setShowModal(false);
     localStorage.removeItem("isLoggedIn");
-    navigate("/login");
+    navigate("/student/login");
   };
 
   const backgroundStyle = {
-    backgroundImage: "url('/background2.jpeg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
+    backgroundColor: "#ffffff", // plain white background
     minHeight: "100vh",
     padding: "2rem",
     transition: "background 0.3s ease-in-out",
@@ -75,10 +74,9 @@ const StudentDashboard = () => {
 
       {/* Add top padding for fixed navbar */}
       <div
-        className="container-fluid text-white"
+        className={`container-fluid ${darkMode ? "text-white" : "text-dark"}`}
         style={{ paddingTop: "90px" }}
       >
-
         {/* Top Header */}
         <div className="text-center mb-4">
           <h2>WELCOME TO EduConnect</h2>
