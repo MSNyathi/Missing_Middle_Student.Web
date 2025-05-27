@@ -11,6 +11,7 @@ import ProfileModal from "../../../commponents/profileModal";
 import NotificationPanel from "../../../commponents/notificationPanel";
 import useNotification from "../../../commponents/hooks/notificationHook";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 // Mock data
 const mockApplicants = [
@@ -77,16 +78,17 @@ const ApplicantsPage = () => {
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [showApplicantModal, setShowApplicantModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  //const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
   const [actionType, setActionType] = useState("");
-  const [currentPwd, setCurrentPwd] = useState("");
-  const [newPwd, setNewPwd] = useState("");
-  const [confirmPwd, setConfirmPwd] = useState("");
+  //const [currentPwd, setCurrentPwd] = useState("");
+ // const [newPwd, setNewPwd] = useState("");
+ // const [confirmPwd, setConfirmPwd] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
   const [settingsMode, setSettingsMode] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [applicants, setApplicants] = useState(mockApplicants);
+  
 
   const {
     notifications,
@@ -123,6 +125,46 @@ const ApplicantsPage = () => {
   const adminInitials = "J";
   const adminContact = "123-456-7890";
   const adminSurname = "Doe";
+//Get Applicants from API
+  useEffect(() => {
+  const fetchApplicants = async () => {
+    try {
+       const API_URL = process.env.REACT_APP_API_URL;
+      const getApplicants = `${API_URL}api/Application`;
+      const response = await axios.get(getApplicants);
+      const data = response.data;
+      setApplicants(data);
+      setFilteredApplicants(data);
+      // initialize filtered list
+    } catch (error) {
+      console.error("Error fetching applicants:", error);
+    }
+  };
+
+  fetchApplicants();
+}, []);
+//Filterbase on serarch term and status
+useEffect(() => {
+  const filtered = applicants.filter((applicant) => {
+    const matchesSearch =
+      applicant.studentNum?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      applicant.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      applicant.initials?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesStatus =
+      filterStatus === "all"
+        ? true
+        : filterStatus === "eligible"
+        ? applicant.eligible
+        : !applicant.eligible;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  setFilteredApplicants(filtered);
+}, [searchTerm, filterStatus, applicants]);
+
+
   useEffect(() => {
     setAdminInfo({
       email: adminEmail,

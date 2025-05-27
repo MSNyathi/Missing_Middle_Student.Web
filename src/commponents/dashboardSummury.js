@@ -97,11 +97,7 @@ const DashboardSummary = ({
     ? monthlyApplicants.reduce((a, b) => a + b, 0)
     : 0;
 
-  const avgMonthly =
-    Array.isArray(monthlyApplicants) && monthlyApplicants.length > 0
-      ? Math.round(totalMonthly / monthlyApplicants.length)
-      : 0;
-
+  
   const months = [
     "Jan",
     "Feb",
@@ -228,9 +224,7 @@ const DashboardSummary = ({
       ))}
     </div>
 
-    <p className="text-center text-black mb-0">
-      Average per month: <span className="fw-bold">{avgMonthly}</span>
-    </p>
+    
   </motion.div>
 </div>
 
