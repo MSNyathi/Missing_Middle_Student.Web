@@ -1,4 +1,3 @@
-// src/pages/student/dashboard/StudentDashboard.jsx
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -13,7 +12,6 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import tut25 from "../../../assets/tut25.png";
-import StudentLogin from "../../../pages/student/login/studentLogin";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -35,10 +33,11 @@ const StudentDashboard = () => {
   };
 
   const backgroundStyle = {
-    backgroundColor: "#ffffff", // plain white background
+    backgroundColor: darkMode ? "#1e1e1e" : "#ffffff",
     minHeight: "100vh",
     padding: "2rem",
     transition: "background 0.3s ease-in-out",
+    color: darkMode ? "#ffffff" : "#000000",
   };
 
   const glassClass = darkMode ? "glass-card-dark" : "glass-card-light";
@@ -46,7 +45,6 @@ const StudentDashboard = () => {
   return (
     <div style={backgroundStyle}>
       <nav className="navbar glass-navbar shadow-sm px-3 py-2 fixed-top d-flex justify-content-between align-items-center">
-        {/* Left: Logo */}
         <div className="d-flex align-items-center">
           <img
             src={tut25}
@@ -55,7 +53,6 @@ const StudentDashboard = () => {
           />
         </div>
 
-        {/* Right: Theme Toggle */}
         <div className="d-flex align-items-center">
           <FaSun className="me-2" color={darkMode ? "#bbb" : "#f39c12"} />
           <div className="form-check form-switch me-2">
@@ -72,12 +69,10 @@ const StudentDashboard = () => {
         </div>
       </nav>
 
-      {/* Add top padding for fixed navbar */}
       <div
-        className={`container-fluid ${darkMode ? "text-white" : "text-dark"}`}
-        style={{ paddingTop: "90px" }}
+        className={`container-fluid`}
+        style={{ paddingTop: "90px", color: darkMode ? "#fff" : "#000" }}
       >
-        {/* Top Header */}
         <div className="text-center mb-4">
           <h2>WELCOME TO EduConnect</h2>
           <p className="text-success">
@@ -85,15 +80,15 @@ const StudentDashboard = () => {
           </p>
         </div>
 
-        {/* Notifications */}
-        <div className="alert alert-info text-center" role="alert">
-          <FaInfoCircle className="me-2" />
+        <div className={`alert alert-info text-center`} role="alert">
+          <FaInfoCircle
+            className="me-2"
+            color={darkMode ? "#17a2b8" : "#0d6efd"}
+          />
           Application submissions close on <strong>June 15, 2025!</strong>
         </div>
 
-        {/* Profile and Activity Row */}
         <div className="row mb-4">
-          {/* Profile Card */}
           <div className="col-md-4 mb-3">
             <div className={`card shadow-sm p-3 ${glassClass}`}>
               <h5>Student Profile</h5>
@@ -109,7 +104,6 @@ const StudentDashboard = () => {
             </div>
           </div>
 
-          {/* Main Actions */}
           <div className="col-md-4 mb-3 d-flex flex-column align-items-center justify-content-center">
             <div className="row w-100">
               <div className="col-12 mb-3">
@@ -117,8 +111,14 @@ const StudentDashboard = () => {
                   <div
                     className={`card p-4 shadow-lg text-center ${glassClass} card-hover-glow`}
                   >
-                    <FaLaptopCode size={100} className="mb-3 glow-icon" />
-                    <h5 className="text-white">APPLY FOR LAPTOP</h5>
+                    <FaLaptopCode
+                      size={100}
+                      className="mb-3 glow-icon"
+                      color={darkMode ? "#ffffff" : "#000000"}
+                    />
+                    <h5 className={darkMode ? "text-white" : "text-dark"}>
+                      APPLY FOR LAPTOP
+                    </h5>
                   </div>
                 </Link>
 
@@ -126,15 +126,20 @@ const StudentDashboard = () => {
                   <div
                     className={`card p-4 shadow-lg text-center ${glassClass} card-hover-glow`}
                   >
-                    <FaMapMarkedAlt size={100} className="mb-3 glow-icon" />
-                    <h5 className="text-white">TRACK APPLICATION</h5>
+                    <FaMapMarkedAlt
+                      size={100}
+                      className="mb-3 glow-icon"
+                      color={darkMode ? "#ffffff" : "#000000"}
+                    />
+                    <h5 className={darkMode ? "text-white" : "text-dark"}>
+                      TRACK APPLICATION
+                    </h5>
                   </div>
                 </Link>
               </div>
             </div>
           </div>
 
-          {/* Recent Activity */}
           <div className="col-md-4 mb-3">
             <div className={`card shadow-sm p-3 ${glassClass}`}>
               <h5>Recent Activity</h5>
@@ -151,7 +156,6 @@ const StudentDashboard = () => {
           </div>
         </div>
 
-        {/* Help and Logout */}
         <div className="d-flex justify-content-between align-items-center mt-4 px-3">
           <div className="dropdown">
             <button
@@ -176,7 +180,10 @@ const StudentDashboard = () => {
                 </Link>
               </li>
               <li>
-                <Link className="dropdown-item" to="/student/help/distribution">
+                <Link
+                  className="dropdown-item"
+                  to="/student/help/distribution"
+                >
                   🧮 How are laptops distributed?
                 </Link>
               </li>
@@ -207,7 +214,6 @@ const StudentDashboard = () => {
           </button>
         </div>
 
-        {/* Logout Modal */}
         {showModal && (
           <div
             className="modal fade show d-block"

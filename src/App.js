@@ -78,11 +78,10 @@ function App() {
               <h5>Follow Us</h5>
               <div className="d-flex justify-content-center justify-content-md-start gap-3">
                 {[
-                  { href: 'https://facebook.com', icon: 'facebook' },
+                  { href: 'https://www.facebook.com/IcepDev/', icon: 'facebook' },
                   { href: 'https://twitter.com', icon: 'twitter' },
-                  { href: 'https://instagram.com', icon: 'instagram' },
-                  { href: 'https://linkedin.com', icon: 'linkedin' },
-                  { href: 'https://youtube.com', icon: 'youtube' },
+                  { href: 'https://www.instagram.com/icep.project?igsh=MTIzbncxZjFsZDJmNg==', icon: 'instagram' },
+                  { href: 'https://www.linkedin.com/company/icep-project/posts/?feedView=all', icon: 'linkedin' },
                 ].map(({ href, icon }) => (
                   <a
                     key={icon}

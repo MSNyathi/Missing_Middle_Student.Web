@@ -1,14 +1,17 @@
 :root {
-  --bg-color: #ffffff;
-  --text-color: #000000;
-  --card-bg: rgba(255, 255, 255, 0.8);
+  --success-bg: #ffffff;
+  --success-text: #000000;
+  --success-button-bg: #4CAF50;
+  --success-button-text: #ffffff;
 }
 
 [data-theme="dark"] {
-  --bg-color: #1e1e1e;
-  --text-color: #ffffff;
-  --card-bg: rgba(0, 0, 0, 0.7);
+  --success-bg: #1e1e1e;
+  --success-text: #ffffff;
+  --success-button-bg: #28a745;
+  --success-button-text: #ffffff;
 }
+
 
 body {
   background-color: var(--bg-color);
@@ -103,4 +106,43 @@ span {
   margin-top: -8px;
   margin-bottom: 10px;
   display: block;
+}
+.success-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--success-bg);
+  color: var(--success-text);
+  height: 100vh;
+  text-align: center;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.success-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--success-text);
+}
+
+.success-subtitle {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  color: var(--success-text);
+}
+
+.success-button {
+  margin-top: 2rem;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  background-color: var(--success-button-bg);
+  color: var(--success-button-text);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.success-button:hover {
+  background-color: #218838;
 }

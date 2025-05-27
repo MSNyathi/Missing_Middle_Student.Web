@@ -124,6 +124,17 @@
   background: rgba(0, 0, 0, 0.3);
 }
 
-  
-  }
+}
+.glow-icon {
+  transition: filter 0.3s ease;
+}
+
+[data-theme="dark"] .glow-icon {
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+}
+
+[data-theme="light"] .glow-icon {
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.2));
+}
+
   
