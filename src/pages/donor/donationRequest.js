@@ -8,7 +8,7 @@ export default function DonationRequest() {
     const getTomorrowDate = () => {
     const today = new Date();
     today.setDate(today.getDate() + 1);
-    return today.toISOString().split('T')[0]; // 'YYYY-MM-DD'
+    return today.toISOString().split('T')[0];
 };
     const [formData, setFormData] = useState({
         devNum: '',
@@ -36,19 +36,17 @@ export default function DonationRequest() {
     };
 
     const handleOpenModal = (e) => {
-        e.preventDefault(); // prevent premature submission
+        e.preventDefault(); 
         setShowModal(true);
     };
 
     return (
         <div className="request-container">
             <DonorNavbar />
-
             <main className="main-contents">
                 <div className="main-heading">
                     <h1><b>DONATION REQUEST</b></h1>
                 </div>
-
                 <div className="request-form">
                     <form className="donation-form" onSubmit={handleOpenModal}>
                         <label htmlFor="NumberOfDevices">Number of Devices: </label>
