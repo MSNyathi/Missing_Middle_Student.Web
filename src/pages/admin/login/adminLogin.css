@@ -1,7 +1,5 @@
-body {
-  background-image: url("./laptop.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
+Body {
+  background-color: darkgray;
 }
 
 #mydiv{
@@ -102,7 +100,7 @@ body {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: rgba(93, 67, 0, 0.829);
+  background-color: rgb(0, 0, 0);
 }
 
 #mynav2 {

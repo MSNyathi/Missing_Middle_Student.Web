@@ -1,8 +1,4 @@
-body {
-  background-image: url("./laptop.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
+
 
 #mydiv{
   background-color: rgba(93, 67, 0, 0.829);
@@ -199,7 +195,7 @@ body {
   cursor: pointer; /* Optional: Add a pointer cursor */
 }
 #footer{
-  background-color: rgba(93, 67, 0, 0.829);
+  background-color: rgb(0, 0, 0);
   box-shadow: 8px -4px 8px rgba(255, 255, 255, 0.555);
   color: bisque;
   padding: 1px;
@@ -258,7 +254,7 @@ body {
 }
 
 #dashboard-section:hover {
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.563);
+  box-shadow: 0 4px 16px rgb(0, 0, 255);
 }
 
 #supervisorsidebar{
@@ -267,7 +263,7 @@ body {
   left: 0;
   height: 100vh;
   width: 200px;
-  background-color: rgba(29, 24, 13, 0.714);
+  background-color: blue;
   box-shadow: 8px -4px 8px rgba(255, 255, 255, 0.555);
   display: flex;
   flex-Direction: column;
@@ -308,9 +304,8 @@ body {
 
 #landingsection2{
   padding: 30px;
-  margin: 20px auto;
   background: rgba(29, 24, 13, 0.714);
-  border-radius: 12px;
+  margin: 1px;
   box-shadow: 0 4px 16px rgba(93, 67, 0, 0.15);
   max-width: 100%;
   color: #3d2c00;
@@ -318,7 +313,7 @@ body {
 
 #landingsection3 {
   padding: 30px;
-  margin: 20px auto;
+  margin: 1px;
   background: rgba(29, 24, 13, 0.714);
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(93, 67, 0, 0.15);
