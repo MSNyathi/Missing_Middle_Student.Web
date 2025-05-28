@@ -6,7 +6,7 @@ export default function DonorHistory(){
     const donationData = [
         {
             id: '12344',
-            status: 'Accepted',
+            status: 'Received',
             pickup: '2024-04-10',
             notes: 'Contains power adapters',
             deviceNum: 5,
@@ -58,9 +58,9 @@ export default function DonorHistory(){
         });
 
     const statusColors = {
-        "Accepted": "status-accepted",
-        "Pending": "status-pending",
-        "Not Accepted": "status-rejected",
+        'Pending': 'status-pending',
+        'Received': 'status-received',
+        'Not Accepted': 'status-notaccepted',
     };
 
     return (
@@ -98,7 +98,7 @@ export default function DonorHistory(){
                             <td>{item.pickup}</td>
                             <td>
                                 <span className={`status-badge ${statusColors[item.status] || ''}`}>
-                                    {item.status}
+                                        {item.status === 'Not Accepted' ? 'Not Accepted' : item.status}
                                 </span>
                             </td>
                             

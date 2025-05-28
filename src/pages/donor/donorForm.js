@@ -24,7 +24,7 @@ export default function DonorForm(){
 
         <div className='form-container'>
             <h2>DONATION REQUEST</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className='main-form'>
                     
                         <label htmlFor='staffNum'>Staff number: </label>

@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './DonorNavbar.css';
-import {FaSignOutAlt} from 'react-icons/fa';
+import {FaSignOutAlt,FaFile,FaHistory ,FaHome } from 'react-icons/fa';
 
 const DonorNavbar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -17,13 +17,13 @@ const DonorNavbar = () => {
       <h2 className="mb-4">📘 eduConnect</h2>
       <ul className="nav nav-pills flex-column">
         <li className="nav-item">
-          <Link to="/donor/dashboard" className="nav-link text-white">Home</Link>
+          <Link to="/donor/dashboard" className="nav-link text-white"><FaHome className="me-2"/>Home</Link>
         </li>
         <li className="nav-item">
-          <Link to="/donor/request" className="nav-link text-white"> Donation Request</Link>
+          <Link to="/donor/request" className="nav-link text-white"><FaFile className="me-2"/>  Request</Link>
         </li>     
         <li className="nav-item">
-          <Link to="/donor/history" className="nav-link text-white"> Donation History</Link>
+          <Link to="/donor/history" className="nav-link text-white"><FaHistory className="me-2"/> Donation History</Link>
         </li>    
         <li className="nav-item">
           <button className="nav-link text-white" onClick={() => setShowModal(true)}><FaSignOutAlt className="me-2" /> Logout</button>

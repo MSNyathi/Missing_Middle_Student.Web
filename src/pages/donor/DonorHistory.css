@@ -50,3 +50,17 @@
     cursor: pointer;
     transition: background-color 0.2s;
 }
+.status-pending {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.status-received {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-notaccepted {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
