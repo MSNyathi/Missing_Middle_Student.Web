@@ -9,11 +9,8 @@ import backgroundImage from "../../../assets/background2.jpeg";
 
 const applicationSteps = [
   "Application Submitted",
-  "Documents Under Review",
   "Academic Review",
-  "Financial Review",
-  "Under Evaluation",
-  "Recommendation Made",
+  "Documents Under Review",
 ];
 
 const TrackApplication = () => {
