@@ -98,3 +98,22 @@
     margin: 20px;
   }
 }
+.input-icon-wrapper {
+  position: relative;
+}
+
+.input-with-icon {
+  padding-right: 35px; /* space for icon */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-icon-wrapper i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+}
+
