@@ -132,7 +132,7 @@ const Dashboard = () => {
 
     setTotalDevices(safeData.device_Info?.Total_devices || 0);
     setAllocatedDevices(safeData.device_Info?.Allocated_devices || 0);
-    setApprovedApplicants(safeData.applicants_Data?.Approved_Applicants || 0);
+    setApprovedApplicants(approved || 0);
     setUnapprovedApplicants(unapproved || 0);
     setTotalApplicants( total || 0);
     const monthlyData = safeData.applicants_Montly_Data;

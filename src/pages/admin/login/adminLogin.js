@@ -53,6 +53,8 @@ export default function AdminLogin() {
         email: user.email,
         password: user.password,
       });
+      console.log("Login response:", response.data);
+      
   
       const roleFromServer = response.data?.data?.profile?.profile?.role?.toLowerCase();
       const selectedRole = user.role.toLowerCase();
