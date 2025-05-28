@@ -12,6 +12,8 @@ import NotificationPanel from "../../../commponents/notificationPanel";
 import useNotification from "../../../commponents/hooks/notificationHook";
 import Swal from "sweetalert2";
 import axios from "axios";
+import ApplicantsTable from "../../../commponents/applicantTable";
+import ApplicantModal from "../../../commponents/applicantModal";
 
 // Mock data
 const mockApplicants = [
@@ -512,89 +514,7 @@ useEffect(() => {
 
           <div className="row justify-content-center">
             <div className="col-12">
-              <div className="table-responsive">
-                <table className="table table-bordered table-hover text-center align-middle shadow-sm bg-white rounded table-3d">
-                  <thead className="table-dark">
-                    <tr>
-                      <th>#</th>
-                      <th>Student #</th>
-                      <th>Initials</th>
-                      <th>Name</th>
-                      <th>Course</th>
-                      <th>Faculty</th>
-                      <th>Campus</th>
-                      <th>Email</th>
-                      <th>Contact</th>
-                      <th>Nationality</th>
-                      <th>NSFAS</th>
-                      <th>Year</th>
-                      <th>Ethnicity</th>
-                      <th>Avg. Mark</th>
-                      <th>Eligibility</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredApplicants.map((applicant, index) => (
-                      <motion.tr
-                        key={applicant.id}
-                        onClick={() => handleRowClick(applicant)}
-                        style={{ cursor: "pointer" }}
-                        whileHover={{
-                          backgroundColor: "rgba(240, 240, 240, 0.9)",
-                          scale: 1.01,
-                          transition: { duration: 0.2 },
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          duration: 0.3,
-                          delay: index * 0.05,
-                          ease: "easeOut",
-                        }}
-                      >
-                        <td>{index + 1}</td>
-                        <td>{applicant.studentNum}</td>
-                        <td>{applicant.initials}</td>
-                        <td>{applicant.name}</td>
-                        <td>{applicant.courseName}</td>
-                        <td>{applicant.faculty}</td>
-                        <td>{applicant.campus}</td>
-                        <td>{applicant.email}</td>
-                        <td>{applicant.contact}</td>
-                        <td>{applicant.nationality}</td>
-                        <td>{applicant.nsfasStatus}</td>
-                        <td>{applicant.yearOfStudy}</td>
-                        <td>{applicant.ethnicity}</td>
-                        <td>{applicant.averageMark}%</td>
-                        <td>
-                          <span
-                            className={`badge ${
-                              applicant.eligible ? "bg-success" : "bg-danger"
-                            } eligibility-badge`}
-                          >
-                            {applicant.eligible ? "Eligible" : "Not Eligible"}
-                          </span>
-                        </td>
-                        <td>
-                          <span
-                            className={`badge ${
-                              applicant.status === "approved"
-                                ? "bg-success"
-                                : applicant.status === "rejected"
-                                ? "bg-danger"
-                                : "bg-warning"
-                            } status-badge`}
-                          >
-                            {applicant.status.charAt(0).toUpperCase() +
-                              applicant.status.slice(1)}
-                          </span>
-                        </td>
-                      </motion.tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+         <ApplicantsTable applicants={filteredApplicants} onRowClick={handleRowClick} />
             </div>
           </div>
 
@@ -611,176 +531,16 @@ useEffect(() => {
         </div>
 
         {/* Applicant Modal */}
-        <AnimatePresence>
-          {showApplicantModal && selectedApplicant && (
-            <div className="modal show d-block" tabIndex="-1">
-              <div className="modal-dialog modal-lg modal-dialog-centered">
-                <motion.div
-                  className="modal-content glass-effect"
-                  initial={{ opacity: 0, scale: 0.8, y: 50 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.8, y: 50 }}
-                  transition={{
-                    type: "spring",
-                    damping: 20,
-                    stiffness: 300,
-                    duration: 0.4,
-                  }}
-                >
-                  <div className="modal-header glass-header">
-                    <h5 className="modal-title">Applicant Information</h5>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      onClick={() => setShowApplicantModal(false)}
-                    ></button>
-                  </div>
-                  <div className="modal-body glass-body typing-text">
-                    <div className="row">
-                      <div className="col-md-6">
-                        <motion.p
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.1 }}
-                        >
-                          <strong>Name:</strong> {selectedApplicant.name}
-                        </motion.p>
-                        <motion.p
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.2 }}
-                        >
-                          <strong>Student #:</strong>{" "}
-                          {selectedApplicant.studentNum}
-                        </motion.p>
-                        <motion.p
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.3 }}
-                        >
-                          <strong>Course:</strong>{" "}
-                          {selectedApplicant.courseName}
-                        </motion.p>
-                        <motion.p
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.4 }}
-                        >
-                          <strong>Email:</strong> {selectedApplicant.email}
-                        </motion.p>
-                        <motion.p
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.5 }}
-                        >
-                          <strong>Contact:</strong> {selectedApplicant.contact}
-                        </motion.p>
-                      </div>
-                      <div className="col-md-6">
-                        <motion.p
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.1 }}
-                        >
-                          <strong>Faculty:</strong> {selectedApplicant.faculty}
-                        </motion.p>
-                        <motion.p
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.2 }}
-                        >
-                          <strong>Campus:</strong> {selectedApplicant.campus}
-                        </motion.p>
-                        <motion.p
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.3 }}
-                        >
-                          <strong>NSFAS Status:</strong>{" "}
-                          {selectedApplicant.nsfasStatus}
-                        </motion.p>
-                        <motion.p
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.4 }}
-                        >
-                          <strong>Year:</strong> {selectedApplicant.yearOfStudy}
-                        </motion.p>
-                        <motion.p
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.5 }}
-                        >
-                          <strong>Ethnicity:</strong>{" "}
-                          {selectedApplicant.ethnicity}
-                        </motion.p>
-                        <motion.p
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.6 }}
-                        >
-                          <strong>Status:</strong> {selectedApplicant.status}
-                        </motion.p>
-                      </div>
-                    </div>
-                    <motion.hr
-                      initial={{ opacity: 0, width: "0%" }}
-                      animate={{ opacity: 1, width: "100%" }}
-                      transition={{ delay: 0.6, duration: 0.5 }}
-                    />
-                    <motion.h5
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.7 }}
-                    >
-                      Proof of Income
-                    </motion.h5>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8 }}
-                    >
-                      <a
-                        href={selectedApplicant.proofOfIncomeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <img
-                          src={
-                            selectedApplicant.proofOfIncomeUrl ||
-                            "/placeholder.svg"
-                          }
-                          className="img-fluid rounded proof-image"
-                          style={{ maxHeight: "300px" }}
-                          alt="Proof of Income"
-                        />
-                      </a>
-                    </motion.div>
-                  </div>
-                  <div className="modal-footer glass-footer">
-                    <motion.button
-                      className="btn btn-danger btn-glass"
-                      onClick={() => handlePasswordPrompt("reject")}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Reject
-                    </motion.button>
-                    <motion.button
-                      className="btn btn-success btn-glass"
-                      onClick={() => handlePasswordPrompt("approve")}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Approve
-                    </motion.button>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          )}
-        </AnimatePresence>
-
+       <AnimatePresence>
+        {showApplicantModal && selectedApplicant && (
+          <ApplicantModal
+            applicant={selectedApplicant}
+            onClose={() => setShowApplicantModal(false)}
+            onApprove={() => handlePasswordPrompt("approve")}
+            onReject={() => handlePasswordPrompt("reject")}
+          />
+        )}
+      </AnimatePresence>
         {/* Admin Profile Modal */}
 
         <AnimatePresence>

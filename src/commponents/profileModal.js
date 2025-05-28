@@ -18,6 +18,7 @@ const ProfileModal = ({
     surname: "",
     email: "",
     contact: "",
+    role: "",
   });
 
   // Load profile from localStorage on component mount
@@ -34,6 +35,7 @@ const ProfileModal = ({
         surname: profile.surname || "",
         email: profile.email || "",
         contact: profile.contact || "",
+        role: profile.role || "",
       });
     } catch (error) {
       console.error("Failed to parse adminData:", error);
@@ -104,6 +106,9 @@ const ProfileModal = ({
           </p>
           <p>
             <strong>Contact:</strong> {adminInfo.contact}
+          </p>
+          <p>
+            <strong>Role:</strong> {adminInfo.role}
           </p>
         </div>
 
