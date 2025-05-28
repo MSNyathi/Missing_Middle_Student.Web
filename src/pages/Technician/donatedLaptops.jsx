@@ -1,171 +1,240 @@
-import React, { useState } from 'react';
-import Sidebar from '../../commponents/Sidebar';
-import './devicesTable.css';
+import React, { useEffect, useState } from "react";
+import { FaLaptop, FaUserCheck, FaUserSlash } from "react-icons/fa";
+import Sidebar from "../../commponents/Sidebar";
 
-function DonatedLaptops() {
-  const initialLaptops = [
-    { id: 1, brand: 'Dell', model: 'XPS 13', donor: 'Alice', year: 2023, status: 'Good' },
-    { id: 2, brand: 'HP', model: 'EliteBook', donor: 'Bob', year: 2022, status: 'Refurbished' },
-    { id: 3, brand: 'Apple', model: 'MacBook Pro', donor: 'Charlie', year: 2023, status: 'Needs Repair' },
-    { id: 4, brand: 'Lenovo', model: 'ThinkPad', donor: 'Dave', year: 2023, status: 'Good' },
-    { id: 5, brand: 'Asus', model: 'ZenBook', donor: 'Eve', year: 2022, status: 'Refurbished' },
-    { id: 6, brand: 'Acer', model: 'Aspire 5', donor: 'Frank', year: 2023, status: 'Needs Repair' },
-    // Add more if needed
-  ];
+export default function ViewDevices() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [conditionFilter, setConditionFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [allocationFilter, setAllocationFilter] = useState("");
+  const [selectedDevice, setSelectedDevice] = useState(null);
+  const [devices, setDevices] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const [search, setSearch] = useState('');
-  const [sortBy, setSortBy] = useState('');
-  const [yearFilter, setYearFilter] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const laptopsPerPage = 5;
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 5;
 
-  const filteredLaptops = initialLaptops
-    .filter((laptop) =>
-      [laptop.brand, laptop.model, laptop.donor].some((field) =>
-        field.toLowerCase().includes(search.toLowerCase())
-      )
-    )
-    .filter((laptop) => (yearFilter ? laptop.year.toString() === yearFilter : true))
-    .sort((a, b) => {
-      if (sortBy === 'donor') return a.donor.localeCompare(b.donor);
-      if (sortBy === 'status') return a.status.localeCompare(b.status);
-      return 0;
-    });
+ 
 
-  const indexOfLastLaptop = currentPage * laptopsPerPage;
-  const indexOfFirstLaptop = indexOfLastLaptop - laptopsPerPage;
-  const currentLaptops = filteredLaptops.slice(indexOfFirstLaptop, indexOfLastLaptop);
-  const totalPages = Math.ceil(filteredLaptops.length / laptopsPerPage);
 
-  const exportToCSV = () => {
-    const headers = ['ID', 'Brand', 'Model', 'Donor', 'Year', 'Status'];
-    const rows = filteredLaptops.map((l) => [l.id, l.brand, l.model, l.donor, l.year, l.status]);
+  const fetchDevices = async () => {
+    setLoading(true);
+    setError("");
+  
+    try {
+      const params = new URLSearchParams();
+  
+      if (searchTerm) params.append("search", searchTerm);
+  
+      if (allocationFilter) {
+        params.append("status", allocationFilter);  // directly pass allocated/unallocated
+      }
+  
+      if (conditionFilter) params.append("condition", conditionFilter);
+  
+      params.append("page", page);
+      params.append("pageSize", itemsPerPage);
+  
+      const baseUrl = process.env.REACT_APP_API_URL;
+      const response = await fetch(`${baseUrl}AllDevices?${params.toString()}`);
+  
+      if (!response.ok) throw new Error("Failed to fetch devices");
+  
+      const data = await response.json();
+  
+      setDevices(data.devices || []);
+      setTotalPages(data.totalPages || 1);
+    } catch (err) {
+      console.error(err);
+      setError("Could not load devices. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  
 
-    const csvContent =
-      'data:text/csv;charset=utf-8,' +
-      headers.join(',') +
-      '\n' +
-      rows.map((row) => row.join(',')).join('\n');
+  useEffect(() => {
+    fetchDevices();
+  }, [searchTerm, conditionFilter, statusFilter, allocationFilter, page]);
 
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', 'donated_laptops.csv');
-    document.body.appendChild(link);
-    link.click();
+  const handleResetFilters = () => {
+    setSearchTerm("");
+    setConditionFilter("");
+    setStatusFilter("");
+    setAllocationFilter("");
+    setPage(1);
   };
 
   return (
-    <div style={{ display: 'flex', background: '#f2f0f1' }}>
-      <div style={{ width: '250px', backgroundColor: '#003366', minHeight: '100vh' }}>
-        <Sidebar />
-      </div>
+    <div className="d-flex bg-light min-vh-100">
+      < Sidebar/>
+      <div className="flex-grow-1 p-4">
+        <h2 className="mb-4 text-dark">📦 View Devices</h2>
 
-      <div style={{ padding: '20px', flex: 1 }}>
-        <h2>Donated Laptops</h2>
-
-        <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-          {/* Search */}
+        {/* Filters */}
+        <div className="bg-white rounded shadow-sm p-4 mb-4">
           <input
             type="text"
-            placeholder="Search by brand, model, or donor"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="form-control"
-            style={{ width: '250px' }}
+            className="form-control mb-3"
+            placeholder="Search by brand, model, or serial number..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setPage(1);
+            }}
           />
 
-          {/* Sort */}
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="form-select"
-            style={{ width: '180px' }}
-          >
-            <option value="">Sort By</option>
-            <option value="donor">Donor</option>
-            <option value="status">Status</option>
-          </select>
+          <div className="row g-3">
+            <div className="col-md-4">
+              <select
+                className="form-select"
+                value={allocationFilter}
+                onChange={(e) => {
+                  setAllocationFilter(e.target.value);
+                  setPage(1);
+                }}
+              >
+                <option value="">All Allocation Status</option>
+                <option value="allocated">Allocated</option>
+                <option value="unallocated">Unallocated</option>
+              </select>
+            </div>
 
-          {/* Year Filter */}
-          <select
-            value={yearFilter}
-            onChange={(e) => setYearFilter(e.target.value)}
-            className="form-select"
-            style={{ width: '180px' }}
-          >
-            <option value="">Filter by Year</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-          </select>
+            <div className="col-md-4">
+              <select
+                className="form-select"
+                value={conditionFilter}
+                onChange={(e) => {
+                  setConditionFilter(e.target.value);
+                  setPage(1);
+                }}
+              >
+                <option value="">All Conditions</option>
+                <option value="Refurbished">Refurbished</option>
+                <option value="New">New</option>
+              </select>
+            </div>
+          </div>
 
-          {/* Export CSV */}
-          <button className="btn btn-success" onClick={exportToCSV}>
-            Export CSV
+          <button className="btn btn-outline-primary btn-sm mt-3" onClick={handleResetFilters}>
+            Reset Filters
           </button>
         </div>
-
-        <div
-          style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.7)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            borderRadius: '10px',
-            padding: '20px',
-            boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
-            overflowX: 'auto',
-          }}
-        >
-          <table id="written" className="table table-striped">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Brand</th>
-                <th>Model</th>
-                <th>Donor</th>
-                <th>Year</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentLaptops.length > 0 ? (
-                currentLaptops.map((laptop) => (
-                  <tr key={laptop.id}>
-                    <td>{laptop.id}</td>
-                    <td>{laptop.brand}</td>
-                    <td>{laptop.model}</td>
-                    <td>{laptop.donor}</td>
-                    <td>{laptop.year}</td>
-                    <td>{laptop.status}</td>
+       
+        {/* Devices Table */}
+        <div className="bg-white rounded shadow-sm p-3">
+          {loading ? (
+            <div>Loading devices...</div>
+          ) : error ? (
+            <div className="text-danger">{error}</div>
+          ) : devices.length === 0 ? (
+            <div>No devices found.</div>
+          ) : (
+            <>
+              <table className="table table-striped shadow rounded bg-white table-hover">
+                <thead className="table-primary text-center">
+                  <tr>
+                    <th>#</th>
+                    <th>Serial Number</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Condition</th>
+                    <th>Status</th>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6">No laptops found.</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  {devices.map((device, index) => (
+                    <tr
+                      key={index}
+                      onClick={() => setSelectedDevice(device)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <td>{(page - 1) * itemsPerPage + index + 1}</td>
+                      <td>{device.serialNumber}</td>
+                      <td>{device.brand}</td>
+                      <td>{device.model}</td>
+                      <td>{device.condition}</td>
+                      <td>{device.status}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+               {/* Pagination Controls */}
+            <div className="d-flex justify-content-between align-items-center mt-3">
+              <span>Page {page} of {totalPages}</span>
+              <div>
+                <button
+                  className="btn btn-outline-primary btn-sm me-2"
+                  onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                  disabled={page === 1}
+                >
+                  Previous
+                </button>
+                <button
+                  className="btn btn-outline-primary btn-sm"
+                  onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+                  disabled={page === totalPages}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+            </>
+          )}
         </div>
 
-        {/* Pagination */}
-        <nav className="mt-3">
-          <ul className="pagination">
-            {[...Array(totalPages).keys()].map((num) => (
-              <li
-                key={num}
-                className={`page-item ${currentPage === num + 1 ? 'active' : ''}`}
-              >
-                <button className="page-link" onClick={() => setCurrentPage(num + 1)}>
-                  {num + 1}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {/* Modal */}
+        {selectedDevice && (
+            <>
+            <div
+              className="modal-backdrop fade show"
+              onClick={() => setSelectedDevice(null)}
+              style={{ backgroundColor: "rgba(0,0,0,0.5)", position: "fixed", top: 0, left: 0, width: "100%", height: "100%", zIndex: 1040 }}
+            />
+            <div className="modal show d-block" style={{ zIndex: 1050 }}>
+              <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-content shadow">
+                  <div className="modal-header bg-primary text-white">
+                    <h5 className="modal-title">
+                      <FaLaptop className="me-2" />
+                      {`${selectedDevice.brand} ${selectedDevice.model}`}
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close btn-close-white"
+                      onClick={() => setSelectedDevice(null)}
+                    />
+                  </div>
+                  <div className="modal-body">
+                    <p><strong>Serial Number:</strong> {selectedDevice.serialNumber || "N/A"}</p>
+                    <p><strong>Condition:</strong> {selectedDevice.condition}</p>
+                    <p><strong>Status:</strong> {selectedDevice.status}</p>
+                    <p><strong>Allocation:</strong>{" "}
+                      {selectedDevice.status === "Distributed" ? (
+                        <span className="text-success"><FaUserCheck className="me-2" /> Allocated</span>
+                      ) : (
+                        <span className="text-danger"><FaUserSlash className="me-2" /> Not Allocated</span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => setSelectedDevice(null)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
 }
-
-export default DonatedLaptops;

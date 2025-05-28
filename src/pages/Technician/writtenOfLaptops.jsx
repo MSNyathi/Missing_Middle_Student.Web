@@ -21,7 +21,7 @@ function WrittenOfLaptops() {
     )
     .sort((a, b) => {
       if (sortBy === 'donor') return a.donor.localeCompare(b.donor);
-      if (sortBy === 'status') return a.status.localeCompare(b.status);
+      if (sortBy === 'brand') return a.brand.localeCompare(b.brand);
       return 0;
     });
 
@@ -53,7 +53,7 @@ function WrittenOfLaptops() {
           >
             <option value="">Sort By</option>
             <option value="donor">Donor</option>
-            <option value="status">Status</option>
+            <option value="brand">Brand</option>
           </select>
         </div>
 

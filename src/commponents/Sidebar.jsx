@@ -30,15 +30,6 @@ const Sidebar = () => (
       <Nav.Link as={Link} to="/technician/writtenOfLaptops" className="text-white d-flex align-items-center gap-2">
         <FaTrash /> Written Off Laptops
       </Nav.Link>
-      <Nav.Link as={Link} to="/logistics" className="text-white d-flex align-items-center gap-2">
-        <FaTruck /> Logistics Liaison
-      </Nav.Link>
-      <Nav.Link as={Link} to="/uploadMissing" className="text-white d-flex align-items-center gap-2">
-        <FaCloudUploadAlt /> Upload to Middle Missing
-      </Nav.Link>
-      <Nav.Link as={Link} to="/technician/settings" className="text-white d-flex align-items-center gap-2">
-        <FaCog /> Settings
-      </Nav.Link>
       <Nav.Link as={Link} to="/admin/login" className="text-white d-flex align-items-center gap-2">
         <FaSignOutAlt /> Logout
       </Nav.Link>

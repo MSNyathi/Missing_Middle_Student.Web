@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Row, Col, Card, Table, Button, Form } from 'react-bootstrap';
 import Sidebar from '../../commponents/Sidebar';
-import './technician.css'
+import './technician.css';
 
 const Dashboard = () => {
   const [sortOrder, setSortOrder] = useState('latest');
@@ -25,10 +25,9 @@ const Dashboard = () => {
     return new Date(a.date) - new Date(b.date);
   });
 
-  // Handle the change of upload status
   const handleStatusChange = (serialNo, event) => {
     const updatedStatuses = { ...statuses, [serialNo]: event.target.value };
-    setStatuses(updatedStatuses);  // Update the state with the new status
+    setStatuses(updatedStatuses);
   };
 
   return (
@@ -104,21 +103,20 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* Dynamic rows based on refurbishment progress */}
                 {[
-                  { serialNo: 'TLS124458', status: 'Received', date: '2024-04-12' },
-                  { serialNo: 'TLS234557', status: 'In Refurbishment', date: '2024-04-12' },
-                  { serialNo: 'TLS345678', status: 'Completed', date: '2024-04-10' },
-                  { serialNo: 'TLS456799', status: 'Completed', date: '2024-04-08' },
+                  { serialNo: 'TLS124458', date: '2024-04-12' },
+                  { serialNo: 'TLS234557', date: '2024-04-12' },
+                  { serialNo: 'TLS345678', date: '2024-04-10' },
+                  { serialNo: 'TLS456799', date: '2024-04-08' },
                 ].map((item) => (
                   <tr key={item.serialNo}>
                     <td>{item.serialNo}</td>
-                    <td>{item.status}</td>
+                    <td>{statuses[item.serialNo]}</td>
                     <td>{item.date}</td>
                     <td>
                       <Form.Select
-                        value={statuses[item.serialNo]} // Display the current status for each serialNo
-                        onChange={(e) => handleStatusChange(item.serialNo, e)} // Update the status when changed
+                        value={statuses[item.serialNo]}
+                        onChange={(e) => handleStatusChange(item.serialNo, e)}
                         size="sm"
                       >
                         <option value="Received">Received</option>
@@ -136,7 +134,7 @@ const Dashboard = () => {
           {/* Notifications Section */}
           <Col md={4}>
             <h5 style={{ color: '#003366', fontWeight: '600' }}>Notifications</h5>
-            <Card style={{ backgroundColor: '#ffffff', }}>
+            <Card style={{ backgroundColor: '#ffffff' }}>
               <Card.Body>
                 <Form.Select
                   className="mb-3"
@@ -148,9 +146,7 @@ const Dashboard = () => {
                   <option value="oldest">Sort by Oldest</option>
                 </Form.Select>
 
-                {/* Scrollable Content + Buttons Side-by-Side */}
                 <div style={{ display: 'flex', alignItems: 'stretch' }}>
-                  {/* Scrollable Notifications */}
                   <div
                     id="notifications-scroll"
                     style={{
@@ -172,7 +168,6 @@ const Dashboard = () => {
                     </ul>
                   </div>
 
-                  {/* Scroll Buttons */}
                   <div
                     style={{
                       display: 'flex',
