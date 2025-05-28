@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import backgroundImage from "../../../../assets/backgroundAdmin.jpeg";
-import eLogo  from '../../../../assets/e.png'
+
 import useNotification from "../../../../commponents/hooks/notificationHook";
 import NotificationPanel from "../../../../commponents/notificationPanel";
 
@@ -195,7 +195,7 @@ const ViewTechnicians = () => {
         <div className="d-flex justify-content-between align-items-center mb-3" style={{ paddingTop: "20px" }}>
           <div className="d-flex align-items-center">
             <img
-              src={eLogo}
+              
               alt="eLogo"
               style={{ width: "40px", height: "40px", objectFit: "contain" }}
             />

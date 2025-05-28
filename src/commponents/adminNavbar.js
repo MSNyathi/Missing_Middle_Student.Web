@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 import {
   FaHome, FaLaptop, FaUserPlus, FaUsers, FaSignOutAlt, FaClipboardList
 } from "react-icons/fa";
-import eLogo from "../assets/e.png";
 import tutLogo from "../assets/tut25.png";
 import "./adminNavbar.css"; // Make sure this file is updated too
 
