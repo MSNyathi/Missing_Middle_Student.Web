@@ -1,35 +1,78 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaLaptopCode,
   FaMapMarkedAlt,
   FaInfoCircle,
   FaSignOutAlt,
-} from 'react-icons/fa';
-import 'bootstrap/dist/css/bootstrap.min.css';
+  FaSun,
+  FaMoon,
+} from "react-icons/fa";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css";
+import tut25 from "../../../assets/tut25.png";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
+
+  useEffect(() => {
+    const theme = darkMode ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [darkMode]);
 
   const handleConfirmLogout = () => {
     setShowModal(false);
-    navigate('/');
+    localStorage.removeItem("isLoggedIn");
+    navigate("/student/login");
   };
 
-  // Background image style
   const backgroundStyle = {
-    backgroundImage: "url('/background2.jpeg')",
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    minHeight: '100vh',
-    padding: '2rem',
+    backgroundColor: darkMode ? "#1e1e1e" : "#ffffff",
+    minHeight: "100vh",
+    padding: "2rem",
+    transition: "background 0.3s ease-in-out",
+    color: darkMode ? "#ffffff" : "#000000",
   };
+
+  const glassClass = darkMode ? "glass-card-dark" : "glass-card-light";
 
   return (
     <div style={backgroundStyle}>
-      <div className="container-fluid text-white">
-        {/* Top Header */}
+      <nav className="navbar glass-navbar shadow-sm px-3 py-2 fixed-top d-flex justify-content-between align-items-center">
+        <div className="d-flex align-items-center">
+          <img
+            src={tut25}
+            alt="TUT Logo"
+            style={{ height: "45px", objectFit: "contain" }}
+          />
+        </div>
+
+        <div className="d-flex align-items-center">
+          <FaSun className="me-2" color={darkMode ? "#bbb" : "#f39c12"} />
+          <div className="form-check form-switch me-2">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              checked={darkMode}
+              onChange={() => setDarkMode(!darkMode)}
+              id="themeSwitch"
+              style={{ cursor: "pointer" }}
+            />
+          </div>
+          <FaMoon className="me-2" color={darkMode ? "#f1c40f" : "#999"} />
+        </div>
+      </nav>
+
+      <div
+        className={`container-fluid`}
+        style={{ paddingTop: "90px", color: darkMode ? "#fff" : "#000" }}
+      >
         <div className="text-center mb-4">
           <h2>WELCOME TO EduConnect</h2>
           <p className="text-success">
@@ -37,87 +80,172 @@ const StudentDashboard = () => {
           </p>
         </div>
 
-        {/* Notifications */}
-        <div className="alert alert-info text-center" role="alert">
-          <FaInfoCircle className="me-2" />
+        <div className={`alert alert-info text-center`} role="alert">
+          <FaInfoCircle
+            className="me-2"
+            color={darkMode ? "#17a2b8" : "#0d6efd"}
+          />
           Application submissions close on <strong>June 15, 2025!</strong>
         </div>
 
-        {/* Profile and Activity Row */}
         <div className="row mb-4">
-          {/* Profile Card */}
           <div className="col-md-4 mb-3">
-            <div className="card shadow-sm p-3">
+            <div className={`card shadow-sm p-3 ${glassClass}`}>
               <h5>Student Profile</h5>
-              <p><strong>Name:</strong> John Doe</p>
-              <p><strong>Email:</strong> john@example.com</p>
-              <p><strong>Student ID:</strong> 123456</p>
+              <p>
+                <strong>Name:</strong> John Doe
+              </p>
+              <p>
+                <strong>Email:</strong> john@example.com
+              </p>
+              <p>
+                <strong>Student ID:</strong> 123456
+              </p>
             </div>
           </div>
 
-          {/* Main Actions */}
           <div className="col-md-4 mb-3 d-flex flex-column align-items-center justify-content-center">
             <div className="row w-100">
               <div className="col-12 mb-3">
                 <Link to="/student/apply" className="text-decoration-none">
-                  <div className="card p-4 shadow-lg text-center">
-                    <FaLaptopCode size={100} className="mb-3" />
-                    <h5 className="text-dark">APPLY FOR LAPTOP</h5>
+                  <div
+                    className={`card p-4 shadow-lg text-center ${glassClass} card-hover-glow`}
+                  >
+                    <FaLaptopCode
+                      size={100}
+                      className="mb-3 glow-icon"
+                      color={darkMode ? "#ffffff" : "#000000"}
+                    />
+                    <h5 className={darkMode ? "text-white" : "text-dark"}>
+                      APPLY FOR LAPTOP
+                    </h5>
                   </div>
                 </Link>
-              </div>
-              <div className="col-12">
+
                 <Link to="/student/track" className="text-decoration-none">
-                  <div className="card p-4 shadow-lg text-center">
-                    <FaMapMarkedAlt size={100} className="mb-3" />
-                    <h5 className="text-dark">TRACK APPLICATION</h5>
+                  <div
+                    className={`card p-4 shadow-lg text-center ${glassClass} card-hover-glow`}
+                  >
+                    <FaMapMarkedAlt
+                      size={100}
+                      className="mb-3 glow-icon"
+                      color={darkMode ? "#ffffff" : "#000000"}
+                    />
+                    <h5 className={darkMode ? "text-white" : "text-dark"}>
+                      TRACK APPLICATION
+                    </h5>
                   </div>
                 </Link>
               </div>
             </div>
           </div>
 
-          {/* Recent Activity */}
           <div className="col-md-4 mb-3">
-            <div className="card shadow-sm p-3">
+            <div className={`card shadow-sm p-3 ${glassClass}`}>
               <h5>Recent Activity</h5>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item">Applied for Laptop – May 5, 2025</li>
-                <li className="list-group-item">Checked Application Status</li>
-                <li className="list-group-item">Logged In</li>
+                <li className="list-group-item bg-transparent">
+                  Applied for Laptop – May 5, 2025
+                </li>
+                <li className="list-group-item bg-transparent">
+                  Checked Application Status
+                </li>
+                <li className="list-group-item bg-transparent">Logged In</li>
               </ul>
             </div>
           </div>
         </div>
 
-        {/* Help and Logout */}
         <div className="d-flex justify-content-between align-items-center mt-4 px-3">
-          <Link to="/student/help" className="btn btn-outline-info">
-            <FaInfoCircle className="me-2" />
-            Need Help?
-          </Link>
+          <div className="dropdown">
+            <button
+              className="btn btn-outline-info dropdown-toggle"
+              type="button"
+              id="helpDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <FaInfoCircle className="me-2" />
+              Help Topics
+            </button>
+            <ul className="dropdown-menu" aria-labelledby="helpDropdown">
+              <li>
+                <Link className="dropdown-item" to="/student/help/about">
+                  📌 What is this project about?
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/eligible">
+                  📝 Who is eligible?
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="dropdown-item"
+                  to="/student/help/distribution"
+                >
+                  🧮 How are laptops distributed?
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/warranty">
+                  🛠️ Warranty or support?
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/contact">
+                  📍 Who do I contact?
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/security">
+                  🔐 Security & support
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-          <button className="btn btn-danger" onClick={() => setShowModal(true)}>
+          <button
+            className="btn btn-outline-danger d-flex align-items-center"
+            onClick={() => setShowModal(true)}
+          >
             <FaSignOutAlt className="me-2" />
             Logout
           </button>
         </div>
 
-        {/* Logout Modal */}
         {showModal && (
-          <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <div
+            className="modal fade show d-block"
+            tabIndex="-1"
+            style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+          >
             <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
+              <div className={`modal-content ${glassClass}`}>
                 <div className="modal-header">
                   <h5 className="modal-title">Confirm Logout</h5>
-                  <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={() => setShowModal(false)}
+                  ></button>
                 </div>
                 <div className="modal-body">
                   <p>Are you sure you want to logout?</p>
                 </div>
                 <div className="modal-footer">
-                  <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
-                  <button className="btn btn-danger" onClick={handleConfirmLogout}>Yes, Logout</button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={handleConfirmLogout}
+                  >
+                    Yes, Logout
+                  </button>
                 </div>
               </div>
             </div>

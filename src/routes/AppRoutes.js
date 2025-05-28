@@ -9,18 +9,37 @@ import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice'
 import StudentDashboard from '../pages/student/dashboard';
 import ApplyLaptop from '../pages/student/applyLaptop';
 import TrackApplication from '../pages/student/trackApplication';
+
+import HelpPageLaptops from '../pages/student/help/helpPage'; // help page
+
+
+
+
+
+
+
+
+
+
 import Login from '../Login/Login'
 import RegisterForm from '../pages/student/register/RegisterForm';
 import SuccessPage from '../pages/student/register/SuccessPage';
 import AdminLogin from '../pages/admin/login/adminLogin';
 import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
+import StudentForgotPassword from '../pages/student/login/studentforgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
 import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
+
 import TechnicianProfile from '../pages/admin/register/viewTechnicians';
 import RegisterDevice from '../pages/Technician/registerDevice';
 import WrittenOfLaptops from '../pages/Technician/writtenOfLaptops';
 import DonatedLaptops from '../pages/Technician/donatedLaptops';
+
+import TechnicianProfile from '../pages/admin/register/viewTechnicians'
+import StudentLogin from '../pages/student/login/studentLogin';
+
+
 // import other pages here as needed
 
 
@@ -32,10 +51,21 @@ const AppRoutes = () => {
       <Route path="/admin/applicants" element={<Applicants />} />
       <Route path="/admin/register" element={<RegisterTechnician />} />
       <Route path="/admin/assign-device" element={<AssignDevicePage />} />
-      <Route path="/student" element={<StudentDashboard />} />
+      <Route path="/student/dashboard" element={<StudentDashboard />} />
       <Route path="/student/apply" element={<ApplyLaptop />} />
       <Route path="/student/track" element={<TrackApplication />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/student/help" element={<HelpPageLaptops />} />
+      <Route path="/student/login" element={<StudentLogin />} />
+      <Route path="/student/login/forgot-password" element={<StudentForgotPassword />} />
+      
+
+
+
+ 
+  
+
+
+      
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/register" element={<RegisterForm />} />
@@ -47,6 +77,7 @@ const AppRoutes = () => {
       <Route path="/technician/registerDevice" element={<RegisterDevice />} />
       <Route path="/technician/writtenOfLaptops" element={<WrittenOfLaptops />} />
       <Route path="/technician/donatedLaptops" element={<DonatedLaptops />} />
+
 
       {/* Add more routes here */}
     </Routes>

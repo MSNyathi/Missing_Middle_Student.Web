@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import tut25 from '../assets/tut25.png';
 import './loginNavbar.css';
 import { Link } from 'react-router-dom';
+import "../pages/student/login/studentLogin.css"; // Adjust the path as needed
 
 const LoginNavbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -31,7 +32,7 @@ const LoginNavbar = () => {
         {dropdownOpen && (
           <div className="dropdown-content">
             <Link to="/admin/login">Admin Login</Link>
-            <Link to="/login">Student Login</Link>
+            <Link to="/student/login">Student Login</Link>
           </div>
         )}
       </div>
