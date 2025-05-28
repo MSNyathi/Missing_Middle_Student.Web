@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from '../../commponents/Sidebar'; // Ensure correct path
-import { QrReader } from 'react-qr-reader';
+//import { QrReader } from 'react-qr-reader';
 
 function RegisterDevice() {
   const [scannedCode, setScannedCode] = useState('');
@@ -75,7 +75,7 @@ function RegisterDevice() {
         </button>
 
         {/* QR Scanner */}
-        {showScanner && (
+       {/* {showScanner && (
           <div style={{ display: 'flex',marginBottom: 20 }}>
             <QrReader
               onResult={(result, error) => {
@@ -86,7 +86,7 @@ function RegisterDevice() {
               style={{ width: '100%' }}
             />
           </div>
-        )}
+        )}*/}
 
         {/* Status and Data Display */}
         <p><strong>Status:</strong> {status}</p>
