@@ -29,33 +29,38 @@ function App() {
       <img id="myimg" src={tut25} classname="bcolor"/>
       </Link>
       <h1 id="myh1">Welcome to EduConnect</h1>
-      <Link to="/login" id="mylink">
-      <button id="btn"><i id="i" className="bi bi-person-circle" style={{ fontSize: '1.5rem' } }></i>SIGN IN</button>
-      </Link>
+      
     </nav>
-    <div id="mynav">
-      <i><h2 id="p1">Sections</h2></i>
-      
-        <a id="landingsection1li" href="/">Home</a>
-        <a id="landingsection1li" href="/announcements">Announcements</a>
-        <a id="landingsection1li" href="/application-requirements">Application Requirements</a>
-        <a id="landingsection1li"href="/Supervisor/Login">Supervisor</a>
-      
-    </div>
+    
     <section id="landingsection2" class="py-12 px-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
-    <h2 id="p1">Welcome to the Multi-Role Platform</h2>
+    <h2 id="p1">The Multi-Role Platform</h2>
     <p id="p1" class="max-w-2xl mx-auto text-lg">Serving Donors, Supervisors, Admins, Students, and Technicians to streamline collaboration and support.</p>
-    <nav id="mynav">
+    <nav id="">
 
       <p id="landingsection1li" class="mt-2 font-medium">🎁Donor</p>
-      <p id="landingsection1li" class="mt-2 font-medium">🧑‍🏫Supervisor</p>
-      <p id="landingsection1li" class="mt-2 font-medium">🛡️Admin</p>
-      <p id="landingsection1li" class="mt-2 font-medium">🎓Student</p>
+      <Link to="/Supervisor/Login">
+        <p id="landingsection1li" class="mt-2 font-medium">🧑‍🏫Supervisor</p>
+      </Link>
+      <Link to="/adminlogin">
+        <p id="landingsection1li" class="mt-2 font-medium">🛡️Admin</p>
+      </Link>
+      <Link to="/login" id="mylink">
+        <p id="landingsection1li" class="mt-2 font-medium">🎓Student</p>
+      </Link>
+      <Link to="/adminlogin">
       <p id="landingsection1li" class="mt-2 font-medium">🛠️Technician</p>
+      </Link>
     </nav>
 
   </section>
-    <div id="landingsection1">
+  <section id="landingsection3">
+      <div>
+                <h1 id="myh1">Announcements</h1>
+                <p id="p1">Stay updated with the latest announcements and news related to the laptop donation program.</p>
+                {/* Add your announcements content here */}
+            </div>
+  </section>
+    <div id="landingsection3">
       
       
       <div id="landingsection1">
@@ -74,6 +79,10 @@ function App() {
                     <li id="p1">Must be a registered student at Tshwane University of Technology.</li>
                     <li id="p1">Demonstrated financial need.</li>
                     <li id="p1">Commitment to using the laptop for academic purposes.</li>
+                    <li id="p1">Agreement to the terms and conditions of the laptop program.</li>
+                    <li id="p1">Must not have received a laptop from this program in the past.</li>
+                    <li id="p1">Must provide a valid student ID and proof of registration.</li>
+
                 </ul>
                 <p id="p1">If you meet these requirements, please proceed to the application form.</p>
             </div>

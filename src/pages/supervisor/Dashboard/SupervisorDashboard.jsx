@@ -42,7 +42,7 @@ function SupervisorDashboard() {
                     </button>
                 </div>
             </div>
-            <div style={{ margin: "40px auto", maxWidth: 900 }}>
+            <div id="supervisordashcards">
                 
                 <div id="dashboard-section" className="dashboard-section">
                     <h3 id="myh1">Pending Donation Requests</h3>
@@ -54,6 +54,8 @@ function SupervisorDashboard() {
                     <p id="p3">Capture serial numbers and add laptops to the database after receiving them.</p>
                     {/* TODO: Form to add serial numbers */}
                 </div>
+            </div>
+            <div id="supervisordashcards">
                 <div id="dashboard-section" className="dashboard-section">
                     <h3 id="myh1">Send Devices to Technician</h3>
                     <p id="p3">Send a report of added devices to the technician for further processing.</p>
@@ -65,6 +67,7 @@ function SupervisorDashboard() {
                     {/* TODO: List/download links */}
                 </div>
             </div>
+            
         </>
     );
 }
