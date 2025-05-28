@@ -22,6 +22,7 @@ import SupervisorLogin from '../pages/supervisor/Login/SupervisorLogin';
 import SupervisorDashboard from '../pages/supervisor/Dashboard/SupervisorDashboard';
 import Announcements from '../pages/landingpage/Announcements';
 import ApplicationRequirements from '../pages/landingpage/ApplicationRequirements';
+import DonationRequests from '../pages/supervisor/Dashboard/DonationRequests';
 // import other pages here as needed
 
 
@@ -49,6 +50,7 @@ const AppRoutes = () => {
       <Route path="/supervisor/dashboard" element={<SupervisorDashboard />} />
       <Route path="/announcements" element={<Announcements />} />
       <Route path="/application-requirements" element={<ApplicationRequirements />} />
+      <Route path="/supervisor/donation-requests" element={<DonationRequests />} />
 
 
       {/* Add more routes here */}

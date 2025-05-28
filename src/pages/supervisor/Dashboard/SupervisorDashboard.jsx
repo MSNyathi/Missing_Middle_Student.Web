@@ -43,12 +43,13 @@ function SupervisorDashboard() {
                 </div>
             </div>
             <div id="supervisordashcards">
-                
+                <Link to="/supervisor/donation-requests" id="mylink">
                 <div id="dashboard-section" className="dashboard-section">
                     <h3 id="myh1">Pending Donation Requests</h3>
                     <p id="p3">View and accept new laptop donation requests from donors.</p>
                     {/* TODO: List of pending requests */}
                 </div>
+                </Link>
                 <div id="dashboard-section" className="dashboard-section">
                     <h3 id="myh1">Add Received Devices</h3>
                     <p id="p3">Capture serial numbers and add laptops to the database after receiving them.</p>
