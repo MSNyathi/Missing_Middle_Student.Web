@@ -50,23 +50,29 @@ function SupervisorDashboard() {
                     {/* TODO: List of pending requests */}
                 </div>
                 </Link>
+                <Link to="/supervisor/add-received-devices" id="mylink">
                 <div id="dashboard-section" className="dashboard-section">
                     <h3 id="myh1">Add Received Devices</h3>
                     <p id="p3">Capture serial numbers and add laptops to the database after receiving them.</p>
                     {/* TODO: Form to add serial numbers */}
                 </div>
+                </Link>
             </div>
             <div id="supervisordashcards">
+                <Link to="/supervisor/send-devices-to-technician" id="mylink">
                 <div id="dashboard-section" className="dashboard-section">
                     <h3 id="myh1">Send Devices to Technician</h3>
                     <p id="p3">Send a report of added devices to the technician for further processing.</p>
                     {/* TODO: Button to send report */}
                 </div>
+                </Link>
+                <Link to="/supervisor/view-reports" id="mylink">
                 <div id="dashboard-section" className="dashboard-section">
                     <h3 id="myh1">Reports</h3>
                     <p id="p3">View or download reports of all processed donations and device transfers.</p>
                     {/* TODO: List/download links */}
                 </div>
+                </Link>
             </div>
             
         </>
