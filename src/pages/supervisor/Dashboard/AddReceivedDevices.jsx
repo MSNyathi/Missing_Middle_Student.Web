@@ -16,8 +16,8 @@ function AddReceivedDevices() {
                     <h1 id="myh1">EduConnect</h1>
                 </nav>
             </div>
+
             <div id="landingsection2">
-                
                 <p id="p1">Here you can add devices that have been received for donation or repair.</p>
             </div>
             <div className="device-form-container">
@@ -46,6 +46,11 @@ function AddReceivedDevices() {
                         Add Device
                     </button>
                 </form>
+            </div>
+            <div style={{ margin: '20px 0 0 20px' }}>
+                <Link to="/supervisor/dashboard" className="btn btn-secondary">
+                    <i className="bi bi-arrow-left"></i> Back
+                </Link>
             </div>
         </>
     );
