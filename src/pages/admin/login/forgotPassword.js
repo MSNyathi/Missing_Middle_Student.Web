@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import "./adminLogin.css"; // Import your CSS file for styling
+import LoginNavbar from "../../../commponents/loginNavbar";
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ export default function ForgotPassword() {
 
   return (
     <div className="glass-bg d-flex align-items-center justify-content-center min-vh-100">
+      <LoginNavbar />
       <div className="decor-circle blue"></div>
       <div className="decor-circle orange"></div>
 

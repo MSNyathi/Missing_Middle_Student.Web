@@ -1,11 +1,17 @@
+/* Background Setup with your uploaded image */
 body {
-  background-image: url("./laptop.jpg");
+  background: url('../assets/background2.jpeg') no-repeat center center fixed;
   background-size: cover;
-  background-repeat: no-repeat;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-#mydiv{
-  background-color: rgba(120, 91, 19, 0.75);
+/* Glassmorphism Container */
+#mydiv {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
   width: 30%;
   padding: 10px;
   display: flex;
@@ -20,10 +26,136 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: auto;
-  
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
+/* Headings & Paragraph */
+#myh1 {
+  color: antiquewhite;
+}
+#p1 {
+  color: bisque;
+  font-size: 120%;
+}
+
+/* Person Icon */
+#i1 {
+  color: bisque;
+  font-size: 4rem;
+  margin-bottom: 10px;
+}
+
+/* Form Styling */
+#myform1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+#tbl {
+  padding: 10px;
+  border-radius: 10px;
+  align-items: center;
+  text-align: left;
+  justify-content: center;
+  margin: 0;
+  width: 180%;
+}
+
+#td1,
+#td00 {
+  color: bisque;
+  font-size: 20px;
+  text-align: left;
+  padding: 10px;
+}
+#td00 label {
+  margin-right: 15px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  font-size: 20px;
+}
+#td00 input[type="radio"] {
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+/* Input Fields */
+#input1 {
+  width: 100%;
+  height: 120%;
+  border-radius: 10px;
+  text-align: center;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+#input1::placeholder {
+  color: #e0e0e0;
+}
+
+/* Login Button */
+#btn2 {
+  border-radius: 12px;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-top: 15px;
+}
+#btn2:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #000;
+}
+
+/* Button Container Row */
+#trbtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* Navbar Styles */
+#mynav,
+#mynav2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: rgba(93, 67, 0, 0.829);
+  padding: 10px 20px;
+  margin: 0;
+}
+
+/* Logo Styling - Adjusted for proper fit */
+#myimg {
+  height: 50px;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Misc Buttons */
+#btn {
+  border-radius: 30%;
 #btn{
   border-radius: 10%;
   height: 40px;
@@ -52,13 +184,8 @@ body {
   width: auto;
 }
 
-#i1{
-  color: bisque;
-  font-size: 20px;
-  margin-right: 5px;
-}
-
-#i{
+/* Icon inside button */
+#i {
   color: rgb(0, 0, 0);
   font-size: 20px;
   margin-right: 5px;
@@ -93,12 +220,12 @@ body {
   width: 180%;
 }
 
+/* Utility */
 .App {
   text-align: center;
- 
 }
 
-.bcolor{
+.bcolor {
   width: 100%;
   height: 100vh;
   margin: 3px;
@@ -206,4 +333,4 @@ body {
   bottom: 0;
   width: 100%;
   font-size: 50%;
-}
+}}

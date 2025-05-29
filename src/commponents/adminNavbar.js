@@ -1,95 +1,97 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import './adminNavbar.css';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import {
+  FaHome, FaLaptop, FaUserPlus, FaUsers, FaSignOutAlt, FaClipboardList
+} from "react-icons/fa";
+import tutLogo from "../assets/tut25.png";
+import "./adminNavbar.css"; // Make sure this file is updated too
 
 const AdminNavbar = () => {
   const [showDeviceMenu, setShowDeviceMenu] = useState(false);
   const [showRegisterMenu, setShowRegisterMenu] = useState(false);
-  const navigate = useNavigate(); // for navigation after confirmation
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will be logged out of the admin panel.',
-      icon: 'warning',
+      title: "Are you sure?",
+      text: "You will be logged out and session data will be cleared.",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, logout',
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, logout!",
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate('/adminlogin');
-        Swal.fire({
-          title: 'Logged out!',
-          text: 'You have been logged out successfully.',
-          icon: 'success',
-          timer: 2000,
-          showConfirmButton: false,
-        });
+        sessionStorage.clear();
+        localStorage.clear();
+        navigate("/admin/login");
+        Swal.fire("Logged out!", "You have been successfully logged out.", "success");
       }
     });
   };
 
   return (
-    <div className="d-flex flex-column vh-100 p-3 bg-dark text-white" style={{ width: '220px' }}>
-      <h2 className="mb-4">💻 eduConnect</h2>
-      <ul className="nav nav-pills flex-column">
+    <div className="sidebar bg-primary text-white p-3" style={{ minHeight: "100vh", width: "250px", padding: 0 }}>
+      <div className="text-center mb-4 p-3">
+      <img src={tutLogo} alt="TUT Logo" style={{ width: "100%", marginBottom: "10px" }} />
 
-        <li className="nav-item">
-          <Link to="/admin/dashboard" className="nav-link text-white">🏠 Home</Link>
-        </li>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", justifyContent: "center" }}>
+         {/*} <img src={eLogo} alt="eLogo" style={{ height: "28px", marginTop: "4px" }} />*/}
+          <h5 className="m-0" style={{ fontSize: "1.4rem", fontWeight: "bold", color: "white" }}>
+            EduConnect
+          </h5>
+        </div>
+      </div>
 
-        <li className="nav-item">
-          <Link to="/admin/applicants" className="nav-link text-white">📄 Applications</Link>
-        </li>
+      <nav className="d-flex flex-column px-3 gap-3">
+        <Link to="/admin/dashboard" className="custom-link">
+          <FaHome /> Home
+        </Link>
 
-        {/* Devices Dropdown */}
-        <li className="nav-item">
-          <div
-            className="nav-link text-white dropdown-toggle"
-            role="button"
-            onClick={() => setShowDeviceMenu(!showDeviceMenu)}
-          >
-            💻 Devices
+        <Link to="/admin/applicants" className="custom-link">
+          <FaClipboardList /> Applications
+        </Link>
+
+        <div
+          className="custom-link dropdown-toggle"
+          role="button"
+          onClick={() => setShowDeviceMenu(!showDeviceMenu)}
+        >
+          <FaLaptop /> Devices
+        </div>
+        {showDeviceMenu && (
+          <div className="ps-4 d-flex flex-column gap-2">
+            <Link to="/admin/assign-device" className="custom-link">Assign Devices</Link>
+            <Link to="/admin/devices/view-devices" className="custom-link">View Devices</Link>
           </div>
-          {showDeviceMenu && (
-            <ul className="dropdown-menu-custom">
-              <li><Link to="/admin/assign-device" className="dropdown-item">Assign Devices</Link></li>
-              <li><Link to="/admin/devices/view-devices" className="dropdown-item">View Devices</Link></li>
-            </ul>
-          )}
-        </li>
+        )}
 
-        {/* Register Dropdown */}
-        <li className="nav-item">
-          <div
-            className="nav-link text-white dropdown-toggle"
-            role="button"
-            onClick={() => setShowRegisterMenu(!showRegisterMenu)}
-          >
-            📝 Register
+        <div
+          className="custom-link dropdown-toggle"
+          role="button"
+          onClick={() => setShowRegisterMenu(!showRegisterMenu)}
+        >
+          <FaUserPlus /> Register
+        </div>
+        {showRegisterMenu && (
+          <div className="ps-4 d-flex flex-column gap-2">
+            <Link to="/admin/register" className="custom-link">Register Technician</Link>
+            <Link to="/admin/technicians" className="custom-link">View Technicians</Link>
           </div>
-          {showRegisterMenu && (
-            <ul className="dropdown-menu-custom">
-              <li><Link to="/admin/register" className="dropdown-item">Register Technician</Link></li>
-              <li><Link to="/admin/technicians" className="dropdown-item">View Technicians</Link></li>
-            </ul>
-          )}
-        </li>
+        )}
 
-        <li className="nav-item">
-          <Link to="/admin/students" className="nav-link text-white">👨‍🎓 Students</Link>
-        </li>
+        <Link to="/admin/students" className="custom-link">
+          <FaUsers /> Students
+        </Link>
 
-        <li className="nav-item">
-
-
-          <button className="nav-link text-white btn btn-link p-0" onClick={handleLogout}>
-            🚪 Logout
-          </button>
-        </li>
-      </ul>
+        <button
+          onClick={handleLogout}
+          className="btn btn-danger d-flex align-items-center justify-content-center gap-2 mt-4"
+        >
+          <FaSignOutAlt /> Logout
+        </button>
+      </nav>
     </div>
   );
 };

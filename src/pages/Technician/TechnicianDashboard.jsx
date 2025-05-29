@@ -83,7 +83,7 @@ const Dashboard = () => {
           </Col>
           <Col>
             <Card body style={{ backgroundColor: '#fbf5f7', color: 'black' }}>
-              <div>Donated</div>
+              <div>Collected</div>
               <strong style={{ fontSize: '1.4rem' }}>20</strong>
             </Card>
           </Col>
@@ -123,8 +123,8 @@ const Dashboard = () => {
                       >
                         <option value="Received">Received</option>
                         <option value="In Refurbishment">In Refurbishment</option>
-                        <option value="Refurbishment Complete">Refurbishment Complete</option>
                         <option value="Ready for Collection">Ready for Collection</option>
+                        <option value="Written Off">Written Off</option>
                       </Form.Select>
                     </td>
                   </tr>

@@ -3,21 +3,28 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import "./adminLogin.css";
+import backgroundImage from "../../../assets/backgroundAdmin.jpeg";
+import LoginNavbar from "../../../commponents/loginNavbar";
 import axios from "axios";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
-  const [user, setUser] = useState({ email: "", password: "" });
+
+  const [user, setUser] = useState({ email: "", password: "", role: "" });
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   useEffect(() => {
-    setButtonDisabled(!(user.email && user.password));
+    setButtonDisabled(!(user.email && user.password && user.role));
   }, [user]);
 
-  const handle_admin_login = async (e) => {
+  const handleRoleChange = (e) => {
+    setUser({ ...user, role: e.target.value });
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!validateEmail(user.email)) {
@@ -25,37 +32,62 @@ export default function AdminLogin() {
       return;
     }
 
-    setLoading(true);
-    try {
-      const response = await axios.post("https://localhost:7102/loginAdmin", user);
+    if (user.role === "") {
+      toast.error("Please select a role.", { position: "top-center" });
+      return;
+    }
 
-      if (response.data) {
-        toast.success("Login successful!", { position: "top-center" });
-        console.log("Server response:", response.data);
-        setTimeout(() => navigate("/admin/dashboard"), 1000);
-      } else {
-        toast.error("Invalid credentials. Please try again.", { position: "top-center" });
+    setLoading(true);
+
+    const API_URL = process.env.REACT_APP_API_URL;
+    const loginEndpoint = `${API_URL}loginAdmin`;
+
+    try {
+      const response = await axios.post(loginEndpoint, {
+        email: user.email,
+        password: user.password,
+      });
+
+      const roleFromServer = response.data?.data?.profile?.profile?.role?.toLowerCase();
+      const selectedRole = user.role.toLowerCase();
+
+      if (roleFromServer !== selectedRole) {
+        toast.error("Incorrect role selected. Please choose the correct role.", {
+          position: "top-center",
+        });
+        return;
       }
+
+      toast.success("Login successful!", { position: "top-center" });
+      localStorage.setItem("adminData", JSON.stringify(response.data));
+
+      setTimeout(() => {
+        if (roleFromServer === "admin") {
+          navigate("/admin/dashboard", { state: { mydata: response.data } });
+        } else if (roleFromServer === "technician") {
+          navigate("/technician/dashboard", { state: { mydata: response.data } });
+        }
+      }, 1000);
     } catch (error) {
-      console.error(error);
-      toast.error("Login failed. Please try again.", { position: "top-center" });
+      const errorMessage =
+        error.response?.data?.message || "Login failed. Please try again.";
+      toast.error(errorMessage, { position: "top-center" });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="glass-bg d-flex align-items-center justify-content-center min-vh-100">
-      <div className="decor-circle blue"></div>
-      <div className="decor-circle orange"></div>
-
+    <div
+      className="glass-bg d-flex align-items-center justify-content-center min-vh-100"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      <LoginNavbar />
       <ToastContainer />
       <div className="glass-card text-white p-4">
         <h3 className="text-center mb-4">Admin Login</h3>
-
-        <form id="myform1" onSubmit={handleLogin}>
-          <table id="tbl">
-          <div className="mb-3" id="td1">
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
             <label htmlFor="email" className="form-label">Email</label>
             <input
               type="email"
@@ -81,6 +113,32 @@ export default function AdminLogin() {
             />
           </div>
 
+          <div className="mb-3">
+            <label className="form-label">Role</label>
+            <div>
+              <label className="me-3">
+                <input
+                  type="radio"
+                  name="role"
+                  value="admin"
+                  onChange={handleRoleChange}
+                  checked={user.role === "admin"}
+                />{" "}
+                Admin
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="technician"
+                  onChange={handleRoleChange}
+                  checked={user.role === "technician"}
+                />{" "}
+                Technician
+              </label>
+            </div>
+          </div>
+
           <div className="d-flex justify-content-between mb-3">
             <span
               className="text-primary"
@@ -102,7 +160,6 @@ export default function AdminLogin() {
               ? "Fill in all fields"
               : "Login"}
           </button>
-          </table>
         </form>
       </div>
     </div>

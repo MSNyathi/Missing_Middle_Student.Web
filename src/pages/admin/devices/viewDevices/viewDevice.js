@@ -1,15 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminNavbar from '../../../../commponents/adminNavbar';
-import {
-  FaLaptop,
-  FaCheckCircle,
-  FaHourglassHalf,
-  FaTools,
-  FaUserCheck,
-  FaUserSlash,
-  FaCalendarAlt,
-} from "react-icons/fa";
-import backgroundImage from '../../../../assets/backgroundAdmin.jpeg';
+import { FaLaptop, FaUserCheck, FaUserSlash } from "react-icons/fa";
 
 export default function ViewDevices() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,305 +8,231 @@ export default function ViewDevices() {
   const [statusFilter, setStatusFilter] = useState("");
   const [allocationFilter, setAllocationFilter] = useState("");
   const [selectedDevice, setSelectedDevice] = useState(null);
-  const [devices] = useState([
-    {
-      id: 1,
-      name: "Dell Latitude 7490",
-      model: "7490",
-      serialNumber: "MS-U13kK",
-      condition: "Good",
-      status: "Distributed",
-      dateAdded: "2024-12-05",
-      allocated: true,
-    },
-    {
-      id: 2,
-      name: "HP EliteBook 840",
-      model: "840 G5",
-      serialNumber: "MK-UO3K",
-      condition: "Good",
-      status: "Ready for Distribution",
-      dateAdded: "2025-01-10",
-      allocated: false,
-    },
-  ]);
+  const [devices, setDevices] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const filteredDevices = devices.filter((device) => {
-    const matchesSearch = `${device.name} ${device.serialNumber} ${device.model}`
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 5;
 
-    const matchesCondition = conditionFilter
-      ? device.condition === conditionFilter
-      : true;
+ 
 
-    const matchesStatus = statusFilter
-      ? (device.allocated ? "Distributed" : device.status) === statusFilter
-      : true;
 
-    const matchesAllocation =
-      allocationFilter === ""
-        ? true
-        : allocationFilter === "Allocated"
-        ? device.allocated
-        : !device.allocated;
-
-    return matchesSearch && matchesCondition && matchesStatus && matchesAllocation;
-  });
-
-  const statusBadge = (status) => {
-    const base = "badge rounded-pill px-3 py-2 text-white text-sm";
-    switch (status) {
-      case "Repaired":
-        return (
-          <span className={`${base} bg-success`}>
-            <FaCheckCircle className="me-1" /> Repaired
-          </span>
-        );
-      case "In Progress":
-        return (
-          <span className={`${base} bg-warning`}>
-            <FaHourglassHalf className="me-1" /> In Progress
-          </span>
-        );
-      case "Pending":
-        return (
-          <span className={`${base} bg-secondary`}>
-            <FaTools className="me-1" /> Pending
-          </span>
-        );
-      case "Ready for Distribution":
-        return (
-          <span className={`${base} bg-info`}>
-            <FaLaptop className="me-1" /> Ready
-          </span>
-        );
-      case "Distributed":
-        return (
-          <span className={`${base} bg-dark`}>
-            <FaLaptop className="me-1" /> Distributed
-          </span>
-        );
-      default:
-        return <span className={`${base} bg-light text-dark`}>{status}</span>;
+  const fetchDevices = async () => {
+    setLoading(true);
+    setError("");
+  
+    try {
+      const params = new URLSearchParams();
+  
+      if (searchTerm) params.append("search", searchTerm);
+  
+      if (allocationFilter) {
+        params.append("status", allocationFilter);  // directly pass allocated/unallocated
+      }
+  
+      if (conditionFilter) params.append("condition", conditionFilter);
+  
+      params.append("page", page);
+      params.append("pageSize", itemsPerPage);
+  
+      const baseUrl = process.env.REACT_APP_API_URL;
+      const response = await fetch(`${baseUrl}AllDevices?${params.toString()}`);
+  
+      if (!response.ok) throw new Error("Failed to fetch devices");
+  
+      const data = await response.json();
+  
+      setDevices(data.devices || []);
+      setTotalPages(data.totalPages || 1);
+    } catch (err) {
+      console.error(err);
+      setError("Could not load devices. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
+  
+  
 
-  const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    height: '100vh',
-    color: 'white',
-  }; 
+  useEffect(() => {
+    fetchDevices();
+  }, [searchTerm, conditionFilter, statusFilter, allocationFilter, page]);
+
+  const handleResetFilters = () => {
+    setSearchTerm("");
+    setConditionFilter("");
+    setStatusFilter("");
+    setAllocationFilter("");
+    setPage(1);
+  };
 
   return (
-    <div className="d-flex" style={{ minHeight: '100vh' }}>
+    <div className="d-flex bg-light min-vh-100">
       <AdminNavbar />
+      <div className="flex-grow-1 p-4">
+        <h2 className="mb-4 text-dark">📦 View Devices</h2>
 
-      <div style={backgroundStyle}  className="flex-grow-1 p-4">
-        <h2 className="mb-4 text-white">View Devices</h2>
-
-        {/* Search & Filters */}
-        <div className="mb-4">
+        {/* Filters */}
+        <div className="bg-white rounded shadow-sm p-4 mb-4">
           <input
             type="text"
-            className="form-control mb-3 w-50"
-            placeholder="Search by name, model, or serial number..."
+            className="form-control mb-3"
+            placeholder="Search by brand, model, or serial number..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setPage(1);
+            }}
           />
 
           <div className="row g-3">
             <div className="col-md-4">
               <select
                 className="form-select"
-                value={conditionFilter}
-                onChange={(e) => setConditionFilter(e.target.value)}
-              >
-                <option value="">All Conditions</option>
-                <option value="Good">Good</option>
-                <option value="Fair">Fair</option>
-                <option value="Needs Repair">Needs Repair</option>
-                <option value="Broken">Broken</option>
-              </select>
-            </div>
-
-            <div className="col-md-4">
-              <select
-                className="form-select"
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-              >
-                <option value="">All Statuses</option>
-                <option value="Pending">Pending</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Ready for Distribution">Ready for Distribution</option>
-                <option value="Repaired">Repaired</option>
-                <option value="Distributed">Distributed</option>
-              </select>
-            </div>
-
-            <div className="col-md-4">
-              <select
-                className="form-select"
                 value={allocationFilter}
-                onChange={(e) => setAllocationFilter(e.target.value)}
+                onChange={(e) => {
+                  setAllocationFilter(e.target.value);
+                  setPage(1);
+                }}
               >
                 <option value="">All Allocation Status</option>
-                <option value="Allocated">Allocated</option>
-                <option value="Unallocated">Unallocated</option>
+                <option value="allocated">Allocated</option>
+                <option value="unallocated">Unallocated</option>
+              </select>
+            </div>
+
+            <div className="col-md-4">
+              <select
+                className="form-select"
+                value={conditionFilter}
+                onChange={(e) => {
+                  setConditionFilter(e.target.value);
+                  setPage(1);
+                }}
+              >
+                <option value="">All Conditions</option>
+                <option value="Refurbished">Refurbished</option>
+                <option value="New">New</option>
               </select>
             </div>
           </div>
+
+          <button className="btn btn-outline-primary btn-sm mt-3" onClick={handleResetFilters}>
+            Reset Filters
+          </button>
+        </div>
+       
+        {/* Devices Table */}
+        <div className="bg-white rounded shadow-sm p-3">
+          {loading ? (
+            <div>Loading devices...</div>
+          ) : error ? (
+            <div className="text-danger">{error}</div>
+          ) : devices.length === 0 ? (
+            <div>No devices found.</div>
+          ) : (
+            <>
+              <table className="table table-striped shadow rounded bg-white table-hover">
+                <thead className="table-primary text-center">
+                  <tr>
+                    <th>#</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Condition</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {devices.map((device, index) => (
+                    <tr
+                      key={index}
+                      onClick={() => setSelectedDevice(device)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <td>{(page - 1) * itemsPerPage + index + 1}</td>
+                      <td>{device.brand}</td>
+                      <td>{device.model}</td>
+                      <td>{device.condition}</td>
+                      <td>{device.status}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+               {/* Pagination Controls */}
+            <div className="d-flex justify-content-between align-items-center mt-3">
+              <span>Page {page} of {totalPages}</span>
+              <div>
+                <button
+                  className="btn btn-outline-primary btn-sm me-2"
+                  onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                  disabled={page === 1}
+                >
+                  Previous
+                </button>
+                <button
+                  className="btn btn-outline-primary btn-sm"
+                  onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+                  disabled={page === totalPages}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+            </>
+          )}
         </div>
 
-        {/* Device Table */}
-        <table className="table table-hover table-bordered">
-          <thead className="table-dark">
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Condition</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredDevices.length > 0 ? (
-              filteredDevices.map((device) => (
-                <tr
-                  key={device.id}
-                  onClick={() => setSelectedDevice(device)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <td>{device.id}</td>
-                  <td>{device.name}</td>
-                  <td>{device.condition}</td>
-                  <td>{device.allocated ? "Distributed" : device.status}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="text-center text-muted">
-                  No matching devices found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Device Modal */}
-      {selectedDevice && (
-        <>
-          <div
-            className="modal-backdrop-blur"
-            onClick={() => setSelectedDevice(null)}
-          />
-          <div className="modal show d-block" tabIndex="-1" role="dialog">
+        {/* Modal */}
+        {selectedDevice && (
+            <>
             <div
-              className="modal-dialog animated-modal"
-              role="document"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="modal-content shadow-lg">
-                <div className="modal-header">
-                  <h5 className="modal-title">
-                    <FaLaptop className="text-primary me-2" />
-                    {selectedDevice.name}
-                  </h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    onClick={() => setSelectedDevice(null)}
-                  />
-                </div>
-
-                <div className="modal-body">
-                  <p>
-                    <strong>Model:</strong> {selectedDevice.model}
-                  </p>
-                  <p>
-                    <strong>Serial Number:</strong> {selectedDevice.serialNumber}
-                  </p>
-                  <p>
-                    <strong>
-                      <FaCalendarAlt className="me-2 text-muted" />
-                      Date Added:
-                    </strong>{" "}
-                    {new Date(selectedDevice.dateAdded).toLocaleDateString()}
-                  </p>
-                  <p>
-                    <strong>Status:</strong>{" "}
-                    {statusBadge(
-                      selectedDevice.allocated
-                        ? "Distributed"
-                        : selectedDevice.status
-                    )}
-                  </p>
-                  <div className="mb-3">
-                    <strong>Allocation:</strong>{" "}
-                    {selectedDevice.allocated ? (
-                      <span className="text-success d-block mt-1">
-                        <FaUserCheck className="me-2" />
-                        Allocated to <strong>Student John Doe</strong>
-                        <br />
-                        on <em>2024-12-15</em>
-                      </span>
-                    ) : (
-                      <span className="text-danger d-block mt-1">
-                        <FaUserSlash className="me-2" /> Not yet allocated
-                      </span>
-                    )}
+              className="modal-backdrop fade show"
+              onClick={() => setSelectedDevice(null)}
+              style={{ backgroundColor: "rgba(0,0,0,0.5)", position: "fixed", top: 0, left: 0, width: "100%", height: "100%", zIndex: 1040 }}
+            />
+            <div className="modal show d-block" style={{ zIndex: 1050 }}>
+              <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-content shadow">
+                  <div className="modal-header bg-primary text-white">
+                    <h5 className="modal-title">
+                      <FaLaptop className="me-2" />
+                      {`${selectedDevice.brand} ${selectedDevice.model}`}
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close btn-close-white"
+                      onClick={() => setSelectedDevice(null)}
+                    />
                   </div>
-
-                  <div className="mb-3">
-                    <label className="form-label fw-semibold">Condition:</label>
-                    <select
-                      className="form-select"
-                      value={selectedDevice.condition}
-                      disabled={true}
+                  <div className="modal-body">
+                    <p><strong>Serial Number:</strong> {selectedDevice.serialNumber || "N/A"}</p>
+                    <p><strong>Condition:</strong> {selectedDevice.condition}</p>
+                    <p><strong>Status:</strong> {selectedDevice.status}</p>
+                    <p><strong>Allocation:</strong>{" "}
+                      {selectedDevice.status === "Distributed" ? (
+                        <span className="text-success"><FaUserCheck className="me-2" /> Allocated</span>
+                      ) : (
+                        <span className="text-danger"><FaUserSlash className="me-2" /> Not Allocated</span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => setSelectedDevice(null)}
                     >
-                      <option value="Good">Good</option>
-                      <option value="Fair">Fair</option>
-                      <option value="Needs Repair">Needs Repair</option>
-                      <option value="Broken">Broken</option>
-                    </select>
+                      Close
+                    </button>
                   </div>
-
-                  <div>
-                    <label className="form-label fw-semibold">Status:</label>
-                    <select
-                      className="form-select"
-                      value={
-                        selectedDevice.allocated
-                          ? "Distributed"
-                          : selectedDevice.status
-                      }
-                      disabled={true}
-                    >
-                      <option value="Pending">Pending</option>
-                      <option value="In Progress">In Progress</option>
-                      <option value="Ready for Distribution">Ready for Distribution</option>
-                      <option value="Repaired">Repaired</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="modal-footer">
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => setSelectedDevice(null)}
-                  >
-                    Close
-                  </button>
                 </div>
               </div>
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
