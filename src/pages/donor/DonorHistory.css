@@ -5,10 +5,12 @@
     background-color: white;
     max-width: 100%;
     margin: auto;
+    color: black;
 }
 .main-contents{
     flex: 1;
     padding: 2rem;
+    
 }
 .header-controls {
     display: flex;

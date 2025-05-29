@@ -7,7 +7,7 @@ function SuccessPage() {
     const navigate = useNavigate();
 
     return (
-       <div className="success-wrapper">
+       <div className="StudentRegister-wrapper">
   <img id="myimg" src={tut25} alt="TUT Logo" />
   <div className="success-modal">
     <h2 className="success-title">SUCCESS!!</h2>

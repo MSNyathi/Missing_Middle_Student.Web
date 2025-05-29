@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url('https://source.unsplash.com/1600x900/?education,books') no-repeat center center fixed;
+  background: url('/src/assets/background2.jpeg') no-repeat center center fixed;
   background-size: cover;
   padding-top: 60px; /* adjust if navbar is not fixed */
 }
@@ -98,3 +98,22 @@
     margin: 20px;
   }
 }
+.input-icon-wrapper {
+  position: relative;
+}
+
+.input-with-icon {
+  padding-right: 35px; /* space for icon */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-icon-wrapper i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+}
+

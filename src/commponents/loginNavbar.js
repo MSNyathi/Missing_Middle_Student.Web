@@ -5,6 +5,7 @@ import './loginNavbar.css';
 import { Link } from 'react-router-dom';
 import "../pages/student/login/studentLogin.css"; // Adjust the path as needed
 
+
 const LoginNavbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -19,7 +20,11 @@ const LoginNavbar = () => {
   return (
     <nav id="mynav" onClick={closeDropdown}>
       <Link to="/">
-        <img id="myimg" src={tut25} className="bcolor" alt="Logo" />
+        <img 
+        src = {tut25}
+        alt="TUT Logo"
+        style={{ height: "45px", objectFit: "contain" }}
+        />
       </Link>
       <h1 id="myh1">EduConnect</h1>
 
