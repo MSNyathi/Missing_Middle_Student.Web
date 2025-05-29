@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaLaptop, FaUserCheck, FaUserSlash } from "react-icons/fa";
 import Sidebar from "../../commponents/Sidebar";
+import "./devicesTable.css"; // ✅ Make sure this path is correct
 
 export default function ViewDevices() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -11,39 +12,31 @@ export default function ViewDevices() {
   const [devices, setDevices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 5;
 
- 
-
-
   const fetchDevices = async () => {
     setLoading(true);
     setError("");
-  
+
     try {
       const params = new URLSearchParams();
-  
+
       if (searchTerm) params.append("search", searchTerm);
-  
-      if (allocationFilter) {
-        params.append("status", allocationFilter);  // directly pass allocated/unallocated
-      }
-  
+      if (allocationFilter) params.append("status", allocationFilter);
       if (conditionFilter) params.append("condition", conditionFilter);
-  
+
       params.append("page", page);
       params.append("pageSize", itemsPerPage);
-  
+
       const baseUrl = process.env.REACT_APP_API_URL;
       const response = await fetch(`${baseUrl}AllDevices?${params.toString()}`);
-  
+
       if (!response.ok) throw new Error("Failed to fetch devices");
-  
+
       const data = await response.json();
-  
+
       setDevices(data.devices || []);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
@@ -53,8 +46,6 @@ export default function ViewDevices() {
       setLoading(false);
     }
   };
-  
-  
 
   useEffect(() => {
     fetchDevices();
@@ -70,7 +61,7 @@ export default function ViewDevices() {
 
   return (
     <div className="d-flex bg-light min-vh-100">
-      < Sidebar/>
+      <Sidebar />
       <div className="flex-grow-1 p-4">
         <h2 className="mb-4 text-dark">📦 View Devices</h2>
 
@@ -123,7 +114,7 @@ export default function ViewDevices() {
             Reset Filters
           </button>
         </div>
-       
+
         {/* Devices Table */}
         <div className="bg-white rounded shadow-sm p-3">
           {loading ? (
@@ -134,8 +125,8 @@ export default function ViewDevices() {
             <div>No devices found.</div>
           ) : (
             <>
-              <table className="table table-striped shadow rounded bg-white table-hover">
-                <thead className="table-primary text-center">
+              <table id="written">
+                <thead>
                   <tr>
                     <th>#</th>
                     <th>Serial Number</th>
@@ -163,37 +154,45 @@ export default function ViewDevices() {
                 </tbody>
               </table>
 
-               {/* Pagination Controls */}
-            <div className="d-flex justify-content-between align-items-center mt-3">
-              <span>Page {page} of {totalPages}</span>
-              <div>
-                <button
-                  className="btn btn-outline-primary btn-sm me-2"
-                  onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                  disabled={page === 1}
-                >
-                  Previous
-                </button>
-                <button
-                  className="btn btn-outline-primary btn-sm"
-                  onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-                  disabled={page === totalPages}
-                >
-                  Next
-                </button>
+              {/* Pagination Controls */}
+              <div className="d-flex justify-content-between align-items-center mt-3">
+                <span>Page {page} of {totalPages}</span>
+                <div>
+                  <button
+                    className="btn btn-outline-primary btn-sm me-2"
+                    onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                    disabled={page === 1}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    className="btn btn-outline-primary btn-sm"
+                    onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+                    disabled={page === totalPages}
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
-            </div>
             </>
           )}
         </div>
 
         {/* Modal */}
         {selectedDevice && (
-            <>
+          <>
             <div
               className="modal-backdrop fade show"
               onClick={() => setSelectedDevice(null)}
-              style={{ backgroundColor: "rgba(0,0,0,0.5)", position: "fixed", top: 0, left: 0, width: "100%", height: "100%", zIndex: 1040 }}
+              style={{
+                backgroundColor: "rgba(0,0,0,0.5)",
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                zIndex: 1040,
+              }}
             />
             <div className="modal show d-block" style={{ zIndex: 1050 }}>
               <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
@@ -222,10 +221,7 @@ export default function ViewDevices() {
                     </p>
                   </div>
                   <div className="modal-footer">
-                    <button
-                      className="btn btn-secondary"
-                      onClick={() => setSelectedDevice(null)}
-                    >
+                    <button className="btn btn-secondary" onClick={() => setSelectedDevice(null)}>
                       Close
                     </button>
                   </div>
