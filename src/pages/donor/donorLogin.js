@@ -1,5 +1,5 @@
 import React from 'react';
-import tut25 from '../../tut25.png';
+import tut25 from './tut25.png';
 import './DonorLogin.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
