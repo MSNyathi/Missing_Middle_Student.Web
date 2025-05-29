@@ -8,7 +8,7 @@ function AddReceivedDevices() {
     return (
         <>
             <div className="App">
-                <nav id="mynav">
+                <nav id="mynavv">
                     <Link to="/">
                         <img id="myimg" src={tut25} className="bcolor" alt="Logo" />
                     </Link>

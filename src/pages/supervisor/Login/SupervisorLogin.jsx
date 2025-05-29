@@ -10,7 +10,7 @@ function SupervisorLogin() {
         <>
             
             <div className="App">
-            <nav id="mynav">
+            <nav id="mynavv">
                 <Link to="/">
                 <img id="myimg" src={tut25} classname="bcolor"/>
                 </Link>

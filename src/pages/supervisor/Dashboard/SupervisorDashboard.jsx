@@ -8,7 +8,7 @@ function SupervisorDashboard() {
     return (
         <>
             <div className="App">
-                <nav id="mynav">
+                <nav id="mynavv">
                     <Link to="/">
                         <img id="myimg" src={tut25} className="bcolor" />
                     </Link>
@@ -18,7 +18,7 @@ function SupervisorDashboard() {
                 </nav>
                 <div id="supervisorsidebar">
                     <Link to="/" id="p1">
-                        <i id="i1" className="bi bi-house-door" style={{ marginRight: "8px" }}></i>
+                        <i className="bi bi-house-door" style={{ marginRight: "8px" }}></i>
                         Home
                     </Link>
                     <button id="btn"
