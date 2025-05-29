@@ -203,7 +203,7 @@
   /*position: fixed;*/
   bottom: 0;
   width: 100%;
-  font-size: 50%;
+  font-size: 100%;
 }
 
 #sidebar {
@@ -313,9 +313,7 @@
 
 #landingsection3 {
   padding: 30px;
-  margin: 1px;
   background: rgba(29, 24, 13, 0.714);
-  border-radius: 12px;
   box-shadow: 0 4px 16px rgba(93, 67, 0, 0.15);
   max-width: 100%;
   text-align: center;

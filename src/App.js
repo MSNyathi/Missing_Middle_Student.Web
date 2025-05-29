@@ -29,12 +29,12 @@ function App() {
       <Link to="/">
       <img id="myimg" src={tut25} classname="bcolor"/>
       </Link>
-      <h1 id="myh1">Welcome to EduConnect</h1>
+      <h1 id="myh1">EduConnect</h1>
       
     </nav>
     
     <section id="landingsection2" class="py-12 px-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
-    <h2 id="p1">The Multi-Role Platform</h2>
+    <h2 id="p1">Welcome</h2>
     <p id="p1" class="max-w-2xl mx-auto text-lg">Serving Donors, Supervisors, Admins, Students, and Technicians to streamline collaboration and support.</p>
     <nav id="">
 
