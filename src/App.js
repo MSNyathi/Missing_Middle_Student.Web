@@ -1,34 +1,34 @@
 
 
-//import tut25 from './tut25.png';
-import './App.css';
+import tut25 from './assets/tut25.png'; // Adjust the path to your image
+//import './App.css';
 import React from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
-import backgroundImage from '../src/assets/backgroundAdmin.jpeg'; // Adjust path if needed
+//import backgroundImage from '../src/assets/backgroundAdmin.jpeg'; // Adjust path if needed
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './landingPage.css'; // Import your CSS file for styling
 
 
 
 function App() {
-  const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
+  /*const backgroundStyle = {
+    //backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     height: '100vh',
     color: 'white', // Optional: ensure text is readable
-  };
+  };*/
 
   return (
 
     <>
-    <nav id="mynav">
-      {/* Uncomment if you want to use the logo image 
+    <nav id="mynavv">
+      
       <Link to="/">
       <img id="myimg" src={tut25} classname="bcolor"/>
-      </Link>*/}
+      </Link>
       <h1 id="myh1">Welcome to EduConnect</h1>
       
     </nav>
