@@ -45,3 +45,104 @@
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
+/* Improved Text Visibility for Step Labels */
+.step-label {
+  color: inherit;
+}
+
+.glass-card-dark .step-label {
+  color: #fff !important;
+}
+
+.glass-card-light .step-label {
+  color: #000 !important;
+}
+
+/* Optional: Darker light mode glass background for readability */
+.glass-card-light {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Already good styles kept as-is */
+.glass-card-dark {
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+.glass-card-dark * {
+  color: #fff !important;
+}
+
+.glass-card-light * {
+  color: #000 !important;
+}
+
+.glass-card-dark .btn-close {
+  filter: invert(1);
+}
+
+.glass-card-dark .text-muted {
+  color: #ccc !important;
+}
+
+.glass-card-dark .fw-bold {
+  color: #fff !important;
+}
+
+.glass-navbar-dark {
+  background: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-navbar-light {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.glass-card-dark {
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #f1f1f1;
+}
+
+/* Add below this */
+.glass-card-dark h1,
+.glass-card-dark h2,
+.glass-card-dark h3,
+.glass-card-dark h4,
+.glass-card-dark h5,
+.glass-card-dark h6,
+.glass-card-dark p,
+.glass-card-dark span,
+.glass-card-dark label,
+.glass-card-dark .text,
+.glass-card-dark .fw-semibold,
+.glass-card-dark .small {
+  color: #f1f1f1 !important;
+}
+
+.glass-card-dark .text-muted {
+  color: #cccccc !important;
+}
+
+.glass-card-dark .text-dark {
+  color: #f1f1f1 !important;
+}
+
+.glass-card-dark a {
+  color: #aad2ff !important;
+}
+
+.glass-card-dark .btn {
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+}
+
+.glass-card-dark .btn:hover {
+  background-color: #0056b3;
+}

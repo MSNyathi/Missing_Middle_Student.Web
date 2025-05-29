@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import './studentLogin.css';
-import LoginNavbar from '../../../commponents/loginNavbar'; // adjust path as needed
+import LoginNavbar from '../../../commponents/loginNavbar';
 
 function StudentLogin() {
   const [email, setEmail] = useState('');
@@ -30,10 +31,36 @@ function StudentLogin() {
   return (
     <>
       <LoginNavbar />
+
       <div className="login-wrapper">
-        <div className="login-container">
-          <h2>Student Login</h2>
-          {error && <div className="error">{error}</div>}
+        <motion.div
+          className="login-container"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            Student Login
+          </motion.h2>
+
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                className="error"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {error}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <form onSubmit={handleSubmit}>
             <label>Email</label>
             <input
@@ -52,9 +79,10 @@ function StudentLogin() {
             />
             <button type="submit">Login</button>
           </form>
+
           <p><Link to="/student/login/forgot-password">Forgot Password?</Link></p>
           <p>Don't have an account? <Link to="/register">Sign up</Link></p>
-        </div>
+        </motion.div>
       </div>
     </>
   );
