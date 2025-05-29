@@ -34,6 +34,11 @@ function DonationRequests() {
                 </li>
             </ul>
         </div>
+        <div style={{ margin: '20px 0 0 20px' }}>
+                        <Link to="/supervisor/dashboard" className="btn btn-secondary">
+                            <i className="bi bi-arrow-left"></i> Back
+                        </Link>
+                    </div>
         </>
     )
 }
