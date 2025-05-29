@@ -5,12 +5,13 @@ import { motion } from "framer-motion";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../dashboard/index.css";
 import tut25 from "../../../assets/tut25.png";
-import backgroundImage from "../../../assets/background2.jpeg";
 
 const applicationSteps = [
   "Application Submitted",
   "Academic Review",
   "Documents Under Review",
+  "Approved",
+  "Rejected",
 ];
 
 const TrackApplication = () => {
@@ -52,13 +53,7 @@ const TrackApplication = () => {
         >
           {stepNum}
         </div>
-        <div
-          className={`small fw-semibold ${
-            darkMode ? "text-white" : "text-dark"
-          }`}
-        >
-          {label}
-        </div>
+        <div className="small fw-semibold step-label">{label}</div>
       </motion.div>
     );
   };
@@ -71,7 +66,7 @@ const TrackApplication = () => {
     <div
       className="position-relative d-flex flex-column justify-content-start align-items-center min-vh-100 p-4"
       style={{
-        backgroundColor: darkMode ? "#121212" : "#ffffff", // dark/light mode background
+        backgroundColor: darkMode ? "#121212" : "#ffffff",
         color: darkMode ? "#ffffff" : "#000000",
         width: "100%",
       }}
@@ -86,14 +81,12 @@ const TrackApplication = () => {
         style={{ position: "sticky", top: 0, zIndex: 1000 }}
       >
         <div className="container-fluid px-4 d-flex justify-content-between align-items-center">
-          {/* Logo */}
           <img
             src={tut25}
             alt="TUT Logo"
             style={{ height: "40px", marginRight: "10px" }}
           />
 
-          {/* Theme Toggle in Navbar */}
           <div className="form-check form-switch d-flex align-items-center ms-auto">
             <input
               className="form-check-input"
@@ -108,24 +101,16 @@ const TrackApplication = () => {
               style={{ cursor: "pointer" }}
             >
               {darkMode ? (
-                <FaMoon
-                  size={20}
-                  className="text-white"
-                  title="Switch to Light Mode"
-                />
+                <FaMoon size={20} className="text-white" />
               ) : (
-                <FaSun
-                  size={20}
-                  className="text-warning"
-                  title="Switch to Dark Mode"
-                />
+                <FaSun size={20} className="text-warning" />
               )}
             </label>
           </div>
         </div>
       </nav>
 
-      {/* Back to Dashboard Button */}
+      {/* Back and Logout Buttons */}
       <div className="position-fixed bottom-0 start-0 p-3">
         <Link to="/student/dashboard" className="btn btn-outline-secondary">
           <FaArrowLeft className="me-2" />
@@ -133,7 +118,6 @@ const TrackApplication = () => {
         </Link>
       </div>
 
-      {/* Logout Button */}
       <div className="position-fixed bottom-0 end-0 p-3">
         <button className="btn btn-danger" onClick={() => setShowModal(true)}>
           <FaSignOutAlt className="me-2" />
@@ -141,7 +125,7 @@ const TrackApplication = () => {
         </button>
       </div>
 
-      {/* Application Progress Tracker */}
+      {/* Application Progress */}
       <div
         className={`container-fluid rounded shadow p-4 ${glassClass}`}
         style={{
@@ -197,4 +181,5 @@ const TrackApplication = () => {
     </div>
   );
 };
+
 export default TrackApplication;
