@@ -38,7 +38,9 @@ function App() {
     <p id="p1" class="max-w-2xl mx-auto text-lg">Serving Donors, Supervisors, Admins, Students, and Technicians to streamline collaboration and support.</p>
     <nav id="">
 
+      <Link to="donor/login">
       <p id="landingsection1li" class="mt-2 font-medium">🎁Donor</p>
+      </Link>
       <Link to="/Supervisor/Login">
         <p id="landingsection1li" class="mt-2 font-medium">🧑‍🏫Supervisor</p>
       </Link>

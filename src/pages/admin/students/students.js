@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from '../../../commponents/adminNavbar';
-import backgroundImage from '../../../assets/backgroundAdmin.jpeg';
+
 
 export default function Students() {
   const [students, setStudents] = useState([]);
@@ -97,21 +97,13 @@ export default function Students() {
         : b.averageMark - a.averageMark;
     });
 
-  const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    height: '100vh',
-    color: 'white',
-  };
 
   return (
     <div className="d-flex" style={{ minHeight: '100vh' }}>
       <AdminNavbar />
 
-      <div style={backgroundStyle} className="flex-grow-1 p-4">
-        <h1 className="text-2xl font-bold text-center mb-4">Registered TUT Students</h1>
+      <div  className="flex-grow-1 p-4">
+        <h1 className="text-2xl font-bold text-center mb-4 text-black">Registered TUT Students</h1>
 
         {/* Filters */}
         <div className="d-flex justify-content-center flex-wrap mb-3 gap-2">
