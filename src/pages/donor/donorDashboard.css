@@ -1,0 +1,116 @@
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: white;
+ 
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  
+}
+
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 170%;
+  text-align: center;
+  color: #003366;
+  
+}
+
+/* Info Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+  
+}
+
+.custom-card {
+  
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-size: 130%;
+  
+}
+
+.card-content .icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.icon.blue {
+  color: #3b82f6;
+}
+
+.icon.green {
+  color: #10b981;
+}
+
+.icon.red {
+  color: #ef4444;
+}
+
+.count {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Donation Table */
+.donation-table {
+  width: 100%;
+  background-color: white;
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+.donation-table th{
+    background-color: rgb(63, 108, 190);
+    color: white;
+    text-align: left;
+    padding: 0.75rem 1rem;
+}
+
+.donation-table td {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.donation-table thead {
+  background-color: #f3f4f6;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-pending {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.status-received {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-notaccepted {
+  background-color: #fee2e2;
+  color: #991b1b;
+}

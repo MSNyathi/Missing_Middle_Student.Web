@@ -28,6 +28,11 @@ import WrittenOfLaptops from "../pages/Technician/writtenOfLaptops";
 import DonatedLaptops from "../pages/Technician/donatedLaptops";
 import StudentLogin from "../pages/student/login/studentLogin";
 
+import DonationRequest from '../pages/donor/donationRequest';
+import DonorHistory from '../pages/donor/donorHistory';
+import DonorDashboard from '../pages/donor/donorDashboard';
+import DonorLogin from '../pages/donor/donorLogin';
+
 // import other pages here as needed
 
 const AppRoutes = () => {
@@ -64,6 +69,10 @@ const AppRoutes = () => {
       <Route path="/technician/donatedLaptops" element={<DonatedLaptops />} />
 
       {/* Add more routes here */}
+      <Route path="/donor/dashboard" element={<DonorDashboard />} />
+      <Route path="/donorLogin" element={<DonorLogin />} />
+      <Route path="/donor/request" element={<DonationRequest />} />
+      <Route path="/donor/history" element={<DonorHistory />} />
     </Routes>
   );
 };

@@ -1,0 +1,47 @@
+.form-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    background-color: rgb(204, 200, 200);
+    border-radius: 10px;
+}
+.main-form{
+    display: grid;
+    
+}
+.form-container h2{
+    text-align: center;
+    justify-content: center;
+    color: cornflowerblue;
+}
+.form-container label{
+    display: flex;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+.form-container input{
+    max-width:550px;
+    padding: 5px 10px;
+    margin: 15px;
+}
+.form-container textarea{
+    padding: 5px 10px;
+    margin: 20px;
+}
+.btn-item{
+    padding:  20px;
+    margin: auto;
+    justify-content: space-evenly;
+    
+}
+.cancel-btn{
+    background-color:rgb(78, 76, 74);
+    color: black;
+
+}
+.submit-btn{
+    background-color: cornflowerblue;
+    color: black;
+}

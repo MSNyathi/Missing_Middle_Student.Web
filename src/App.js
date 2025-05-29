@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import tut from './assets/tut.png';
 import backgroundImage from './assets/background2.jpeg';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import './App.css';
+
 
 
 function App() {
