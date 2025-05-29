@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import tut25 from '../tut25.png';
+//import tut25 from '../tut25.png';
 import './Login.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link , useNavigate} from 'react-router-dom';
@@ -31,9 +31,11 @@ function AdminLogin() {
             
             <div className="App">
             <nav id="mynav">
+                {/*
                 <Link to="/">
                     <img id="myimg" src={tut25} classname="bcolor"/>
                 </Link>
+                */}
                 
                 <h1 id="myh1">EduConnect</h1>
                 <Link to="/login">
