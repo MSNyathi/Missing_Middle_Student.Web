@@ -66,7 +66,8 @@ function RegisterForm() {
         </nav>
       </div>
 
-      <div className="register-container glass-card">
+     <div className="StudentRegister-wrapper">
+     <div className="register-container glass-card">
         <h2>Register</h2>
         <p>Please enter the details below</p>
         <form className="register-form" onSubmit={handleSubmit}>
@@ -133,6 +134,9 @@ function RegisterForm() {
           </div>
         </form>
       </div>
+
+
+     </div>
     </>
   );
 }

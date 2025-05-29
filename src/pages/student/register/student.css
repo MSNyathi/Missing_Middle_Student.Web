@@ -18,11 +18,15 @@
   --bg-color: #121212;
 }
 
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.StudentRegister-wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('/src/assets/background2.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  padding-top: 60px; /* adjust if navbar is not fixed */
 }
 
 /* === Register Page Container === */
