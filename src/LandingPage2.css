@@ -43,6 +43,7 @@ align-items: center;
     margin: 30px 20px 30px 20px;
 }#lpsection2div1:hover {
     box-shadow: 6px 12px 16px rgb(255, 255, 255);
+    width: 22%;
 }
 
 #lpsection2div1div1{
@@ -63,11 +64,13 @@ align-items: center;
 }#lpsection2div1div1div1 h3 {
     align-self: center;
     
-    margin: 50px auto;
+    margin: 65px auto;
 }
 
 #lpsection2div2 {
     background-image: url('./assets/859128.jpg');
+    /* alt text is not applicable for CSS background images.
+       To provide alternative text, use an <img> element in HTML instead. */
     text-align: center;
     align-items: center;
     background-size: cover;
@@ -79,6 +82,7 @@ align-items: center;
     margin: 30px 20px 30px 20px;
 }#lpsection2div2:hover {
     box-shadow: 6px 12px 16px rgb(255, 255, 255);
+    width: 22%;
 }
 #lpsection2div3 {
     background-image: url('./assets/859072.jpg');
@@ -93,6 +97,7 @@ align-items: center;
     margin: 30px 20px 30px 20px;
 }#lpsection2div3:hover {
     box-shadow: 6px 12px 16px rgb(255, 255, 255);
+    width: 22%;
 }
 #lpsection2div4 {
     background-image: url('./assets/859078.jpg');
@@ -107,4 +112,10 @@ align-items: center;
     margin: 30px 20px 30px 20px;
 }#lpsection2div4:hover {
     box-shadow: 6px 12px 16px rgb(255, 255, 255);
+    width: 23%;
+}
+
+#nolink {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
 }

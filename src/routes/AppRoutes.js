@@ -2,6 +2,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import App from '../App'; // default landing component
+import UserLoginPages from '../pages/landing/userloginpages';
 
 import StudentDashboard from '../pages/student/dashboard';
 import ApplyLaptop from '../pages/student/applyLaptop';
@@ -44,6 +45,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<App />} />
+      <Route path="/landing/userloginpages" element={<UserLoginPages />} />
       
       {/* STUDENT */}
       <Route path="/student/dashboard" element={<StudentDashboard />} />

@@ -3,7 +3,6 @@
 import tut25 from './assets/tut25.png'; // Adjust the path to your image
 //import './App.css';
 import React from 'react';
-import img1 from './assets/397758.jpg';
 import './LandingPage2.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
@@ -56,14 +55,18 @@ function App() {
         </div>
       </section>
       <section id="lpsection2">
+        
         <div id="lpsection2div1">
+          <Link to="/landing/userloginpages" id="nolink"> 
           <div id="lpsection2div1div1">
             <div id="lpsection2div1div1div1">
               <h3>Login</h3>
             </div>
             
           </div>
+          </Link>
         </div>
+        
         <div id="lpsection2div2">
           <div id="lpsection2div1div1">
             <div id="lpsection2div1div1div1">
