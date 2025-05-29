@@ -1,0 +1,19 @@
+#ulp{
+    background-image: url('../../assets/839114.jpg');
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-size: cover;
+}#ulp div {
+    /*background-color: rgba(0, 0, 0, 0.5);*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+}

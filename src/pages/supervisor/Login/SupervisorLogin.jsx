@@ -3,26 +3,27 @@ import tut25 from '../../../assets/logo2.png';
 import '../../../landingPage.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
+import '../../admin/login/adminLogin.css';
+import backgroundImage from '../../../assets/backgroundAdmin.jpeg'; // Adjust path if needed
 
 
 function SupervisorLogin() {
     return (
         <>
             
-            <div className="App">
-            <nav id="mynavv">
-                <Link to="/">
-                <img id="myimg" src={tut25} classname="bcolor"/>
-                </Link>
-                <h1 id="myh1">EduConnect</h1>
-                <Link to ="/adminlogin" id="mylink">
-                    <button id="btn"><i id="i" className="bi bi-person-circle" style={{ fontSize: '1.5rem' } }></i>SWITCH USER</button>
-                </Link>
-                
-            </nav>
+            <div className="glass-bg d-flex align-items-center justify-content-center min-vh-100"
+      style={{ backgroundImage: `url(${backgroundImage})` }} >
+            <nav id="mynav">
+      
+      <Link to="/">
+      <img id="myimg" src={tut25} classname="bcolor"/>
+      </Link>
+      <h1 id="myh1">EduConnect</h1>
+      
+    </nav>
             
-            </div>
-            <div id="mydiv">
+            
+            <div className="glass-card text-white p-4">
             <i className="bi bi-person-circle" id="i1" style={{ fontSize: '4rem' }}></i>
                 <h1 id="myh1">Welcome, Supervisor</h1>
                 <p id="p1">Please enter your login details below.</p>
@@ -58,8 +59,23 @@ function SupervisorLogin() {
                     </table>
                     
                 </form>
-                
+                </div>
             </div>
+            <button
+      onClick={() => window.history.back()}
+      className="back-button"
+      style={{ 
+        margin: '16px', 
+        padding: '8px 16px', 
+        cursor: 'pointer',
+        backgroundColor: '#ccc',
+        color: '#333',
+        border: 'none',
+        borderRadius: '4px'
+      }}
+    >
+      ← Back
+    </button>
             <div id="simp">
                 <h2 id="myh1">Leading the way, Together.</h2>
             </div>

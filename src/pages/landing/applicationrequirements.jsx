@@ -1,8 +1,19 @@
-
+import React from 'react';
+import { Link } from 'react-router-dom';
+import tut25 from '../../assets/tut25.png'; // Adjust the path to your image
+import '../../LandingPage2.css'; // Import your CSS file for styling
 
 function ApplicationRequirements() {
   return (
     <>
+    <nav id="mynavv">
+      
+      <Link to="/">
+      <img id="myimg" src={tut25} classname="bcolor"/>
+      </Link>
+      <h1 id="myh1">EduConnect</h1>
+      
+    </nav>
     <div id="landingsection1">
       <h1 id="myh1">Application Requirements</h1>
       <p id="p1">To apply for a refurbished laptop, please ensure you meet the following requirements:</p>

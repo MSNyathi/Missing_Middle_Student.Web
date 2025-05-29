@@ -68,28 +68,35 @@ function App() {
         </div>
         
         <div id="lpsection2div2">
+          <Link to="/landing/announcements" id="nolink">
           <div id="lpsection2div1div1">
             <div id="lpsection2div1div1div1">
               <h3>Announcements</h3>
             </div>
             
           </div>
+          </Link>
         </div>
+
         <div id="lpsection2div3">
+          <Link to="/landing/applicationrequirements" id="nolink">
           <div id="lpsection2div1div1">
             <div id="lpsection2div1div1div1">
               <h3>Application Requirements</h3>
             </div>
             
           </div>
+          </Link>
         </div>
         <div id="lpsection2div4">
+          <Link to="/landing/successstories" id="nolink">
           <div id="lpsection2div1div1">
             <div id="lpsection2div1div1div1">
               <h3>Success Stories</h3>
             </div>
             
           </div>
+          </Link>
         </div>
         
         
