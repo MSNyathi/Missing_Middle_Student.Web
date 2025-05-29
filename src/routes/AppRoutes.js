@@ -17,6 +17,9 @@ import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
 import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
+import DonatedLaptops from '../pages/Technician/donatedLaptops';
+import RegisterDevice from '../pages/Technician/registerDevice';
+import WrittenOffDevices from '../pages/Technician/writtenOfLaptops';
 import TechnicianProfile from '../pages/admin/register/viewTechnicians';
 import SupervisorLogin from '../pages/supervisor/Login/SupervisorLogin';
 import SupervisorDashboard from '../pages/supervisor/Dashboard/SupervisorDashboard';
@@ -35,7 +38,7 @@ const AppRoutes = () => {
       <Route path="/admin/applicants" element={<Applicants />} />
       <Route path="/admin/register" element={<RegisterTechnician />} />
       <Route path="/admin/assign-device" element={<AssignDevicePage />} />
-      <Route path="/student" element={<StudentDashboard />} />
+      <Route path="/student/dashboard" element={<StudentDashboard />} />
       <Route path="/student/apply" element={<ApplyLaptop />} />
       <Route path="/student/track" element={<TrackApplication />} />
       <Route path="/student/login" element={<Login />} />
@@ -46,6 +49,9 @@ const AppRoutes = () => {
       <Route path="/admin/forgot-password" element={<ForgotPassword />} />
       <Route path="/admin/students" element={<Students />} />
       <Route path="/technician/dashboard" element={<TechnicianDashboard />} />
+      <Route path="/technician/donatedLaptops" element={<DonatedLaptops />} />
+      <Route path="/technician/registerDevice" element={<RegisterDevice />} />
+      <Route path="/technician/writtenOfLaptops" element={<WrittenOffDevices />} />
       <Route path="/admin/technicians" element={<TechnicianProfile />} />
       <Route path="/supervisor/donation-requests" element={<DonationRequests />} />
       <Route path="/supervisor/add-received-devices" element={<AddReceivedDevices />} />
