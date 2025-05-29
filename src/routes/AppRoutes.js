@@ -38,8 +38,8 @@ const AppRoutes = () => {
       <Route path="/student" element={<StudentDashboard />} />
       <Route path="/student/apply" element={<ApplyLaptop />} />
       <Route path="/student/track" element={<TrackApplication />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/adminlogin" element={<AdminLogin />} />
+      <Route path="/student/login" element={<Login />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/admin/devices/view-devices" element={<ViewDevices />} />      
