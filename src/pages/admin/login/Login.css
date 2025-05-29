@@ -1,8 +1,4 @@
-body {
-  background-image: url("./laptop.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
+
 
 #mydiv{
   background-color: rgba(120, 91, 19, 0.75);
