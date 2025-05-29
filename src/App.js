@@ -1,29 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import tut from './assets/tut.png';
-import backgroundImage from './assets/background2.jpeg';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './App.css';
 
 function App() {
-  const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    color: '#fff',
-  };
+
 
   return (
-    <div style={backgroundStyle}>
+    <div >
       {/* Navbar */}
       <nav id="mynav" className="d-flex justify-content-between align-items-center p-3">
-        <Link to="/">
-          <img id="myimg" src={tut} alt="TUT Logo" className="bcolor" />
-        </Link>
         <h1 id="myh1" className="m-0">Welcome to EduConnect</h1>
       </nav>
 
