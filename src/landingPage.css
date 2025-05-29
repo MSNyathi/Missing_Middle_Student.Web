@@ -194,7 +194,7 @@
   color: lightblue; /* Change the color when hovered */
   cursor: pointer; /* Optional: Add a pointer cursor */
 }
-#footer{
+#foooter{
   background-color: rgb(0, 0, 0);
   box-shadow: 8px -4px 8px rgba(255, 255, 255, 0.555);
   color: bisque;

@@ -106,7 +106,7 @@ function App() {
   </section>
 
    
-    <footer id="footer">
+    <footer id="foooter">
       <p id="p3">© 2023 EduConnect. All rights reserved.</p>
       <p id="p3">Contact us: 012 123 4567</p>
       <p id="p3">Email: digitaldynamos@EduConnect.com</p>
