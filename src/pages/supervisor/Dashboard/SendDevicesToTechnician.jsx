@@ -21,25 +21,26 @@ function SendDevicesToTechnician() {
                 <p id="p1">Here you can send devices to the technician for repair or maintenance.</p>
             </div>
             <div className="device-selection-container">
-                <h2>Select Devices</h2>
+                
                 <form>
-                    <div className="device-list">
-                        <label>
+                    <div id="landingsection2" className="device-list">
+                        <h2 id="myh1">Select Devices</h2>
+                        <label id="p1">
                             <input type="checkbox" name="device1" />
                             Device 1 - Chromebook
                         </label>
                         <br />
-                        <label>
+                        <label id="p1">
                             <input type="checkbox" name="device2" />
                             Device 2 - iPad
                         </label>
                         <br />
-                        <label>
+                        <label id="p1">
                             <input type="checkbox" name="device3" />
                             Device 3 - Windows Laptop
                         </label>
                         <br />
-                        <label>
+                        <label id="p1">
                             <input type="checkbox" name="device4" />
                             Device 4 - Android Tablet
                         </label>
@@ -47,8 +48,14 @@ function SendDevicesToTechnician() {
                     <button type="submit" className="btn btn-primary" style={{ marginTop: '16px' }}>
                         Send Selected Devices
                     </button>
+
                 </form>
             </div>
+            <div style={{ margin: '20px 0 0 20px' }}>
+                            <Link to="/supervisor/dashboard" className="btn btn-secondary">
+                                <i className="bi bi-arrow-left"></i> Back
+                            </Link>
+                        </div>
         </>
     );
 }

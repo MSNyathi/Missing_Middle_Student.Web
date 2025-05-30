@@ -112,3 +112,17 @@
     box-shadow: 0 0 10px rgba(0, 255, 180, 0.4), 0 0 20px rgba(0, 255, 180, 0.3);
   }
 }
+[data-theme="light"] .glow-icon:hover {
+  filter: drop-shadow(0 0 12px rgba(0, 123, 255, 1));
+}
+
+[data-theme="dark"] .glow-icon:hover {
+  filter: drop-shadow(0 0 12px rgba(0, 255, 180, 1));
+}
+
+/* Optional: ensure text inside glowing cards is visible */
+[data-theme="light"] .card-hover-glow h5,
+[data-theme="light"] .card-hover-glow p {
+  color: #212529;
+}
+

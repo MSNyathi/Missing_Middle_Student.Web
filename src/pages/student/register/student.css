@@ -18,11 +18,15 @@
   --bg-color: #121212;
 }
 
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.StudentRegister-wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('/src/assets/background2.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  padding-top: 60px; /* adjust if navbar is not fixed */
 }
 
 /* === Register Page Container === */
@@ -183,5 +187,84 @@ span {
 
   .success-subtitle {
     font-size: 1rem;
+  }
+}
+.wrapper {
+  
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('/src/assets/background2.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  padding-top: 60px; /* adjust if navbar is not fixed */
+
+}
+/* === Success Page Styling === */
+.success-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+              url('https://source.unsplash.com/1600x900/?celebration,students') no-repeat center center fixed;
+  background-size: cover;
+  backdrop-filter: blur(6px);
+  color: var(--success-text);
+  height: 100vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.success-modal {
+  background-color: rgba(0, 0, 0, 0.6); /* dark translucent background */
+  padding: 2rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 500px;
+  width: 90%;
+}
+
+.success-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.success-subtitle {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  color: #ccc;
+}
+
+.success-button {
+  margin-top: 2rem;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  background-color: var(--success-button-bg);
+  color: var(--success-button-text);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.success-button:hover {
+  background-color: #218838;
+}
+
+@media (max-width: 480px) {
+  .success-title {
+    font-size: 2rem;
+  }
+
+  .success-subtitle {
+    font-size: 1rem;
+  }
+
+  .success-modal {
+    padding: 1.5rem;
   }
 }

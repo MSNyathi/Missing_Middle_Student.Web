@@ -20,35 +20,36 @@ function ViewReports() {
                 
                 <p id="p1">Here you can view various reports related to the system.</p>
             </div>
-        <div className="container mt-4">
-            <h2>Available Reports</h2>
-            <ul className="list-group">
+        <div style={{ margin: '30px 0 0 20px' }}>
+            <h2>Laptop Donation Reports</h2>
+            <ul className="list-group" style={{ maxWidth: '500px' }}>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
-                    Student Progress Report
-                    <Link to="/supervisor/reports/student-progress" className="btn btn-primary btn-sm">
-                        View
-                    </Link>
+                    Total Laptops Donated
+                    <span className="badge bg-primary rounded-pill">120</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
-                    Attendance Summary
-                    <Link to="/supervisor/reports/attendance-summary" className="btn btn-primary btn-sm">
-                        View
-                    </Link>
+                    Laptops Distributed to Students
+                    <span className="badge bg-success rounded-pill">95</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
-                    Assignment Submission Report
-                    <Link to="/supervisor/reports/assignment-submissions" className="btn btn-primary btn-sm">
-                        View
-                    </Link>
+                    Laptops Pending Distribution
+                    <span className="badge bg-warning rounded-pill">25</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
-                    Feedback & Evaluation
-                    <Link to="/supervisor/reports/feedback-evaluation" className="btn btn-primary btn-sm">
-                        View
-                    </Link>
+                    Schools Participating
+                    <span className="badge bg-info rounded-pill">8</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                    Recent Donations (Last Month)
+                    <span className="badge bg-secondary rounded-pill">15</span>
                 </li>
             </ul>
         </div>
+        <div style={{ margin: '20px 0 0 20px' }}>
+                        <Link to="/supervisor/dashboard" className="btn btn-secondary">
+                            <i className="bi bi-arrow-left"></i> Back
+                        </Link>
+                    </div>
         </>
     );
 }

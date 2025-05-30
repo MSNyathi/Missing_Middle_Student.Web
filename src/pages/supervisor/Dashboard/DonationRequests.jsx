@@ -17,23 +17,43 @@ function DonationRequests() {
                 </nav>
             </div>
             <div id="landingsection2">
-                
                 <p id="p1">Here you can view and manage pending laptop donation requests.</p>
             </div>
-        <div className="container mt-4">
-            <h2>Messages from Donors</h2>
-            <ul className="list-group">
-                <li className="list-group-item">
-                    <strong>John Doe:</strong> I would like to donate a laptop. Please let me know the next steps.
-                </li>
-                <li className="list-group-item">
-                    <strong>Jane Smith:</strong> I have a gently used laptop available for donation.
-                </li>
-                <li className="list-group-item">
-                    <strong>Michael Brown:</strong> Can I schedule a pickup for my laptop donation?
-                </li>
-            </ul>
-        </div>
+            <div id="landingsection2">
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Number of Devices</th>
+                            <th>Pickup Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* Example static data, replace with dynamic data as needed */}
+                        <tr>
+                            <td>1</td>
+                            <td>Jane Doe</td>
+                            <td>jane.doe@email.com</td>
+                            <td>5</td>
+                            <td>2024-07-01</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>John Smith</td>
+                            <td>john.smith@email.com</td>
+                            <td>2</td>
+                            <td>2024-07-05</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style={{ margin: '20px 0 0 20px' }}>
+                <Link to="/supervisor/dashboard" className="btn btn-secondary">
+                    <i className="bi bi-arrow-left"></i> Back
+                </Link>
+            </div>
         </>
     )
 }

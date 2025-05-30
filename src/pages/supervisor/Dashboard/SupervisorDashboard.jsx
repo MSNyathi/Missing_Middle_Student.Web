@@ -24,7 +24,7 @@ function SupervisorDashboard() {
                     <button id="btn"
                         onClick={() => {
                             // Add your logout logic here
-                            window.location.href = "/login";
+                            window.location.href = "/";
                         }}
                         style={{
                             background: "#e74c3c",

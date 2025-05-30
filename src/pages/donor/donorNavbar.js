@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './DonorNavbar.css';
+import tutLogo from "../../assets/tut25.png";
 import {FaSignOutAlt,FaFile,FaHistory ,FaHome } from 'react-icons/fa';
 
 const DonorNavbar = () => {
@@ -14,7 +15,8 @@ const DonorNavbar = () => {
 
   return (
     <div className="d-flex flex-column vh-100 p-3 bg-primary text-white" style={{ width: '220px' }}>
-      <h2 className="mb-4">📘 eduConnect</h2>
+      <img src={tutLogo} alt="TUT Logo" style={{ width: "100%", marginBottom: "10px" }} />
+      <h2 className="mb-4">EduConnect</h2>
       <ul className="nav nav-pills flex-column">
         <li className="nav-item">
           <Link to="/donor/dashboard" className="nav-link text-white"><FaHome className="me-2"/>Home</Link>

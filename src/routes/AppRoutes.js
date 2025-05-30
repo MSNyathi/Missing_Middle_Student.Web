@@ -2,8 +2,16 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import App from '../App'; // default landing component
+<<<<<<< Updated upstream
 import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice'
 import StudentDashboard from '../pages/student/dashboard/index';
+import UserLoginPages from '../pages/landing/userloginpages';
+import Announcements from '../pages/landing/announcements';
+import ApplicationRequirements from '../pages/landing/applicationrequirements';
+import SuccessStories from '../pages/landing/successstories';
+=======
+
+>>>>>>> Stashed changes
 
 import StudentDashboard from '../pages/student/dashboard';
 import ApplyLaptop from '../pages/student/applyLaptop';
@@ -22,7 +30,7 @@ import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import StudentForgotPassword from '../pages/student/login/studentforgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
-import TechnicianProfile from '../pages/admin/register/viewTechnicians';
+
 
 import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
 import TechnicianProfile from '../pages/admin/register/viewTechnicians'
@@ -34,13 +42,14 @@ import RegisterDevice from '../pages/Technician/registerDevice';
 import WrittenOffDevices from '../pages/Technician/writtenOfLaptops';
 
 
+
 import SupervisorLogin from '../pages/supervisor/Login/SupervisorLogin';
 import SupervisorDashboard from '../pages/supervisor/Dashboard/SupervisorDashboard';
 import DonationRequests from '../pages/supervisor/Dashboard/DonationRequests';
 import AddReceivedDevices from '../pages/supervisor/Dashboard/AddReceivedDevices';
 import SendDevicesToTechnician from '../pages/supervisor/Dashboard/SendDevicesToTechnician'; 
 import ViewReports from '../pages/supervisor/Dashboard/ViewReports';
-
+import Login from "../pages/student/login/studentLogin";
 import DonorDashboard from '../pages/donor/donorDashboard';
 import DonationRequest from '../pages/donor/donationRequest';
 import DonationHistory from '../pages/donor/donorHistory';
@@ -51,6 +60,10 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<App />} />
+      <Route path="/landing/userloginpages" element={<UserLoginPages />} />
+      <Route path="/landing/announcements" element={<Announcements />} />
+      <Route path="/landing/applicationrequirements" element={<ApplicationRequirements />} />
+      <Route path="/landing/successstories" element={<SuccessStories />} />
       
       {/* STUDENT */}
       <Route path="/student/dashboard" element={<StudentDashboard />} />
@@ -97,6 +110,7 @@ const AppRoutes = () => {
       <Route path="/technician/donatedLaptops" element={<DonatedLaptops />} />
       <Route path="/technician/registerDevice" element={<RegisterDevice />} />
       <Route path="/technician/writtenOfLaptops" element={<WrittenOffDevices />} />
+ 
             
       {/* SUPERVISOR */}
       <Route path="/supervisor/donation-requests" element={<DonationRequests />} />
