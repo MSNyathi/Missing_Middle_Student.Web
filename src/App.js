@@ -26,12 +26,10 @@ function App() {
 
     <>
     <nav id="mynavv">
-      
       <Link to="/">
-      <img id="myimg" src={tut25} classname="bcolor"/>
+        <img id="myimg" src={tut25} classname="bcolor"/>
       </Link>
       <h1 id="myh1">EduConnect</h1>
-      
     </nav>
     {/*=============================================*/} 
 

@@ -5,7 +5,9 @@ import '../../LandingPage2.css'; // Import your CSS file for styling
 
 function ApplicationRequirements() {
   return (
+    
     <>
+    <section id="ss">
     <nav id="mynavv">
       
       <Link to="/">
@@ -14,7 +16,16 @@ function ApplicationRequirements() {
       <h1 id="myh1">EduConnect</h1>
       
     </nav>
-    <div id="landingsection1">
+    <button
+      onClick={() => window.history.back()}
+      className="back-button"
+      style={{ margin: '16px', padding: '8px 16px', cursor: 'pointer' }}
+    >
+      ← Back
+    </button>
+    
+    
+    <div id="ssdiv1">
       <h1 id="myh1">Application Requirements</h1>
       <p id="p1">To apply for a refurbished laptop, please ensure you meet the following requirements:</p>
       <ul id="requirements-list">
@@ -26,7 +37,9 @@ function ApplicationRequirements() {
         <li id="p1">Must provide a valid student ID and proof of registration.</li>
       </ul>
       <p id="p1">If you meet these requirements, please proceed to the application form.</p>
+      
     </div>
+  </section>
     
     </>
   );
