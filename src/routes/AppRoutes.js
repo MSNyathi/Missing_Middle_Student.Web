@@ -24,6 +24,7 @@ import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import StudentForgotPassword from '../pages/student/login/studentforgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
+import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice'; // assign device page
 
 
 import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
