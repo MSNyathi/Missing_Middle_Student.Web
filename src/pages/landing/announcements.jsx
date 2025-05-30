@@ -6,6 +6,7 @@ import '../../LandingPage2.css'; // Import your CSS file for styling
 function Announcements() {
   return (
     <>
+    <section id="announcements">
     <nav id="mynavv">
       
       <Link to="/">
@@ -14,12 +15,21 @@ function Announcements() {
       <h1 id="myh1">EduConnect</h1>
       
     </nav>
-    <section id="landingsection1">
+    <button
+      onClick={() => window.history.back()}
+      className="back-button"
+      style={{ margin: '16px', padding: '8px 16px', cursor: 'pointer' }}
+    >
+      ← Back
+    </button>
     <div >
-      <h1 className="text-4xl font-bold mb-4">Announcements</h1>
-      <p className="text-lg text-gray-700">No announcements at this time.</p>
+      <section id="landingsection2" >
+      <h1 id="myh1">Announcements</h1>
+      <p id="p1">No announcements at this time.</p>
+      </section>
     </div>
     </section>
+    
     </>
   );
 }export default Announcements;
