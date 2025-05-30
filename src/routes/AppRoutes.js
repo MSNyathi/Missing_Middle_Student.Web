@@ -2,26 +2,12 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import App from '../App'; // default landing component
-<<<<<<< Updated upstream
-import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice'
-import StudentDashboard from '../pages/student/dashboard/index';
-import UserLoginPages from '../pages/landing/userloginpages';
-import Announcements from '../pages/landing/announcements';
-import ApplicationRequirements from '../pages/landing/applicationrequirements';
-import SuccessStories from '../pages/landing/successstories';
-=======
-
->>>>>>> Stashed changes
-
-import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice'
-import StudentDashboard from '../pages/student/dashboard/index';
-
 import UserLoginPages from '../pages/landing/userloginpages';
 import Announcements from '../pages/landing/announcements';
 import ApplicationRequirements from '../pages/landing/applicationrequirements';
 import SuccessStories from '../pages/landing/successstories';
 
-
+import StudentDashboard from '../pages/student/dashboard';
 import ApplyLaptop from '../pages/student/applyLaptop';
 import TrackApplication from '../pages/student/trackApplication';
 import HelpPageLaptops from '../pages/student/help/helpPage'; // help page
@@ -118,7 +104,7 @@ const AppRoutes = () => {
       <Route path="/technician/donatedLaptops" element={<DonatedLaptops />} />
       <Route path="/technician/registerDevice" element={<RegisterDevice />} />
       <Route path="/technician/writtenOfLaptops" element={<WrittenOffDevices />} />
- 
+    
             
       {/* SUPERVISOR */}
       <Route path="/supervisor/donation-requests" element={<DonationRequests />} />
