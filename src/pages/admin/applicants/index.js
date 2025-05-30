@@ -403,12 +403,7 @@ useEffect(() => {
           theme="dark"
         />
         <div className="d-flex align-items-center gap-3 justify-content-between">
-          <input
-            type="text"
-            className="form-control w-50"
-            placeholder="Search by Student Number, Surname or initials"
-            style={{ borderRadius: "20px" }}
-          />
+         <h2 style={{ color: "black" }}><strong>Applicants</strong></h2>
 
           {/* New container to align right */}
           <div
@@ -471,14 +466,10 @@ useEffect(() => {
           className="bg-white bg-opacity-75 p-4 rounded shadow-lg"
           style={{ paddingTop: "20px" }}
         >
-          <div className="mb-4">
-            <div className="d-flex justify-content-between align-items-center">
-              <h2 className="text-dark mb-0">Applicants</h2>
-            </div>
-          </div>
+          
 
           <div className="mb-3">
-            <div className="row">
+            <div className="d-flex justify-content-between align-items-center mb-3">
               <div className="col-md-6 mb-2">
                 <div className="input-group">
                   <span className="input-group-text bg-primary text-white">

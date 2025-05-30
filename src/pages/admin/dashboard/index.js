@@ -262,8 +262,8 @@ const Dashboard = () => {
         </div>
 
         {/* Welcome Text */}
-        <h1 className="text-blue" style={{ color: "blue" }}>
-          Admin Dashboard
+        <h1 className="text-blue" style={{ color: "black" }}>
+          <strong>Admin Dashboard</strong>
         </h1>
         <p className="text-light" style={{ color: "black" }}>
           <i style={{ color: "black" }}>Welcome,</i>{" "}
