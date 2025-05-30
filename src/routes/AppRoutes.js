@@ -25,6 +25,7 @@ import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
 import DonatedLaptops from '../pages/Technician/donatedLaptops';
 import RegisterDevice from '../pages/Technician/registerDevice';
 import WrittenOffDevices from '../pages/Technician/writtenOfLaptops';
+import RegisterDeviceForm from '../pages/Technician/addDevice';
 
 
 import SupervisorLogin from '../pages/supervisor/Login/SupervisorLogin';
@@ -69,6 +70,7 @@ const AppRoutes = () => {
       <Route path="/technician/donatedLaptops" element={<DonatedLaptops />} />
       <Route path="/technician/registerDevice" element={<RegisterDevice />} />
       <Route path="/technician/writtenOfLaptops" element={<WrittenOffDevices />} />
+      <Route path="/technician/add-device" element={<RegisterDeviceForm />} />
             
       {/* SUPERVISOR */}
       <Route path="/supervisor/donation-requests" element={<DonationRequests />} />
