@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FaArrowLeft, FaSignOutAlt, FaSun, FaMoon } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-import tutLogo from "../../../assets/tut.png";
+import tut25 from "../../../assets/tut25.png";
 import "./index.css";
 
 const ApplyLaptop = () => {
@@ -30,11 +30,10 @@ const ApplyLaptop = () => {
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-    if (type === "file") {
-      setFormData((prev) => ({ ...prev, [name]: files[0] }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "file" ? files[0] : value,
+    }));
   };
 
   const handleCancel = () => navigate("/student/dashboard");
@@ -54,34 +53,61 @@ const ApplyLaptop = () => {
     <div
       className="position-relative d-flex flex-column justify-content-center align-items-center min-vh-100 p-3"
       style={{
-        backgroundColor: darkMode ? "#1e1e1e" : "#f2f4f8", // Clean light/dark contrast
+        backgroundColor: darkMode ? "#1e1e1e" : "#f2f4f8",
         color: darkMode ? "#f1f1f1" : "#333",
         transition: "background-color 0.3s ease-in-out, color 0.3s ease-in-out",
       }}
     >
-      {/* TUT Logo */}
-      <img
-        src={tutLogo}
-        alt="TUT Logo"
-        className="position-absolute top-0 start-0 m-3"
-        style={{ height: "60px", width: "auto" }}
-      />
+      {/* Navbar with Theme Toggle */}
+      <nav
+        className={`navbar navbar-expand-lg ${
+          darkMode ? "navbar-dark bg-dark" : "navbar-light bg-white"
+        } shadow-sm px-4 py-2`}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          zIndex: 1050,
+          transition: "all 0.3s ease-in-out",
+          borderBottom: darkMode ? "1px solid #444" : "1px solid #ddd",
+        }}
+      >
+        <div className="container-fluid d-flex justify-content-between align-items-center">
+          <div className="navbar-brand d-flex align-items-center">
+            <img
+              src={tut25}
+              alt="TUT Logo"
+              style={{
+                height: "40px",
+                marginRight: "10px",
+                filter: darkMode ? "invert(0)" : "none",
+              }}
+            />
+            <span
+              className={`fw-semibold ${darkMode ? "text-light" : "text-dark"}`}
+              style={{ fontSize: "1.25rem" }}
+            >
+              TUT Student Portal
+            </span>
+          </div>
 
-      {/* Theme Toggle */}
-      <div className="position-fixed top-0 end-0 m-3 d-flex align-items-center text-white">
-        <FaSun className="me-2" color={darkMode ? "#bbb" : "#f39c12"} />
-        <div className="form-check form-switch">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            checked={darkMode}
-            onChange={() => setDarkMode(!darkMode)}
-            id="themeSwitch"
-            style={{ cursor: "pointer" }}
-          />
+          <div className="d-flex align-items-center">
+            <FaSun color={darkMode ? "#ccc" : "#f39c12"} className="me-2" />
+            <div className="form-check form-switch mb-0">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                checked={darkMode}
+                onChange={() => setDarkMode(!darkMode)}
+                id="themeSwitch"
+                style={{ cursor: "pointer" }}
+              />
+            </div>
+            <FaMoon color={darkMode ? "#f1c40f" : "#888"} className="ms-2" />
+          </div>
         </div>
-        <FaMoon className="ms-2" color={darkMode ? "#f1c40f" : "#999"} />
-      </div>
+      </nav>
 
       {/* Back to Dashboard */}
       <Link
@@ -145,7 +171,7 @@ const ApplyLaptop = () => {
 
       {/* Form Card */}
       <div
-        className={`glass-card p-5 rounded shadow ${
+        className={`glass-card p-5 rounded shadow mt-4 ${
           darkMode ? "glass-card-dark" : "glass-card-light"
         }`}
         style={{ width: "100%", maxWidth: "600px" }}
@@ -155,52 +181,29 @@ const ApplyLaptop = () => {
 
         <form onSubmit={handleNext}>
           {[
-            {
-              label: "Student Number",
-              name: "studentNumber",
-              placeholder: "219876543",
-              readOnly: true,
-            },
-            {
-              label: "Surname",
-              name: "surname",
-            },
-            {
-              label: "Initials",
-              name: "initials",
-              placeholder: "TK",
-              readOnly: true,
-            },
+            { label: "Student Number", name: "studentNumber", readOnly: true },
+            { label: "Surname", name: "surname" },
+            { label: "Initials", name: "initials", readOnly: true },
             {
               label: "Student Email",
               name: "email",
               type: "email",
-              placeholder: "student@example.tut.ac.za",
               readOnly: true,
             },
-          ].map(
-            ({
-              label,
-              name,
-              type = "text",
-              readOnly = false,
-              placeholder = "",
-            }) => (
-              <div className="mb-3" key={name}>
-                <label className="form-label">{label}:</label>
-                <input
-                  type={type}
-                  className="form-control"
-                  name={name}
-                  value={formData[name]}
-                  onChange={handleChange}
-                  required={!readOnly}
-                  readOnly={readOnly}
-                  placeholder={placeholder}
-                />
-              </div>
-            )
-          )}
+          ].map(({ label, name, type = "text", readOnly = false }) => (
+            <div className="mb-3" key={name}>
+              <label className="form-label">{label}:</label>
+              <input
+                type={type}
+                className="form-control"
+                name={name}
+                value={formData[name]}
+                onChange={handleChange}
+                required={!readOnly}
+                readOnly={readOnly}
+              />
+            </div>
+          ))}
 
           <div className="mb-3">
             <label className="form-label">Upload Proof of Income:</label>
@@ -219,30 +222,22 @@ const ApplyLaptop = () => {
               Do you have a Recommendation Letter?
             </label>
             <div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="hasRecommendation"
-                  value="yes"
-                  checked={formData.hasRecommendation === "yes"}
-                  onChange={handleChange}
-                  required
-                />
-                <label className="form-check-label">Yes</label>
-              </div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="hasRecommendation"
-                  value="no"
-                  checked={formData.hasRecommendation === "no"}
-                  onChange={handleChange}
-                  required
-                />
-                <label className="form-check-label">No</label>
-              </div>
+              {["yes", "no"].map((value) => (
+                <div className="form-check form-check-inline" key={value}>
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="hasRecommendation"
+                    value={value}
+                    checked={formData.hasRecommendation === value}
+                    onChange={handleChange}
+                    required
+                  />
+                  <label className="form-check-label">
+                    {value.charAt(0).toUpperCase() + value.slice(1)}
+                  </label>
+                </div>
+              ))}
             </div>
           </div>
 
