@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from '../../commponents/Sidebar'; // Ensure correct path
-//import { QrReader } from 'react-qr-reader';
+import { QrReader } from 'react-qr-reader';
 
 function RegisterDevice() {
   const [scannedCode, setScannedCode] = useState('');
@@ -43,7 +43,7 @@ function RegisterDevice() {
   }
 
   return (
-    <div style={{ display: 'flex', background: '#f2f0f1' }}>
+    <div style={{ display: 'flex', background: '#f2f0f1', color: '#000' /* ensure black text */ }}>
       {/* Sidebar */}
       <div style={{ width: 250, backgroundColor: '#003366', minHeight: '100vh' }}>
         <Sidebar />
@@ -51,7 +51,7 @@ function RegisterDevice() {
 
       {/* Main Content */}
       <div style={{ flex: 1, padding: 20 }}>
-        <h2>Device Registration Scanner</h2>
+        <h2 style={{ color: '#000' }}>Device Registration Scanner</h2>
 
         {/* Scan Button */}
         <button
@@ -68,15 +68,15 @@ function RegisterDevice() {
             border: 'none',
             borderRadius: '4px',
             marginBottom: '20px',
-            cursor: 'pointer'
+            cursor: 'pointer',
           }}
         >
           Scan Device
         </button>
 
         {/* QR Scanner */}
-       {/* {showScanner && (
-          <div style={{ display: 'flex',marginBottom: 20 }}>
+        {showScanner && (
+          <div style={{ display: 'flex', marginBottom: 20 }}>
             <QrReader
               onResult={(result, error) => {
                 if (result?.text) handleScan(result.text);
@@ -86,17 +86,30 @@ function RegisterDevice() {
               style={{ width: '100%' }}
             />
           </div>
-        )}*/}
+        )}
 
         {/* Status and Data Display */}
-        <p><strong>Status:</strong> {status}</p>
+        <p style={{ fontWeight: 'bold', color: '#000' }}>
+          <strong>Status:</strong> {status}
+        </p>
 
         {scannedCode && (
-          <p><strong>Scanned Code:</strong> {scannedCode}</p>
+          <p style={{ color: '#000' }}>
+            <strong>Scanned Code:</strong> {scannedCode}
+          </p>
         )}
 
         {externalData && (
-          <div style={{ background: '#fff', padding: 15, borderRadius: 8, marginTop: 20 }}>
+          <div
+            style={{
+              background: '#fff',
+              padding: 15,
+              borderRadius: 8,
+              marginTop: 20,
+              color: '#000', // explicitly black text inside box
+              boxShadow: '0 0 10px rgba(0,0,0,0.1)', // subtle shadow for clarity
+            }}
+          >
             <h4>📦 Device Details</h4>
             <p><strong>ID:</strong> {externalData.id}</p>
             <p><strong>Brand:</strong> {externalData.brand}</p>

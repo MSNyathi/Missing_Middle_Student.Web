@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "./student.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import tut25 from "./tut25.png";
+import axios from "axios";
 
 function RegisterForm() {
   const [formData, setFormData] = useState({
-    email: "",
+    studentNumber: "",
     password: "",
     confirmPassword: "",
   });
@@ -20,8 +21,8 @@ function RegisterForm() {
   const validate = () => {
     const newError = {};
 
-    if (!/^\d{9}@tut4life\.ac\.za$/.test(formData.email)) {
-      newError.email = "Email must be in the format 218334945@tut4life.ac.za";
+    if (!/^\d{9}$/.test(formData.studentNumber)) {
+      newError.studentNumber = "Student number must be a 9-digit number.";
     }
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -42,11 +43,41 @@ function RegisterForm() {
     return Object.keys(newError).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      setErrors({});
-      navigate("/success");
+    if (!validate()) return;
+
+    try {
+      console.log( formData)
+      const form_data = new FormData();
+      form_data.append("StudentNo",formData.studentNumber);
+      form_data.append("Password",formData.password);
+      const response = await axios.post(
+        "https://localhost:7102/api/Application/api/Register",
+       form_data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Data sent to backend");
+
+      if (response.status === 201) {
+        navigate("/success");
+      } else {
+        setErrors({ api: "Registration failed. Please try again." });
+      }
+    } catch (error) {
+      console.error("API Error:", error.response?.data);
+
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.Message || 
+        "An error occurred during registration";
+
+      setErrors({ api: message });
     }
   };
 
@@ -72,14 +103,14 @@ function RegisterForm() {
         <p>Please enter the details below</p>
         <form className="register-form" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="studentNumber">Student Number:</label>
             <input
-              type="email"
-              name="email"
-              value={formData.email}
+              type="text"
+              name="studentNumber"
+              value={formData.studentNumber}
               onChange={handleChange}
             />
-            {errors.email && <span>{errors.email}</span>}
+            {errors.studentNumber && <span>{errors.studentNumber}</span>}
           </div>
 
           <div>
@@ -111,10 +142,10 @@ function RegisterForm() {
                 className="input-with-icon"
               />
               <i
-                className={`bi ${
-                  showConfirmPassword ? "bi-eye-slash" : "bi-eye"
-                }`}
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className={`bi ${showConfirmPassword ? "bi-eye-slash" : "bi-eye"}`}
+                onClick={() =>
+                  setShowConfirmPassword(!showConfirmPassword)
+                }
               ></i>
             </div>
             {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
@@ -132,6 +163,8 @@ function RegisterForm() {
               Register
             </button>
           </div>
+
+          {errors.api && <div className="error-message">{errors.api}</div>}
         </form>
       </div>
 
