@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import AdminNavbar from '../../../../commponents/adminNavbar';
-import backgroundImage from '../../../../assets/backgroundAdmin.jpeg';
+
 import Select from 'react-select';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -229,14 +229,7 @@ return (
 });
 
 
-  const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    height: '100vh',
-    color: 'white',
-  };
+
 
   const deviceOptions = unassignedDevices.map((d) => ({
     value: d.id,
@@ -244,160 +237,189 @@ return (
   }));
 
   return (
-    <div className="d-flex" style={{ minHeight: '100vh' }}>
-      <AdminNavbar />
+    <div className="d-flex bg-light" style={{ minHeight: '100vh' }}>
+  <AdminNavbar />
 
-      <div style={backgroundStyle} className="flex-grow-1 p-4">
-        <h2 className="text-center mb-4">Assign Devices</h2>
+  <div className="flex-grow-1 p-4">
+    <h2 className="text-center mb-4 fw-bold text-primary">Assign Devices</h2>
 
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <div>
-            <label className="me-2">Filter by Status:</label>
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="form-select d-inline w-auto"
-            >
-              <option value="all">All</option>
-              <option value="assigned">Assigned</option>
-              <option value="unassigned">Unassigned</option>
-            </select>
-          </div>
-
-          <div>
-            <input
-              type="text"
-              placeholder="Search by Student # or Serial #"
-              className="form-control"
-              style={{ width: '300px' }}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value.trim())}
-            />
-          </div>
-
-          <div className="d-flex gap-2">
-            <button
-              className="btn btn-outline-secondary"
-              onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-            >
-              Sort ({sortOrder === 'asc' ? 'Oldest First' : 'Newest First'})
-            </button>
-            <button className="btn btn-success" onClick={handleAssignAll}>
-              Assign All
-            </button>
-            <button className="btn btn-outline-primary" onClick={fetchDevices}>
-              Refresh Devices
-            </button>
-            <button className="btn btn-primary" onClick={handleExportCSV}>
-              Export CSV
-            </button>
-            <button className="btn btn-primary" onClick={handleExportPDF}>
-              Export PDF
-            </button>
-            <a ref={csvRef} style={{ display: 'none' }} />
-          </div>
-        </div>
-
-        <div className="table-responsive">
-          <table className="table table-bordered table-hover text-center">
-            <thead className="table-dark">
-              <tr>
-                <th>Student Number</th>
-                <th>Surname</th>
-                <th>Initials</th>
-                <th>Approval Date</th>
-                <th>Status</th>
-                <th>Device</th>
-                <th>Assigned Date</th>
-                <th>Collected</th>
-                <th>Assign</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredApps.length > 0 ? (
-                filteredApps.map((app) => {
-                  const assignedDevice = getDeviceByStudent(app.studentNumber);
-                  return (
-                    <tr key={app.id}>
-                      <td>{app.studentNumber}</td>
-                      <td>{app.surname}</td>
-                      <td>{app.initials}</td>
-                      <td>{app.approvalDate}</td>
-                      <td>
-                        {assignedDevice ? (
-                          <span className="badge bg-success">Assigned</span>
-                        ) : (
-                          <span className="badge bg-danger">Unassigned</span>
-                        )}
-                      </td>
-                      <td>{assignedDevice?.name || '—'}</td>
-                      <td>{assignedDevice?.assignedDate || '—'}</td>
-                      <td>
-                        {assignedDevice ? (
-                          <input
-                            type="checkbox"
-                            checked={assignedDevice.collected || false}
-                            onChange={() => handleCollectedToggle(assignedDevice.id)}
-                          />
-                        ) : (
-                          '—'
-                        )}
-                      </td>
-                      <td>
-                        {assignedDevice ? (
-                          <span className="text-muted">Done</span>
-                        ) : unassignedDevices.length === 0 ? (
-                          <span className="text-muted">No Devices</span>
-                        ) : (
-                          <button
-                            className="btn btn-sm btn-primary"
-                            onClick={() => handleOpenModal(app.studentNumber)}
-                          >
-                            Assign
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan={9} className="text-muted">
-                    No matching applications.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+    <div
+      className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 p-3 rounded shadow-sm"
+      style={{ backgroundColor: '#fff', border: '1px solid #dee2e6' }}
+    >
+      <div>
+        <label className="form-label fw-semibold me-2 mb-0 text-black">Filter by Status:</label>
+        <select
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+          className="form-select d-inline-block"
+          style={{ width: '160px' }}
+        >
+          <option value="all">All</option>
+          <option value="assigned">Assigned</option>
+          <option value="unassigned">Unassigned</option>
+        </select>
       </div>
 
-      {/* Device Assignment Modal */}
-      {showModal && (
-        <div
-          className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-          style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999 }}
+      <div className="flex-grow-1" style={{ maxWidth: '300px' }}>
+        <input
+          type="text"
+          placeholder="Search by Student # or Serial #"
+          className="form-control"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value.trim())}
+        />
+      </div>
+
+      <div className="d-flex flex-wrap gap-2">
+        <button
+          className="btn btn-outline-secondary"
+          onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
         >
-          <div className="bg-white p-4 rounded shadow" style={{ minWidth: '300px' }}>
-            <h5 className="mb-3">Assign Device</h5>
-            <Select
-              options={deviceOptions}
-              value={selectedDeviceOption}
-              onChange={setSelectedDeviceOption}
-              placeholder="Search and select a device..."
-              isSearchable
-            />
-            <div className="d-flex justify-content-end mt-3">
-              <button className="btn btn-secondary me-2" onClick={() => setShowModal(false)}>
-                Cancel
-              </button>
-              <button className="btn btn-primary" onClick={handleAssignDevice}>
-                Assign
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+          Sort ({sortOrder === 'asc' ? 'Oldest First' : 'Newest First'})
+        </button>
+        <button className="btn btn-success" onClick={handleAssignAll}>
+          Assign All
+        </button>
+        <button className="btn btn-outline-primary" onClick={fetchDevices}>
+          Refresh Devices
+        </button>
+        <button className="btn btn-primary" onClick={handleExportCSV}>
+          Export CSV
+        </button>
+        <button className="btn btn-primary" onClick={handleExportPDF}>
+          Export PDF
+        </button>
+        <a ref={csvRef} style={{ display: 'none' }} />
+      </div>
     </div>
+
+    <div className="table-responsive">
+      <table className="table table-bordered table-hover align-middle text-center">
+        <thead className="table-dark">
+          <tr>
+            <th>Student Number</th>
+            <th>Surname</th>
+            <th>Initials</th>
+            <th>Approval Date</th>
+            <th>Status</th>
+            <th>Device</th>
+            <th>Assigned Date</th>
+            <th>Collected</th>
+            <th>Assign</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredApps.length > 0 ? (
+            filteredApps.map((app) => {
+              const assignedDevice = getDeviceByStudent(app.studentNumber);
+              return (
+                <tr key={app.id}>
+                  <td>{app.studentNumber}</td>
+                  <td>{app.surname}</td>
+                  <td>{app.initials}</td>
+                  <td>{app.approvalDate}</td>
+                  <td>
+                    <span
+                      className={`badge ${assignedDevice ? 'bg-success' : 'bg-danger'}`}
+                    >
+                      {assignedDevice ? 'Assigned' : 'Unassigned'}
+                    </span>
+                  </td>
+                  <td>{assignedDevice?.name || '—'}</td>
+                  <td>{assignedDevice?.assignedDate || '—'}</td>
+                  <td>
+                    {assignedDevice ? (
+                      <input
+                        type="checkbox"
+                        checked={assignedDevice.collected || false}
+                        onChange={() => handleCollectedToggle(assignedDevice.id)}
+                      />
+                    ) : (
+                      '—'
+                    )}
+                  </td>
+                  <td>
+                    {assignedDevice ? (
+                      <span className="text-muted">Done</span>
+                    ) : unassignedDevices.length === 0 ? (
+                      <span className="text-muted">No Devices</span>
+                    ) : (
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() => handleOpenModal(app.studentNumber)}
+                      >
+                        Assign
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan={9} className="text-muted">
+                No matching applications.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {/* Device Assignment Modal */}
+  {showModal && (
+    <div
+      className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+      style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}
+    >
+      <div
+        className="bg-white p-4 rounded shadow"
+        style={{ minWidth: '320px', maxWidth: '90%', width: '400px' }}
+      >
+        <h5 className="mb-3">Assign Device</h5>
+        <Select
+          options={deviceOptions}
+          value={selectedDeviceOption}
+          onChange={setSelectedDeviceOption}
+          placeholder="Search and select a device..."
+          isSearchable
+          styles={{
+            control: (base) => ({
+              ...base,
+              backgroundColor: '#f8f9fa',
+              borderColor: '#ced4da',
+              boxShadow: 'none',
+              fontSize: '0.9rem',
+            }),
+            option: (base, state) => ({
+              ...base,
+              backgroundColor: state.isSelected
+                ? '#0d6efd'
+                : state.isFocused
+                ? '#e9ecef'
+                : 'white',
+              color: state.isSelected ? 'white' : 'black',
+              fontSize: '0.9rem',
+            }),
+          }}
+        />
+        <div className="d-flex justify-content-end mt-4">
+          <button
+            className="btn btn-outline-secondary me-2"
+            onClick={() => setShowModal(false)}
+          >
+            Cancel
+          </button>
+          <button className="btn btn-primary" onClick={handleAssignDevice}>
+            Assign
+          </button>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+
   );
 }
