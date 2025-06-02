@@ -31,7 +31,7 @@ function AddReceivedDevices() {
 
                 <form className="w-100 px-3" style={{ maxWidth: '400px' }}>
                     <div className="form-group mb-2">
-                        <label htmlFor="serialNumber">Serial Number</label>
+                        {/*<label htmlFor="serialNumber">Serial Number</label>*/}
                         <input
                             type="text"
                             id="serialNumber"
@@ -41,7 +41,7 @@ function AddReceivedDevices() {
                         />
                     </div>
                     <div className="form-group mb-2">
-                        <label htmlFor="brand">Brand</label>
+                        {/*<label htmlFor="brand">Brand</label>*/}
                         <input
                             type="text"
                             id="brand"
@@ -56,12 +56,32 @@ function AddReceivedDevices() {
                 </form>
 
                 <div className="mt-3">
-                    <Link to="/supervisor/dashboard" className="btn btn-secondary">
-                        <i className="bi bi-arrow-left"></i> Back
-                    </Link>
+                    <Link
+                                            to="/supervisor/dashboard"
+                                            className="btn custom-back-btn"
+                                            style={{ backgroundColor: '#6c757d', color: '#fff', border: 'none' }}
+                                        >
+                                            <i className="bi bi-arrow-left"></i> Back
+                                        </Link>
                 </div>
             </div>
+            {/* Custom styles for the back button */}
+            <style>
+                {`
+                    .custom-back-btn {
+                        background-color: #6c757d !important;
+                        color: #fff !important;
+                        border: none !important;
+                        transition: background 0.2s;
+                    }
+                    .custom-back-btn:hover, .custom-back-btn:focus {
+                        background-color: #0d6efd !important;
+                        color: #fff !important;
+                    }
+                `}
+            </style>
         </div>
+        
     );
 }
 

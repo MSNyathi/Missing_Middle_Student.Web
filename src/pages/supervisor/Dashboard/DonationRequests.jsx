@@ -37,6 +37,7 @@ function DonationRequests() {
                                 <th>Email</th>
                                 <th>Number of Devices</th>
                                 <th>Pickup Date</th>
+                                <th>Accept Requests</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,6 +47,7 @@ function DonationRequests() {
                                 <td>jane.doe@email.com</td>
                                 <td>5</td>
                                 <td>2024-07-01</td>
+                                <td><button>Accept</button></td>
                             </tr>
                             <tr>
                                 <td>2</td>
@@ -53,6 +55,7 @@ function DonationRequests() {
                                 <td>john.smith@email.com</td>
                                 <td>2</td>
                                 <td>2024-07-05</td>
+                                <td><button>Accept</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -60,11 +63,30 @@ function DonationRequests() {
 
                 {/* Back Button aligned left */}
                 <div className="w-100 d-flex justify-content-start mt-4" style={{ maxWidth: '800px' }}>
-                    <Link to="/supervisor/dashboard" className="btn btn-secondary">
+                    <Link
+                        to="/supervisor/dashboard"
+                        className="btn custom-back-btn"
+                        style={{ backgroundColor: '#6c757d', color: '#fff', border: 'none' }}
+                    >
                         <i className="bi bi-arrow-left"></i> Back
                     </Link>
                 </div>
             </div>
+            {/* Custom styles for the back button */}
+            <style>
+                {`
+                    .custom-back-btn {
+                        background-color: #6c757d !important;
+                        color: #fff !important;
+                        border: none !important;
+                        transition: background 0.2s;
+                    }
+                    .custom-back-btn:hover, .custom-back-btn:focus {
+                        background-color: #0d6efd !important;
+                        color: #fff !important;
+                    }
+                `}
+            </style>
         </>
     );
 }

@@ -54,10 +54,29 @@ function SendDevicesToTechnician() {
                     </button>
                 </form>
 
-                <Link to="/supervisor/dashboard" className="btn btn-secondary">
-                    <i className="bi bi-arrow-left"></i> Back
-                </Link>
+                <Link
+                                        to="/supervisor/dashboard"
+                                        className="btn custom-back-btn"
+                                        style={{ backgroundColor: '#6c757d', color: '#fff', border: 'none' }}
+                                    >
+                                        <i className="bi bi-arrow-left"></i> Back
+                                    </Link>
             </div>
+            {/* Custom styles for the back button */}
+            <style>
+                {`
+                    .custom-back-btn {
+                        background-color: #6c757d !important;
+                        color: #fff !important;
+                        border: none !important;
+                        transition: background 0.2s;
+                    }
+                    .custom-back-btn:hover, .custom-back-btn:focus {
+                        background-color: #0d6efd !important;
+                        color: #fff !important;
+                    }
+                `}
+            </style>
         </div>
     );
 }
