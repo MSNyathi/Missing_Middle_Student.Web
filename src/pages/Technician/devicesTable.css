@@ -3,11 +3,13 @@
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  color: #000; /* make sure text is black */
 }
 
 #written td, #written th {
   border: 1px solid #ddd;
   padding: 8px;
+  color: #000; /* ensure table cell text is black */
 }
 
 #written tr:nth-child(even) {
@@ -15,7 +17,7 @@
 }
 
 #written tr:hover {
-  background-color: #ddd;
+  background-color: #ccc; /* a bit darker for better hover visibility */
 }
 
 #written th {
@@ -23,5 +25,5 @@
   padding-bottom: 12px;
   text-align: left;
   background-color: #0d89f5;
-  color: white;
+  color: #fff; /* white text on blue header */
 }

@@ -2,15 +2,10 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import App from '../App'; // default landing component
-
-import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice'
-import StudentDashboard from '../pages/student/dashboard/index';
-
 import UserLoginPages from '../pages/landing/userloginpages';
 import Announcements from '../pages/landing/announcements';
 import ApplicationRequirements from '../pages/landing/applicationrequirements';
 import SuccessStories from '../pages/landing/successstories';
-
 
 import StudentDashboard from '../pages/student/dashboard';
 import ApplyLaptop from '../pages/student/applyLaptop';
@@ -23,12 +18,13 @@ import Dashboard from '../pages/admin/dashboard';
 import Applicants from '../pages/admin/applicants';
 import RegisterTechnician from '../pages/admin/register'; // registration page
 
-import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice'
+
 import AdminLogin from '../pages/admin/login/adminLogin';
 import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import StudentForgotPassword from '../pages/student/login/studentforgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
+import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice'; // assign device page
 
 
 import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
@@ -109,7 +105,7 @@ const AppRoutes = () => {
       <Route path="/technician/donatedLaptops" element={<DonatedLaptops />} />
       <Route path="/technician/registerDevice" element={<RegisterDevice />} />
       <Route path="/technician/writtenOfLaptops" element={<WrittenOffDevices />} />
- 
+    
             
       {/* SUPERVISOR */}
       <Route path="/supervisor/donation-requests" element={<DonationRequests />} />
