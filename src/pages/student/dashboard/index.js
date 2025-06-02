@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Contact from "../help/contact";
-import Distribution from "../help/distribution";
-import Eligible from "../help/eligible";
-import Security from "../help/security";
-import HelpPageLaptops from "../help/helpPage";
-import Warranty from "../help/warranty";
 
 import {
   FaLaptopCode,
