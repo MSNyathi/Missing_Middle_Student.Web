@@ -6,51 +6,56 @@ import { Link } from 'react-router-dom';
 
 function ViewReports() {
     return (
-        <>
-            <div className="App">
-                <nav id="mynavv">
-                    <Link to="/">
-                        <img id="myimg" src={tut25} className="bcolor" alt="Logo" />
+        <div className="d-flex flex-column justify-content-start align-items-center vh-100 overflow-hidden bg-light">
+            {/* Top Navbar */}
+            <nav className="navbar navbar-expand-lg navbar-dark bg-primary w-100">
+                <div className="container-fluid d-flex justify-content-between align-items-center px-3">
+                    <Link to="/" className="navbar-brand d-flex align-items-center">
+                        <img src={tut25} alt="Logo" style={{ height: '40px', marginRight: '10px' }} />
+                        <span className="fw-bold">EduConnect</span>
                     </Link>
-                    <h1 id="myh1">View Reports</h1>
-                    <h1 id="myh1">EduConnect</h1>
-                </nav>
+                    <span className="navbar-text text-white h5 m-0">View Reports</span>
+                </div>
+            </nav>
+
+            {/* Content Section */}
+            <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center w-100 px-3">
+                <p className="fw-bold fs-6 mb-4" style={{ color: 'black' }}>
+                    Here you can view various reports related to the system.
+                </p>
+
+                <div style={{ maxWidth: '500px', width: '100%' }}>
+                    <h4 className="mb-3 text-start" style={{ color: 'black' }}>Laptop Donation Reports</h4>
+                    <ul className="list-group mb-4 text-start">
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                            Total Laptops Donated
+                            <span className="badge bg-primary rounded-pill">120</span>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                            Laptops Distributed to Students
+                            <span className="badge bg-success rounded-pill">95</span>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                            Laptops Pending Distribution
+                            <span className="badge bg-warning rounded-pill">25</span>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                            Schools Participating
+                            <span className="badge bg-info rounded-pill">8</span>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                            Recent Donations (Last Month)
+                            <span className="badge bg-secondary rounded-pill">15</span>
+                        </li>
+                    </ul>
+
+                    <Link to="/supervisor/dashboard" className="btn btn-secondary">
+                        <i className="bi bi-arrow-left"></i> Back
+                    </Link>
+                </div>
             </div>
-            <div id="landingsection2">
-                
-                <p id="p1">Here you can view various reports related to the system.</p>
-            </div>
-        <div style={{ margin: '30px 0 0 20px' }}>
-            <h2>Laptop Donation Reports</h2>
-            <ul className="list-group" style={{ maxWidth: '500px' }}>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
-                    Total Laptops Donated
-                    <span className="badge bg-primary rounded-pill">120</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
-                    Laptops Distributed to Students
-                    <span className="badge bg-success rounded-pill">95</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
-                    Laptops Pending Distribution
-                    <span className="badge bg-warning rounded-pill">25</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
-                    Schools Participating
-                    <span className="badge bg-info rounded-pill">8</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
-                    Recent Donations (Last Month)
-                    <span className="badge bg-secondary rounded-pill">15</span>
-                </li>
-            </ul>
         </div>
-        <div style={{ margin: '20px 0 0 20px' }}>
-                        <Link to="/supervisor/dashboard" className="btn btn-secondary">
-                            <i className="bi bi-arrow-left"></i> Back
-                        </Link>
-                    </div>
-        </>
     );
 }
+
 export default ViewReports;

@@ -23,7 +23,7 @@ function UserLoginPages() {
       ← Back
     </button>
 
-    <div>
+    <div >
       {/* Add your login form or components here */}
       <section id="landingsection2" className="py-12 px-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
         <h2 id="p1">Welcome</h2>

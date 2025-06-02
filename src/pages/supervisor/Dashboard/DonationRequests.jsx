@@ -7,54 +7,66 @@ import { Link } from 'react-router-dom';
 function DonationRequests() {
     return (
         <>
-            <div className="App">
-                <nav id="mynavv">
-                    <Link to="/">
-                        <img id="myimg" src={tut25} className="bcolor" alt="Logo" />
+            {/* Navbar */}
+            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+                <div className="container-fluid d-flex justify-content-between align-items-center">
+                    <Link to="/" className="navbar-brand d-flex align-items-center">
+                        <img src={tut25} alt="Logo" style={{ height: '40px', marginRight: '10px' }} />
+                        <span className="fw-bold">EduConnect</span>
                     </Link>
-                    <h1 id="myh1">Pending Donation Requests</h1>
-                    <h1 id="myh1">EduConnect</h1>
-                </nav>
-            </div>
-            <div id="landingsection2">
-                <p id="p1">Here you can view and manage pending laptop donation requests.</p>
-            </div>
-            <div id="landingsection2">
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Number of Devices</th>
-                            <th>Pickup Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* Example static data, replace with dynamic data as needed */}
-                        <tr>
-                            <td>1</td>
-                            <td>Jane Doe</td>
-                            <td>jane.doe@email.com</td>
-                            <td>5</td>
-                            <td>2024-07-01</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>John Smith</td>
-                            <td>john.smith@email.com</td>
-                            <td>2</td>
-                            <td>2024-07-05</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div style={{ margin: '20px 0 0 20px' }}>
-                <Link to="/supervisor/dashboard" className="btn btn-secondary">
-                    <i className="bi bi-arrow-left"></i> Back
-                </Link>
+                    <span className="navbar-text text-white h5 m-0">
+                        Pending Donation Requests
+                    </span>
+                </div>
+            </nav>
+
+            {/* Page Content */}
+            <div className="container d-flex flex-column align-items-center mt-5">
+                {/* Intro Text */}
+                <p className="fw-bold fs-5 text-center mb-4" style={{ color: 'black' }}>
+                    Here you can view and manage pending laptop donation requests.
+                </p>
+
+                {/* Table */}
+                <div className="table-responsive w-100" style={{ maxWidth: '800px' }}>
+                    <table className="table table-striped table-hover align-middle text-center">
+                        <thead className="table-primary">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Number of Devices</th>
+                                <th>Pickup Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Jane Doe</td>
+                                <td>jane.doe@email.com</td>
+                                <td>5</td>
+                                <td>2024-07-01</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>John Smith</td>
+                                <td>john.smith@email.com</td>
+                                <td>2</td>
+                                <td>2024-07-05</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* Back Button aligned left */}
+                <div className="w-100 d-flex justify-content-start mt-4" style={{ maxWidth: '800px' }}>
+                    <Link to="/supervisor/dashboard" className="btn btn-secondary">
+                        <i className="bi bi-arrow-left"></i> Back
+                    </Link>
+                </div>
             </div>
         </>
-    )
+    );
 }
+
 export default DonationRequests;
