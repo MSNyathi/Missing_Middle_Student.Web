@@ -116,4 +116,7 @@
   cursor: pointer;
   color: #555;
 }
-
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
