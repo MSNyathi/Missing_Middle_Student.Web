@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from '../../../commponents/adminNavbar';
+import StudentModal from '../../../commponents/hooks/StudentsModal'; // adjust the path if needed
 
 export default function Students() {
   const [students, setStudents] = useState([]);
@@ -15,6 +16,10 @@ export default function Students() {
   // Pagination state
   const [page, setPage] = useState(1);
   const itemsPerPage = 5;
+
+  // Modal state
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchStudents() {
@@ -42,6 +47,7 @@ export default function Students() {
           Ethnicity: student.ethnicity || '',
           idNumber: student.idNumber || '',
           gender: student.gender || '',
+          campus: student.campus || 'Pretoria', // assuming default campus if missing
         }));
 
         setStudents(mappedStudents);
@@ -89,6 +95,18 @@ export default function Students() {
     (page - 1) * itemsPerPage,
     page * itemsPerPage
   );
+
+  // Open modal with selected student
+  const openModal = (student) => {
+    setSelectedStudent(student);
+    setIsModalOpen(true);
+  };
+
+  // Close modal handler
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedStudent(null);
+  };
 
   return (
     <div className="d-flex" style={{ minHeight: '100vh' }}>
@@ -190,7 +208,11 @@ export default function Students() {
               </thead>
               <tbody>
                 {pagedStudents.map((student, index) => (
-                  <tr key={index}>
+                  <tr
+                    key={index}
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => openModal(student)}
+                  >
                     <td>{student.surname}</td>
                     <td>{student.studentNumber}</td>
                     <td>{student.idNumber}</td>
@@ -238,6 +260,11 @@ export default function Students() {
             Next
           </button>
         </div>
+
+        {/* Modal */}
+        {isModalOpen && (
+          <StudentModal student={selectedStudent} onClose={closeModal} />
+        )}
       </div>
     </div>
   );

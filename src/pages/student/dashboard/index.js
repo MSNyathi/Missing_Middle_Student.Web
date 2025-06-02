@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import {
   FaLaptopCode,
   FaMapMarkedAlt,
@@ -8,16 +10,41 @@ import {
 } from "react-icons/fa";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./index.css";
 import tut25 from "../../../assets/tut25.png";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [student, setStudent] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStudentInfo = async () => {
+      const studentNumber = localStorage.getItem("studentNumber");
+      if (!studentNumber) {
+        navigate("/student/dashboard");
+        return;
+      }
+
+      try {
+        const response = await axios.get(`https://localhost:7102/api/Student/student/${studentNumber}`);
+        setStudent(response.data);
+      } catch (error) {
+        console.error("Failed to fetch student info", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStudentInfo();
+  }, [navigate]);
 
   const handleConfirmLogout = () => {
     setShowModal(false);
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("studentNumber");
     navigate("/student/login");
   };
 
@@ -25,13 +52,8 @@ const StudentDashboard = () => {
     <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh", paddingTop: "90px" }}>
       {/* Navbar */}
       <nav className="navbar bg-secondary shadow-sm px-3 py-2 fixed-top d-flex justify-content-between align-items-center">
-
         <div className="d-flex align-items-center">
-          <img
-            src={tut25}
-            alt="TUT Logo"
-            style={{ height: "45px", objectFit: "contain" }}
-          />
+          <img src={tut25} alt="TUT Logo" style={{ height: "45px", objectFit: "contain" }} />
         </div>
 
         <button
@@ -62,9 +84,17 @@ const StudentDashboard = () => {
           <div className="col-md-4 mb-3">
             <div className="card shadow-sm p-3">
               <h5>Student Profile</h5>
-              <p><strong>Name:</strong> John Doe</p>
-              <p><strong>Email:</strong> john@example.com</p>
-              <p><strong>Student ID:</strong> 123456</p>
+              {loading ? (
+                <p>Loading...</p>
+              ) : student ? (
+                <>
+                  <p><strong>Name:</strong> {student.name} {student.surname}</p>
+                  <p><strong>Email:</strong> {student.email}</p>
+                  <p><strong>Student ID:</strong> {student.studentNum}</p>
+                </>
+              ) : (
+                <p className="text-danger">Unable to load student data.</p>
+              )}
             </div>
           </div>
 
@@ -105,7 +135,13 @@ const StudentDashboard = () => {
         {/* Help Dropdown */}
         <div className="d-flex justify-content-between align-items-center mt-4 px-3">
           <div className="dropdown">
-            <button className="btn btn-outline-info dropdown-toggle" type="button" id="helpDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button
+              className="btn btn-outline-info dropdown-toggle"
+              type="button"
+              id="helpDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               <FaInfoCircle className="me-2" />
               Help Topics
             </button>
