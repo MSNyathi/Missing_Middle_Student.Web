@@ -24,7 +24,7 @@ function ViewReports() {
                     Here you can view various reports related to the system.
                 </p>
 
-                <div style={{ maxWidth: '500px', width: '100%' }}>
+                <div style={{ maxWidth: '500px', width: '100%', boxShadow: '8px 4px 16px rgba(0,0,0,0.12)', borderRadius: '12px', background: '#fff', padding: '2rem' }}>
                     <h4 className="mb-3 text-start" style={{ color: 'black' }}>Laptop Donation Reports</h4>
                     <ul className="list-group mb-4 text-start">
                         <li className="list-group-item d-flex justify-content-between align-items-center">
