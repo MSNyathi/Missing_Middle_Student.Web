@@ -94,7 +94,7 @@ const ApplicantsPage = () => {
   
   const [settingsMode, setSettingsMode] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
-  const [applicants, setApplicants] = useState(mockApplicants);
+  const [applicants, setApplicants] = useState([]);
 
 
   
@@ -139,9 +139,10 @@ const ApplicantsPage = () => {
   const fetchApplicants = async () => {
     try {
        const API_URL = process.env.REACT_APP_API_URL;
-      const getApplicants = `${API_URL}api/Application`;
+      const getApplicants = `${API_URL}api/Application/all`;
       const response = await axios.get(getApplicants);
       const data = response.data;
+      console.log("Fetched applicants:", data);
       setApplicants(data);
       setFilteredApplicants(data);
       // initialize filtered list
@@ -381,22 +382,27 @@ const handlePasswordPrompt = (action) => {
     );
   };
 
-  useEffect(() => {
-    const filtered = applicants.filter((applicant) => {
-      const matchesSearch =
-        applicant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        applicant.studentNum.includes(searchTerm);
+ useEffect(() => {
+  const filtered = applicants.filter((applicant) => {
+    // Safely handle missing or undefined name
+    const name = applicant.name || ""; // fallback to empty string
+    const studentNum = applicant.studentNum || "";
 
-      const matchesFilter =
-        filterStatus === "all" ||
-        (filterStatus === "eligible" && applicant.eligible) ||
-        (filterStatus === "not_eligible" && !applicant.eligible);
+    const matchesSearch =
+      name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      studentNum.includes(searchTerm);
 
-      return matchesSearch && matchesFilter;
-    });
+    const matchesFilter =
+      filterStatus === "all" ||
+      (filterStatus === "eligible" && applicant.eligible) ||
+      (filterStatus === "not_eligible" && !applicant.eligible);
 
-    setFilteredApplicants(filtered);
-  }, [applicants, searchTerm, filterStatus]);
+    return matchesSearch && matchesFilter;
+  });
+
+  setFilteredApplicants(filtered);
+}, [applicants, searchTerm, filterStatus]);
+
 
   const backgroundStyle = {
     backgroundColor: "rgb(228, 235, 255)",
