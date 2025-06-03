@@ -113,7 +113,7 @@ export default function Students() {
       <AdminNavbar />
 
       <div className="flex-grow-1 p-4">
-        <h1 className="text-2xl font-bold text-center mb-4 text-black">Registered TUT Students</h1>
+        <h1 className="text-2xl font-bold text-center mb-4 text-dark">Registered TUT Students</h1>
 
         {/* Filters */}
         <div className="d-flex justify-content-center flex-wrap mb-3 gap-2">
@@ -188,7 +188,8 @@ export default function Students() {
         {/* Table */}
         <div className="d-flex justify-content-center">
           <div className="table-responsive">
-            <table className="table table-bordered table-hover text-center w-auto">
+            <table className="table table-striped shadow bg-white table-hover"
+                    style={{ borderRadius: "15px", overflow: "hidden" }}>
               <thead className="table-dark">
                 <tr>
                   <th>Surname</th>

@@ -72,7 +72,7 @@ export default function ViewDevices() {
     <div className="d-flex  min-vh-100" style={{ backgroundColor: "rgb(228, 235, 255)" }}>
       <AdminNavbar />
       <div className="flex-grow-1 p-4">
-        <h2 className="mb-4 text-dark">📦 View Devices</h2>
+        <h2 className="text-center mb-4 text-dark">View Devices</h2>
 
         {/* Filters */}
         <div className="bg-white rounded shadow-sm p-4 mb-4">
@@ -134,7 +134,8 @@ export default function ViewDevices() {
             <div>No devices found.</div>
           ) : (
             <>
-              <table className="table table-striped shadow rounded bg-white table-hover">
+              <table className="table table-striped shadow bg-white table-hover"
+                    style={{ borderRadius: "15px", overflow: "hidden" }}>
                 <thead className="table-primary text-center">
                   <tr>
                     <th>#</th>
