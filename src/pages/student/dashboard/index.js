@@ -146,8 +146,6 @@ const StudentDashboard = () => {
               Help Topics
             </button>
             <ul className="dropdown-menu" aria-labelledby="helpDropdown">
-              <li><Link className="dropdown-item" to="/student/help/about">📌 What is this project about?</Link></li>
-              <li><Link className="dropdown-item" to="/student/help/eligible">📝 Who is eligible?</Link></li>
               <li><Link className="dropdown-item" to="/student/help/distribution">🧮 How are laptops distributed?</Link></li>
               <li><Link className="dropdown-item" to="/student/help/warranty">🛠️ Warranty or support?</Link></li>
               <li><Link className="dropdown-item" to="/student/help/contact">📍 Who do I contact?</Link></li>

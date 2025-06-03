@@ -35,9 +35,8 @@ import StudentLogin from '../pages/student/login/studentLogin';
 import DonatedLaptops from '../pages/Technician/donatedLaptops';
 import RegisterDevice from '../pages/Technician/registerDevice';
 import WrittenOffDevices from '../pages/Technician/writtenOfLaptops';
-import Contact from '../pages/student/help/contact';
+import Contact from '../pages/student/help/contact'; // contact page for help
 import Distribution from '../pages/student/help/distribution';
-import Eligible from '../pages/student/help/eligible'; // eligibility criteria page
 import Security from '../pages/student/help/security';
 import Warranty from '../pages/student/help/warranty';
 
@@ -72,7 +71,6 @@ const AppRoutes = () => {
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/student/help/contact" element={<Contact />} />
       <Route path="/student/help/distribution" element={<Distribution />} />
-      <Route path="/student/help/eligible" element={<Eligible />} />
       <Route path="/student/help" element={<HelpPageLaptops />} />
       <Route path="/student/help/security" element={<Security />} />
       <Route path="/student/help/warranty" element={<Warranty />} />

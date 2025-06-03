@@ -1,11 +1,14 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
+
 
 const Security = () => {
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-4">Laptop Security Guidelines</h1>
+      <h1 className="text-3xl font-bold mb-3">Laptop Security Guidelines</h1>
 
-      <p className="mb-4">
+      <p className="mb-3">
         Students who receive laptops under the “Missing Middle” initiative are responsible for keeping their devices safe and secure. Below are recommended security practices:
       </p>
 
@@ -30,7 +33,7 @@ const Security = () => {
       <p className="mb-2">
         If your device is lost or stolen:
       </p>
-      <ul className="list-disc list-inside space-y-2 text-gray-800 mb-4">
+      <ul className="list-disc list-inside space-y-2 text-gray-800 mb-3">
         <li>Report it immediately to <strong>Campus Security</strong>.</li>
         <li>Contact the <strong>ICT Faculty Office</strong> and <strong>Financial Aid Office</strong>.</li>
         <li>Provide a case number if reported to the police.</li>
@@ -39,6 +42,13 @@ const Security = () => {
       <p className="italic text-sm text-gray-600">
         Note: The university is not responsible for replacing lost, stolen, or damaged laptops. Handle the device with care.
       </p>
+       <Link
+              to="/student/dashboard"
+              className="btn btn-outline-secondary position-fixed bottom-0 start-0 m-4 d-flex align-items-center"
+            >
+              <FaArrowLeft className="me-2" />
+              Back to Dashboard
+            </Link>
     </div>
   );
 };
