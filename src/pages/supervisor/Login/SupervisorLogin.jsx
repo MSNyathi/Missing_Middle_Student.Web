@@ -1,85 +1,67 @@
 import React from 'react';
 import tut25 from '../../../assets/logo2.png';
 import '../../../landingPage.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 import '../../admin/login/adminLogin.css';
-import backgroundImage from '../../../assets/backgroundAdmin.jpeg'; // Adjust path if needed
-
+import backgroundImage from '../../../assets/backgroundAdmin.jpeg';
 
 function SupervisorLogin() {
     return (
         <>
-            
-            <div className="glass-bg d-flex align-items-center justify-content-center min-vh-100"
-      style={{ backgroundImage: `url(${backgroundImage})` }} >
-            <nav id="mynav">
-      
-      <Link to="/">
-      <img id="myimg" src={tut25} classname="bcolor"/>
-      </Link>
-      <h1 id="myh1">EduConnect</h1>
-      
-    </nav>
-            
-            
-            <div className="glass-card text-white p-4">
-            <i className="bi bi-person-circle" id="i1" style={{ fontSize: '4rem' }}></i>
-                <h1 id="myh1">Welcome, Supervisor</h1>
-                <p id="p1">Please enter your login details below.</p>
+            <div
+                className="glass-bg d-flex flex-column align-items-center justify-content-center min-vh-100 text-white"
+                style={{
+                    backgroundImage: `url(${backgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+            >
+                <nav className="d-flex justify-content-between align-items-center w-100 px-4 py-3" id="mynav">
+                    <Link to="/" className="d-flex align-items-center text-white text-decoration-none">
+                        <img src={tut25} alt="EduConnect Logo" height="40" className="me-2" />
+                        <h1 className="h4 mb-0">EduConnect</h1>
+                    </Link>
+                </nav>
 
-                <form id="myform1">
-                    <table id="tbl">
-                        <tr>
-                            <td id="td1">
-                                <label htmlFor="username">Username:</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="text" id="input1" name="username" required />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td id="td1">
-                                <label htmlFor="password">Password:</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="password" id="input1" name="password" required />
-                            </td>
-                        </tr>
-                        <tr id="trbtn">
-                        <Link to="/supervisor/dashboard" id="mylink">
-                            <button type="submit" id="btn" className="">LOGIN</button>
+                <div className="glass-card p-4 rounded shadow text-center" style={{ maxWidth: '400px', width: '100%' }}>
+                    <i className="bi bi-person-circle mb-3" style={{ fontSize: '4rem' }}></i>
+                    <h2 className="mb-2">Welcome, Supervisor</h2>
+                    <p className="mb-4">Please enter your login details below.</p>
+
+                    <form>
+                        <div className="mb-3 text-start">
+                            <label htmlFor="username" className="form-label">Username</label>
+                            <input type="text" className="form-control" id="username" required />
+                        </div>
+                        <div className="mb-4 text-start">
+                            <label htmlFor="password" className="form-label">Password</label>
+                            <input type="password" className="form-control" id="password" required />
+                        </div>
+                        <div className="d-grid">
+                            <Link to="/supervisor/dashboard">
+                                <button type="button" className="btn btn-primary w-100">LOGIN</button>
                             </Link>
-                            
-                        </tr>
-                    </table>
-                    
-                </form>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <button
-      onClick={() => window.history.back()}
-      className="back-button"
-      style={{ 
-        margin: '16px', 
-        padding: '8px 16px', 
-        cursor: 'pointer',
-        backgroundColor: '#ccc',
-        color: '#333',
-        border: 'none',
-        borderRadius: '4px'
-      }}
-    >
-      ← Back
-    </button>
-            <div id="simp">
-                <h2 id="myh1">Leading the way, Together.</h2>
+
+            <div className="text-center mt-4">
+                <button
+                    onClick={() => window.history.back()}
+                    className="btn btn-secondary"
+                >
+                    ← Back
+                </button>
+            </div>
+
+            <div className="text-center mt-4">
+                <h4 className="text-secondary">Leading the way, Together.</h4>
             </div>
         </>
-    )
+    );
 }
+
 export default SupervisorLogin;
