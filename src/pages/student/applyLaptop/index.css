@@ -73,3 +73,7 @@
     align-items: flex-start !important;
   }
 }
+:root {
+  --navbar-bg-light: #ced4da;
+  --navbar-bg-dark: #212529;
+}

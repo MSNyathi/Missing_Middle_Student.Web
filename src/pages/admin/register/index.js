@@ -214,7 +214,7 @@ const RegisterTechnician = () => {
   };
 
   const backgroundStyle = {
-    backgroundColor: "rgb(255, 255, 255)",
+    backgroundColor: "rgb(228, 235, 255)",
     backdropFilter: "blur(8px)",
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -281,34 +281,29 @@ const RegisterTechnician = () => {
         </div>
 
         <div
+          style={{ height: "100%" }}
           className="d-flex justify-content-center align-items-center"
-          style={{ minHeight: "80vh" }}
         >
           <motion.div
-            className="container"
-            style={{ maxWidth: "700px" }}
+            className="container d-flex justify-content-center align-items-center"
+            style={{ maxWidth: "400px", minHeight: "25vh" }}
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.6 }}
           >
             <div
-              className="card shadow-sm  rounded-4 p-3"
+              className="card rounded-4 p-3 w-100"
               style={{
-                background: "rgba(255, 255, 255, 0.1)",
-                backdropFilter: "blur(8px)",
-                WebkitBackdropFilter: "blur(8px)",
+                background: "transparent",
                 color: "black",
-                border: "1px solid rgb(0, 0, 0)"
+                border: "none",
               }}
             >
               <h5 className="text-center mb-4" style={{ color: "blue" }}>
                 🧾 Chat-based Technician Registration
               </h5>
 
-              <div
-                className="chat-box mb-3"
-                style={{ maxHeight: "400px", overflowY: "auto" }}
-              >
+              <div className="chat-box mb-3" style={{ overflow: "visible" }}>
                 {chatFlow.map((msg, idx) => (
                   <div
                     key={idx}

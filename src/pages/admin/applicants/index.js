@@ -399,7 +399,7 @@ const handlePasswordPrompt = (action) => {
   }, [applicants, searchTerm, filterStatus]);
 
   const backgroundStyle = {
-    backgroundColor: "rgb(255, 255, 255)",
+    backgroundColor: "rgb(228, 235, 255)",
     backdropFilter: "blur(8px)",
     //backgroundImage: `url(${backgroundImage})`,
     backgroundSize: "cover",
@@ -492,12 +492,12 @@ const handlePasswordPrompt = (action) => {
           
 
           <div className="mb-3">
-            <div className="d-flex justify-content-between align-items-center mb-3">
+            <div className="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-3">
               <div className="col-md-6 mb-2">
                 <div className="input-group">
-                  <span className="input-group-text bg-primary text-white">
+                  {/*<span className="input-group-text bg-primary text-white">
                     <i className="fas fa-search"></i>
-                  </span>
+                  </span>*/}
                   <input
                     type="text"
                     className="form-control search-input"
@@ -509,9 +509,9 @@ const handlePasswordPrompt = (action) => {
               </div>
               <div className="col-md-6">
                 <div className="input-group">
-                  <span className="input-group-text bg-primary text-white">
+                  {/*<span className="input-group-text bg-primary text-white">
                     <i className="fas fa-filter"></i>
-                  </span>
+                  </span>*/}
                   <select
                     className="form-select filter-select"
                     value={filterStatus}

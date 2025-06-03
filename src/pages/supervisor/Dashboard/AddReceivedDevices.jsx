@@ -23,10 +23,25 @@ function AddReceivedDevices() {
                 </div>
             </nav>
 
-            {/* Content Area (Fixed Height) */}
-            <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center w-100">
+            {/* Content Area (Centered) */}
+                        <div
+                            className="d-flex flex-column justify-content-center align-items-center w-100"
+                            style={{
+                                border: '1px solid #dee2e6',
+                                borderRadius: '8px',
+                                backgroundColor: '#fff',
+                                maxWidth: '500px',
+                                marginTop: '150px',
+                                marginLeft: 'auto',
+                                marginRight: 'auto',
+                                boxShadow: '8px 4px 8px rgba(0, 0, 0, 0.56)',
+                                minHeight: '250px', // Reduced height
+                                padding: '24px 0'   // Add some vertical padding
+                            }}
+                        >
+                    
                 <p className="fw-bold fs-6 text-center px-2" style={{ color: 'black' }}>
-                    Here you can add devices that have been received for donation or repair.
+                    Please add the devices that have been received for donation or repair.
                 </p>
 
                 <form className="w-100 px-3" style={{ maxWidth: '400px' }}>

@@ -237,11 +237,11 @@ return (
   }));
 
   return (
-    <div className="d-flex bg-light" style={{ minHeight: '100vh' }}>
+    <div className="d-flex" style={{ minHeight: '100vh', backgroundColor: "rgb(228, 235, 255)" }}>
   <AdminNavbar />
 
   <div className="flex-grow-1 p-4">
-    <h2 className="text-center mb-4 fw-bold text-primary">Assign Devices</h2>
+    <h2 className="text-center mb-4 fw-bold text-dark">Assign Devices</h2>
 
     <div
       className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 p-3 rounded shadow-sm"
@@ -295,7 +295,8 @@ return (
     </div>
 
     <div className="table-responsive">
-      <table className="table table-bordered table-hover align-middle text-center">
+      <table className="table table-striped shadow bg-white table-hover"
+          style={{ borderRadius: "15px", overflow: "hidden" }}>
         <thead className="table-dark">
           <tr>
             <th>Student Number</th>
