@@ -42,7 +42,7 @@ function SendDevicesToTechnician() {
                     className="w-100"
                     style={{
                         maxWidth: '400px',
-                        boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.66)',
                         borderRadius: '12px',
                         background: '#fff',
                         padding: '2rem'
