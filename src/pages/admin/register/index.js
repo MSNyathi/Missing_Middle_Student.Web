@@ -214,7 +214,7 @@ const RegisterTechnician = () => {
   };
 
   const backgroundStyle = {
-    backgroundColor: "rgb(255, 255, 255)",
+    backgroundColor: "rgb(228, 235, 255)",
     backdropFilter: "blur(8px)",
     backgroundSize: "cover",
     backgroundPosition: "center",

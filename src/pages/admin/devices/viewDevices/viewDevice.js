@@ -69,7 +69,7 @@ export default function ViewDevices() {
   };
 
   return (
-    <div className="d-flex bg-light min-vh-100">
+    <div className="d-flex  min-vh-100" style={{ backgroundColor: "rgb(228, 235, 255)" }}>
       <AdminNavbar />
       <div className="flex-grow-1 p-4">
         <h2 className="mb-4 text-dark">📦 View Devices</h2>
