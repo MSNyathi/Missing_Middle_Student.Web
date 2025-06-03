@@ -1,0 +1,85 @@
+/* Profile Modal Styling */
+.profile-modal {
+  width: 380px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  color: #ffffff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.profile-modal h5,
+.profile-modal h6 {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.profile-modal p {
+  font-size: 14px;
+  margin: 4px 0;
+  color: #f0f0f0;
+}
+
+.profile-modal .form-control,
+.profile-modal .form-control:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+.profile-modal .form-control::placeholder {
+  color: #ddd;
+}
+
+.profile-modal textarea.form-control {
+  resize: none;
+  height: 80px;
+}
+
+/* Button Styling */
+.profile-modal .btn {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.profile-modal .btn-outline-light {
+  border-color: #fff;
+  color: #fff;
+}
+
+.profile-modal .btn-outline-light:hover {
+  background-color: #ffffff20;
+}
+
+.profile-modal .btn-outline-info {
+  border-color: #17a2b8;
+  color: #17a2b8;
+}
+
+.profile-modal .btn-outline-info:hover {
+  background-color: rgba(23, 162, 184, 0.2);
+}
+
+.profile-modal .btn-outline-secondary {
+  color: #ccc;
+  border-color: #ccc;
+}
+
+.profile-modal .btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.profile-modal .btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.profile-modal .btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.profile-modal .btn-outline-danger:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+}
