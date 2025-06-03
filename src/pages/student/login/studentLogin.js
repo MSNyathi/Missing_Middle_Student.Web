@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import './studentLogin.css';
 import LoginNavbar from '../../../commponents/loginNavbar';
+import axios from 'axios';
 
 function StudentLogin() {
   const [email, setEmail] = useState('');
@@ -10,9 +11,40 @@ function StudentLogin() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    const emailRegex = /^[0-9]{9}@tut4life\.ac\.za$/;
+   
+       try {
+      const form_data = new FormData();
+    form_data.append("Username",email)
+     form_data.append("Password",password)
+    const res = await  axios.post("https://localhost:7102/login",form_data,{
+      headers:{
+        "Content-Type":"multipart/form-data",
+      }
+    })
+     
+      console.log("Data sent to backend");
+
+      if (res.status === 200) {
+       navigate('/student/dashboard');
+      } else {
+        setError({ api: "Registration failed. Please try again." });
+      }
+    } catch (error) {
+        if(axios.isAxiosError(error)){
+          if(error.status === 401){
+        const message =
+        error.response?.data?.message ||
+        error.response?.data?.Message || 
+        "An error occurred during registration";
+         setError({ api: message });
+          }
+        }
+    
+    }
+    
+    const emailRegex = /^[0-9]{9}/;
 
     if (!emailRegex.test(email)) {
       setError('Enter a valid TUT student email.');
@@ -25,7 +57,7 @@ function StudentLogin() {
     }
 
     setError('');
-    navigate('/student/dashboard');
+    
   };
 
   return (
@@ -62,11 +94,11 @@ function StudentLogin() {
           </AnimatePresence>
 
           <form onSubmit={handleSubmit}>
-            <label>Email</label>
+            <label>Student Number</label>
             <input
-              type="email"
+              type="text"
               value={email}
-              placeholder="218493345@tut4life.ac.za"
+              placeholder="218493345"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
@@ -83,7 +115,9 @@ function StudentLogin() {
           <p><Link to="/student/login/forgot-password">Forgot Password?</Link></p>
           <p>Don't have an account? <Link to="/register">Sign up</Link></p>
         </motion.div>
+          {error.api && <div className="error-message">{error.api}</div>}
       </div>
+      
     </>
   );
 }

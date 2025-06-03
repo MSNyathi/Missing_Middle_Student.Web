@@ -18,12 +18,13 @@ import Dashboard from '../pages/admin/dashboard';
 import Applicants from '../pages/admin/applicants';
 import RegisterTechnician from '../pages/admin/register'; // registration page
 
-import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice'
+
 import AdminLogin from '../pages/admin/login/adminLogin';
 import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import StudentForgotPassword from '../pages/student/login/studentforgotPassword'; // forgot password page
 import Students from '../pages/admin/students/students';
+import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice'; // assign device page
 
 
 import TechnicianDashboard from '../pages/Technician/TechnicianDashboard';
@@ -34,8 +35,11 @@ import StudentLogin from '../pages/student/login/studentLogin';
 import DonatedLaptops from '../pages/Technician/donatedLaptops';
 import RegisterDevice from '../pages/Technician/registerDevice';
 import WrittenOffDevices from '../pages/Technician/writtenOfLaptops';
-
-
+import Contact from '../pages/student/help/contact';
+import Distribution from '../pages/student/help/distribution';
+import Eligible from '../pages/student/help/eligible'; // eligibility criteria page
+import Security from '../pages/student/help/security';
+import Warranty from '../pages/student/help/warranty';
 
 import SupervisorLogin from '../pages/supervisor/Login/SupervisorLogin';
 import SupervisorDashboard from '../pages/supervisor/Dashboard/SupervisorDashboard';
@@ -66,13 +70,12 @@ const AppRoutes = () => {
       <Route path="/student/login" element={<Login />} />      
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/register" element={<RegisterForm />} />
-
-      {/* ADMIN */}
-      <Route path="/admin/login" element={<AdminLogin />} />
-      <Route path="/admin/dashboard" element={<Dashboard />} />
-      <Route path="/admin/applicants" element={<Applicants />} />
-      <Route path="/admin/register" element={<RegisterTechnician />} />
-      <Route path="/admin/assign-device" element={<AssignDevicePage />} />
+      <Route path="/student/help/contact" element={<Contact />} />
+      <Route path="/student/help/distribution" element={<Distribution />} />
+      <Route path="/student/help/eligible" element={<Eligible />} />
+      <Route path="/student/help" element={<HelpPageLaptops />} />
+      <Route path="/student/help/security" element={<Security />} />
+      <Route path="/student/help/warranty" element={<Warranty />} />
       <Route path="/student/dashboard" element={<StudentDashboard />} />
       <Route path="/student/apply" element={<ApplyLaptop />} />
       <Route path="/student/track" element={<TrackApplication />} />
@@ -80,14 +83,12 @@ const AppRoutes = () => {
       <Route path="/student/login" element={<StudentLogin />} />
       <Route path="/student/login/forgot-password" element={<StudentForgotPassword />} />
       
-
-
-
- 
-  
-
-
-      
+      {/* ADMIN */}
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/dashboard" element={<Dashboard />} />
+      <Route path="/admin/applicants" element={<Applicants />} />
+      <Route path="/admin/register" element={<RegisterTechnician />} />
+      <Route path="/admin/assign-device" element={<AssignDevicePage />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/register" element={<RegisterForm />} />

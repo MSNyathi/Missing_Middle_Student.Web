@@ -104,18 +104,27 @@ function App() {
     
     {/*=============================================*/} 
     
-    <footer id="foooter">
-      <p id="p3">© 2023 EduConnect. All rights reserved.</p>
-      <p id="p3">Contact us: 012 123 4567</p>
-      <p id="p3">Email: digitaldynamos@EduConnect.com</p>
-      <p id="p3">Follow us on social media: 
-        <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"><i className="bi bi-facebook">facebook  </i></a>
-        <a href="https://www.twitter.com/" target="_blank" rel="noopener noreferrer"><i className="bi bi-twitter">twitter  </i></a>
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><i className="bi bi-instagram">instagram  </i></a>
-        <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer"><i className="bi bi-linkedin">linkedin  </i></a>
-        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"><i className="bi bi-youtube">youtube  </i></a>
-      </p>
-    </footer>
+<footer id="foooter">
+  <p id="p3">© 2023 EduConnect. All rights reserved.</p>
+  <p id="p3">Contact us: 012 123 4567</p>
+  <p id="p3">Email: digitaldynamos@EduConnect.com</p>
+
+  <div className="social-icons">
+    <a href="https://www.facebook.com/IcepDev/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+      <i className="bi bi-facebook"></i>
+    </a>
+    <a href="https://twitter.com/project_icep" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+      <i className="bi bi-twitter-x"></i>
+    </a>
+    <a href="https://www.instagram.com/icep.project/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <i className="bi bi-instagram"></i>
+    </a>
+    <a href="https://za.linkedin.com/company/icep-project" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+      <i className="bi bi-linkedin"></i>
+    </a>
+  </div>
+</footer>
+
     </>
 
   );

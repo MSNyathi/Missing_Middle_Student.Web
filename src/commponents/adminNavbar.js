@@ -32,7 +32,7 @@ const AdminNavbar = () => {
   };
 
   return (
-    <div className="sidebar bg-primary text-white p-3" style={{ minHeight: "100vh", width: "250px", padding: 0 }}>
+    <div className="sidebar  text-white p-3" style={{ minHeight: "100vh", width: "250px", padding: 0, backgroundColor: "rgb(33, 79, 200)" }}>
       <div className="text-center mb-4 p-3">
       <img src={tutLogo} alt="TUT Logo" style={{ width: "100%", marginBottom: "10px" }} />
 

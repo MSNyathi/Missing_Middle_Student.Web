@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from '../../../commponents/adminNavbar';
-
+import StudentModal from '../../../commponents/hooks/StudentsModal'; // adjust the path if needed
 
 export default function Students() {
   const [students, setStudents] = useState([]);
@@ -13,62 +13,56 @@ export default function Students() {
   const [programFilter, setProgramFilter] = useState('All');
   const [nsfasFilter, setNsfasFilter] = useState('All');
 
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 5;
+
+  // Modal state
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
-    const dummyData = [
-      {
-        surname: 'Mokoena',
-        studentNumber: '218123456',
-        faculty: 'ICT',
-        course: 'Information Technology',
-        programType: 'Diploma',
-        year: '3rd Year',
-        registrationDate: '2022-01-15',
-        averageMark: 72,
-        nsfasStatus: true,
-        studentEmail: '218123456@tut4life.ac.za',
-        contact: '073 456 7890',
-        nationality: 'South African',
-        Ethnicity: 'African',
-        idNumber: '9901185919081',
-        gender: 'Female',
-      },
-      {
-        surname: 'Naidoo',
-        studentNumber: '218654321',
-        faculty: 'Engineering',
-        course: 'Electrical Engineering',
-        programType: 'Advanced Diploma',
-        year: '4th Year',
-        registrationDate: '2021-02-10',
-        averageMark: 80,
-        nsfasStatus: false,
-        studentEmail: '218654321@tut4life.ac.za',
-        contact: '082 123 4567',
-        nationality: 'South African',
-        Ethnicity: 'Indian',
-        idNumber: '9802195919081',
-        gender: 'Male',
-      },
-      {
-        surname: 'Smith',
-        studentNumber: '219987654',
-        faculty: 'Business',
-        course: 'Business Administration',
-        programType: 'Diploma',
-        year: '2nd Year',
-        registrationDate: '2023-03-01',
-        averageMark: 68,
-        nsfasStatus: true,
-        studentEmail: '219987654@tut4life.ac.za',
-        contact: '074 321 6789',
-        nationality: 'Zimbabwean',
-        Ethnicity: 'White',
-        idNumber: '0001185919081',
-        gender: 'Female',
-      },
-    ];
-    setStudents(dummyData);
+    async function fetchStudents() {
+      try {
+        const response = await fetch('https://localhost:7102/api/Student'); // replace with your real API URL
+        const data = await response.json();
+
+        const studentsFromApi = Array.isArray(data) ? data : [data];
+
+        const mappedStudents = studentsFromApi.map((student) => ({
+          surname: student.surname || '',
+          studentNumber: student.studentNum?.toString() || '',
+          faculty: student.faculty || '',
+          course: student.courseName || '',
+          programType: student.program || '',
+          year: `${student.yearOfStudy} Year` || '',
+          registrationDate: student.registrationDate
+            ? new Date(student.registrationDate).toISOString().split('T')[0]
+            : '',
+          averageMark: student.averageMark ?? null,
+          nsfasStatus: student.nsfasStatus === 'Funded' || student.nsfasStatus === true,
+          studentEmail: student.email || '',
+          contact: student.contact || '',
+          nationality: student.nationality || '',
+          Ethnicity: student.ethnicity || '',
+          idNumber: student.idNumber || '',
+          gender: student.gender || '',
+          campus: student.campus || 'Pretoria', // assuming default campus if missing
+        }));
+
+        setStudents(mappedStudents);
+      } catch (error) {
+        console.error('Error fetching student data:', error);
+      }
+    }
+
+    fetchStudents();
   }, []);
+
+  // Reset page to 1 when filters/search/sorts change
+  useEffect(() => {
+    setPage(1);
+  }, [search, facultyFilter, genderFilter, programFilter, nsfasFilter, sortByAvgAsc, sortByDateAsc]);
 
   const filteredStudents = students
     .filter((student) =>
@@ -85,25 +79,41 @@ export default function Students() {
       );
     })
     .sort((a, b) => {
-      // First sort by registration date if toggled
       if (!sortByAvgAsc) {
         return sortByDateAsc
           ? new Date(a.registrationDate) - new Date(b.registrationDate)
           : new Date(b.registrationDate) - new Date(a.registrationDate);
       }
-      // Otherwise sort by average
       return sortByAvgAsc
         ? a.averageMark - b.averageMark
         : b.averageMark - a.averageMark;
     });
 
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredStudents.length / itemsPerPage);
+  const pagedStudents = filteredStudents.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage
+  );
+
+  // Open modal with selected student
+  const openModal = (student) => {
+    setSelectedStudent(student);
+    setIsModalOpen(true);
+  };
+
+  // Close modal handler
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedStudent(null);
+  };
 
   return (
-    <div className="d-flex" style={{ minHeight: '100vh' }}>
+    <div className="d-flex" style={{ minHeight: '100vh', backgroundColor: "rgb(228, 235, 255)" }} >
       <AdminNavbar />
 
-      <div  className="flex-grow-1 p-4">
-        <h1 className="text-2xl font-bold text-center mb-4 text-black">Registered TUT Students</h1>
+      <div className="flex-grow-1 p-4">
+        <h1 className="text-2xl font-bold text-center mb-4 text-dark">Registered TUT Students</h1>
 
         {/* Filters */}
         <div className="d-flex justify-content-center flex-wrap mb-3 gap-2">
@@ -178,7 +188,8 @@ export default function Students() {
         {/* Table */}
         <div className="d-flex justify-content-center">
           <div className="table-responsive">
-            <table className="table table-bordered table-hover text-center w-auto">
+            <table className="table table-striped shadow bg-white table-hover"
+                    style={{ borderRadius: "15px", overflow: "hidden" }}>
               <thead className="table-dark">
                 <tr>
                   <th>Surname</th>
@@ -197,8 +208,12 @@ export default function Students() {
                 </tr>
               </thead>
               <tbody>
-                {filteredStudents.map((student, index) => (
-                  <tr key={index}>
+                {pagedStudents.map((student, index) => (
+                  <tr
+                    key={index}
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => openModal(student)}
+                  >
                     <td>{student.surname}</td>
                     <td>{student.studentNumber}</td>
                     <td>{student.idNumber}</td>
@@ -214,7 +229,7 @@ export default function Students() {
                     <td>{student.nsfasStatus ? 'Funded' : 'Not Funded'}</td>
                   </tr>
                 ))}
-                {filteredStudents.length === 0 && (
+                {pagedStudents.length === 0 && (
                   <tr>
                     <td colSpan="13" className="text-muted py-2">
                       No students found.
@@ -225,6 +240,32 @@ export default function Students() {
             </table>
           </div>
         </div>
+
+        {/* Pagination Controls */}
+        <div className="d-flex justify-content-center align-items-center gap-3 mt-3">
+          <button
+            className="btn btn-outline-primary"
+            onClick={() => setPage((p) => Math.max(p - 1, 1))}
+            disabled={page === 1}
+          >
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages || 1}
+          </span>
+          <button
+            className="btn btn-outline-primary"
+            onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+            disabled={page === totalPages || totalPages === 0}
+          >
+            Next
+          </button>
+        </div>
+
+        {/* Modal */}
+        {isModalOpen && (
+          <StudentModal student={selectedStudent} onClose={closeModal} />
+        )}
       </div>
     </div>
   );
