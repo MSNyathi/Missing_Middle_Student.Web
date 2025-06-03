@@ -93,22 +93,24 @@ const ApplyLaptop = () => {
         transition: "background-color 0.3s ease-in-out, color 0.3s ease-in-out",
       }}
     >
-      {/* Navbar */}
       <nav
         className={`navbar navbar-expand-lg ${
-          darkMode ? "navbar-dark bg-dark" : "navbar-light bg-white"
+          darkMode ? "navbar-dark bg-dark" : "navbar-light"
         } shadow-sm px-4 py-2`}
         style={{
+          backgroundColor: darkMode ? "#212529" : "#bcc2c8",
           position: "fixed",
           top: 0,
           left: 0,
           width: "100%",
           zIndex: 1050,
-          borderBottom: darkMode ? "1px solid #444" : "1px solid #ddd",
+          borderBottom: darkMode ? "1px solid #444" : "1px solid #bbb",
+          transition: "background-color 0.3s ease",
         }}
       >
-        <div className="container-fluid d-flex justify-content-between align-items-center">
-          <div className="navbar-brand d-flex align-items-center">
+        <div className="container-fluid d-flex justify-content-between align-items-center position-relative">
+          {/* Logo (Left) */}
+          <div className="d-flex align-items-center">
             <img
               src={tut25}
               alt="TUT Logo"
@@ -118,13 +120,22 @@ const ApplyLaptop = () => {
                 filter: darkMode ? "invert(0)" : "none",
               }}
             />
+          </div>
+
+          {/* Title (Center Absolute) */}
+          <div
+            className="position-absolute top-50 start-50 translate-middle"
+            style={{ pointerEvents: "none" }} // So it doesn't block clicks
+          >
             <span
               className={`fw-semibold ${darkMode ? "text-light" : "text-dark"}`}
-              style={{ fontSize: "1.25rem" }}
+              style={{ fontSize: "1.25rem", whiteSpace: "nowrap" }}
             >
               TUT Student Portal
             </span>
           </div>
+
+          {/* Theme Toggle (Right) */}
           <div className="d-flex align-items-center">
             <FaSun color={darkMode ? "#ccc" : "#f39c12"} className="me-2" />
             <div className="form-check form-switch mb-0">
@@ -275,7 +286,9 @@ const ApplyLaptop = () => {
 
           {formData.hasRecommendation === "yes" && (
             <div className="mb-3">
-              <label className="form-label">Upload Recommendation Letter:</label>
+              <label className="form-label">
+                Upload Recommendation Letter:
+              </label>
               <input
                 type="file"
                 className="form-control"

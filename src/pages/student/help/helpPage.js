@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 
 const HelpPageLaptops = () => {
   return (
@@ -15,6 +16,13 @@ const HelpPageLaptops = () => {
         <Link to="/student/help/contact" className="text-blue-600 underline block">📍 Who do I contact if I have questions?</Link>
         <Link to="/student/help/security" className="text-blue-600 underline block">🔐 Security & Distribution Support</Link>
       </nav>
+    <Link
+        to="/student/dashboard"
+        className="btn btn-outline-secondary position-fixed bottom-0 start-0 m-4 d-flex align-items-center"
+      >
+        <FaArrowLeft className="me-2" />
+        Back to Dashboard
+      </Link>
     </div>
   );
 };

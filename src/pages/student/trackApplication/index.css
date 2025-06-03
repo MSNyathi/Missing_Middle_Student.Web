@@ -146,3 +146,7 @@
 .glass-card-dark .btn:hover {
   background-color: #0056b3;
 }
+:root {
+  --navbar-bg-light: #ced4da;
+  --navbar-bg-dark: #212529;
+}

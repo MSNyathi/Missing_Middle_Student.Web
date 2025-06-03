@@ -66,7 +66,8 @@ const TrackApplication = () => {
     <div
       className="position-relative d-flex flex-column justify-content-start align-items-center min-vh-100 p-4"
       style={{
-        backgroundColor: darkMode ? "#121212" : "#ffffff",
+        backgroundColor: darkMode ? "#212529" : "#bcc2c8",
+
         color: darkMode ? "#ffffff" : "#000000",
         width: "100%",
       }}
@@ -78,7 +79,13 @@ const TrackApplication = () => {
             ? "glass-navbar-dark navbar-dark"
             : "glass-navbar-light navbar-light"
         } w-100 shadow`}
-        style={{ position: "sticky", top: 0, zIndex: 1000 }}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1050,
+        }}
       >
         <div className="container-fluid px-4 d-flex justify-content-between align-items-center">
           <img
