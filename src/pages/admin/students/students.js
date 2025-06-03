@@ -109,7 +109,7 @@ export default function Students() {
   };
 
   return (
-    <div className="d-flex" style={{ minHeight: '100vh' }}>
+    <div className="d-flex" style={{ minHeight: '100vh', backgroundColor: "rgb(228, 235, 255)" }} >
       <AdminNavbar />
 
       <div className="flex-grow-1 p-4">

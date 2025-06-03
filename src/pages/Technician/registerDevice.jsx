@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Sidebar from '../../commponents/Sidebar'; // Ensure correct path
 import { QrReader } from 'react-qr-reader';
+import axios from 'axios';
 
 function RegisterDevice() {
   const [scannedCode, setScannedCode] = useState('');
+  const [scannedInput, setScannedInput] = useState('');
   const [status, setStatus] = useState('Please click "Scan Device" to begin.');
   const [showScanner, setShowScanner] = useState(false);
+   const [serverResponse, setServerResponse] = useState(null);
   const [externalData, setExternalData] = useState(null);
-
+  const input_ref = useRef(null)
   async function handleScan(data) {
+    input_ref.current.click()
     if (data && data !== scannedCode) {
       setScannedCode(data);
       setStatus('📡 Fetching data from external source...');
@@ -36,7 +40,18 @@ function RegisterDevice() {
       }
     }
   }
-
+  
+  const after_scan = async ()=>{
+ try{
+var res =   await axios.post(`https://localhost:7102/ScanDevice`,{serialNumber:scannedInput});
+if(res.status === 201){
+console.log("device scanned ")
+setServerResponse(res.data.device)
+}
+ }catch(error){
+console.log(error)
+ }
+  }
   function handleError(err) {
     console.error(err);
     setStatus('❌ Scanner error');
@@ -85,6 +100,16 @@ function RegisterDevice() {
               constraints={{ facingMode: 'environment' }}
               style={{ width: '100%' }}
             />
+            <input onChange={ async (event)=>{
+                setScannedInput(event.target.value)
+                console.log(event.target.value)
+             
+           
+          
+            }} ref={input_ref} value={scannedInput} style={{borderBottomColor:"black",borderWidth:2,borderRadius:5,background:'transparent'}}></input>
+            {scannedInput.length > 3 && (<button onClick={async()=>{
+ await after_scan()
+            }}>register</button>)} 
           </div>
         )}
 
@@ -99,7 +124,7 @@ function RegisterDevice() {
           </p>
         )}
 
-        {externalData && (
+        {serverResponse && (
           <div
             style={{
               background: '#fff',
@@ -111,10 +136,10 @@ function RegisterDevice() {
             }}
           >
             <h4>📦 Device Details</h4>
-            <p><strong>ID:</strong> {externalData.id}</p>
-            <p><strong>Brand:</strong> {externalData.brand}</p>
-            <p><strong>Model:</strong> {externalData.model}</p>
-            <p><strong>Donor:</strong> {externalData.donor}</p>
+           
+            <p><strong>Brand:</strong> {serverResponse.brand}</p>
+            <p><strong>Model:</strong> {serverResponse.model}</p>
+            <p><strong>Condition:</strong> {serverResponse.condtion}</p>
           </div>
         )}
       </div>
