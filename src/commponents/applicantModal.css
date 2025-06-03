@@ -1,0 +1,20 @@
+.modal-glass-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-glass {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+.text-black {
+  color: black;
+  transition: color 0.5s;
+}
+
+.text-black:hover {
+  color: red;
+}
