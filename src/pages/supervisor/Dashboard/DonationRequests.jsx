@@ -8,45 +8,57 @@ function DonationRequests() {
     const donationRequests = [
         {
             id: 1,
-            name: "Chantel Moeketsi",
+            creationDate: "2025-05-20",
             email: "220649857@tut4life.ac.za",
             devices: 2,
-            pickupDate: "2025-06-10"
+            pickupDate: "2025-06-10",
+            status: "Pending",
+            notes: "Urgent request"
         },
         {
             id: 2,
-            name: "Lethabo Letswalo",
+            creationDate: "2025-06-01",
             email: "220625915@tut4life.ac.za",
             devices: 1,
-            pickupDate: "2025-07-05"
+            pickupDate: "2025-07-05",
+            status: "Pending",
+            notes: ""
         },
         {
             id: 3,
-            name: "Thabo Mokoena",
+            creationDate: "2025-06-15",
             email: "220688314@tut4life.ac.za",
             devices: 3,
-            pickupDate: "2025-08-15"
+            pickupDate: "2025-08-15",
+            status: "Pending",
+            notes: "Needs for group project"
         },
         {
             id: 4,
-            name: "Nandi Nkosi",
+            creationDate: "2025-07-02",
             email: "215638998@tut4life.ac.za",
             devices: 1,
-            pickupDate: "2025-09-20"
+            pickupDate: "2025-09-20",
+            status: "Pending",
+            notes: ""
         },
         {
             id: 5,
-            name: "Sipho Dlamini",
+            creationDate: "2025-07-18",
             email: "223645865@tut4life.ac.za",
             devices: 4,
-            pickupDate: "2025-10-30"
+            pickupDate: "2025-10-30",
+            status: "Pending",
+            notes: "For club event"
         },
         {
             id: 6,
-            name: "Zanele Khumalo",
+            creationDate: "2025-08-05",
             email: "247536598@tut4life.ac.za",
             devices: 2,
-            pickupDate: "2025-11-25"
+            pickupDate: "2025-11-25",
+            status: "Pending",
+            notes: ""
         }
     ];
     return (
@@ -83,10 +95,12 @@ function DonationRequests() {
                                                     <table className="table table-striped table-hover align-middle text-center">
                                                         <thead className="table-primary">
                                                             <tr>
-                                                                <th>#</th>
-                                                                <th>Name</th>
+                                                                <th>ID</th>
+                                                                <th>Creation Date</th>
                                                                 <th>Email</th>
                                                                 <th>Number of Devices</th>
+                                                                <th>Status</th>
+                                                                <th>Notes</th>
                                                                 <th>Pickup Date</th>
                                                                 <th>Accept Requests</th>
                                                             </tr>
@@ -95,9 +109,11 @@ function DonationRequests() {
                                                             {donationRequests.map((request, idx) => (
                                                                 <tr key={request.id}>
                                                                     <td>{idx + 1}</td>
-                                                                    <td>{request.name}</td>
+                                                                    <td>{request.creationDate}</td>
                                                                     <td>{request.email}</td>
                                                                     <td>{request.devices}</td>
+                                                                    <td>{request.status}</td>
+                                                                    <td>{request.notes || 'N/A'}</td>
                                                                     <td>{request.pickupDate}</td>
                                                                     <td>
                                                                         <button style={{ marginRight: '15px' }}>Accept</button>
