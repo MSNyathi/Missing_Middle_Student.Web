@@ -21,14 +21,15 @@ function SupervisorDashboard() {
 
             {/* Layout: Sidebar + Content */}
             <div className="d-flex flex-grow-1 overflow-hidden">
-                {/* Sidebar */}
                 <div
                     className="d-flex flex-column justify-content-between bg-primary text-white p-3"
-                    style={{ width: '250px' }}
-                >
+                    style={{ width: '250px' }}>
                     <div>
-                        <Link to="/" className="d-block mb-3 text-white fw-semibold text-decoration-none">
+                        <Link to="/Supervisor/Dashboard" className="d-block mb-3 text-white fw-semibold text-decoration-none">
                             <i className="bi bi-house-door me-2"></i> Home
+                        </Link>
+                        <Link to="/Supervisor/notifications" className="d-block mb-3 text-white fw-semibold text-decoration-none">
+                            <i className="bi bi-bell me-2"></i> Notifications
                         </Link>
                     </div>
                     <div>

@@ -42,6 +42,8 @@ import DonationRequests from '../pages/supervisor/Dashboard/DonationRequests';
 import AddReceivedDevices from '../pages/supervisor/Dashboard/AddReceivedDevices';
 import SendDevicesToTechnician from '../pages/supervisor/Dashboard/SendDevicesToTechnician'; 
 import ViewReports from '../pages/supervisor/Dashboard/ViewReports';
+import SupervisorNotifications from '../pages/supervisor/Dashboard/SupervisorSidebar/SupervisorNotifications';
+
 import Login from "../pages/student/login/studentLogin";
 import DonorDashboard from '../pages/donor/donorDashboard';
 import DonationRequest from '../pages/donor/donationRequest';
@@ -104,6 +106,7 @@ const AppRoutes = () => {
       <Route path="/supervisor/view-reports" element={<ViewReports />} />
       <Route path="/supervisor/login" element={<SupervisorLogin />} />
       <Route path="/supervisor/dashboard" element={<SupervisorDashboard />} />
+      <Route path="/supervisor/notifications" element={<SupervisorNotifications />} />
 
       {/* DONATOR */}
       <Route path='/donor/dashboard' element={<DonorDashboard/>}/>
