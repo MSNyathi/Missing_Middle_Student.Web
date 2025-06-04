@@ -2,10 +2,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import App from '../App'; // default landing component
-import UserLoginPages from '../pages/landing/userloginpages';
-import Announcements from '../pages/landing/announcements';
-import ApplicationRequirements from '../pages/landing/applicationrequirements';
-import SuccessStories from '../pages/landing/successstories';
 
 import StudentDashboard from '../pages/student/dashboard';
 import ApplyLaptop from '../pages/student/applyLaptop';
@@ -57,10 +53,6 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<App />} />
-      <Route path="/landing/userloginpages" element={<UserLoginPages />} />
-      <Route path="/landing/announcements" element={<Announcements />} />
-      <Route path="/landing/applicationrequirements" element={<ApplicationRequirements />} />
-      <Route path="/landing/successstories" element={<SuccessStories />} />
       
       {/* STUDENT */}
       <Route path="/student/dashboard" element={<StudentDashboard />} />
