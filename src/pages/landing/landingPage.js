@@ -17,9 +17,9 @@ export default function LandingPage() {
         <div class="dropMenuDiv" style={{color: 'black' }}>
           <button class="dropMenuBtn">LOGIN</button>
           <div class="dropdownContent">
-            <a href="#">STUDENT</a>
-            <a href="#">STAFF</a>
-            <a href="#">DONATOR</a>
+            <a href="/student/login">STUDENT</a>
+            <a href="/admin/login">STAFF</a>
+            <a href="/dodnor/login">DONATOR</a>
           </div>
         </div>
       </nav>
