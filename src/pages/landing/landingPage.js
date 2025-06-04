@@ -19,7 +19,7 @@ export default function LandingPage() {
           <div class="dropdownContent">
             <a href="/student/login">STUDENT</a>
             <a href="/admin/login">STAFF</a>
-            <a href="/dodnor/login">DONATOR</a>
+            <a href="/donor/login">DONATOR</a>
           </div>
         </div>
       </nav>
