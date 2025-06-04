@@ -14,9 +14,9 @@ export default function LandingPage() {
         <div class="logo">
           <img src={BgImg} alt="logo" height="50px" width="180px" />
         </div>
-        <div class="dropdown" style={{color: 'black' }}>
-          <button class="dropbtn">LOGIN</button>
-          <div class="dropdown-content">
+        <div class="dropMenuDiv" style={{color: 'black' }}>
+          <button class="dropMenuBtn">LOGIN</button>
+          <div class="dropdownContent">
             <a href="#">STUDENT</a>
             <a href="#">STAFF</a>
             <a href="#">DONATOR</a>
