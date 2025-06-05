@@ -30,7 +30,10 @@ const ProgressBar = ({ label, value, max, color }) => {
   const percent = max ? (value / max) * 100 : 0;
   return (
     <div className="mb-4">
-      <div className="d-flex justify-content-between">
+      <div 
+        className="d-flex justify-content-between" 
+        style={{ marginBottom: "8px" }} // Push text down a bit
+      >
         <span className="text-primary">{label}</span>
         <span className="text-primary">
           {value} / {max}
@@ -69,12 +72,12 @@ const CircleStat = ({ label, value, color }) => (
         justifyContent: "center",
         fontSize: "20px",
         fontWeight: "bold",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+        // Removed boxShadow here
       }}
     >
       {value}%
     </div>
-    <span className="text-primary">{label}</span>
+    <span className="text-primary" style={{ marginTop: "8px" }}>{label}</span>
   </motion.div>
 );
 
@@ -97,21 +100,18 @@ const DashboardSummary = ({
     ? monthlyApplicants.reduce((a, b) => a + b, 0)
     : 0;
 
-  
   const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
   ];
+
+  // Function to decide progress bar color for applicants
+  const progressBarColor = (value, label) => {
+    if ((label === "Approved Applicants" || label === "Unapproved Applicants") && value > 0) {
+      return "blue";
+    }
+    return "warning"; // yellow
+  };
 
   return (
     <div className="container-fluid py-4">
@@ -142,53 +142,49 @@ const DashboardSummary = ({
         </div>
       </div>
 
-      <div className="row g-4">
+         <div className="row g-4">
         <div className="col-md-6">
           <div className="p-4 rounded glass-panel">
-            <h5 className="mb-4 text-black">
-              <strong>Applicant Eligibility</strong>
-            </h5>
+            <h5 className="mb-4 text-black"><strong>Applicant Eligibility</strong></h5>
             <ProgressBar
               label="Approved Applicants"
               value={approvedApplicants}
               max={totalApplicants}
-              color="blue"
+              color={progressBarColor(approvedApplicants, "Approved Applicants")}
             />
             <ProgressBar
               label="Unapproved Applicants"
               value={unapprovedApplicants}
               max={totalApplicants}
-              color="warning"
+              color={progressBarColor(unapprovedApplicants, "Unapproved Applicants")}
             />
             <CircleStat
               label="Approval Rate"
               value={approvedRate}
-              color="red"
+              color="yellow"
             />
           </div>
         </div>
 
         <div className="col-md-6">
           <div className="p-4 rounded glass-panel text-blue">
-            <h5 className="mb-4 text-black">
-              <strong>Laptop Distribution</strong>
-            </h5>
+            <h5 className="mb-4 text-black"><strong>Laptop Distribution</strong></h5>
             <ProgressBar
               label="Allocated Devices"
               value={allocatedDevices}
               max={totalDevices}
-              color="blue"
+              color="blue" // yellow
             />
             <ProgressBar
               label="Unallocated Devices"
               value={totalDevices - allocatedDevices}
               max={totalDevices}
-              color="warning"
+              color="blue" // yellow
             />
             <CircleStat
               label="Allocation Rate"
               value={allocatedRate}
-              color="blue"
+              color="yellow"
             />
           </div>
         </div>

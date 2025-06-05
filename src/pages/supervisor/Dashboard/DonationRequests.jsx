@@ -84,57 +84,65 @@ function DonationRequests() {
                 </p>
 
                 {/* Donation Requests Table */}
-                                                <div
-                                                    className="table-responsive w-100"
-                                                    style={{
-                                                        maxWidth: '1200px',
-                                                        borderRadius: '8px',
-                                                        boxShadow: '8px 4px 16px rgba(0, 0, 0, 0.53), 0 1.5px 4px rgba(0,0,0,0.08)'
-                                                    }}
-                                                >
-                                                    <table className="table table-striped table-hover align-middle text-center">
-                                                        <thead className="table-primary">
-                                                            <tr>
-                                                                <th>ID</th>
-                                                                <th>Creation Date</th>
-                                                                <th>Email</th>
-                                                                <th>Number of Devices</th>
-                                                                <th>Status</th>
-                                                                <th>Notes</th>
-                                                                <th>Pickup Date</th>
-                                                                <th>Accept Requests</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {donationRequests.map((request, idx) => (
-                                                                <tr key={request.id}>
-                                                                    <td>{idx + 1}</td>
-                                                                    <td>{request.creationDate}</td>
-                                                                    <td>{request.email}</td>
-                                                                    <td>{request.devices}</td>
-                                                                    <td>{request.status}</td>
-                                                                    <td>{request.notes || 'N/A'}</td>
-                                                                    <td>{request.pickupDate}</td>
-                                                                    <td>
-                                                                        <button style={{ marginRight: '15px' }}>Accept</button>
-                                                                        <button className="reject-btn">Reject</button>
-                                                                    </td>
-                                                                </tr>
-                                                            ))}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div className="w-100 d-flex justify-content-start mt-4" style={{ maxWidth: '1200px' }}>
-                                                    <Link
-                                                        to="/supervisor/dashboard"
-                                                        className="btn custom-back-btn"
-                                                        style={{ backgroundColor: '#6c757d', color: '#fff', border: 'none' }}
-                                                    >
-                                                        <i className="bi bi-arrow-left"></i> Back
-                                                    </Link>
-                                                </div>
-                                                </div>
-                                                {/* Custom styles for the back button */}
+                <div
+                    className="table-responsive w-100"
+                    style={{
+                        maxWidth: '1200px',
+                        borderRadius: '8px',
+                        boxShadow: '8px 4px 16px rgba(0, 0, 0, 0.53), 0 1.5px 4px rgba(0,0,0,0.08)'
+                    }}
+                >
+                    <table className="table table-striped table-hover align-middle text-center">
+                        <thead className="table-primary">
+                            <tr>
+                                <th>ID</th>
+                                <th>Creation Date</th>
+                                <th>Email</th>
+                                <th>Number of Devices</th>
+                                <th>Status</th>
+                                <th>Notes</th>
+                                <th>Pickup Date</th>
+                                <th>Accept Requests</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {donationRequests.map((request, idx) => (
+                                <tr key={request.id}>
+                                    <td>{idx + 1}</td>
+                                    <td>{request.creationDate}</td>
+                                    <td>{request.email}</td>
+                                    <td>{request.devices}</td>
+                                    <td>{request.status}</td>
+                                    <td>{request.notes || 'N/A'}</td>
+                                    <td>{request.pickupDate}</td>
+                                    <td>
+                                        <button style={{ marginRight: '15px' }}>Accept</button>
+                                        <button className="reject-btn">Reject</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+                {/* Back button fixed to bottom left */}
+                <div
+                    style={{
+                        position: 'fixed',
+                        bottom: '24px',
+                        left: '24px',
+                        zIndex: 1000
+                    }}
+                >
+                    <Link
+                        to="/supervisor/dashboard"
+                        className="btn custom-back-btn"
+                        style={{ backgroundColor: '#6c757d', color: '#fff', border: 'none' }}
+                    >
+                        <i className="bi bi-arrow-left"></i> Back
+                    </Link>
+                </div>
+                {/* Custom styles for the back button */}
                                                 <style>
                                                     {`
                                                         .reject-btn {

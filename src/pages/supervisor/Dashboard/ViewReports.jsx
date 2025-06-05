@@ -5,6 +5,33 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 
 function ViewReports() {
+    const reportData = [
+        {
+            label: "Total Laptops Donated",
+            value: 120,
+            badgeClass: "bg-primary"
+        },
+        {
+            label: "Laptops Distributed to Students",
+            value: 95,
+            badgeClass: "bg-success"
+        },
+        {
+            label: "Laptops Pending Distribution",
+            value: 25,
+            badgeClass: "bg-warning"
+        },
+        {
+            label: "Donors Participating",
+            value: 12,
+            badgeClass: "bg-info"
+        },
+        {
+            label: "Recent Donations (Last Month)",
+            value: 15,
+            badgeClass: "bg-secondary"
+        }
+    ];
     return (
         <div className="d-flex flex-column justify-content-start align-items-center vh-100 overflow-hidden bg-light">
             {/* Top Navbar */}
@@ -19,45 +46,37 @@ function ViewReports() {
             </nav>
 
             {/* Content Section */}
-            <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center w-100 px-3">
-                <p className="fw-bold fs-6 mb-4" style={{ color: 'black' }}>
-                    Here you can view various reports related to the system.
-                </p>
+                        <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center w-100 px-3 position-relative">
+                            <p className="fw-bold fs-6 mb-4" style={{ color: 'black' }}>
+                                Here you can view various reports related to the system.
+                            </p>
 
-                <div style={{ maxWidth: '500px', width: '100%', boxShadow: '8px 4px 16px rgba(0, 0, 0, 0.58)', borderRadius: '12px', background: '#fff', padding: '2rem' }}>
-                    <h4 className="mb-3 text-start" style={{ color: 'black' }}>Laptop Donation Reports</h4>
-                    <ul className="list-group mb-4 text-start">
-                        <li className="list-group-item d-flex justify-content-between align-items-center">
-                            Total Laptops Donated
-                            <span className="badge bg-primary rounded-pill">120</span>
-                        </li>
-                        <li className="list-group-item d-flex justify-content-between align-items-center">
-                            Laptops Distributed to Students
-                            <span className="badge bg-success rounded-pill">95</span>
-                        </li>
-                        <li className="list-group-item d-flex justify-content-between align-items-center">
-                            Laptops Pending Distribution
-                            <span className="badge bg-warning rounded-pill">25</span>
-                        </li>
-                        <li className="list-group-item d-flex justify-content-between align-items-center">
-                            Schools Participating
-                            <span className="badge bg-info rounded-pill">8</span>
-                        </li>
-                        <li className="list-group-item d-flex justify-content-between align-items-center">
-                            Recent Donations (Last Month)
-                            <span className="badge bg-secondary rounded-pill">15</span>
-                        </li>
-                    </ul>
-
-                    <Link
-                                            to="/supervisor/dashboard"
-                                            className="btn custom-back-btn"
-                                            style={{ backgroundColor: '#6c757d', color: '#fff', border: 'none' }}
-                                        >
-                                            <i className="bi bi-arrow-left"></i> Back
-                                        </Link>
-                </div>
-                {/* Custom styles for the back button */}
+                            <div style={{ maxWidth: '500px', width: '100%', boxShadow: '8px 4px 16px rgba(0, 0, 0, 0.58)', borderRadius: '12px', background: '#fff', padding: '2rem' }}>
+                                <h4 className="mb-3 text-start" style={{ color: 'black' }}>Laptop Donation Reports</h4>
+                                <ul className="list-group mb-4 text-start">
+                                    {reportData.map((report, idx) => (
+                                        <li key={idx} className="list-group-item d-flex justify-content-between align-items-center">
+                                            {report.label}
+                                            <span className={`badge ${report.badgeClass} rounded-pill`}>{report.value}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            {/* Custom styles for the back button */}
+                            <Link
+                                to="/supervisor/dashboard"
+                                className="btn custom-back-btn position-absolute"
+                                style={{
+                                    left: 0,
+                                    bottom: 0,
+                                    margin: '2rem',
+                                    backgroundColor: '#6c757d',
+                                    color: '#fff',
+                                    border: 'none'
+                                }}
+                            >
+                                <i className="bi bi-arrow-left"></i> Back
+                            </Link>
             <style>
                 {`
                     .custom-back-btn {

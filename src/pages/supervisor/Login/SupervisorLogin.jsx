@@ -27,7 +27,7 @@ function SupervisorLogin() {
 
                 <div className="glass-card p-4 rounded shadow text-center" style={{ maxWidth: '400px', width: '100%' }}>
                     <i className="bi bi-person-circle mb-3" style={{ fontSize: '4rem' }}></i>
-                    <h2 className="mb-2">Welcome, Supervisor</h2>
+                    <h2 id="myh1" className="mb-2">Welcome, Supervisor</h2>
                     <p className="mb-4">Please enter your login details below.</p>
 
                     <form>
@@ -48,18 +48,6 @@ function SupervisorLogin() {
                 </div>
             </div>
 
-            <div className="text-center mt-4">
-                <button
-                    onClick={() => window.history.back()}
-                    className="btn btn-secondary"
-                >
-                    ← Back
-                </button>
-            </div>
-
-            <div className="text-center mt-4">
-                <h4 className="text-secondary">Leading the way, Together.</h4>
-            </div>
         </>
     );
 }

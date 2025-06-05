@@ -120,3 +120,45 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+.slanted-left-panel {
+   clip-path: polygon(0 0, 80% 0, 100% 100%, 0% 100%);
+   width: 55vw;
+}
+
+@media (min-width: 768px) {
+  .slanted-left-panel {
+    width: 48vw;
+    min-width: 340px;
+  }
+}
+
+.floating-shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.2;
+  z-index: 1;
+}
+
+.shape-blue {
+  width: 100px;
+  height: 100px;
+  background-color: #007bff;
+  top: 20%;
+  left: 10%;
+}
+
+.shape-yellow {
+  width: 80px;
+  height: 80px;
+  background-color: #ffc107;
+  top: 50%;
+  left: 20%;
+}
+
+.shape-black {
+  width: 60px;
+  height: 60px;
+  background-color: #000;
+  top: 70%;
+  left: 5%;
+}

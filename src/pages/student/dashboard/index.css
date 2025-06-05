@@ -126,3 +126,22 @@
   color: #212529;
 }
 
+/* ========== COMBINED CARD HOVER + ICON ANIMATION ========== */
+.interactive-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.interactive-card:hover {
+  transform: translateY(-8px) scale(1.03);
+}
+
+.interactive-icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.interactive-card:hover .interactive-icon {
+  transform: rotate(8deg) scale(1.1);
+}
+
+

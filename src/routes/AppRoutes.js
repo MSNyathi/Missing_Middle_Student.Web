@@ -2,10 +2,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import App from '../App'; // default landing component
-import UserLoginPages from '../pages/landing/userloginpages';
-import Announcements from '../pages/landing/announcements';
-import ApplicationRequirements from '../pages/landing/applicationrequirements';
-import SuccessStories from '../pages/landing/successstories';
 
 import StudentDashboard from '../pages/student/dashboard';
 import ApplyLaptop from '../pages/student/applyLaptop';
@@ -46,6 +42,8 @@ import DonationRequests from '../pages/supervisor/Dashboard/DonationRequests';
 import AddReceivedDevices from '../pages/supervisor/Dashboard/AddReceivedDevices';
 import SendDevicesToTechnician from '../pages/supervisor/Dashboard/SendDevicesToTechnician'; 
 import ViewReports from '../pages/supervisor/Dashboard/ViewReports';
+import SupervisorNotifications from '../pages/supervisor/Dashboard/SupervisorSidebar/SupervisorNotifications';
+
 import Login from "../pages/student/login/studentLogin";
 import DonorDashboard from '../pages/donor/donorDashboard';
 import DonationRequest from '../pages/donor/donationRequest';
@@ -57,10 +55,6 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<App />} />
-      <Route path="/landing/userloginpages" element={<UserLoginPages />} />
-      <Route path="/landing/announcements" element={<Announcements />} />
-      <Route path="/landing/applicationrequirements" element={<ApplicationRequirements />} />
-      <Route path="/landing/successstories" element={<SuccessStories />} />
       
       {/* STUDENT */}
       <Route path="/student/dashboard" element={<StudentDashboard />} />
@@ -112,6 +106,7 @@ const AppRoutes = () => {
       <Route path="/supervisor/view-reports" element={<ViewReports />} />
       <Route path="/supervisor/login" element={<SupervisorLogin />} />
       <Route path="/supervisor/dashboard" element={<SupervisorDashboard />} />
+      <Route path="/supervisor/notifications" element={<SupervisorNotifications />} />
 
       {/* DONATOR */}
       <Route path='/donor/dashboard' element={<DonorDashboard/>}/>

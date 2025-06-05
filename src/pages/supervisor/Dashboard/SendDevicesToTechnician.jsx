@@ -72,23 +72,22 @@ function SendDevicesToTechnician() {
                         Send Selected Devices
                     </button>
                 </form>
-
-                {/* Back button moved to bottom left */}
-                <Link
-                    to="/supervisor/dashboard"
-                    className="btn custom-back-btn position-fixed"
-                    style={{
-                        left: '24px',
-                        bottom: '24px',
-                        backgroundColor: '#6c757d',
-                        color: '#fff',
-                        border: 'none',
-                        zIndex: 1050
-                    }}
-                >
-                    <i className="bi bi-arrow-left"></i> Back
-                </Link>
             </div>
+            {/* Back button absolutely positioned at bottom left of the viewport */}
+            <Link
+                to="/supervisor/dashboard"
+                className="btn custom-back-btn position-fixed"
+                style={{
+                    left: '24px',
+                    bottom: '24px',
+                    backgroundColor: '#6c757d',
+                    color: '#fff',
+                    border: 'none',
+                    zIndex: 1050
+                }}
+            >
+                <i className="bi bi-arrow-left"></i> Back
+            </Link>
             <style>
                 {`
                     .custom-back-btn {

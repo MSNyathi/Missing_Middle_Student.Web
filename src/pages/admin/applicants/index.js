@@ -17,58 +17,14 @@ import ApplicantModal from "../../../commponents/applicantModal";
 import { useLocation } from "react-router-dom";
 
 
-// Mock data
-const mockApplicants = [
-  {
-    id: 1,
-    studentNum: "21900123",
-    initials: "JD",
-    name: "John Doe",
-    courseName: "ND: IT",
-    faculty: "ICT",
-    campus: "Pretoria",
-    email: "john@example.com",
-    contact: "0821234567",
-    nationality: "South African",
-    nsfasStatus: "Unfunded",
-    yearOfStudy: "1st Year",
-    ethnicity: "Black",
-    averageMark: 72,
-    eligible: true,
-    proofOfIncomeUrl:
-      "https://via.placeholder.com/600x400?text=Proof+of+Income",
-    status: "pending",
-  },
-  {
-    id: 2,
-    studentNum: "21900456",
-    initials: "SS",
-    name: "Sarah Smith",
-    courseName: "ND: Accounting",
-    faculty: "Business",
-    campus: "Soshanguve South",
-    email: "sarah@example.com",
-    contact: "0831234567",
-    nationality: "South African",
-    nsfasStatus: "Funded",
-    yearOfStudy: "2nd Year",
-    ethnicity: "White",
-    averageMark: 58,
-    eligible: false,
-    proofOfIncomeUrl:
-      "https://via.placeholder.com/600x400?text=Proof+of+Income",
-    status: "pending",
-  },
-];
-
 // Admin data
 const adminData = {
-  name: "Xolane Shabalala",
-  email: "admin@example.com",
-  role: "Super Admin",
-  initials: "XS",
-  contact: "0761981783",
-  password: "admin123",
+  name: "",
+  email: "",
+  role: "",
+  initials: "",
+  contact: "",
+  password: "",
 };
 
 const ApplicantsPage = () => {
@@ -82,22 +38,16 @@ const ApplicantsPage = () => {
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [showApplicantModal, setShowApplicantModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
-  //const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
   const [actionType, setActionType] = useState("");
-  //const [currentPwd, setCurrentPwd] = useState("");
- // const [newPwd, setNewPwd] = useState("");
- // const [confirmPwd, setConfirmPwd] = useState("");
-   const location = useLocation();
- const [adminPassword, setAdminPassword] = useState(location.state?.adminPassword || localStorage.getItem("adminPassword"));
+  const location = useLocation();
+  const [adminPassword, setAdminPassword] = useState(
+    location.state?.adminPassword || localStorage.getItem("adminPassword")
+  );
 
-  
   const [settingsMode, setSettingsMode] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [applicants, setApplicants] = useState([]);
-
-
-  
 
   const {
     notifications,
@@ -129,50 +79,51 @@ const ApplicantsPage = () => {
     email: "",
     contact: "",
   });
-  const adminEmail = "admin@example.com";
-  const adminRole = "Admin";
-  const adminInitials = "J";
-  const adminContact = "123-456-7890";
-  const adminSurname = "Doe";
-//Get Applicants from API
+  const adminEmail = "";
+  const adminRole = "";
+  const adminInitials = "";
+  const adminContact = "";
+  const adminSurname = "";
+  //Get Applicants from API
   useEffect(() => {
-  const fetchApplicants = async () => {
-    try {
-       const API_URL = process.env.REACT_APP_API_URL;
-      const getApplicants = `${API_URL}api/Application/all`;
-      const response = await axios.get(getApplicants);
-      const data = response.data;
-      console.log("Fetched applicants:", data);
-      setApplicants(data);
-      setFilteredApplicants(data);
-      // initialize filtered list
-    } catch (error) {
-      console.error("Error fetching applicants:", error);
-    }
-  };
+    const fetchApplicants = async () => {
+      try {
+        const API_URL = process.env.REACT_APP_API_URL;
+        const getApplicants = `${API_URL}api/Application/all`;
+        const response = await axios.get(getApplicants);
+        const data = response.data;
+        console.log("Fetched applicants:", data);
+        setApplicants(data);
+        setFilteredApplicants(data);
+        // initialize filtered list
+      } catch (error) {
+        console.error("Error fetching applicants:", error);
+      }
+    };
 
-  fetchApplicants();
-}, []);
-//Filterbase on serarch term and status
-useEffect(() => {
-  const filtered = applicants.filter((applicant) => {
-    const searchLower = searchTerm.toLowerCase();
-    const matchesSearch =
-      applicant.studentNum?.toLowerCase().includes(searchLower) ||
-      applicant.name?.toLowerCase().includes(searchLower) ||
-      applicant.initials?.toLowerCase().includes(searchLower);
+    fetchApplicants();
+  }, []);
 
-    let matchesStatus = true;
-    if (filterStatus === "eligible") matchesStatus = applicant.eligible === true;
-    else if (filterStatus === "not_eligible") matchesStatus = applicant.eligible === false;
+  //Filterbase on serarch term and status
+  useEffect(() => {
+    const filtered = applicants.filter((applicant) => {
+      const searchLower = searchTerm.toLowerCase();
+      const matchesSearch =
+        applicant.studentNum?.toLowerCase().includes(searchLower) ||
+        applicant.name?.toLowerCase().includes(searchLower) ||
+        applicant.initials?.toLowerCase().includes(searchLower);
 
-    return matchesSearch && matchesStatus;
-  });
+      let matchesStatus = true;
+      if (filterStatus === "eligible")
+        matchesStatus = applicant.eligible === true;
+      else if (filterStatus === "not_eligible")
+        matchesStatus = applicant.eligible === false;
 
-  setFilteredApplicants(filtered);
-}, [applicants, searchTerm, filterStatus]);
+      return matchesSearch && matchesStatus;
+    });
 
-
+    setFilteredApplicants(filtered);
+  }, [applicants, searchTerm, filterStatus]);
 
   useEffect(() => {
     setAdminInfo({
@@ -183,14 +134,6 @@ useEffect(() => {
       surname: adminSurname,
     });
   }, []); //The arrays state that the use effect must run only once when the component mounts
-  const glassCardStyle = {
-    background: "rgba(255, 255, 255, 0.1)",
-    borderRadius: "15px",
-    backdropFilter: "blur(10px)",
-    WebkitBackdropFilter: "blur(10px)",
-    border: "1px solid rgba(255, 255, 255, 0.2)",
-    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -253,67 +196,75 @@ useEffect(() => {
     setSettingsMode("");
   };
 
-const handlePasswordPrompt = (action) => {
-  Swal.fire({
-    title: `Confirm ${action === "approve" ? "Approval" : "Rejection"}`,
-    input: "password",
-    inputLabel: "Enter your admin password",
-    inputPlaceholder: "Password",
-    inputAttributes: {
-      autocapitalize: "off",
-      autocorrect: "off",
-      type: "password",
-    },
-    showCancelButton: true,
-    confirmButtonText: "Confirm",
-    showLoaderOnConfirm: true,
-    preConfirm: (inputPassword) => {
-      return new Promise((resolve, reject) => {
-        const storedPassword =
-          location.state?.adminPassword || localStorage.getItem("adminPassword");
+  const handlePasswordPrompt = (action, applicant) => {
+    Swal.fire({
+      title: `Confirm ${action === "approve" ? "Approval" : "Rejection"}`,
+      input: "password",
+      inputLabel: "Enter your admin password",
+      inputPlaceholder: "Password",
+      inputAttributes: {
+        autocapitalize: "off",
+        autocorrect: "off",
+        type: "password",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Confirm",
+      showLoaderOnConfirm: true,
+      preConfirm: (inputPassword) => {
+        return new Promise((resolve, reject) => {
+          const storedPassword =
+            location.state?.adminPassword ||
+            localStorage.getItem("adminPassword");
 
-        if (inputPassword === storedPassword) {
-          resolve(true);
-        } else {
-          reject(new Error("Incorrect password"));
-        }
-      });
-    },
-    allowOutsideClick: () => !Swal.isLoading(),
-  })
-    .then((result) => {
-      if (result.isConfirmed) {
-        const updatedStatus = action === "approve" ? "approved" : "rejected";
-        updateApplicantStatus(selectedApplicant.id, updatedStatus);
-
-        Swal.fire({
-          icon: "success",
-          title: `Applicant ${updatedStatus}`,
-          text: `You have successfully ${updatedStatus} this application.`,
+          if (inputPassword === storedPassword) {
+            resolve(true);
+          } else {
+            reject(new Error("Incorrect password"));
+          }
         });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    })
+      .then( async(result) => {
+        if (result.isConfirmed) {
+          const updatedStatus = action === "approve" ? "approved" : "rejected";
 
-        // Optional toast
-        toast.success(
-          `${selectedApplicant.name} has been ${updatedStatus}.`,
-          {
+          // 🔁 Make sure this sends API request and updates UI
+          updateApplicantStatus(applicant.id, updatedStatus);
+
+          Swal.fire({
+            icon: "success",
+            title: `Applicant ${updatedStatus}`,
+            text: `You have successfully ${updatedStatus} this application.`,
+          });
+
+          toast.success(`${applicant.id} has been ${updatedStatus}.`, {
             position: "top-right",
             autoClose: 3000,
             theme: "dark",
-          }
-        );
-      }
-    })
-    .catch((error) => {
-      Swal.fire({
-        icon: "error",
-        title: "Authentication Failed",
-        text: error.message,
+          });
+        const handleApprove = async () => {
+    try {
+      await axios.put(
+        `https://localhost:7102/approve?ApplicantId=${applicant.id}`
+      );
+    
+    } catch (err) {
+      console.error("Error approving applicant:", err);
+      alert("Failed to approve applicant. Please try again.");
+    }
+  };
+  await handleApprove()
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Failed",
+          text: error.message,
+        });
       });
-    });
-};
-
-
-
+  };
 
   const updateApplicantStatus = (applicantId, status) => {
     setApplicants((prev) => {
@@ -382,27 +333,26 @@ const handlePasswordPrompt = (action) => {
     );
   };
 
- useEffect(() => {
-  const filtered = applicants.filter((applicant) => {
-    // Safely handle missing or undefined name
-    const name = applicant.name || ""; // fallback to empty string
-    const studentNum = applicant.studentNum || "";
+  useEffect(() => {
+    const filtered = applicants.filter((applicant) => {
+      // Safely handle missing or undefined name
+      const name = applicant.name || ""; // fallback to empty string
+      const studentNum = applicant.studentNum || "";
 
-    const matchesSearch =
-      name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      studentNum.includes(searchTerm);
+      const matchesSearch =
+        name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        studentNum.includes(searchTerm);
 
-    const matchesFilter =
-      filterStatus === "all" ||
-      (filterStatus === "eligible" && applicant.eligible) ||
-      (filterStatus === "not_eligible" && !applicant.eligible);
+      const matchesFilter =
+        filterStatus === "all" ||
+        (filterStatus === "eligible" && applicant.eligible) ||
+        (filterStatus === "not_eligible" && !applicant.eligible);
 
-    return matchesSearch && matchesFilter;
-  });
+      return matchesSearch && matchesFilter;
+    });
 
-  setFilteredApplicants(filtered);
-}, [applicants, searchTerm, filterStatus]);
-
+    setFilteredApplicants(filtered);
+  }, [applicants, searchTerm, filterStatus]);
 
   const backgroundStyle = {
     backgroundColor: "rgb(228, 235, 255)",
@@ -432,7 +382,9 @@ const handlePasswordPrompt = (action) => {
           theme="dark"
         />
         <div className="d-flex align-items-center gap-3 justify-content-between">
-         <h2 style={{ color: "black" }}><strong>Applicants</strong></h2>
+          <h2 style={{ color: "black" }}>
+            <strong>Applicants</strong>
+          </h2>
 
           {/* New container to align right */}
           <div
@@ -495,15 +447,10 @@ const handlePasswordPrompt = (action) => {
           className="bg-white bg-opacity-75 p-4 rounded shadow-lg"
           style={{ paddingTop: "20px" }}
         >
-          
-
           <div className="mb-3">
             <div className="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-3">
               <div className="col-md-6 mb-2">
                 <div className="input-group">
-                  {/*<span className="input-group-text bg-primary text-white">
-                    <i className="fas fa-search"></i>
-                  </span>*/}
                   <input
                     type="text"
                     className="form-control search-input"
@@ -515,9 +462,6 @@ const handlePasswordPrompt = (action) => {
               </div>
               <div className="col-md-6">
                 <div className="input-group">
-                  {/*<span className="input-group-text bg-primary text-white">
-                    <i className="fas fa-filter"></i>
-                  </span>*/}
                   <select
                     className="form-select filter-select"
                     value={filterStatus}
@@ -534,7 +478,10 @@ const handlePasswordPrompt = (action) => {
 
           <div className="row justify-content-center">
             <div className="col-12">
-         <ApplicantsTable applicants={filteredApplicants} onRowClick={handleRowClick} />
+              <ApplicantsTable
+                applicants={filteredApplicants}
+                onRowClick={handleRowClick}
+              />
             </div>
           </div>
 
@@ -551,16 +498,20 @@ const handlePasswordPrompt = (action) => {
         </div>
 
         {/* Applicant Modal */}
-       <AnimatePresence>
-        {showApplicantModal && selectedApplicant && (
-          <ApplicantModal
-            applicant={selectedApplicant}
-            onClose={() => setShowApplicantModal(false)}
-            onApprove={() => handlePasswordPrompt("approve")}
-            onReject={() => handlePasswordPrompt("reject")}
-          />
-        )}
-      </AnimatePresence>
+        <AnimatePresence>
+          {showApplicantModal && selectedApplicant && (
+            <ApplicantModal
+              applicant={selectedApplicant}
+              onClose={() => setShowApplicantModal(false)}
+              onApprove={(applicant) =>
+                handlePasswordPrompt("approve", applicant)
+              }
+              onReject={(applicant) =>
+                handlePasswordPrompt("reject", applicant)
+              }
+            />
+          )}
+        </AnimatePresence>
         {/* Admin Profile Modal */}
 
         <AnimatePresence>

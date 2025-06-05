@@ -24,7 +24,6 @@ const ApplyLaptop = () => {
     return localStorage.getItem("theme") === "dark";
   });
 
-  // Fetch student info on load and get initial from student.name first letter
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
@@ -36,7 +35,6 @@ const ApplyLaptop = () => {
         );
         const student = response.data;
 
-        // Get initial from the first character of student.name
         const initial = student.name ? student.name[0].toUpperCase() : "";
 
         setFormData((prev) => ({
@@ -54,7 +52,6 @@ const ApplyLaptop = () => {
     fetchStudentData();
   }, [formData.studentNumber]);
 
-  // Dark mode theme setup
   useEffect(() => {
     const theme = darkMode ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", theme);
@@ -73,10 +70,35 @@ const ApplyLaptop = () => {
 
   const handleNext = async (e) => {
     e.preventDefault();
-    console.log("Submitting Application:", formData);
 
-    // Optional: form submission logic here
-    alert("Application submitted!");
+    const data = new FormData();
+    data.append("Student_No", formData.studentNumber);
+    data.append("Email", formData.email);
+
+    if (formData.proofOfIncome) {
+      data.append("Income", formData.proofOfIncome);
+    }
+
+    if (formData.hasRecommendation === "yes" && formData.recommendationFile) {
+      data.append("SupportingDoc", formData.recommendationFile);
+    } else {
+      data.append("SupportingDoc", new Blob());
+    }
+
+    try {
+      const response = await axios.post("https://localhost:7102/api/Application/api/apply", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      alert("Application submitted successfully!");
+      console.log(response.data);
+      navigate("/student/dashboard");
+    } catch (error) {
+      console.error("Submission failed:", error);
+      alert("Application already exists");
+    }
   };
 
   const handleConfirmLogout = () => {
@@ -93,24 +115,22 @@ const ApplyLaptop = () => {
         transition: "background-color 0.3s ease-in-out, color 0.3s ease-in-out",
       }}
     >
+      {/* Navbar */}
       <nav
         className={`navbar navbar-expand-lg ${
-          darkMode ? "navbar-dark bg-dark" : "navbar-light"
+          darkMode ? "navbar-dark bg-dark" : "navbar-light bg-white"
         } shadow-sm px-4 py-2`}
         style={{
-          backgroundColor: darkMode ? "#212529" : "#bcc2c8",
           position: "fixed",
           top: 0,
           left: 0,
           width: "100%",
           zIndex: 1050,
-          borderBottom: darkMode ? "1px solid #444" : "1px solid #bbb",
-          transition: "background-color 0.3s ease",
+          borderBottom: darkMode ? "1px solid #444" : "1px solid #ddd",
         }}
       >
-        <div className="container-fluid d-flex justify-content-between align-items-center position-relative">
-          {/* Logo (Left) */}
-          <div className="d-flex align-items-center">
+        <div className="container-fluid d-flex justify-content-between align-items-center">
+          <div className="navbar-brand d-flex align-items-center">
             <img
               src={tut25}
               alt="TUT Logo"
@@ -120,22 +140,13 @@ const ApplyLaptop = () => {
                 filter: darkMode ? "invert(0)" : "none",
               }}
             />
-          </div>
-
-          {/* Title (Center Absolute) */}
-          <div
-            className="position-absolute top-50 start-50 translate-middle"
-            style={{ pointerEvents: "none" }} // So it doesn't block clicks
-          >
             <span
               className={`fw-semibold ${darkMode ? "text-light" : "text-dark"}`}
-              style={{ fontSize: "1.25rem", whiteSpace: "nowrap" }}
+              style={{ fontSize: "1.25rem" }}
             >
               TUT Student Portal
             </span>
           </div>
-
-          {/* Theme Toggle (Right) */}
           <div className="d-flex align-items-center">
             <FaSun color={darkMode ? "#ccc" : "#f39c12"} className="me-2" />
             <div className="form-check form-switch mb-0">
@@ -223,7 +234,7 @@ const ApplyLaptop = () => {
         <p className="text-center mb-4">Please enter the details below</p>
 
         <form onSubmit={handleNext}>
-          {[
+          {[ 
             { label: "Student Number", name: "studentNumber", readOnly: true },
             { label: "Surname", name: "surname" },
             { label: "Initials", name: "initials", readOnly: true },
@@ -286,9 +297,7 @@ const ApplyLaptop = () => {
 
           {formData.hasRecommendation === "yes" && (
             <div className="mb-3">
-              <label className="form-label">
-                Upload Recommendation Letter:
-              </label>
+              <label className="form-label">Upload Recommendation Letter:</label>
               <input
                 type="file"
                 className="form-control"

@@ -27,40 +27,25 @@ const ApplicantsTable = ({ applicants, onRowClick }) => {
   // Prepare columns for PDF export
   const pdfColumns = [
     "Student #",
-    "Initials",
-    "Name",
-    "Course",
-    "Faculty",
-    "Campus",
+
     "Email",
-    "Contact",
-    "Nationality",
+    "Recommendation",
     "NSFAS",
-    "Year",
-    "Ethnicity",
     "Avg. Mark",
-    "Eligibility",
     "Status",
   ];
 
   // Helper: format applicant row for pdf
   const formatApplicantForPdf = (applicant) => [
-    applicant.studentNum,
-    applicant.initials,
-    applicant.name,
-    applicant.courseName,
-    applicant.faculty,
-    applicant.campus,
+    applicant.student_No,
     applicant.email,
-    applicant.contact,
-    applicant.nationality,
-    applicant.recommendation,
-    applicant.nsfasStatus,
-    applicant.yearOfStudy,
-    applicant.ethnicity,
+    applicant.recommendation ? "Yes" : "No",
+    applicant.nsfasStatus ? "Funded" : "Unfunded",
     `${applicant.avagerageMark}%`,
-    applicant.eligible ? "Eligible" : "Not Eligible",
-    applicant.status.charAt(0).toUpperCase() + applicant.status.slice(1),
+    applicant.applicationStatus
+      ? applicant.applicationStatus.charAt(0).toUpperCase() +
+        applicant.applicationStatus.slice(1)
+      : "Pending",
   ];
 
   const exportPDF = (filteredApplicants, fileName) => {
@@ -132,15 +117,17 @@ const ApplicantsTable = ({ applicants, onRowClick }) => {
     doc.save(fileName);
   };
   const getStatusText = (status) => {
-    if (status === true || status === "approved") return "Approved";
-    if (status === false || status === "rejected") return "Rejected";
-    return "Pending";
+    if(status === null || status === "pending") return "Pending";
+    if (status === true || status === "approved" ) return "Approved";
+    if (status === false || status === "rejected" ) return "Rejected";
+
   };
 
   const getStatusBadgeClass = (status) => {
+    if (status === null) return "bg-warning";
     if (status === true || status === "approved") return "bg-success";
     if (status === false || status === "rejected") return "bg-danger";
-    return "bg-warning";
+   
   };
 
   return (
