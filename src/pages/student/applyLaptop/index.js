@@ -20,23 +20,18 @@ const ApplyLaptop = () => {
   });
 
   const [showModal, setShowModal] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("theme") === "dark";
-  });
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
 
-  // Fetch student info on load and get initial from student.name first letter
+  // Fetch student details and set initials on mount or when studentNumber changes
   useEffect(() => {
     const fetchStudentData = async () => {
-      try {
-        const { studentNumber } = formData;
-        if (!studentNumber) return;
+      const { studentNumber } = formData;
+      if (!studentNumber) return;
 
-        const response = await axios.get(
-          `https://localhost:7102/api/Student/student/${studentNumber}`
-        );
+      try {
+        const response = await axios.get(`https://localhost:7102/api/Student/student/${studentNumber}`);
         const student = response.data;
 
-        // Get initial from the first character of student.name
         const initial = student.name ? student.name[0].toUpperCase() : "";
 
         setFormData((prev) => ({
@@ -54,13 +49,14 @@ const ApplyLaptop = () => {
     fetchStudentData();
   }, [formData.studentNumber]);
 
-  // Dark mode theme setup
+  // Update theme attribute and localStorage on darkMode change
   useEffect(() => {
     const theme = darkMode ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [darkMode]);
 
+  // Handle form input changes (including files)
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     setFormData((prev) => ({
@@ -71,12 +67,36 @@ const ApplyLaptop = () => {
 
   const handleCancel = () => navigate("/student/dashboard");
 
+  // Handle form submission with file upload
   const handleNext = async (e) => {
     e.preventDefault();
-    console.log("Submitting Application:", formData);
 
-    // Optional: form submission logic here
-    alert("Application submitted!");
+    try {
+      const data = new FormData();
+      data.append("Student_No", formData.studentNumber);
+      data.append("Email", formData.email);
+
+      if (formData.proofOfIncome) {
+        data.append("Income", formData.proofOfIncome);
+      }
+
+      if (formData.hasRecommendation === "yes" && formData.recommendationFile) {
+        data.append("SupportingDoc", formData.recommendationFile);
+      } else {
+        data.append("SupportingDoc", new Blob());
+      }
+
+      const response = await axios.post("https://localhost:7102/api/Application/api/apply", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      alert("Application submitted successfully!");
+      console.log(response.data);
+      navigate("/student/dashboard");
+    } catch (error) {
+      console.error("Submission failed:", error);
+      alert("Application already exists");
+    }
   };
 
   const handleConfirmLogout = () => {
@@ -93,24 +113,20 @@ const ApplyLaptop = () => {
         transition: "background-color 0.3s ease-in-out, color 0.3s ease-in-out",
       }}
     >
+      {/* Navbar */}
       <nav
-        className={`navbar navbar-expand-lg ${
-          darkMode ? "navbar-dark bg-dark" : "navbar-light"
-        } shadow-sm px-4 py-2`}
+        className={`navbar navbar-expand-lg ${darkMode ? "navbar-dark bg-dark" : "navbar-light bg-white"} shadow-sm px-4 py-2`}
         style={{
-          backgroundColor: darkMode ? "#212529" : "#bcc2c8",
           position: "fixed",
           top: 0,
           left: 0,
           width: "100%",
           zIndex: 1050,
-          borderBottom: darkMode ? "1px solid #444" : "1px solid #bbb",
-          transition: "background-color 0.3s ease",
+          borderBottom: darkMode ? "1px solid #444" : "1px solid #ddd",
         }}
       >
-        <div className="container-fluid d-flex justify-content-between align-items-center position-relative">
-          {/* Logo (Left) */}
-          <div className="d-flex align-items-center">
+        <div className="container-fluid d-flex justify-content-between align-items-center">
+          <div className="navbar-brand d-flex align-items-center">
             <img
               src={tut25}
               alt="TUT Logo"
@@ -120,14 +136,7 @@ const ApplyLaptop = () => {
                 filter: darkMode ? "invert(0)" : "none",
               }}
             />
-          </div>
-
-          {/* Title (Center Absolute) */}
-          <div
-            className="position-absolute top-50 start-50 translate-middle"
-            style={{ pointerEvents: "none" }} // So it doesn't block clicks
-          >
-            <span
+                <span
               className={`fw-semibold ${darkMode ? "text-light" : "text-dark"}`}
               style={{ fontSize: "1.25rem", whiteSpace: "nowrap" }}
             >
@@ -135,7 +144,7 @@ const ApplyLaptop = () => {
             </span>
           </div>
 
-          {/* Theme Toggle (Right) */}
+          {/* Theme toggle */}
           <div className="d-flex align-items-center">
             <FaSun color={darkMode ? "#ccc" : "#f39c12"} className="me-2" />
             <div className="form-check form-switch mb-0">
@@ -153,11 +162,8 @@ const ApplyLaptop = () => {
         </div>
       </nav>
 
-      {/* Back & Logout */}
-      <Link
-        to="/student/dashboard"
-        className="position-fixed bottom-0 start-0 m-3 btn btn-outline-secondary"
-      >
+      {/* Back & Logout Buttons */}
+      <Link to="/student/dashboard" className="position-fixed bottom-0 start-0 m-3 btn btn-outline-secondary">
         <FaArrowLeft className="me-2" />
         Back to Dashboard
       </Link>
@@ -169,41 +175,23 @@ const ApplyLaptop = () => {
         </button>
       </div>
 
-      {/* Logout Modal */}
+      {/* Logout Confirmation Modal */}
       {showModal && (
-        <div
-          className="modal fade show d-block"
-          tabIndex="-1"
-          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-        >
+        <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
           <div className="modal-dialog modal-dialog-centered">
-            <div
-              className={`modal-content ${
-                darkMode ? "glass-card-dark" : "glass-card-light"
-              }`}
-            >
+            <div className={`modal-content ${darkMode ? "glass-card-dark" : "glass-card-light"}`}>
               <div className="modal-header">
                 <h5 className="modal-title">Confirm Logout</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => setShowModal(false)}
-                ></button>
+                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
               </div>
               <div className="modal-body">
                 <p>Are you sure you want to logout?</p>
               </div>
               <div className="modal-footer">
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => setShowModal(false)}
-                >
+                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
                   Cancel
                 </button>
-                <button
-                  className="btn btn-danger"
-                  onClick={handleConfirmLogout}
-                >
+                <button className="btn btn-danger" onClick={handleConfirmLogout}>
                   Yes, Logout
                 </button>
               </div>
@@ -212,11 +200,9 @@ const ApplyLaptop = () => {
         </div>
       )}
 
-      {/* Form Card */}
+      {/* Application Form */}
       <div
-        className={`glass-card p-5 rounded shadow mt-4 ${
-          darkMode ? "glass-card-dark" : "glass-card-light"
-        }`}
+        className={`glass-card p-5 rounded shadow mt-4 ${darkMode ? "glass-card-dark" : "glass-card-light"}`}
         style={{ width: "100%", maxWidth: "600px" }}
       >
         <h2 className="text-center mb-4">APPLY FOR LAPTOP</h2>
@@ -227,12 +213,7 @@ const ApplyLaptop = () => {
             { label: "Student Number", name: "studentNumber", readOnly: true },
             { label: "Surname", name: "surname" },
             { label: "Initials", name: "initials", readOnly: true },
-            {
-              label: "Student Email",
-              name: "email",
-              type: "email",
-              readOnly: true,
-            },
+            { label: "Student Email", name: "email", type: "email", readOnly: true },
           ].map(({ label, name, type = "text", readOnly = false }) => (
             <div className="mb-3" key={name}>
               <label className="form-label">{label}:</label>
@@ -261,9 +242,7 @@ const ApplyLaptop = () => {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">
-              Do you have a Recommendation Letter?
-            </label>
+            <label className="form-label">Do you have a Recommendation Letter?</label>
             <div>
               {["yes", "no"].map((value) => (
                 <div className="form-check form-check-inline" key={value}>
@@ -276,9 +255,7 @@ const ApplyLaptop = () => {
                     onChange={handleChange}
                     required
                   />
-                  <label className="form-check-label">
-                    {value.charAt(0).toUpperCase() + value.slice(1)}
-                  </label>
+                  <label className="form-check-label">{value.charAt(0).toUpperCase() + value.slice(1)}</label>
                 </div>
               ))}
             </div>
@@ -286,29 +263,24 @@ const ApplyLaptop = () => {
 
           {formData.hasRecommendation === "yes" && (
             <div className="mb-3">
-              <label className="form-label">
-                Upload Recommendation Letter:
-              </label>
+              <label className="form-label">Upload Recommendation Letter:</label>
               <input
                 type="file"
                 className="form-control"
                 name="recommendationFile"
                 accept=".pdf,.doc,.docx,.jpg,.png"
                 onChange={handleChange}
+                required={formData.hasRecommendation === "yes"}
               />
             </div>
           )}
 
-          <div className="d-flex justify-content-between">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={handleCancel}
-            >
-              CANCEL
+          <div className="d-flex justify-content-between mt-4">
+            <button type="button" className="btn btn-secondary" onClick={handleCancel}>
+              Cancel
             </button>
             <button type="submit" className="btn btn-primary">
-              Apply
+              Next
             </button>
           </div>
         </form>
