@@ -48,18 +48,6 @@ function SupervisorLogin() {
                 </div>
             </div>
 
-            <div className="text-center mt-4">
-                <button
-                    onClick={() => window.history.back()}
-                    className="btn btn-secondary"
-                >
-                    ← Back
-                </button>
-            </div>
-
-            <div className="text-center mt-4">
-                <h4 className="text-secondary">Leading the way, Together.</h4>
-            </div>
         </>
     );
 }
