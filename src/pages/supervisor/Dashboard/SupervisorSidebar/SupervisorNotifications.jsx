@@ -6,6 +6,44 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 
 function SupervisorNotifications() {
+  const notifications = [
+    {
+      email: "KhozaPK@tut.ac.za",
+      title: "New Donation request received.",
+      date: "2025-06-03",
+      status: "Unread"
+    },
+    {
+      email: "technician@tut.ac.za",
+      title: "Laptops received.",
+      date: "2025-06-02",
+      status: "Unread"
+    },
+    {
+      email: "MatlalaMM@tut.ac.za",
+      title: "Meeting scheduled for Friday.",
+      date: "2025-05-28",
+      status: "Read"
+    },
+    {
+      email: "MtombeniT@tut.ac.za",
+      title: "New Donation request received.",
+      date: "2025-05-25",
+      status: "Read"
+    },
+    {
+      email: "NkosiHM@tut4life.ac.za",
+      title: "New Donation request received.",
+      date: "2025-05-20",
+      status: "Read"
+    },
+    {
+      email: "MereOF@tut.ac.za",
+      title: "New Donation request received.",
+      date: "2025-05-15",
+      status: "Read"
+    }
+  ];
   return (
     <>
       <div className="d-flex flex-column vh-100" style={{ overflow: 'hidden' }}>
@@ -44,44 +82,52 @@ function SupervisorNotifications() {
                                   </div>
               </div>
               <div className="flex-grow-1 p-4 d-flex justify-content-center align-items-center" style={{ background: "#f8f9fa", overflowY: "auto" }}>
-                <div className="card shadow-sm" style={{ minWidth: "600px", maxWidth: "800px", width: "100%" }}>
-                  <div className="card-header bg-primary text-white">
-                    <h5 className="mb-0">Recent Notifications</h5>
-                  </div>
                   <div className="card-body p-0">
-                    <table className="table table-hover mb-0">
+                    <table
+                      className="table table-hover mb-0"
+                      style={{
+                        borderRadius: "12px",
+                        overflow: "hidden",
+                        boxShadow: "8px 4px 16px rgba(0, 0, 0, 0.6), 0 1.5px 4px rgba(0,0,0,0.08)"
+                      }}
+                    >
                       <thead className="table-light">
                         <tr>
-                          <th scope="col">Email</th>
+                          <th scope="col" style={{ width: "200px" }}>Email</th>
                           <th scope="col">Message</th>
                           <th scope="col">Date</th>
                           <th scope="col">Status</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <th scope="row">220625915@tut4life.ac.za</th>
-                          <td>New student assigned to your group.</td>
-                          <td>2024-06-10</td>
-                          <td><span className="badge bg-success">Unread</span></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Project deadline updated.</td>
-                          <td>2024-06-08</td>
-                          <td><span className="badge bg-secondary">Read</span></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td>Meeting scheduled for Friday.</td>
-                          <td>2024-06-05</td>
-                          <td><span className="badge bg-success">Unread</span></td>
-                        </tr>
+                        {notifications.map((notification, idx) => (
+                          <tr key={idx}>
+                            <th
+                              scope="row"
+                              style={{
+                                width: "180px",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                backgroundColor: "#888888"
+                              }}
+                            >
+                              {notification.email}
+                            </th>
+                            <td>{notification.title}</td>
+                            <td>{notification.date}</td>
+                            <td>
+                              <span className={`badge ${notification.status === "Unread" ? "bg-success" : "bg-secondary"}`}>
+                                {notification.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
                 </div>
-              </div>
+              
             </div>
       </div>
     </>

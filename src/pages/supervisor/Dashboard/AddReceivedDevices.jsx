@@ -57,30 +57,37 @@ function AddReceivedDevices() {
                     </div>
                     <div className="form-group mb-2">
                         {/*<label htmlFor="brand">Brand</label>*/}
-                        <input
-                            type="text"
-                            id="brand"
-                            name="brand"
-                            className="form-control"
-                            placeholder="Enter brand"
-                        />
-                    </div>
-                    <button type="submit" className="btn btn-primary w-100 mt-2">
-                        Add Device
-                    </button>
-                </form>
-
-                <div className="mt-3">
-                    <Link
+                                                <input
+                                                    type="text"
+                                                    id="brand"
+                                                    name="brand"
+                                                    className="form-control"
+                                                    placeholder="Enter brand"
+                                                />
+                                            </div>
+                                            <button type="submit" className="btn btn-primary w-100 mt-2">
+                                                Add Device
+                                            </button>
+                                        </form>
+                                    </div>
+                                    {/* Back button fixed to bottom left */}
+                                    <div
+                                        style={{
+                                            position: 'fixed',
+                                            bottom: '24px',
+                                            left: '24px',
+                                            zIndex: 1000
+                                        }}
+                                    >
+                                        <Link
                                             to="/supervisor/dashboard"
                                             className="btn custom-back-btn"
                                             style={{ backgroundColor: '#6c757d', color: '#fff', border: 'none' }}
                                         >
                                             <i className="bi bi-arrow-left"></i> Back
                                         </Link>
-                </div>
-            </div>
-            {/* Custom styles for the back button */}
+                                    </div>
+                                    {/* Custom styles for the back button */}
             <style>
                 {`
                     .custom-back-btn {
