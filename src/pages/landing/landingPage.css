@@ -1,0 +1,214 @@
+/* Base styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #2e2e2e;
+  ;
+}
+
+/* Hero Section */
+.hero {
+  background: url('./TUT.jpg') center/cover no-repeat;
+  height: 500px ;
+  color: #fff;
+  margin-top: 0;
+  text-align: center;
+  
+}
+
+#herodiv{
+  background-color: #00000077;
+  margin: 0;
+  padding: 0;
+  height: 500px;
+  max-width: 100%;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-top: 0;
+  color: white;
+  padding-top: 100px;
+}
+
+.hero p {
+  color:white;
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  font-weight: bold;
+}
+
+.hero .buttons button {
+  padding: 12px 24px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.hero .btn-primary {
+  background-color: #cc0000;
+  color: #fff;
+}
+
+.hero .btn-secondary {
+  background-color: #f9c900;
+  color: #000;
+}
+
+.hero .btn-outline {
+  background: black;
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+/* Section Titles */
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #cc0000;
+}
+
+/* Paragraph Section */
+.section-text {
+  max-width: 800px;
+  margin: 20px auto;
+  font-size: 1rem;
+  line-height: 1.6;
+  padding: 0 20px;
+}
+
+
+/* Emphasis and Quotes */
+strong {
+  color: #cc0000;
+}
+
+em {
+  color: #000;
+  font-style: italic;
+}
+nav {
+      background-color: black;
+      overflow: hidden;
+      color: white;
+      padding: 0 20px;
+      width: 100%;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+	    max-height:100px;
+    }
+
+    nav .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    nav .menu {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav .menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding-right: 80px;
+    }
+.dropMenuBtn {
+  
+  background-color: #cc0000;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropMenuDiv {
+  padding-right: 80px;
+  position:static ;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdownContent {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdownContent a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdownContent a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropMenuDiv:hover .dropdownContent {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropMenuDiv:hover .dropMenuBtn {background-color: #000000;}
+.card{
+  display: box;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  width: 500px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.custom-card{
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 2px 3px black;
+  text-align: center;
+
+}
+.imgCard{
+  display: flex;
+  justify-content: space-evenly;
+}
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px #2aa9e2;
+}
+.Btn{
+  background-color: #2aa9e2 ;
+  border-radius: 5px;
+  width: 500px;
+  height: 50px;
+  margin-bottom: 50px;
+  font-weight:1000 ;
+}
+.Btn:hover {
+  background-color: #d52235; 
+  color: #fff;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px #2aa9e2;
+}
+.adPic{
+  justify-content: center;
+  padding-left: 18px;
+}
+
+.BtnDiv{
+  text-align: center; 
+  margin: 20px;
+}
+h2{
+  padding: 30px;
+}

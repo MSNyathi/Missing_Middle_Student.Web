@@ -50,14 +50,37 @@ export default function AssignDevicePage() {
   };
 
   useEffect(() => {
-    // Dummy applications data
-    const dummyApplications = [
-      { id: 1, studentNumber: '202312345', surname: 'Mokoena', initials: 'T.', approvalDate: '2025-04-20' },
-      { id: 2, studentNumber: '202398765', surname: 'Dlamini', initials: 'L.', approvalDate: '2025-04-18' },
-      { id: 3, studentNumber: '202376543', surname: 'Ndlovu', initials: 'S.', approvalDate: '2025-04-23' },
-    ];
-
-    setApplications(dummyApplications);
+    const fetchApprovedApplicants = async () => {
+      try {
+        const baseUrl = process.env.REACT_APP_API_URL;
+        const response = await fetch(`${baseUrl}api/Application/approvedApplicant2`);
+        if (!response.ok) throw new Error('Failed to fetch approved applicants');
+    
+        const realApplicants = await response.json();
+    
+        // Map backend data to the shape your UI expects
+        const transformedApplicants = realApplicants.map(app => ({
+          id: app.id,
+          studentNumber: app.student_No || '',        // map student_No to studentNumber
+          surname: app.surname || 'Unknown',           // if surname missing, default 'Unknown' (update if you have correct field)
+          initials: app.initials || '',                 // same here, check if you have it, else empty
+          approvalDate: app.applicationDate
+            ? app.applicationDate.split('T')[0]
+            : '',                                      // format date to YYYY-MM-DD or empty string
+        }));
+    
+        setApplications(transformedApplicants);
+      } catch (error) {
+        console.error('Error fetching approved applicants:', error);
+        setApplications([]);
+        MySwal.fire({
+          icon: 'error',
+          title: 'Applicants Fetch Failed',
+          text: 'Unable to fetch approved applicants from the server.',
+        });
+      }
+    };
+    fetchApprovedApplicants();
     fetchDevices();
   }, []);
 
@@ -237,11 +260,11 @@ return (
   }));
 
   return (
-    <div className="d-flex bg-light" style={{ minHeight: '100vh' }}>
+    <div className="d-flex" style={{ minHeight: '100vh', backgroundColor: "rgb(228, 235, 255)" }}>
   <AdminNavbar />
 
   <div className="flex-grow-1 p-4">
-    <h2 className="text-center mb-4 fw-bold text-primary">Assign Devices</h2>
+    <h2 className="text-center mb-4 fw-bold text-dark">Assign Devices</h2>
 
     <div
       className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 p-3 rounded shadow-sm"
@@ -295,7 +318,8 @@ return (
     </div>
 
     <div className="table-responsive">
-      <table className="table table-bordered table-hover align-middle text-center">
+      <table className="table table-striped shadow bg-white table-hover"
+          style={{ borderRadius: "15px", overflow: "hidden" }}>
         <thead className="table-dark">
           <tr>
             <th>Student Number</th>

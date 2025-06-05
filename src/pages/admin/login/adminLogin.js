@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import "./adminLogin.css"; // Import your CSS file for styling
 import backgroundImage from "../../../assets/backgroundAdmin.jpeg"; // Adjust the path as needed
 import LoginNavbar from "../../../commponents/loginNavbar";
 import axios from "axios"; // add this at the top
 
-
 export default function AdminLogin() {
   const navigate = useNavigate();
-
+  const [adminPasswordForVerification, setAdminPasswordForVerification] =
+    useState("");
   const [user, setUser] = useState({ email: "", password: "", role: "" });
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -21,59 +21,62 @@ export default function AdminLogin() {
     setButtonDisabled(!(user.email && user.password && user.role));
   }, [user]);
 
-  
-
   const handleRoleChange = (e) => {
     setUser({ ...user, role: e.target.value });
   };
 
-
-
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
     if (!validateEmail(user.email)) {
       toast.error("Please enter a valid email.", { position: "top-center" });
       return;
     }
-  
+
     if (user.role === "") {
       toast.error("Please select a role.", { position: "top-center" });
       return;
     }
-  
+
     setLoading(true);
-  
+
     const API_URL = process.env.REACT_APP_API_URL;
     // Use only one endpoint regardless of selected role
     const loginEndpoint = `${API_URL}loginAdmin`;
-  
+
     try {
       const response = await axios.post(loginEndpoint, {
         email: user.email,
         password: user.password,
       });
       console.log("Login response:", response.data);
-      
-  
-      const roleFromServer = response.data?.data?.profile?.profile?.role?.toLowerCase();
+
+      const roleFromServer =
+        response.data?.data?.profile?.profile?.role?.toLowerCase();
       const selectedRole = user.role.toLowerCase();
-  
+
       if (roleFromServer !== selectedRole) {
-        toast.error("Incorrect role selected. Please choose the correct role.", {
-          position: "top-center",
-        });
+        toast.error(
+          "Incorrect role selected. Please choose the correct role.",
+          {
+            position: "top-center",
+          }
+        );
         return;
       }
-  
+
       toast.success("Login successful!", { position: "top-center" });
+      setAdminPasswordForVerification(user.password);
+      localStorage.setItem("adminPassword", user.password);
       localStorage.setItem("adminData", JSON.stringify(response.data));
-  
+
       setTimeout(() => {
         if (roleFromServer === "admin") {
           navigate("/admin/dashboard", { state: { mydata: response.data } });
         } else if (roleFromServer === "technician") {
-          navigate("/technician/dashboard", { state: { mydata: response.data } });
+          navigate("/technician/dashboard", {
+            state: { mydata: response.data },
+          });
         }
       }, 1000);
     } catch (error) {
@@ -84,12 +87,21 @@ export default function AdminLogin() {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (adminPasswordForVerification) {
+      console.log(
+        "Password set for verification:",
+        adminPasswordForVerification
+      );
+    }
+  }, [adminPasswordForVerification]);
 
   return (
-    <div  className="glass-bg d-flex align-items-center justify-content-center min-vh-100"
-      style={{ backgroundImage: `url(${backgroundImage})` }} >
-        <LoginNavbar />
-    
+    <div
+      className="glass-bg d-flex align-items-center justify-content-center min-vh-100"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      <LoginNavbar />
 
       <ToastContainer />
       <div className="glass-card text-white p-4">
@@ -97,7 +109,9 @@ export default function AdminLogin() {
 
         <form onSubmit={handleLogin}>
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email</label>
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
             <input
               type="email"
               className="form-control rounded-pill"
@@ -110,7 +124,9 @@ export default function AdminLogin() {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="password" className="form-label">Password</label>
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
             <input
               type="password"
               className="form-control rounded-pill"
@@ -157,12 +173,13 @@ export default function AdminLogin() {
             >
               Forgot password?
             </span>
-           
           </div>
 
           <button
             type="submit"
-            className={`btn w-100 ${buttonDisabled || loading ? "btn-secondary" : "btn-primary"}`}
+            className={`btn w-100 ${
+              buttonDisabled || loading ? "btn-secondary" : "btn-primary"
+            }`}
             disabled={buttonDisabled || loading}
           >
             {loading

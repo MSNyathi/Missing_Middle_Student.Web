@@ -21,14 +21,15 @@ function SupervisorDashboard() {
 
             {/* Layout: Sidebar + Content */}
             <div className="d-flex flex-grow-1 overflow-hidden">
-                {/* Sidebar */}
                 <div
                     className="d-flex flex-column justify-content-between bg-primary text-white p-3"
-                    style={{ width: '250px' }}
-                >
+                    style={{ width: '250px' }}>
                     <div>
-                        <Link to="/" className="d-block mb-3 text-white fw-semibold text-decoration-none">
+                        <Link to="/Supervisor/Dashboard" className="d-block mb-3 text-white fw-semibold text-decoration-none">
                             <i className="bi bi-house-door me-2"></i> Home
+                        </Link>
+                        <Link to="/Supervisor/notifications" className="d-block mb-3 text-white fw-semibold text-decoration-none">
+                            <i className="bi bi-bell me-2"></i> Notifications
                         </Link>
                     </div>
                     <div>
@@ -46,7 +47,7 @@ function SupervisorDashboard() {
                     <div className="row g-4 justify-content-center w-75">
                         <div className="col-md-6">
                             <Link to="/supervisor/donation-requests" className="text-decoration-none">
-                                <div className="card shadow-sm h-100">
+                                <div className="card shadow-sm h-100 hover-card">
                                     <div className="card-body">
                                         <h5 className="card-title text-primary">Pending Donation Requests</h5>
                                         <p className="card-text">View and accept new laptop donation requests from donors.</p>
@@ -56,7 +57,7 @@ function SupervisorDashboard() {
                         </div>
                         <div className="col-md-6">
                             <Link to="/supervisor/add-received-devices" className="text-decoration-none">
-                                <div className="card shadow-sm h-100">
+                                <div className="card shadow-sm h-100 hover-card">
                                     <div className="card-body">
                                         <h5 className="card-title text-primary">Add Received Devices</h5>
                                         <p className="card-text">Capture serial numbers and add laptops to the database after receiving them.</p>
@@ -66,7 +67,7 @@ function SupervisorDashboard() {
                         </div>
                         <div className="col-md-6">
                             <Link to="/supervisor/send-devices-to-technician" className="text-decoration-none">
-                                <div className="card shadow-sm h-100">
+                                <div className="card shadow-sm h-100 hover-card">
                                     <div className="card-body">
                                         <h5 className="card-title text-primary">Send Devices to Technician</h5>
                                         <p className="card-text">Send a report of added devices to the technician for further processing.</p>
@@ -76,7 +77,7 @@ function SupervisorDashboard() {
                         </div>
                         <div className="col-md-6">
                             <Link to="/supervisor/view-reports" className="text-decoration-none">
-                                <div className="card shadow-sm h-100">
+                                <div className="card shadow-sm h-100 hover-card">
                                     <div className="card-body">
                                         <h5 className="card-title text-primary">Reports</h5>
                                         <p className="card-text">View or download reports of all processed donations and device transfers.</p>

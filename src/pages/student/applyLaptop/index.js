@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { FaArrowLeft, FaSignOutAlt, FaSun, FaMoon } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -9,12 +10,13 @@ const ApplyLaptop = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    studentNumber: "219876543",
+    studentNumber: localStorage.getItem("studentNumber") || "",
     surname: "",
-    initials: "TK",
-    email: "student@example.tut.ac.za",
+    initials: "",
+    email: "",
     hasRecommendation: "",
     recommendationFile: null,
+    proofOfIncome: null,
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -22,6 +24,37 @@ const ApplyLaptop = () => {
     return localStorage.getItem("theme") === "dark";
   });
 
+  // Fetch student info on load and get initial from student.name first letter
+  useEffect(() => {
+    const fetchStudentData = async () => {
+      try {
+        const { studentNumber } = formData;
+        if (!studentNumber) return;
+
+        const response = await axios.get(
+          `https://localhost:7102/api/Student/student/${studentNumber}`
+        );
+        const student = response.data;
+
+        // Get initial from the first character of student.name
+        const initial = student.name ? student.name[0].toUpperCase() : "";
+
+        setFormData((prev) => ({
+          ...prev,
+          surname: student.surname || "",
+          initials: initial,
+          email: student.email || "",
+        }));
+      } catch (error) {
+        console.error("Failed to fetch student data:", error);
+        alert("Failed to load student details.");
+      }
+    };
+
+    fetchStudentData();
+  }, [formData.studentNumber]);
+
+  // Dark mode theme setup
   useEffect(() => {
     const theme = darkMode ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", theme);
@@ -38,9 +71,11 @@ const ApplyLaptop = () => {
 
   const handleCancel = () => navigate("/student/dashboard");
 
-  const handleNext = (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
+    console.log("Submitting Application:", formData);
+
+    // Optional: form submission logic here
     alert("Application submitted!");
   };
 
@@ -58,23 +93,24 @@ const ApplyLaptop = () => {
         transition: "background-color 0.3s ease-in-out, color 0.3s ease-in-out",
       }}
     >
-      {/* Navbar with Theme Toggle */}
       <nav
         className={`navbar navbar-expand-lg ${
-          darkMode ? "navbar-dark bg-dark" : "navbar-light bg-white"
+          darkMode ? "navbar-dark bg-dark" : "navbar-light"
         } shadow-sm px-4 py-2`}
         style={{
+          backgroundColor: darkMode ? "#212529" : "#bcc2c8",
           position: "fixed",
           top: 0,
           left: 0,
           width: "100%",
           zIndex: 1050,
-          transition: "all 0.3s ease-in-out",
-          borderBottom: darkMode ? "1px solid #444" : "1px solid #ddd",
+          borderBottom: darkMode ? "1px solid #444" : "1px solid #bbb",
+          transition: "background-color 0.3s ease",
         }}
       >
-        <div className="container-fluid d-flex justify-content-between align-items-center">
-          <div className="navbar-brand d-flex align-items-center">
+        <div className="container-fluid d-flex justify-content-between align-items-center position-relative">
+          {/* Logo (Left) */}
+          <div className="d-flex align-items-center">
             <img
               src={tut25}
               alt="TUT Logo"
@@ -84,14 +120,22 @@ const ApplyLaptop = () => {
                 filter: darkMode ? "invert(0)" : "none",
               }}
             />
+          </div>
+
+          {/* Title (Center Absolute) */}
+          <div
+            className="position-absolute top-50 start-50 translate-middle"
+            style={{ pointerEvents: "none" }} // So it doesn't block clicks
+          >
             <span
               className={`fw-semibold ${darkMode ? "text-light" : "text-dark"}`}
-              style={{ fontSize: "1.25rem" }}
+              style={{ fontSize: "1.25rem", whiteSpace: "nowrap" }}
             >
               TUT Student Portal
             </span>
           </div>
 
+          {/* Theme Toggle (Right) */}
           <div className="d-flex align-items-center">
             <FaSun color={darkMode ? "#ccc" : "#f39c12"} className="me-2" />
             <div className="form-check form-switch mb-0">
@@ -109,7 +153,7 @@ const ApplyLaptop = () => {
         </div>
       </nav>
 
-      {/* Back to Dashboard */}
+      {/* Back & Logout */}
       <Link
         to="/student/dashboard"
         className="position-fixed bottom-0 start-0 m-3 btn btn-outline-secondary"
@@ -118,7 +162,6 @@ const ApplyLaptop = () => {
         Back to Dashboard
       </Link>
 
-      {/* Logout Button */}
       <div className="position-fixed bottom-0 end-0 p-3">
         <button className="btn btn-danger" onClick={() => setShowModal(true)}>
           <FaSignOutAlt className="me-2" />

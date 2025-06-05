@@ -5,6 +5,15 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 
 function SendDevicesToTechnician() {
+    const devices = [
+        { id: 'device1', name: 'Huawei', model: 'MateBook D15' },
+        { id: 'device2', name: 'Apple', model: 'iPad Pro' },
+        { id: 'device3', name: 'Dell', model: 'Inspiron 15' },
+        { id: 'device4', name: 'Samsung', model: 'Galaxy Tab S7' },
+        { id: 'device5', name: 'Lenovo', model: 'ThinkPad X1' },
+        { id: 'device6', name: 'HP', model: 'Pavilion 15' }
+        
+    ];
     return (
         <div
             className="d-flex flex-column justify-content-start align-items-center vh-100 overflow-hidden"
@@ -24,40 +33,76 @@ function SendDevicesToTechnician() {
             </nav>
 
             {/* Content Area */}
-            <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center w-100 text-center px-3">
+            <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center w-100 text-center px-3 position-relative">
                 <p className="fw-bold fs-6 mb-4" style={{ color: 'black' }}>
                     Here you can send devices to the technician for repair or maintenance.
                 </p>
 
-                <form className="w-100" style={{ maxWidth: '400px' }}>
+                <form
+                    className="w-100"
+                    style={{
+                        maxWidth: '400px',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.66)',
+                        borderRadius: '12px',
+                        background: '#fff',
+                        padding: '2rem'
+                    }}
+                >
                     <h5 className="mb-3">Select Devices</h5>
-
-                    <div className="form-check text-start mb-2">
-                        <input className="form-check-input" type="checkbox" id="device1" name="device1" style={{ color: 'black' }} />
-                        <label className="form-check-label" htmlFor="device1" style={{ color: 'black' }}>Device 1 - Chromebook</label>
-                    </div>
-                    <div className="form-check text-start mb-2">
-                        <input className="form-check-input" type="checkbox" id="device2" name="device2" style={{ color: 'black' }} />
-                        <label className="form-check-label" htmlFor="device2" style={{ color: 'black' }}>Device 2 - iPad</label>
-                    </div>
-                    <div className="form-check text-start mb-2">
-                        <input className="form-check-input" type="checkbox" id="device3" name="device3" style={{ color: 'black' }} />
-                        <label className="form-check-label" htmlFor="device3" style={{ color: 'black' }}>Device 3 - Windows Laptop</label>
-                    </div>
-                    <div className="form-check text-start mb-3">
-                        <input className="form-check-input" type="checkbox" id="device4" name="device4" style={{ color: 'black' }} />
-                        <label className="form-check-label" htmlFor="device4" style={{ color: 'black' }}>Device 4 - Android Tablet</label>
-                    </div>
+                    {devices.map((device) => (
+                        <div className="form-check text-start mb-2" key={device.id}>
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={device.id}
+                                name={device.id}
+                                style={{ color: 'black' }}
+                            />
+                            <label
+                                className="form-check-label"
+                                htmlFor={device.id}
+                                style={{ color: 'black' }}
+                            >
+                                {device.name} - {device.model}
+                            </label>
+                        </div>
+                    ))}
 
                     <button type="submit" className="btn btn-primary w-100 mb-3">
                         Send Selected Devices
                     </button>
                 </form>
 
-                <Link to="/supervisor/dashboard" className="btn btn-secondary">
+                {/* Back button moved to bottom left */}
+                <Link
+                    to="/supervisor/dashboard"
+                    className="btn custom-back-btn position-fixed"
+                    style={{
+                        left: '24px',
+                        bottom: '24px',
+                        backgroundColor: '#6c757d',
+                        color: '#fff',
+                        border: 'none',
+                        zIndex: 1050
+                    }}
+                >
                     <i className="bi bi-arrow-left"></i> Back
                 </Link>
             </div>
+            <style>
+                {`
+                    .custom-back-btn {
+                        background-color: #6c757d !important;
+                        color: #fff !important;
+                        border: none !important;
+                        transition: background 0.2s;
+                    }
+                    .custom-back-btn:hover, .custom-back-btn:focus {
+                        background-color: #0d6efd !important;
+                        color: #fff !important;
+                    }
+                `}
+            </style>
         </div>
     );
 }
