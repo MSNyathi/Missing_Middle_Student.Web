@@ -6,6 +6,17 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 
 function SupervisorNotifications() {
+  // Sample notifications data
+
+    // This would typically be fetched from the backend
+    // Example of how you might fetch notifications from an API:
+    // const [notifications, setNotifications] = React.useState([]);
+    // React.useEffect(() => {
+    //   fetch('/api/notifications')
+    //     .then(res => res.json())
+    //     .then(data => setNotifications(data));
+    // }, []);
+  // In a real application, this data would likely come from an API or state management solution
   const notifications = [
     {
       email: "KhozaPK@tut.ac.za",
@@ -53,8 +64,14 @@ function SupervisorNotifications() {
                     <img src={tut25} alt="Logo" height="40" className="me-2" />
                     <span className="fw-bold">EduConnect</span>
                 </Link>
-                <span className="navbar-text ms-auto h5 text-white">
-                    Notifications
+                <div className="d-flex flex-grow-1 justify-content-center">
+                  <span className="navbar-text h5 text-white">
+                      Notifications
+                  </span>
+                </div>
+                <span className="ms-3 d-flex align-items-center" style={{ gap: "0.5rem" }}>
+                  <i className="bi bi-person-circle text-white" style={{ fontSize: "1.9rem", verticalAlign: "middle" }}>Supervisor</i>
+                  {/*<span className="text-white fw-semibold" style={{ fontSize: "1.5rem", lineHeight: "1" }}></span>*/}
                 </span>
             </nav>
 
@@ -82,7 +99,7 @@ function SupervisorNotifications() {
                                   </div>
               </div>
               <div className="flex-grow-1 p-4 d-flex justify-content-center align-items-center" style={{ background: "#f8f9fa", overflowY: "auto" }}>
-                  <div className="card-body p-0">
+                  <div className="card-body p-0" style={{ width: "100%" }}>
                     <table
                       className="table table-hover mb-0"
                       style={{
@@ -112,7 +129,13 @@ function SupervisorNotifications() {
                                 backgroundColor: "#888888"
                               }}
                             >
-                              {notification.email}
+                              <button
+                                className="btn btn-link text-white p-0"
+                                style={{ textDecoration: "underline", background: "none", border: "none" }}
+                                onClick={() => alert(`Email: ${notification.email}`)}
+                              >
+                                {notification.email}
+                              </button>
                             </th>
                             <td>{notification.title}</td>
                             <td>{notification.date}</td>
@@ -125,6 +148,11 @@ function SupervisorNotifications() {
                         ))}
                       </tbody>
                     </table>
+                    <div className="d-flex justify-content-end mt-3">
+                      <button className="btn btn-primary">
+                        Next <i className="bi bi-arrow-right"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
               
