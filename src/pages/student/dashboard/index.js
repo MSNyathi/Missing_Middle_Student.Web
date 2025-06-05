@@ -23,15 +23,14 @@ const StudentDashboard = () => {
     const fetchStudentInfo = async () => {
       const studentNumber = localStorage.getItem("studentNumber");
 
-      // Redirect if no student number in localStorage
+      
       if (!studentNumber) {
         navigate("/student/dashboard");
         return;
       }
 
       try {
-        const response = await axios.get(
-          `https://localhost:7102/api/Student/student/${studentNumber}`
+        const response = await axios.get(`https://localhost:7102/api/Student/student/${studentNumber}`
         );
         setStudent(response.data);
       } catch (error) {
@@ -57,7 +56,7 @@ const StudentDashboard = () => {
         backgroundColor: "white",
         minHeight: "100vh",
         paddingTop: "90px",
-        color: "black",
+        //color: "black",
       }}
     >
       {/* Navbar */}
@@ -109,15 +108,9 @@ const StudentDashboard = () => {
                 <p>Loading...</p>
               ) : student ? (
                 <>
-                  <p>
-                    <strong>Name:</strong> {student.name} {student.surname}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {student.email}
-                  </p>
-                  <p>
-                    <strong>Student ID:</strong> {student.studentNum}
-                  </p>
+                  <p><strong>Name:</strong> {student.name} {student.surname}</p>
+                  <p><strong>Email:</strong> {student.email}</p>
+                  <p><strong>Student ID:</strong> {student.studentNum}</p>
                 </>
               ) : (
                 <p className="text-danger">Unable to load student data.</p>

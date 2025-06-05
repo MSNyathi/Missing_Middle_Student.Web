@@ -35,6 +35,7 @@ function StudentLogin() {
       });
 
       if (res.status === 200) {
+        localStorage.setItem("studentNumber",email)
         navigate("/student/dashboard");
       } else {
         setError("Login failed. Please try again.");
