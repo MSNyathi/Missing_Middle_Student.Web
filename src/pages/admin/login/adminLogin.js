@@ -6,12 +6,14 @@ import "./adminLogin.css";
 import backgroundImage from "../../../assets/backgroundAdmin.jpeg";
 import LoginNavbar from "../../../commponents/loginNavbar";
 import axios from "axios";
+import { useAdminAuth } from "../../../commponents/Auth/AdminAuthContext"
 
 export default function AdminLogin() {
   const navigate = useNavigate();
   const [user, setUser] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -35,6 +37,8 @@ export default function AdminLogin() {
         email: user.email,
         password: user.password,
       });
+      console.log("Login response:", response.data);
+      console.log("User password:",user.password);
 
       const role = response.data?.data?.profile?.profile?.role?.toLowerCase();
 
@@ -44,6 +48,7 @@ export default function AdminLogin() {
 
       toast.success("Login successful!", { position: "top-center" });
       localStorage.setItem("adminData", JSON.stringify(response.data));
+      localStorage.setItem("adminPassword", user.password);
 
       setTimeout(() => {
         navigate(`/${role}/dashboard`, { state: { mydata: response.data } });

@@ -16,6 +16,7 @@ import ApplicantsTable from "../../../commponents/applicantTable";
 import ApplicantModal from "../../../commponents/applicantModal";
 import { useLocation } from "react-router-dom";
 
+
 // Admin data
 const adminData = {
   name: "",
@@ -102,7 +103,7 @@ const ApplicantsPage = () => {
 
     fetchApplicants();
   }, []);
-  
+
   //Filterbase on serarch term and status
   useEffect(() => {
     const filtered = applicants.filter((applicant) => {
@@ -195,7 +196,7 @@ const ApplicantsPage = () => {
     setSettingsMode("");
   };
 
-  const handlePasswordPrompt = (action) => {
+  const handlePasswordPrompt = (action, applicant) => {
     Swal.fire({
       title: `Confirm ${action === "approve" ? "Approval" : "Rejection"}`,
       input: "password",
@@ -224,10 +225,12 @@ const ApplicantsPage = () => {
       },
       allowOutsideClick: () => !Swal.isLoading(),
     })
-      .then((result) => {
+      .then( async(result) => {
         if (result.isConfirmed) {
           const updatedStatus = action === "approve" ? "approved" : "rejected";
-          updateApplicantStatus(selectedApplicant.id, updatedStatus);
+
+          // 🔁 Make sure this sends API request and updates UI
+          updateApplicantStatus(applicant.id, updatedStatus);
 
           Swal.fire({
             icon: "success",
@@ -235,15 +238,23 @@ const ApplicantsPage = () => {
             text: `You have successfully ${updatedStatus} this application.`,
           });
 
-          // Optional toast
-          toast.success(
-            `${selectedApplicant.name} has been ${updatedStatus}.`,
-            {
-              position: "top-right",
-              autoClose: 3000,
-              theme: "dark",
-            }
-          );
+          toast.success(`${applicant.id} has been ${updatedStatus}.`, {
+            position: "top-right",
+            autoClose: 3000,
+            theme: "dark",
+          });
+        const handleApprove = async () => {
+    try {
+      await axios.put(
+        `https://localhost:7102/approve?ApplicantId=${applicant.id}`
+      );
+    
+    } catch (err) {
+      console.error("Error approving applicant:", err);
+      alert("Failed to approve applicant. Please try again.");
+    }
+  };
+  await handleApprove()
         }
       })
       .catch((error) => {
@@ -492,8 +503,12 @@ const ApplicantsPage = () => {
             <ApplicantModal
               applicant={selectedApplicant}
               onClose={() => setShowApplicantModal(false)}
-              onApprove={() => handlePasswordPrompt("approve")}
-              onReject={() => handlePasswordPrompt("reject")}
+              onApprove={(applicant) =>
+                handlePasswordPrompt("approve", applicant)
+              }
+              onReject={(applicant) =>
+                handlePasswordPrompt("reject", applicant)
+              }
             />
           )}
         </AnimatePresence>

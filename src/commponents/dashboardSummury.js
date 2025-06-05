@@ -161,7 +161,7 @@ const DashboardSummary = ({
             <CircleStat
               label="Approval Rate"
               value={approvedRate}
-              color="red"
+              color="yellow"
             />
           </div>
         </div>
@@ -184,7 +184,7 @@ const DashboardSummary = ({
             <CircleStat
               label="Allocation Rate"
               value={allocatedRate}
-              color="blue"
+              color="yellow"
             />
           </div>
         </div>

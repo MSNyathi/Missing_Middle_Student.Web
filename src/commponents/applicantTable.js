@@ -117,15 +117,17 @@ const ApplicantsTable = ({ applicants, onRowClick }) => {
     doc.save(fileName);
   };
   const getStatusText = (status) => {
-    if (status === true ) return "Approved";
-    if (status === false ) return "Rejected";
-    return "Pending";
+    if(status === null || status === "pending") return "Pending";
+    if (status === true || status === "approved" ) return "Approved";
+    if (status === false || status === "rejected" ) return "Rejected";
+
   };
 
   const getStatusBadgeClass = (status) => {
+    if (status === null) return "bg-warning";
     if (status === true || status === "approved") return "bg-success";
     if (status === false || status === "rejected") return "bg-danger";
-    return "bg-warning";
+   
   };
 
   return (

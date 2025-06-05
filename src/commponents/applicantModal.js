@@ -1,8 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
 import "./applicantModal.css";
 
 const ApplicantModal = ({ applicant, onClose, onApprove, onReject }) => {
+  const [status, setStatus] = useState(applicant.applicationStatus);
+
+  const isPending =
+    status === null ||
+    status === "pending" ||
+    status === undefined ||
+    status === "";
+
+  const handleApprove = async () => {
+    try {
+      await axios.put(
+        `https://localhost:7102/approve?ApplicantId=${applicant.id}`
+      );
+      setStatus("approved");
+    } catch (err) {
+      console.error("Error approving applicant:", err);
+      alert("Failed to approve applicant. Please try again.");
+    }
+  };
+
+  const handleReject = async () => {
+    try {
+      await axios.put(
+        `https://localhost:7102/reject?ApplicantId=${applicant.id}`
+      );
+      setStatus("rejected");
+    } catch (err) {
+      console.error("Error rejecting applicant:", err);
+      alert("Failed to reject applicant. Please try again.");
+    }
+  };
+
+  const getStatusLabel = () => {
+    if (status === true || status === "approved") return "Approved";
+    if (status === false || status === "rejected") return "Rejected";
+    return "Pending";
+  };
+
   return (
     <div className="modal show d-block modal-glass-overlay align-items-center justify-content-center">
       <div className="modal-dialog modal-lg modal-dialog-centered">
@@ -35,7 +74,12 @@ const ApplicantModal = ({ applicant, onClose, onApprove, onReject }) => {
                 {[
                   ["Student #", applicant.student_No],
                   ["Email", applicant.email],
-                  ["Status", applicant.status],
+                  ["Status", getStatusLabel()],
+                  ["Recommendation", applicant.recommendation ? "Yes" : "No"],
+                  [
+                    "Application Date",
+                    new Date(applicant.applicationDate).toLocaleString(),
+                  ],
                 ].map(([label, value], idx) => (
                   <motion.p
                     key={label}
@@ -55,7 +99,6 @@ const ApplicantModal = ({ applicant, onClose, onApprove, onReject }) => {
                     "NSFAS Status",
                     applicant.nsfasStatus ? "Funded" : "Unfunded",
                   ],
-
                   ["Average Mark (%)", applicant.avagerageMark],
                   ["Household Income", `R${applicant.income}`],
                 ].map(([label, value], idx) => (
@@ -79,7 +122,6 @@ const ApplicantModal = ({ applicant, onClose, onApprove, onReject }) => {
               transition={{ delay: 0.6, duration: 0.5 }}
             />
 
-            {/* Proof of Income */}
             <motion.h5
               className="text-primary fw-bold mb-3"
               initial={{ opacity: 0, y: 20 }}
@@ -109,19 +151,21 @@ const ApplicantModal = ({ applicant, onClose, onApprove, onReject }) => {
             </motion.div>
           </div>
 
-          {/* Approve / Reject */}
           <div className="modal-footer border-0 d-flex justify-content-between px-4 pb-4 pt-2">
             <motion.button
               className="btn btn-outline-danger px-4 rounded-pill"
-              onClick={onReject}
+              onClick={() => onReject(applicant)}
+              disabled={!isPending}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               Reject
             </motion.button>
+
             <motion.button
               className="btn btn-outline-success px-4 rounded-pill"
-              onClick={onApprove}
+              onClick={() => onApprove(applicant)}
+              disabled={!isPending}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
