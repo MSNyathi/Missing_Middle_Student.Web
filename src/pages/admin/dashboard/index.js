@@ -22,6 +22,7 @@ import ProfileModal from "../../../commponents/profileModal";
 import useNotification from "../../../commponents/hooks/notificationHook";
 import NotificationPanel from "../../../commponents/notificationPanel";
 import DashboardSummary from "../../../commponents/dashboardSummury";
+import axios from "axios";
 
 ChartJS.register(
   BarElement,
@@ -101,6 +102,32 @@ const Dashboard = () => {
     newPassword: "",
     confirmPassword: "",
   });
+  //Getting the total Devices from the API
+  useEffect(() => {
+  const fetchTotalDevices = async () => {
+    try {
+      const response = await axios.get("https://localhost:7102/AllDevices", {
+        params: {
+          page: 1,
+          pageSize: 10, // large number to get all devices
+        },
+      });
+
+      if (Array.isArray(response.data)) {
+        setTotalDevices(response.data.length);
+      } else if (Array.isArray(response.data.devices)) {
+        setTotalDevices(response.data.devices.length);
+      } else {
+        console.warn("Unexpected response format", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching devices:", error);
+    }
+  };
+
+  fetchTotalDevices();
+}, []);
+
 
   const [adminInfo, setAdminInfo] = useState({
     surname: "",
