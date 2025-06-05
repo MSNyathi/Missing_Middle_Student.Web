@@ -42,20 +42,26 @@ export default function AdminLogin() {
 
     const API_URL = process.env.REACT_APP_API_URL;
     // Use only one endpoint regardless of selected role
-    const loginEndpoint = `${API_URL}loginAdmin`;
+    const loginEndpoint = user.role === "technician" ?  `${API_URL}loginTechnician` :  `${API_URL}loginAdmin`;
 
     try {
       const response = await axios.post(loginEndpoint, {
         email: user.email,
         password: user.password,
       });
-      console.log("Login response:", response.data);
+      if(user.role === "technician"){
+toast.success("Login successful!", { position: "top-center" });
+ navigate("/technician/dashboard", {
+            state: { mydata: response.data },
+          });
+      }else{
+        console.log("Login response:", response.data);
 
       const roleFromServer =
         response.data?.data?.profile?.profile?.role?.toLowerCase();
       const selectedRole = user.role.toLowerCase();
-
-      if (roleFromServer !== selectedRole) {
+      
+      if (roleFromServer.toLowerCase() !== selectedRole) {
         toast.error(
           "Incorrect role selected. Please choose the correct role.",
           {
@@ -73,12 +79,15 @@ export default function AdminLogin() {
       setTimeout(() => {
         if (roleFromServer === "admin") {
           navigate("/admin/dashboard", { state: { mydata: response.data } });
-        } else if (roleFromServer === "technician") {
+        } else if (roleFromServer.toLowerCase() === "technician") {
+
           navigate("/technician/dashboard", {
             state: { mydata: response.data },
           });
         }
       }, 1000);
+      }
+      
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "Login failed. Please try again.";
