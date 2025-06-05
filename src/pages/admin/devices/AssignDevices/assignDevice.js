@@ -50,14 +50,37 @@ export default function AssignDevicePage() {
   };
 
   useEffect(() => {
-    // Dummy applications data
-    const dummyApplications = [
-      { id: 1, studentNumber: '202312345', surname: 'Mokoena', initials: 'T.', approvalDate: '2025-04-20' },
-      { id: 2, studentNumber: '202398765', surname: 'Dlamini', initials: 'L.', approvalDate: '2025-04-18' },
-      { id: 3, studentNumber: '202376543', surname: 'Ndlovu', initials: 'S.', approvalDate: '2025-04-23' },
-    ];
-
-    setApplications(dummyApplications);
+    const fetchApprovedApplicants = async () => {
+      try {
+        const baseUrl = process.env.REACT_APP_API_URL;
+        const response = await fetch(`${baseUrl}api/Application/approvedApplicant2`);
+        if (!response.ok) throw new Error('Failed to fetch approved applicants');
+    
+        const realApplicants = await response.json();
+    
+        // Map backend data to the shape your UI expects
+        const transformedApplicants = realApplicants.map(app => ({
+          id: app.id,
+          studentNumber: app.student_No || '',        // map student_No to studentNumber
+          surname: app.surname || 'Unknown',           // if surname missing, default 'Unknown' (update if you have correct field)
+          initials: app.initials || '',                 // same here, check if you have it, else empty
+          approvalDate: app.applicationDate
+            ? app.applicationDate.split('T')[0]
+            : '',                                      // format date to YYYY-MM-DD or empty string
+        }));
+    
+        setApplications(transformedApplicants);
+      } catch (error) {
+        console.error('Error fetching approved applicants:', error);
+        setApplications([]);
+        MySwal.fire({
+          icon: 'error',
+          title: 'Applicants Fetch Failed',
+          text: 'Unable to fetch approved applicants from the server.',
+        });
+      }
+    };
+    fetchApprovedApplicants();
     fetchDevices();
   }, []);
 
