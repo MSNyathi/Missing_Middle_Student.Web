@@ -20,16 +20,19 @@ const ApplyLaptop = () => {
   });
 
   const [showModal, setShowModal] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
 
-  // Fetch student details and set initials on mount or when studentNumber changes
   useEffect(() => {
     const fetchStudentData = async () => {
-      const { studentNumber } = formData;
-      if (!studentNumber) return;
-
       try {
-        const response = await axios.get(`https://localhost:7102/api/Student/student/${studentNumber}`);
+        const { studentNumber } = formData;
+        if (!studentNumber) return;
+
+        const response = await axios.get(
+          `https://localhost:7102/api/Student/student/${studentNumber}`
+        );
         const student = response.data;
 
         const initial = student.name ? student.name[0].toUpperCase() : "";
@@ -49,14 +52,12 @@ const ApplyLaptop = () => {
     fetchStudentData();
   }, [formData.studentNumber]);
 
-  // Update theme attribute and localStorage on darkMode change
   useEffect(() => {
     const theme = darkMode ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [darkMode]);
 
-  // Handle form input changes (including files)
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     setFormData((prev) => ({
@@ -67,27 +68,28 @@ const ApplyLaptop = () => {
 
   const handleCancel = () => navigate("/student/dashboard");
 
-  // Handle form submission with file upload
   const handleNext = async (e) => {
     e.preventDefault();
 
+    const data = new FormData();
+    data.append("Student_No", formData.studentNumber);
+    data.append("Email", formData.email);
+
+    if (formData.proofOfIncome) {
+      data.append("Income", formData.proofOfIncome);
+    }
+
+    if (formData.hasRecommendation === "yes" && formData.recommendationFile) {
+      data.append("SupportingDoc", formData.recommendationFile);
+    } else {
+      data.append("SupportingDoc", new Blob());
+    }
+
     try {
-      const data = new FormData();
-      data.append("Student_No", formData.studentNumber);
-      data.append("Email", formData.email);
-
-      if (formData.proofOfIncome) {
-        data.append("Income", formData.proofOfIncome);
-      }
-
-      if (formData.hasRecommendation === "yes" && formData.recommendationFile) {
-        data.append("SupportingDoc", formData.recommendationFile);
-      } else {
-        data.append("SupportingDoc", new Blob());
-      }
-
       const response = await axios.post("https://localhost:7102/api/Application/api/apply", data, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       alert("Application submitted successfully!");
@@ -115,7 +117,9 @@ const ApplyLaptop = () => {
     >
       {/* Navbar */}
       <nav
-        className={`navbar navbar-expand-lg ${darkMode ? "navbar-dark bg-dark" : "navbar-light bg-white"} shadow-sm px-4 py-2`}
+        className={`navbar navbar-expand-lg ${
+          darkMode ? "navbar-dark bg-dark" : "navbar-light bg-white"
+        } shadow-sm px-4 py-2`}
         style={{
           position: "fixed",
           top: 0,
@@ -136,15 +140,13 @@ const ApplyLaptop = () => {
                 filter: darkMode ? "invert(0)" : "none",
               }}
             />
-                <span
+            <span
               className={`fw-semibold ${darkMode ? "text-light" : "text-dark"}`}
-              style={{ fontSize: "1.25rem", whiteSpace: "nowrap" }}
+              style={{ fontSize: "1.25rem" }}
             >
               TUT Student Portal
             </span>
           </div>
-
-          {/* Theme toggle */}
           <div className="d-flex align-items-center">
             <FaSun color={darkMode ? "#ccc" : "#f39c12"} className="me-2" />
             <div className="form-check form-switch mb-0">
@@ -162,8 +164,11 @@ const ApplyLaptop = () => {
         </div>
       </nav>
 
-      {/* Back & Logout Buttons */}
-      <Link to="/student/dashboard" className="position-fixed bottom-0 start-0 m-3 btn btn-outline-secondary">
+      {/* Back & Logout */}
+      <Link
+        to="/student/dashboard"
+        className="position-fixed bottom-0 start-0 m-3 btn btn-outline-secondary"
+      >
         <FaArrowLeft className="me-2" />
         Back to Dashboard
       </Link>
@@ -175,23 +180,41 @@ const ApplyLaptop = () => {
         </button>
       </div>
 
-      {/* Logout Confirmation Modal */}
+      {/* Logout Modal */}
       {showModal && (
-        <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+        <div
+          className="modal fade show d-block"
+          tabIndex="-1"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        >
           <div className="modal-dialog modal-dialog-centered">
-            <div className={`modal-content ${darkMode ? "glass-card-dark" : "glass-card-light"}`}>
+            <div
+              className={`modal-content ${
+                darkMode ? "glass-card-dark" : "glass-card-light"
+              }`}
+            >
               <div className="modal-header">
                 <h5 className="modal-title">Confirm Logout</h5>
-                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowModal(false)}
+                ></button>
               </div>
               <div className="modal-body">
                 <p>Are you sure you want to logout?</p>
               </div>
               <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowModal(false)}
+                >
                   Cancel
                 </button>
-                <button className="btn btn-danger" onClick={handleConfirmLogout}>
+                <button
+                  className="btn btn-danger"
+                  onClick={handleConfirmLogout}
+                >
                   Yes, Logout
                 </button>
               </div>
@@ -200,20 +223,27 @@ const ApplyLaptop = () => {
         </div>
       )}
 
-      {/* Application Form */}
+      {/* Form Card */}
       <div
-        className={`glass-card p-5 rounded shadow mt-4 ${darkMode ? "glass-card-dark" : "glass-card-light"}`}
+        className={`glass-card p-5 rounded shadow mt-4 ${
+          darkMode ? "glass-card-dark" : "glass-card-light"
+        }`}
         style={{ width: "100%", maxWidth: "600px" }}
       >
         <h2 className="text-center mb-4">APPLY FOR LAPTOP</h2>
         <p className="text-center mb-4">Please enter the details below</p>
 
         <form onSubmit={handleNext}>
-          {[
+          {[ 
             { label: "Student Number", name: "studentNumber", readOnly: true },
             { label: "Surname", name: "surname" },
             { label: "Initials", name: "initials", readOnly: true },
-            { label: "Student Email", name: "email", type: "email", readOnly: true },
+            {
+              label: "Student Email",
+              name: "email",
+              type: "email",
+              readOnly: true,
+            },
           ].map(({ label, name, type = "text", readOnly = false }) => (
             <div className="mb-3" key={name}>
               <label className="form-label">{label}:</label>
@@ -242,7 +272,9 @@ const ApplyLaptop = () => {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Do you have a Recommendation Letter?</label>
+            <label className="form-label">
+              Do you have a Recommendation Letter?
+            </label>
             <div>
               {["yes", "no"].map((value) => (
                 <div className="form-check form-check-inline" key={value}>
@@ -255,7 +287,9 @@ const ApplyLaptop = () => {
                     onChange={handleChange}
                     required
                   />
-                  <label className="form-check-label">{value.charAt(0).toUpperCase() + value.slice(1)}</label>
+                  <label className="form-check-label">
+                    {value.charAt(0).toUpperCase() + value.slice(1)}
+                  </label>
                 </div>
               ))}
             </div>
@@ -270,17 +304,20 @@ const ApplyLaptop = () => {
                 name="recommendationFile"
                 accept=".pdf,.doc,.docx,.jpg,.png"
                 onChange={handleChange}
-                required={formData.hasRecommendation === "yes"}
               />
             </div>
           )}
 
-          <div className="d-flex justify-content-between mt-4">
-            <button type="button" className="btn btn-secondary" onClick={handleCancel}>
-              Cancel
+          <div className="d-flex justify-content-between">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={handleCancel}
+            >
+              CANCEL
             </button>
             <button type="submit" className="btn btn-primary">
-              Next
+              Apply
             </button>
           </div>
         </form>
