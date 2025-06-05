@@ -2,28 +2,22 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./adminLogin.css"; // Import your CSS file for styling
-import backgroundImage from "../../../assets/backgroundAdmin.jpeg"; // Adjust the path as needed
+import "./adminLogin.css";
+import backgroundImage from "../../../assets/backgroundAdmin.jpeg";
 import LoginNavbar from "../../../commponents/loginNavbar";
-import axios from "axios"; // add this at the top
+import axios from "axios";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
-  const [adminPasswordForVerification, setAdminPasswordForVerification] =
-    useState("");
-  const [user, setUser] = useState({ email: "", password: "", role: "" });
-  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [user, setUser] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   useEffect(() => {
-    setButtonDisabled(!(user.email && user.password && user.role));
+    setButtonDisabled(!(user.email && user.password));
   }, [user]);
-
-  const handleRoleChange = (e) => {
-    setUser({ ...user, role: e.target.value });
-  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,51 +27,26 @@ export default function AdminLogin() {
       return;
     }
 
-    if (user.role === "") {
-      toast.error("Please select a role.", { position: "top-center" });
-      return;
-    }
-
     setLoading(true);
-
     const API_URL = process.env.REACT_APP_API_URL;
-    // Use only one endpoint regardless of selected role
-    const loginEndpoint = `${API_URL}loginAdmin`;
 
     try {
-      const response = await axios.post(loginEndpoint, {
+      const response = await axios.post(`${API_URL}loginAdmin`, {
         email: user.email,
         password: user.password,
       });
-      console.log("Login response:", response.data);
 
-      const roleFromServer =
-        response.data?.data?.profile?.profile?.role?.toLowerCase();
-      const selectedRole = user.role.toLowerCase();
+      const role = response.data?.data?.profile?.profile?.role?.toLowerCase();
 
-      if (roleFromServer !== selectedRole) {
-        toast.error(
-          "Incorrect role selected. Please choose the correct role.",
-          {
-            position: "top-center",
-          }
-        );
-        return;
+      if (!role || (role !== "admin" && role !== "technician")) {
+        throw new Error("Invalid role detected.");
       }
 
       toast.success("Login successful!", { position: "top-center" });
-      setAdminPasswordForVerification(user.password);
-      localStorage.setItem("adminPassword", user.password);
       localStorage.setItem("adminData", JSON.stringify(response.data));
 
       setTimeout(() => {
-        if (roleFromServer === "admin") {
-          navigate("/admin/dashboard", { state: { mydata: response.data } });
-        } else if (roleFromServer === "technician") {
-          navigate("/technician/dashboard", {
-            state: { mydata: response.data },
-          });
-        }
+        navigate(`/${role}/dashboard`, { state: { mydata: response.data } });
       }, 1000);
     } catch (error) {
       const errorMessage =
@@ -87,108 +56,121 @@ export default function AdminLogin() {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    if (adminPasswordForVerification) {
-      console.log(
-        "Password set for verification:",
-        adminPasswordForVerification
-      );
-    }
-  }, [adminPasswordForVerification]);
-
   return (
     <div
-      className="glass-bg d-flex align-items-center justify-content-center min-vh-100"
-      style={{ backgroundImage: `url(${backgroundImage})` }}
+      className="w-100 min-vh-100 d-flex flex-column"
+      style={{ overflow: "hidden" }}
     >
-      <LoginNavbar />
-
       <ToastContainer />
-      <div className="glass-card text-white p-4">
-        <h3 className="text-center mb-4">Admin Login</h3>
 
-        <form onSubmit={handleLogin}>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input
-              type="email"
-              className="form-control rounded-pill"
-              id="email"
-              placeholder="Enter your email"
-              value={user.email}
-              onChange={(e) => setUser({ ...user, email: e.target.value })}
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-control rounded-pill"
-              id="password"
-              placeholder="Enter your password"
-              value={user.password}
-              onChange={(e) => setUser({ ...user, password: e.target.value })}
-              required
-            />
-          </div>
-
-          {/* Role Selection */}
-          <div className="mb-3">
-            <label className="form-label">Role</label>
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="role"
-                  value="admin"
-                  onChange={handleRoleChange}
-                  checked={user.role === "admin"}
-                />
-                Admin
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="role"
-                  value="technician"
-                  onChange={handleRoleChange}
-                  checked={user.role === "technician"}
-                />
-                Technician
-              </label>
-            </div>
-          </div>
-
-          <div className="d-flex justify-content-between mb-3">
-            <span
-              className="text-primary"
-              style={{ cursor: "pointer" }}
-              onClick={() => navigate("/admin/forgot-password")}
+      <div className="row flex-grow-1 w-100 m-0">
+        {/* Left Side - Background Image/Video */}
+        {/* Left Side - Blue background with LoginNavbar + floating objects */}
+        <div
+          className="col-md-6 d-none d-md-block p-0 position-relative slanted-left-panel"
+          style={{
+            backgroundColor: "#2BA9E3",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            position: "relative",
+          }}
+        >
+          <div style={{ width: "85%", textAlign: "center" }}>
+            <div
+              className="py-2 px-3"
+              style={{
+                backgroundColor: "#ffc107",
+                marginBottom: "2rem", // space below navbar
+                borderRadius: "4px",
+              }}
             >
-              Forgot password?
-            </span>
+            <LoginNavbar />
           </div>
 
-          <button
-            type="submit"
-            className={`btn w-100 ${
-              buttonDisabled || loading ? "btn-secondary" : "btn-primary"
-            }`}
-            disabled={buttonDisabled || loading}
+          {/* Floating shapes (optional) */}
+          <div className="floating-shape shape-blue" />
+          <div className="floating-shape shape-yellow" />
+          <div className="floating-shape shape-black" />
+
+          {/* Centered welcome text */}
+          <div
+            className="text-white position-absolute top-50 start-50 translate-middle text-center px-4"
+            style={{ zIndex: 2 }}
           >
-            {loading
-              ? "Logging in..."
-              : buttonDisabled
-              ? "Fill in all fields"
-              : "Login"}
-          </button>
-        </form>
+            <h2 className="fw-bold" style={{ fontSize: "2rem" }}>
+              EduConnect a multi-user platform,
+              <br />
+              to manage and streamline the donation, refurbishment, and
+              allocation of laptops.
+            </h2>
+            <p className="mt-3" style={{ fontSize: "0.95rem" }}>
+              To financially vulnerable students at Tshwane University of
+              Technology.
+            </p>
+          </div>
+          </div>
+        </div>
+
+        {/* Right Side - Login Form */}
+        <div className="col-12 col-md-6 d-flex align-items-center justify-content-center bg-white px-3 px-md-4">
+          <div className="w-100" style={{ maxWidth: "400px" }}>
+            <h3 className="text-center mb-4 fw-bold" style={{ color: "black" }}>
+              Welcome to Admin Portal
+            </h3>
+
+            <form onSubmit={handleLogin}>
+              <div className="mb-3">
+                <input
+                  type="email"
+                  className="form-control rounded-pill py-2"
+                  placeholder="Email"
+                  value={user.email}
+                  onChange={(e) => setUser({ ...user, email: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="mb-3">
+                <input
+                  type="password"
+                  className="form-control rounded-pill py-2"
+                  placeholder="Password"
+                  value={user.password}
+                  onChange={(e) =>
+                    setUser({ ...user, password: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="text-end mb-3">
+                <span
+                  className="text-primary"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/admin/forgot-password")}
+                >
+                  Forgot password?
+                </span>
+              </div>
+
+              <button
+                type="submit"
+                className={`btn w-100 rounded-pill py-2 ${
+                  buttonDisabled || loading ? "btn-secondary" : "btn-dark"
+                }`}
+                disabled={buttonDisabled || loading}
+              >
+                {loading
+                  ? "Logging in..."
+                  : buttonDisabled
+                  ? "Fill in all fields"
+                  : "Login"}
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );
