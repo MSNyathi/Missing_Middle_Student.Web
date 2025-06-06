@@ -5,6 +5,7 @@ import { FaArrowLeft, FaSignOutAlt, FaSun, FaMoon } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import tut25 from "../../../assets/tut25.png";
 import "./index.css";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ApplyLaptop = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const ApplyLaptop = () => {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [successToast, setSuccessToast] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
@@ -86,15 +88,21 @@ const ApplyLaptop = () => {
     }
 
     try {
-      const response = await axios.post("https://localhost:7102/api/Application/api/apply", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "https://localhost:7102/api/Application/api/apply",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-      alert("Application submitted successfully!");
-      console.log(response.data);
-      navigate("/student/dashboard");
+      setSuccessToast(true);
+      setTimeout(() => {
+        setSuccessToast(false);
+        navigate("/student/dashboard");
+      }, 3000);
     } catch (error) {
       console.error("Submission failed:", error);
       alert("Application already exists");
@@ -117,38 +125,48 @@ const ApplyLaptop = () => {
     >
       {/* Navbar */}
       <nav
-        className={`navbar navbar-expand-lg ${
-          darkMode ? "navbar-dark bg-dark" : "navbar-light bg-white"
-        } shadow-sm px-4 py-2`}
+        className="navbar bg-secondary shadow-sm px-3 py-2"
         style={{
+          backgroundColor: "#343a40", // Dark grey background
           position: "fixed",
           top: 0,
           left: 0,
           width: "100%",
           zIndex: 1050,
-          borderBottom: darkMode ? "1px solid #444" : "1px solid #ddd",
+          borderBottom: "1px solid #222",
         }}
       >
-        <div className="container-fluid d-flex justify-content-between align-items-center">
-          <div className="navbar-brand d-flex align-items-center">
+        <div className="container-fluid d-flex justify-content-between align-items-center position-relative">
+          {/* Logo (left-aligned) */}
+          <div className="d-flex align-items-center">
             <img
               src={tut25}
               alt="TUT Logo"
               style={{
-                height: "40px",
+                height: "45px",
                 marginRight: "10px",
-                filter: darkMode ? "invert(0)" : "none",
+                objectFit: "contain",
+                filter: "invert(1)", // Visible on dark bg
               }}
             />
+          </div>
+
+          {/* Centered Title */}
+          <div
+            className="position-absolute top-50 start-50 translate-middle-x"
+            style={{ transform: "translate(-50%, -50%)" }}
+          >
             <span
-              className={`fw-semibold ${darkMode ? "text-light" : "text-dark"}`}
+              className="fw-semibold text-white"
               style={{ fontSize: "1.25rem" }}
             >
               TUT Student Portal
             </span>
           </div>
+
+          {/* Theme toggle (right-aligned) */}
           <div className="d-flex align-items-center">
-            <FaSun color={darkMode ? "#ccc" : "#f39c12"} className="me-2" />
+            <FaSun color="#f39c12" className="me-2" />
             <div className="form-check form-switch mb-0">
               <input
                 className="form-check-input"
@@ -159,10 +177,26 @@ const ApplyLaptop = () => {
                 style={{ cursor: "pointer" }}
               />
             </div>
-            <FaMoon color={darkMode ? "#f1c40f" : "#888"} className="ms-2" />
+            <FaMoon color="#f1c40f" className="ms-2" />
           </div>
         </div>
       </nav>
+
+      {/* Centered success toast */}
+      <AnimatePresence>
+        {successToast && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: "-50%" }}
+            animate={{ opacity: 1, scale: 1, y: "-50%" }}
+            exit={{ opacity: 0, scale: 0.8, y: "-40%" }}
+            transition={{ duration: 0.3 }}
+            className="position-fixed top-50 start-50 translate-middle bg-success text-white p-4 rounded shadow-lg"
+            style={{ zIndex: 1060, minWidth: "300px", textAlign: "center" }}
+          >
+            🎉 Application submitted successfully!
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Back & Logout */}
       <Link
@@ -230,11 +264,13 @@ const ApplyLaptop = () => {
         }`}
         style={{ width: "100%", maxWidth: "600px" }}
       >
-        <h2 className="text-center mb-4">APPLY FOR LAPTOP</h2>
-        <p className="text-center mb-4">Please enter the details below</p>
+        <h2 className="text-center mb-3" style={{ color: "#d52235" }}>
+          APPLY FOR LAPTOP
+        </h2>
+        <p className="text-center mb-3">Please enter the details below</p>
 
         <form onSubmit={handleNext}>
-          {[ 
+          {[
             { label: "Student Number", name: "studentNumber", readOnly: true },
             { label: "Surname", name: "surname" },
             { label: "Initials", name: "initials", readOnly: true },
@@ -246,7 +282,13 @@ const ApplyLaptop = () => {
             },
           ].map(({ label, name, type = "text", readOnly = false }) => (
             <div className="mb-3" key={name}>
-              <label className="form-label">{label}:</label>
+              <label
+                className={`form-label ${
+                  darkMode ? "text-light" : "text-dark"
+                }`}
+              >
+                {label}:
+              </label>
               <input
                 type={type}
                 className="form-control"
@@ -260,7 +302,11 @@ const ApplyLaptop = () => {
           ))}
 
           <div className="mb-3">
-            <label className="form-label">Upload Proof of Income:</label>
+            <label
+              className={`form-label ${darkMode ? "text-light" : "text-dark"}`}
+            >
+              Upload Proof of Income:
+            </label>
             <input
               type="file"
               className="form-control"
@@ -272,7 +318,9 @@ const ApplyLaptop = () => {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">
+            <label
+              className={`form-label ${darkMode ? "text-light" : "text-dark"}`}
+            >
               Do you have a Recommendation Letter?
             </label>
             <div>
@@ -297,7 +345,13 @@ const ApplyLaptop = () => {
 
           {formData.hasRecommendation === "yes" && (
             <div className="mb-3">
-              <label className="form-label">Upload Recommendation Letter:</label>
+              <label
+                className={`form-label ${
+                  darkMode ? "text-light" : "text-dark"
+                }`}
+              >
+                Upload Recommendation Letter:
+              </label>
               <input
                 type="file"
                 className="form-control"
