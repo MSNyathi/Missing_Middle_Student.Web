@@ -106,19 +106,35 @@ const ApplicantsPage = () => {
   //Filterbase on serarch term and status
   useEffect(() => {
     const filtered = applicants.filter((applicant) => {
-      const searchLower = searchTerm.toLowerCase();
+      const name = applicant.name || "";
+      const studentNum = applicant.student_No || "";
       const matchesSearch =
-        applicant.studentNum?.toLowerCase().includes(searchLower) ||
-        applicant.name?.toLowerCase().includes(searchLower) ||
-        applicant.initials?.toLowerCase().includes(searchLower);
+        name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        studentNum.toLowerCase().includes(searchTerm.toLowerCase());
 
-      let matchesStatus = true;
-      if (filterStatus === "eligible")
-        matchesStatus = applicant.eligible === true;
-      else if (filterStatus === "not_eligible")
-        matchesStatus = applicant.eligible === false;
+      const status = applicant.status
+        ? applicant.status.toLowerCase()
+        : applicant.applicationStatus === false
+        ? applicant.approvalDate === null
+          ? "rejected"
+          : "pending"
+        : applicant.applicationStatus === true
+        ? "approved"
+        : "pending";
 
-      return matchesSearch && matchesStatus;
+      let matchesFilter = true;
+      switch (filterStatus) {
+        case "approved":
+          matchesFilter = status === "approved";
+          break;
+        case "rejected":
+          matchesFilter = status === "rejected";
+          break;
+        default:
+          matchesFilter = true; // 'all'
+      }
+
+      return matchesSearch && matchesFilter;
     });
 
     setFilteredApplicants(filtered);
@@ -342,27 +358,6 @@ const ApplicantsPage = () => {
     );
   };
 
-  useEffect(() => {
-    const filtered = applicants.filter((applicant) => {
-      // Safely handle missing or undefined name
-      const name = applicant.name || ""; // fallback to empty string
-      const studentNum = applicant.studentNum || "";
-
-      const matchesSearch =
-        name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        studentNum.includes(searchTerm);
-
-      const matchesFilter =
-        filterStatus === "all" ||
-        (filterStatus === "eligible" && applicant.eligible) ||
-        (filterStatus === "not_eligible" && !applicant.eligible);
-
-      return matchesSearch && matchesFilter;
-    });
-
-    setFilteredApplicants(filtered);
-  }, [applicants, searchTerm, filterStatus]);
-
   const backgroundStyle = {
     backgroundColor: "rgb(228, 235, 255)",
     backdropFilter: "blur(8px)",
@@ -477,8 +472,8 @@ const ApplicantsPage = () => {
                     onChange={(e) => setFilterStatus(e.target.value)}
                   >
                     <option value="all">All</option>
-                    <option value="eligible">Eligible</option>
-                    <option value="not_eligible">Not Eligible</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
                   </select>
                 </div>
               </div>
