@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom';
 
 function SendDevicesToTechnician() {
     const devices = [
-        { id: 'device1', name: 'Huawei', model: 'MateBook D15' },
-        { id: 'device2', name: 'Apple', model: 'iPad Pro' },
-        { id: 'device3', name: 'Dell', model: 'Inspiron 15' },
-        { id: 'device4', name: 'Samsung', model: 'Galaxy Tab S7' },
-        { id: 'device5', name: 'Lenovo', model: 'ThinkPad X1' },
-        { id: 'device6', name: 'HP', model: 'Pavilion 15' }
+        { id: 'device1', sn:'123', name: 'Huawei', model: 'MateBook D15' },
+        { id: 'device2', sn:'456', name: 'Apple', model: 'iPad Pro' },
+        { id: 'device3', sn:'789', name: 'Dell', model: 'Inspiron 15' },
+        { id: 'device4', sn:'101', name: 'Samsung', model: 'Galaxy Tab S7' },
+        { id: 'device5', sn:'234', name: 'Lenovo', model: 'ThinkPad X1' },
+        { id: 'device6', sn:'567', name: 'HP', model: 'Pavilion 15' }
         
     ];
     return (
