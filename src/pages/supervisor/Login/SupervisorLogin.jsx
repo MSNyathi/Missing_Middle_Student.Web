@@ -10,21 +10,22 @@ import backgroundImage from '../../../assets/backgroundAdmin.jpeg';
 function SupervisorLogin() {
     return (
         <>
+            <nav className="d-flex justify-content-between align-items-center w-100 px-4 py-3" id="mynavv" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100 }}>
+                <Link to="/" className="d-flex align-items-center text-white text-decoration-none">
+                    <img src={tut25} alt="EduConnect Logo" height="40" className="me-2" />
+                    <h1 className="h4 mb-0">EduConnect</h1>
+                </Link>
+            </nav>
+
             <div
                 className="glass-bg d-flex flex-column align-items-center justify-content-center min-vh-100 text-white"
                 style={{
                     backgroundImage: `url(${backgroundImage})`,
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center'
+                    backgroundPosition: 'center',
+                    paddingTop: '80px'
                 }}
             >
-                <nav className="d-flex justify-content-between align-items-center w-100 px-4 py-3" id="mynav">
-                    <Link to="/" className="d-flex align-items-center text-white text-decoration-none">
-                        <img src={tut25} alt="EduConnect Logo" height="40" className="me-2" />
-                        <h1 className="h4 mb-0">EduConnect</h1>
-                    </Link>
-                </nav>
-
                 <div className="glass-card p-4 rounded shadow text-center" style={{ maxWidth: '400px', width: '100%' }}>
                     <i className="bi bi-person-circle mb-3" style={{ fontSize: '4rem' }}></i>
                     <h2 id="myh1" className="mb-2">Welcome, Supervisor</h2>
@@ -47,7 +48,6 @@ function SupervisorLogin() {
                     </form>
                 </div>
             </div>
-
         </>
     );
 }
