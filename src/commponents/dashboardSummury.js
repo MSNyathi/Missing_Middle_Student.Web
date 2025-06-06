@@ -204,28 +204,42 @@ const DashboardSummary = ({
       </div>
 
       {/* Monthly Trend */}
+      {/* Monthly Trend */}
+<motion.div
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 1 }}
+  className="glass-panel p-3 mt-4"
+  style={{ minHeight: "280px" }}
+>
+  <h5 className="text-center text-black mb-3">
+    <strong>Monthly Applicant Trend</strong>
+  </h5>
+  <div className="d-flex flex-wrap justify-content-center gap-3 mb-3">
+    {Array.isArray(monthlyApplicants) && monthlyApplicants.map((count, i) => (
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="glass-panel p-3 mt-4"
-        style={{ minHeight: "280px" }}
+        key={i}
+        className="text-center month-box"
+        whileHover={{ scale: 1.1 }}
+        style={{ cursor: "pointer" }}
       >
-        <h5 className="text-center text-black mb-3"><strong>Monthly Applicant Trend</strong></h5>
-        <div className="d-flex flex-wrap justify-content-center gap-3 mb-3">
-          {monthlyApplicants.map((count, i) => (
-            <motion.div key={i} className="text-center month-box" whileHover={{ scale: 1.1 }}>
-              <div className="bg-dark rounded py-1 px-2" style={{ width: "70px" }}>
-                <div className="fw-bold small text-light">{months[i]}</div>
-                <div className="fs-6 text-warning">{count}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        <div className="text-center mt-3">
-          <h5 className="text-black"><strong>Total Applicants This Year:</strong> {totalMonthly}</h5>
+        <div
+          className="bg-dark rounded py-1 px-2"
+          style={{ width: "70px", userSelect: "none" }}
+        >
+          <div className="fw-bold small text-light">{months[i]}</div>
+          <div className="fs-6 text-warning">{count}</div>
         </div>
       </motion.div>
+    ))}
+  </div>
+  {/* *<div className="text-center mt-3">
+    <h5 className="text-black">
+      <strong>Total Applicants This Year:</strong> {totalMonthly}
+    </h5>
+  </div> */}
+</motion.div>
+
     </div>
   );
 };
@@ -237,7 +251,9 @@ DashboardSummary.propTypes = {
   approvedApplicants: PropTypes.number.isRequired,
   unapprovedApplicants: PropTypes.number.isRequired,
   allocatedDevices: PropTypes.number.isRequired,
-  monthlyApplicants: PropTypes.object.isRequired, // <-- changed to object
+  monthlyApplicants: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.number, PropTypes.shape({ count: PropTypes.number })])
+  ).isRequired, // <-- changed to object
 };
 
 export default DashboardSummary;
