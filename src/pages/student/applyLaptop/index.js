@@ -20,11 +20,11 @@ const ApplyLaptop = () => {
     proofOfIncome: null,
   });
 
-  const [showModal, setShowModal] = useState(false);
+  const [otpInput, setOtpInput] = useState("");
+  const [darkMode, setDarkMode] = useState(localStorage.getItem("theme") === "dark");
   const [successToast, setSuccessToast] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("theme") === "dark";
-  });
+  const [showModal, setShowModal] = useState(false);
+  const [showOtpModal, setShowOtpModal] = useState(false);
 
   useEffect(() => {
     const fetchStudentData = async () => {
@@ -32,17 +32,14 @@ const ApplyLaptop = () => {
         const { studentNumber } = formData;
         if (!studentNumber) return;
 
-        const response = await axios.get(
+        const { data: student } = await axios.get(
           `https://localhost:7102/api/Student/student/${studentNumber}`
         );
-        const student = response.data;
-
-        const initial = student.name ? student.name[0].toUpperCase() : "";
 
         setFormData((prev) => ({
           ...prev,
           surname: student.surname || "",
-          initials: initial,
+          initials: student.name ? student.name[0].toUpperCase() : "",
           email: student.email || "",
         }));
       } catch (error) {
@@ -73,30 +70,55 @@ const ApplyLaptop = () => {
   const handleNext = async (e) => {
     e.preventDefault();
 
-    const data = new FormData();
-    data.append("Student_No", formData.studentNumber);
-    data.append("Email", formData.email);
-
-    if (formData.proofOfIncome) {
-      data.append("Income", formData.proofOfIncome);
-    }
-
-    if (formData.hasRecommendation === "yes" && formData.recommendationFile) {
-      data.append("SupportingDoc", formData.recommendationFile);
-    } else {
-      data.append("SupportingDoc", new Blob());
-    }
-
     try {
-      const response = await axios.post(
-        "https://localhost:7102/api/Application/api/apply",
-        data,
+      await axios.post("https://localhost:7102/api/Auth/send-otp", {
+        email: formData.email,
+      });
+
+      setShowOtpModal(true);
+    } catch (error) {
+      console.error("Failed to send OTP:", error);
+      alert("Failed to send OTP. Please try again.");
+    }
+  };
+
+  const handleOtpSubmit = async () => {
+    try {
+      const { data: verified } = await axios.post(
+        "https://localhost:7102/api/Auth/verify-otp",
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          email: formData.email,
+          otp: otpInput,
         }
       );
+
+      if (verified) {
+        await submitApplication();
+      } else {
+        alert("Invalid OTP. Please try again.");
+      }
+    } catch (err) {
+      console.error("OTP verification failed:", err);
+      alert("Verification error. Try again.");
+    }
+  };
+
+  const submitApplication = async () => {
+    try {
+      const data = new FormData();
+      data.append("Student_No", formData.studentNumber);
+      data.append("Email", formData.email);
+      data.append("Income", formData.proofOfIncome);
+
+      if (formData.hasRecommendation === "yes" && formData.recommendationFile) {
+        data.append("SupportingDoc", formData.recommendationFile);
+      } else {
+        data.append("SupportingDoc", new Blob());
+      }
+
+      await axios.post("https://localhost:7102/api/Application/api/apply", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       setSuccessToast(true);
       setTimeout(() => {
@@ -105,7 +127,7 @@ const ApplyLaptop = () => {
       }, 3000);
     } catch (error) {
       console.error("Submission failed:", error);
-      alert("Application already exists");
+      alert("Application already exists or failed to submit.");
     }
   };
 
@@ -124,47 +146,16 @@ const ApplyLaptop = () => {
       }}
     >
       {/* Navbar */}
-      <nav
-        className="navbar bg-secondary shadow-sm px-3 py-2"
-        style={{
-          backgroundColor: "#343a40", // Dark grey background
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          zIndex: 1050,
-          borderBottom: "1px solid #222",
-        }}
-      >
+      <nav className="navbar bg-secondary shadow-sm px-3 py-2" style={{ position: "fixed", top: 0, width: "100%", zIndex: 1050 }}>
         <div className="container-fluid d-flex justify-content-between align-items-center position-relative">
-          {/* Logo (left-aligned) */}
-          <div className="d-flex align-items-center">
-            <img
-              src={tut25}
-              alt="TUT Logo"
-              style={{
-                height: "45px",
-                marginRight: "10px",
-                objectFit: "contain",
-                filter: "invert(1)", // Visible on dark bg
-              }}
-            />
-          </div>
+          <img src={tut25} alt="TUT Logo" style={{ height: "45px", filter: "invert(1)" }} />
 
-          {/* Centered Title */}
-          <div
-            className="position-absolute top-50 start-50 translate-middle-x"
-            style={{ transform: "translate(-50%, -50%)" }}
-          >
-            <span
-              className="fw-semibold text-white"
-              style={{ fontSize: "1.25rem" }}
-            >
+          <div className="position-absolute top-50 start-50 translate-middle-x">
+            <span className="fw-semibold text-white" style={{ fontSize: "1.25rem" }}>
               TUT Student Portal
             </span>
           </div>
 
-          {/* Theme toggle (right-aligned) */}
           <div className="d-flex align-items-center">
             <FaSun color="#f39c12" className="me-2" />
             <div className="form-check form-switch mb-0">
@@ -173,8 +164,6 @@ const ApplyLaptop = () => {
                 type="checkbox"
                 checked={darkMode}
                 onChange={() => setDarkMode(!darkMode)}
-                id="themeSwitch"
-                style={{ cursor: "pointer" }}
               />
             </div>
             <FaMoon color="#f1c40f" className="ms-2" />
@@ -182,7 +171,35 @@ const ApplyLaptop = () => {
         </div>
       </nav>
 
-      {/* Centered success toast */}
+      {/* OTP Modal */}
+      {showOtpModal && (
+        <div className="modal fade show d-block" style={{ backgroundColor: "rgba(0,0,0,0.6)" }}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Enter OTP</h5>
+                <button type="button" className="btn-close" onClick={() => setShowOtpModal(false)} />
+              </div>
+              <div className="modal-body">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter OTP"
+                  value={otpInput}
+                  onChange={(e) => setOtpInput(e.target.value)}
+                />
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-primary" onClick={handleOtpSubmit}>
+                  Verify & Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast */}
       <AnimatePresence>
         {successToast && (
           <motion.div
@@ -198,57 +215,32 @@ const ApplyLaptop = () => {
         )}
       </AnimatePresence>
 
-      {/* Back & Logout */}
-      <Link
-        to="/student/dashboard"
-        className="position-fixed bottom-0 start-0 m-3 btn btn-outline-secondary"
-      >
-        <FaArrowLeft className="me-2" />
-        Back to Dashboard
+      {/* Back & Logout Buttons */}
+      <Link to="/student/dashboard" className="position-fixed bottom-0 start-0 m-3 btn btn-outline-secondary">
+        <FaArrowLeft className="me-2" /> Back to Dashboard
       </Link>
 
       <div className="position-fixed bottom-0 end-0 p-3">
         <button className="btn btn-danger" onClick={() => setShowModal(true)}>
-          <FaSignOutAlt className="me-2" />
-          Logout
+          <FaSignOutAlt className="me-2" /> Logout
         </button>
       </div>
 
       {/* Logout Modal */}
       {showModal && (
-        <div
-          className="modal fade show d-block"
-          tabIndex="-1"
-          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-        >
+        <div className="modal fade show d-block" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
           <div className="modal-dialog modal-dialog-centered">
-            <div
-              className={`modal-content ${
-                darkMode ? "glass-card-dark" : "glass-card-light"
-              }`}
-            >
+            <div className={`modal-content ${darkMode ? "glass-card-dark" : "glass-card-light"}`}>
               <div className="modal-header">
                 <h5 className="modal-title">Confirm Logout</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => setShowModal(false)}
-                ></button>
+                <button type="button" className="btn-close" onClick={() => setShowModal(false)} />
               </div>
-              <div className="modal-body">
-                <p>Are you sure you want to logout?</p>
-              </div>
+              <div className="modal-body">Are you sure you want to logout?</div>
               <div className="modal-footer">
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => setShowModal(false)}
-                >
+                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
                   Cancel
                 </button>
-                <button
-                  className="btn btn-danger"
-                  onClick={handleConfirmLogout}
-                >
+                <button className="btn btn-danger" onClick={handleConfirmLogout}>
                   Yes, Logout
                 </button>
               </div>
@@ -257,13 +249,8 @@ const ApplyLaptop = () => {
         </div>
       )}
 
-      {/* Form Card */}
-      <div
-        className={`glass-card p-5 rounded shadow mt-4 ${
-          darkMode ? "glass-card-dark" : "glass-card-light"
-        }`}
-        style={{ width: "100%", maxWidth: "600px" }}
-      >
+      {/* Application Form */}
+      <div className={`glass-card p-5 rounded shadow mt-4 ${darkMode ? "glass-card-dark" : "glass-card-light"}`} style={{ width: "100%", maxWidth: "600px" }}>
         <h2 className="text-center mb-3" style={{ color: "#d52235" }}>
           APPLY FOR LAPTOP
         </h2>
@@ -274,37 +261,24 @@ const ApplyLaptop = () => {
             { label: "Student Number", name: "studentNumber", readOnly: true },
             { label: "Surname", name: "surname" },
             { label: "Initials", name: "initials", readOnly: true },
-            {
-              label: "Student Email",
-              name: "email",
-              type: "email",
-              readOnly: true,
-            },
+            { label: "Student Email", name: "email", type: "email", readOnly: true },
           ].map(({ label, name, type = "text", readOnly = false }) => (
             <div className="mb-3" key={name}>
-              <label
-                className={`form-label ${
-                  darkMode ? "text-light" : "text-dark"
-                }`}
-              >
-                {label}:
-              </label>
+              <label className={`form-label ${darkMode ? "text-light" : "text-dark"}`}>{label}:</label>
               <input
                 type={type}
                 className="form-control"
                 name={name}
                 value={formData[name]}
                 onChange={handleChange}
-                required={!readOnly}
                 readOnly={readOnly}
+                required={!readOnly}
               />
             </div>
           ))}
 
           <div className="mb-3">
-            <label
-              className={`form-label ${darkMode ? "text-light" : "text-dark"}`}
-            >
+            <label className={`form-label ${darkMode ? "text-light" : "text-dark"}`}>
               Upload Proof of Income:
             </label>
             <input
@@ -318,9 +292,7 @@ const ApplyLaptop = () => {
           </div>
 
           <div className="mb-3">
-            <label
-              className={`form-label ${darkMode ? "text-light" : "text-dark"}`}
-            >
+            <label className={`form-label ${darkMode ? "text-light" : "text-dark"}`}>
               Do you have a Recommendation Letter?
             </label>
             <div>
@@ -335,9 +307,7 @@ const ApplyLaptop = () => {
                     onChange={handleChange}
                     required
                   />
-                  <label className="form-check-label">
-                    {value.charAt(0).toUpperCase() + value.slice(1)}
-                  </label>
+                  <label className="form-check-label">{value.charAt(0).toUpperCase() + value.slice(1)}</label>
                 </div>
               ))}
             </div>
@@ -345,11 +315,7 @@ const ApplyLaptop = () => {
 
           {formData.hasRecommendation === "yes" && (
             <div className="mb-3">
-              <label
-                className={`form-label ${
-                  darkMode ? "text-light" : "text-dark"
-                }`}
-              >
+              <label className={`form-label ${darkMode ? "text-light" : "text-dark"}`}>
                 Upload Recommendation Letter:
               </label>
               <input
@@ -363,11 +329,7 @@ const ApplyLaptop = () => {
           )}
 
           <div className="d-flex justify-content-between">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={handleCancel}
-            >
+            <button type="button" className="btn btn-secondary" onClick={handleCancel}>
               CANCEL
             </button>
             <button type="submit" className="btn btn-primary">

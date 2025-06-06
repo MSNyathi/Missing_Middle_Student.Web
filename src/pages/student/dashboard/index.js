@@ -116,18 +116,14 @@ const StudentDashboard = () => {
               )}
             </div>
           </div>
-          {/* Action Buttons */}
-          {/* Action Buttons */}
+          {/* Application Actions */}
           <div className="col-md-4 mb-3 d-flex flex-column align-items-center justify-content-center">
             <div className="row w-100">
               <div className="col-12 mb-3">
                 <Link to="/student/apply" className="text-decoration-none">
                   <div
                     className="card p-4 shadow-lg text-center card-hover-glow interactive-card"
-                    style={{
-                      backgroundColor: "#2aa9e2",
-                      color: "black",
-                    }}
+                    style={{ backgroundColor: "#2aa9e2", color: "black" }}
                   >
                     <FaLaptopCode
                       size={100}
@@ -136,50 +132,38 @@ const StudentDashboard = () => {
                     <h5>APPLY FOR LAPTOP</h5>
                   </div>
                 </Link>
-              </div>
 
-              <div className="col-6">
                 <Link to="/student/track" className="text-decoration-none">
                   <div
-                    className="card p-4 shadow-lg text-center card-hover-glow interactive-card"
-                    style={{
-                      backgroundColor: "#b46e0b",
-                      color: "black",
-                    }}
+                    className="card p-4 shadow-lg text-center mt-3 card-hover-glow interactive-card"
+                    style={{ backgroundColor: "#b46e0b", color: "black" }}
                   >
                     <FaMapMarkedAlt
-                      size={70}
-                      className="mb-2 text-light glow-icon interactive-icon"
+                      size={100}
+                      className="mb-3 text-light glow-icon interactive-icon"
                     />
-                    <h6>TRACK APPLICATION</h6>
+                    <h5>TRACK APPLICATION</h5>
                   </div>
                 </Link>
-              </div>
 
-              <div className="col-6">
-                
                 <Link
                   to="/student/sign-document"
                   className="text-decoration-none"
                 >
                   <div
-                    className="card p-4 shadow-lg text-center card-hover-glow interactive-card"
-                    style={{
-                      backgroundColor: "#198754",
-                      color: "black",
-                    }}
+                    className="card p-2 shadow-lg text-center mt-3 card-hover-glow interactive-card"
+                    style={{ backgroundColor: "#198754", color: "black" }}
                   >
                     <FaSignature
-                      size={70}
+                      size={10} // reduced from 100
                       className="mb-2 text-light glow-icon interactive-icon"
                     />
-                    <h6>SIGN DOCUMENT</h6>
+                    <h6>SIGN DOCUMENT</h6> {/* Smaller heading */}
                   </div>
                 </Link>
               </div>
             </div>
           </div>
-          
           F{/* Recent Activity */}
           <div className="col-md-4 mb-3">
             <div
