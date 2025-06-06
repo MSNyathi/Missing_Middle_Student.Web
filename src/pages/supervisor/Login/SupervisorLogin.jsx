@@ -8,6 +8,24 @@ import '../../admin/login/adminLogin.css';
 import backgroundImage from '../../../assets/backgroundAdmin.jpeg';
 
 function SupervisorLogin() {
+    const [username, setUsername] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [errors, setErrors] = React.useState({});
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const newErrors = {};
+        if (!username.trim()) newErrors.username = 'Username is required';
+        if (!password) newErrors.password = 'Password is required';
+        setErrors(newErrors);
+        if (username !== '220625915') newErrors.username = 'Invalid username';
+        if (password !== '123123') newErrors.password = 'Invalid password';
+        if (Object.keys(newErrors).length === 0) {
+            // Redirect to dashboard
+            window.location.href = '/supervisor/dashboard';
+        }
+    };
+
     return (
         <>
             <nav className="d-flex justify-content-between align-items-center w-100 px-4 py-3" id="mynavv" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100 }}>
@@ -31,19 +49,33 @@ function SupervisorLogin() {
                     <h2 id="myh1" className="mb-2">Welcome, Supervisor</h2>
                     <p className="mb-4">Please enter your login details below.</p>
 
-                    <form>
+                    <form onSubmit={handleSubmit} noValidate>
                         <div className="mb-3 text-start">
                             <label htmlFor="username" className="form-label">Username</label>
-                            <input type="text" className="form-control" id="username" required />
+                            <input
+                                type="text"
+                                className={`form-control ${errors.username ? 'is-invalid' : ''}`}
+                                id="username"
+                                value={username}
+                                onChange={e => setUsername(e.target.value)}
+                                required
+                            />
+                            {errors.username && <div className="invalid-feedback">{errors.username}</div>}
                         </div>
                         <div className="mb-4 text-start">
                             <label htmlFor="password" className="form-label">Password</label>
-                            <input type="password" className="form-control" id="password" required />
+                            <input
+                                type="password"
+                                className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                                id="password"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                required
+                            />
+                            {errors.password && <div className="invalid-feedback">{errors.password}</div>}
                         </div>
                         <div className="d-grid">
-                            <Link to="/supervisor/dashboard">
-                                <button type="button" className="btn btn-primary w-100">LOGIN</button>
-                            </Link>
+                            <button type="submit" className="btn btn-primary w-100">LOGIN</button>
                         </div>
                     </form>
                 </div>

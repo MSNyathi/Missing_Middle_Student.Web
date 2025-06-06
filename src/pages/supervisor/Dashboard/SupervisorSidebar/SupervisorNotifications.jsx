@@ -43,7 +43,7 @@ function SupervisorNotifications() {
       status: "Read"
     },
     {
-      email: "NkosiHM@tut4life.ac.za",
+      email: "NkosiHM@tut.ac.za",
       title: "New Donation request received.",
       date: "2025-05-20",
       status: "Read"
@@ -148,11 +148,11 @@ function SupervisorNotifications() {
                         ))}
                       </tbody>
                     </table>
-                    <div className="d-flex justify-content-end mt-3">
+                    {/*<div className="d-flex justify-content-end mt-3">
                       <button className="btn btn-primary">
                         Next <i className="bi bi-arrow-right"></i>
                       </button>
-                    </div>
+                    </div>*/}
                   </div>
                 </div>
               
