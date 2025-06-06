@@ -1,19 +1,15 @@
 "use client";
 import React from "react";
+import PropTypes from "prop-types";
 import { motion } from "framer-motion";
-import "./dashboardSummary.css"; // Assuming you have a CSS file for styles
+import "./dashboardSummary.css";
 
-// Card Component
+// --- Reusable Card Component ---
 const StatCard = ({ title, value, color, icon }) => (
   <motion.div
     whileHover={{ scale: 1.05 }}
     transition={{ type: "spring", stiffness: 300 }}
-    className={`card text-white bg-${color} mb-3 shadow`}
-    style={{
-      borderRadius: "15px",
-      backdropFilter: "blur(10px)",
-      border: "1px solid rgba(255, 255, 255, 0.2)",
-    }}
+    className={`card text-white bg-${color} mb-3 shadow stat-card`}
   >
     <div className="card-body d-flex align-items-center justify-content-between">
       <div>
@@ -25,15 +21,12 @@ const StatCard = ({ title, value, color, icon }) => (
   </motion.div>
 );
 
-// Progress Bar
+// --- Reusable Progress Bar Component ---
 const ProgressBar = ({ label, value, max, color }) => {
   const percent = max ? (value / max) * 100 : 0;
   return (
     <div className="mb-4">
-      <div 
-        className="d-flex justify-content-between" 
-        style={{ marginBottom: "8px" }} // Push text down a bit
-      >
+      <div className="d-flex justify-content-between mb-1">
         <span className="text-primary">{label}</span>
         <span className="text-primary">
           {value} / {max}
@@ -53,7 +46,7 @@ const ProgressBar = ({ label, value, max, color }) => {
   );
 };
 
-// Circular Stat (Approval %, Allocation %)
+// --- Circular Stat Display ---
 const CircleStat = ({ label, value, color }) => (
   <motion.div
     whileHover={{ scale: 1.05 }}
@@ -61,7 +54,7 @@ const CircleStat = ({ label, value, color }) => (
     className="text-center text-white"
   >
     <div
-      className="mx-auto mb-2 text-black"
+      className="mx-auto mb-2"
       style={{
         width: "100px",
         height: "100px",
@@ -72,15 +65,15 @@ const CircleStat = ({ label, value, color }) => (
         justifyContent: "center",
         fontSize: "20px",
         fontWeight: "bold",
-        // Removed boxShadow here
       }}
     >
       {value}%
     </div>
-    <span className="text-primary" style={{ marginTop: "8px" }}>{label}</span>
+    <span className="text-primary">{label}</span>
   </motion.div>
 );
 
+// --- Dashboard Summary Component ---
 const DashboardSummary = ({
   totalDevices,
   totalApplicants,
@@ -96,25 +89,40 @@ const DashboardSummary = ({
     ? Math.round((allocatedDevices / totalDevices) * 100)
     : 0;
 
-  const totalMonthly = Array.isArray(monthlyApplicants)
-    ? monthlyApplicants.reduce((a, b) => a + b, 0)
-    : 0;
-
   const months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
+ 
 
-  // Function to decide progress bar color for applicants
-  const progressBarColor = (value, label) => {
-    if ((label === "Approved Applicants" || label === "Unapproved Applicants") && value > 0) {
-      return "blue";
-    }
-    return "warning"; // yellow
-  };
+  const getTotalMonthly = () =>
+    Array.isArray(monthlyApplicants)
+      ? monthlyApplicants.reduce((sum, item) => {
+          if (typeof item === "number") return sum + item;
+          if (item && typeof item === "object" && "count" in item)
+            return sum + item.count;
+          return sum;
+        }, 0)
+      : 0;
+       
+       console.log("monthlyApplicants:", monthlyApplicants);
+   const totalMonthly = getTotalMonthly();
+  const progressColor = (value) => (value > 0 ? "primary" : "warning");
+ 
 
   return (
     <div className="container-fluid py-4">
+      {/* Stat Cards */}
       <div className="row mb-4">
         <div className="col-md-4">
           <StatCard
@@ -142,21 +150,24 @@ const DashboardSummary = ({
         </div>
       </div>
 
-         <div className="row g-4">
+      {/* Eligibility & Distribution Panels */}
+      <div className="row g-4">
         <div className="col-md-6">
           <div className="p-4 rounded glass-panel">
-            <h5 className="mb-4 text-black"><strong>Applicant Eligibility</strong></h5>
+            <h5 className="mb-4 text-black">
+              <strong>Applicant Eligibility</strong>
+            </h5>
             <ProgressBar
               label="Approved Applicants"
               value={approvedApplicants}
               max={totalApplicants}
-              color={progressBarColor(approvedApplicants, "Approved Applicants")}
+              color={progressColor(approvedApplicants)}
             />
             <ProgressBar
               label="Unapproved Applicants"
               value={unapprovedApplicants}
               max={totalApplicants}
-              color={progressBarColor(unapprovedApplicants, "Unapproved Applicants")}
+              color={progressColor(unapprovedApplicants)}
             />
             <CircleStat
               label="Approval Rate"
@@ -168,18 +179,20 @@ const DashboardSummary = ({
 
         <div className="col-md-6">
           <div className="p-4 rounded glass-panel text-blue">
-            <h5 className="mb-4 text-black"><strong>Laptop Distribution</strong></h5>
+            <h5 className="mb-4 text-black">
+              <strong>Laptop Distribution</strong>
+            </h5>
             <ProgressBar
               label="Allocated Devices"
               value={allocatedDevices}
               max={totalDevices}
-              color="blue" // yellow
+              color="blue"
             />
             <ProgressBar
               label="Unallocated Devices"
               value={totalDevices - allocatedDevices}
               max={totalDevices}
-              color="blue" // yellow
+              color="blue"
             />
             <CircleStat
               label="Allocation Rate"
@@ -190,42 +203,41 @@ const DashboardSummary = ({
         </div>
       </div>
 
-      <div className="mt-4">
-  <motion.div
-    initial={{ opacity: 0, y: 50 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 1 }}
-    className="glass-panel p-3"
-    style={{ minHeight: "280px" }}
-  >
-    <h5 className="text-center text-black mb-3">
-      <strong>Monthly Applicant Trend</strong>
-    </h5>
-
-    <div className="d-flex flex-wrap justify-content-center gap-3 mb-3">
-      {monthlyApplicants.map((count, i) => (
-        <motion.div
-          key={i}
-          className="text-center month-box"
-          whileHover={{ scale: 1.1 }}
-        >
-          <span className="tooltip-text">
-            {months[i]}: {count} applicants
-          </span>
-          <div className="bg-dark rounded py-1 px-2" style={{ width: "70px" }}>
-            <div className="fw-bold small text-light">{months[i] || `M${i + 1}`}</div>
-            <div className="fs-6 text-warning">{count}</div>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-
-    
-  </motion.div>
-</div>
-
+      {/* Monthly Trend */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="glass-panel p-3 mt-4"
+        style={{ minHeight: "280px" }}
+      >
+        <h5 className="text-center text-black mb-3"><strong>Monthly Applicant Trend</strong></h5>
+        <div className="d-flex flex-wrap justify-content-center gap-3 mb-3">
+          {monthlyApplicants.map((count, i) => (
+            <motion.div key={i} className="text-center month-box" whileHover={{ scale: 1.1 }}>
+              <div className="bg-dark rounded py-1 px-2" style={{ width: "70px" }}>
+                <div className="fw-bold small text-light">{months[i]}</div>
+                <div className="fs-6 text-warning">{count}</div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        <div className="text-center mt-3">
+          <h5 className="text-black"><strong>Total Applicants This Year:</strong> {totalMonthly}</h5>
+        </div>
+      </motion.div>
     </div>
   );
+};
+
+// --- PropTypes for clarity ---
+DashboardSummary.propTypes = {
+  totalDevices: PropTypes.number.isRequired,
+  totalApplicants: PropTypes.number.isRequired,
+  approvedApplicants: PropTypes.number.isRequired,
+  unapprovedApplicants: PropTypes.number.isRequired,
+  allocatedDevices: PropTypes.number.isRequired,
+  monthlyApplicants: PropTypes.object.isRequired, // <-- changed to object
 };
 
 export default DashboardSummary;
