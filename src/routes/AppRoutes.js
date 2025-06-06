@@ -35,6 +35,7 @@ import Contact from '../pages/student/help/contact'; // contact page for help
 import Distribution from '../pages/student/help/distribution';
 import Security from '../pages/student/help/security';
 import Warranty from '../pages/student/help/warranty';
+import StudentLaptopForm from '../pages/student/contract/studentContract'; // student contract page
 
 import SupervisorLogin from '../pages/supervisor/Login/SupervisorLogin';
 import SupervisorDashboard from '../pages/supervisor/Dashboard/SupervisorDashboard';
@@ -74,6 +75,7 @@ const AppRoutes = () => {
       <Route path="/student/help" element={<HelpPageLaptops />} />
       <Route path="/student/login" element={<StudentLogin />} />
       <Route path="/student/login/forgot-password" element={<StudentForgotPassword />} />
+      <Route path="/student/contract" element={<StudentLaptopForm />} />
       
       {/* ADMIN */}
       <Route path="/admin/login" element={<AdminLogin />} />

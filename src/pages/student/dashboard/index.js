@@ -13,6 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./index.css";
 import tut25 from "../../../assets/tut25.png";
+import StudentLaptopForm from "../../student/contract/studentContract";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -138,7 +139,7 @@ const StudentDashboard = () => {
                 </Link>
               </div>
 
-              <div className="col-6">
+              <div className="col-12 mb-3">
                 <Link to="/student/track" className="text-decoration-none">
                   <div
                     className="card p-4 shadow-lg text-center card-hover-glow interactive-card"
@@ -156,21 +157,18 @@ const StudentDashboard = () => {
                 </Link>
               </div>
 
-              <div className="col-6">
-                
-                <Link
-                  to="/student/sign-document"
-                  className="text-decoration-none"
-                >
+              <div className="col-12 mb-3">
+                <Link to="/student/contract" className="text-decoration-none">
                   <div
-                    className="card p-4 shadow-lg text-center card-hover-glow interactive-card"
+                    className="card p-3 shadow text-center card-hover-glow interactive-card"
                     style={{
                       backgroundColor: "#198754",
                       color: "black",
+                      transform: "scale(0.95)", // slightly smaller
                     }}
                   >
                     <FaSignature
-                      size={70}
+                      size={30}
                       className="mb-2 text-light glow-icon interactive-icon"
                     />
                     <h6>SIGN DOCUMENT</h6>
@@ -179,9 +177,15 @@ const StudentDashboard = () => {
               </div>
             </div>
           </div>
-          
-          F{/* Recent Activity */}
-          <div className="col-md-4 mb-3">
+          {/* Action Buttons */}
+          <div className="col-lg-4 col-md-12 mb-3 order-lg-2 d-flex flex-column align-items-center justify-content-center">
+            <div className="row w-100">
+              {/* Cards for apply, track, contract go here as is */}
+            </div>
+          </div>
+
+          {/* Recent Activity */}
+          <div className="col-lg-4 col-md-12 mb-3 order-lg-3">
             <div
               className="card shadow-sm p-3"
               style={{ borderLeft: "5px solid #d52235" }}
