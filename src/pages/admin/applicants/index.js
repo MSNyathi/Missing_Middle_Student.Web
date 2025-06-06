@@ -16,7 +16,6 @@ import ApplicantsTable from "../../../commponents/applicantTable";
 import ApplicantModal from "../../../commponents/applicantModal";
 import { useLocation } from "react-router-dom";
 
-
 // Admin data
 const adminData = {
   name: "",
@@ -225,7 +224,7 @@ const ApplicantsPage = () => {
       },
       allowOutsideClick: () => !Swal.isLoading(),
     })
-      .then( async(result) => {
+      .then(async (result) => {
         if (result.isConfirmed) {
           const updatedStatus = action === "approve" ? "approved" : "rejected";
 
@@ -243,19 +242,29 @@ const ApplicantsPage = () => {
             autoClose: 3000,
             theme: "dark",
           });
-        const handleApprove = async () => {
-    try {
-      await axios.put(
-        `https://localhost:7102/approve?ApplicantId=${applicant.id}`
-      );
-    
-    } catch (err) {
-      console.error("Error approving applicant:", err);
-      alert("Failed to approve applicant. Please try again.");
-    }
-  };
-  await handleApprove()
+          const handleApprove = async () => {
+            try {
+              await axios.put(
+                `https://localhost:7102/approve?ApplicantId=${applicant.id}`
+              );
+            } catch (err) {
+              console.error("Error approving applicant:", err);
+              alert("Failed to approve applicant. Please try again.");
+            }
+          };
+          await handleApprove();
         }
+        const handleReject = async () => {
+          try {
+            await axios.put(
+              `https://localhost:7102/reject?ApplicantId=${applicant.id}`
+            );
+          } catch (err) {
+            console.error("Error rejecting applicant:", err);
+            alert("Failed to reject applicant. Please try again.");
+          }
+        };
+        await handleReject();
       })
       .catch((error) => {
         Swal.fire({
