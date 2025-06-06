@@ -6,7 +6,7 @@ import "./adminLogin.css";
 import backgroundImage from "../../../assets/backgroundAdmin.jpeg";
 import LoginNavbar from "../../../commponents/loginNavbar";
 import axios from "axios";
-import { useAdminAuth } from "../../../commponents/Auth/AdminAuthContext"
+
 
 export default function AdminLogin() {
   const navigate = useNavigate();
