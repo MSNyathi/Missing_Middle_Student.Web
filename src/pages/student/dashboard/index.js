@@ -1,3 +1,4 @@
+import { FaSignature } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -23,14 +24,14 @@ const StudentDashboard = () => {
     const fetchStudentInfo = async () => {
       const studentNumber = localStorage.getItem("studentNumber");
 
-      
       if (!studentNumber) {
         navigate("/student/dashboard");
         return;
       }
 
       try {
-        const response = await axios.get(`https://localhost:7102/api/Student/student/${studentNumber}`
+        const response = await axios.get(
+          `https://localhost:7102/api/Student/student/${studentNumber}`
         );
         setStudent(response.data);
       } catch (error) {
@@ -100,16 +101,22 @@ const StudentDashboard = () => {
                 <p>Loading...</p>
               ) : student ? (
                 <>
-                  <p><strong>Name:</strong> {student.name} {student.surname}</p>
-                  <p><strong>Email:</strong> {student.email}</p>
-                  <p><strong>Student ID:</strong> {student.studentNum}</p>
+                  <p>
+                    <strong>Name:</strong> {student.name} {student.surname}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {student.email}
+                  </p>
+                  <p>
+                    <strong>Student ID:</strong> {student.studentNum}
+                  </p>
                 </>
               ) : (
                 <p className="text-danger">Unable to load student data.</p>
               )}
             </div>
           </div>
-
+          {/* Action Buttons */}
           {/* Action Buttons */}
           <div className="col-md-4 mb-3 d-flex flex-column align-items-center justify-content-center">
             <div className="row w-100">
@@ -129,27 +136,51 @@ const StudentDashboard = () => {
                     <h5>APPLY FOR LAPTOP</h5>
                   </div>
                 </Link>
+              </div>
 
+              <div className="col-6">
                 <Link to="/student/track" className="text-decoration-none">
                   <div
-                    className="card p-4 shadow-lg text-center mt-3 card-hover-glow interactive-card"
+                    className="card p-4 shadow-lg text-center card-hover-glow interactive-card"
                     style={{
                       backgroundColor: "#b46e0b",
                       color: "black",
                     }}
                   >
                     <FaMapMarkedAlt
-                      size={100}
-                      className="mb-3 text-light glow-icon interactive-icon"
+                      size={70}
+                      className="mb-2 text-light glow-icon interactive-icon"
                     />
-                    <h5>TRACK APPLICATION</h5>
+                    <h6>TRACK APPLICATION</h6>
+                  </div>
+                </Link>
+              </div>
+
+              <div className="col-6">
+                
+                <Link
+                  to="/student/sign-document"
+                  className="text-decoration-none"
+                >
+                  <div
+                    className="card p-4 shadow-lg text-center card-hover-glow interactive-card"
+                    style={{
+                      backgroundColor: "#198754",
+                      color: "black",
+                    }}
+                  >
+                    <FaSignature
+                      size={70}
+                      className="mb-2 text-light glow-icon interactive-icon"
+                    />
+                    <h6>SIGN DOCUMENT</h6>
                   </div>
                 </Link>
               </div>
             </div>
           </div>
-
-          {/* Recent Activity */}
+          
+          F{/* Recent Activity */}
           <div className="col-md-4 mb-3">
             <div
               className="card shadow-sm p-3"
