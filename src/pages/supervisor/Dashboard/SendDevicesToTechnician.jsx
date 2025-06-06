@@ -14,6 +14,18 @@ function SendDevicesToTechnician() {
         { id: 'device6', sn:'567', name: 'HP', model: 'Pavilion 15' }
         
     ];
+    // State to keep track of selected devices (all selected by default)
+    const [selectedDevices, setSelectedDevices] = React.useState(devices.map(d => d.id));
+
+    const handleCheckboxChange = (event) => {
+        const { id, checked } = event.target;
+        setSelectedDevices(prev =>
+            checked
+                ? [...prev, id]
+                : prev.filter(deviceId => deviceId !== id)
+        );
+    };
+
     return (
         <div
             className="d-flex flex-column justify-content-start align-items-center vh-100 overflow-hidden"
@@ -56,6 +68,8 @@ function SendDevicesToTechnician() {
                                 type="checkbox"
                                 id={device.id}
                                 name={device.id}
+                                checked={selectedDevices.includes(device.id)}
+                                onChange={handleCheckboxChange}
                                 style={{ color: 'black' }}
                             />
                             <label
