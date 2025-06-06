@@ -16,33 +16,33 @@ const LoginNavbar = () => {
   };
 
   return (
-    <nav id="login-navbar" onClick={closeDropdown}>
-      <div className="navbar-left">
-        <Link to="/" className="logo-link">
-          <img
-            src={tut25}
-            alt="TUT Logo"
-            className="navbar-logo"
-          />
-        </Link>
-        <h1 className="navbar-title">EduConnect</h1>
-      </div>
+<nav id="login-navbar" onClick={closeDropdown}>
+  <div className="navbar-left">
+    <Link to="/" className="logo-link">
+      <img src={tut25} alt="TUT Logo" className="navbar-logo" />
+    </Link>
+  </div>
 
-      <div className="dropdown" onClick={(e) => e.stopPropagation()}>
-        <button className="switch-user-btn" onClick={toggleDropdown}>
-          <i className="bi bi-person-circle me-1"></i>
-          <span>Switch User</span>
-          <i className="bi bi-caret-down-fill dropdown-icon ms-1"></i>
-        </button>
+  <div className="navbar-center">
+    <h1 className="navbar-title">EduConnect</h1>
+  </div>
 
-        {dropdownOpen && (
-          <div className="dropdown-content">
-            <Link to="/admin/login">Admin Login</Link>
-            <Link to="/student/login">Student Login</Link>
-          </div>
-        )}
+  <div className="dropdown" onClick={(e) => e.stopPropagation()}>
+    <button className="switch-user-btn" onClick={toggleDropdown}>
+      <i className="bi bi-person-circle"></i>
+      <span className="login-text">Login As</span>
+      <i className="bi bi-caret-down-fill dropdown-icon"></i>
+    </button>
+
+    {dropdownOpen && (
+      <div className="dropdown-content">
+        <Link to="/admin/login">Admin</Link>
+        <Link to="/student/login">Student</Link>
       </div>
-    </nav>
+    )}
+  </div>
+</nav>
+
   );
 };
 

@@ -68,14 +68,6 @@ const StudentDashboard = () => {
             style={{ height: "45px", objectFit: "contain" }}
           />
         </div>
-
-        <button
-          className="btn btn-outline-danger d-flex align-items-center"
-          onClick={() => setShowModal(true)}
-        >
-          <FaSignOutAlt className="me-2" />
-          Logout
-        </button>
       </nav>
 
       {/* Main Content */}

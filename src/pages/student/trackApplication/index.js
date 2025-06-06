@@ -9,6 +9,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../dashboard/index.css";
 import tut25 from "../../../assets/tut25.png";
 
+
+
 const applicationSteps = [
   { label: "Application Submitted", key: "applicationSubmitted" },
   { label: "Academic Review", key: "academicReviewPassed" },
@@ -142,48 +144,63 @@ const TrackApplication = () => {
         }}
       >
         {/* Navbar */}
-        <nav
-          className={`navbar navbar-expand-lg ${
-            darkMode
-              ? "glass-navbar-dark navbar-dark"
-              : "glass-navbar-light navbar-light"
-          } w-100 shadow`}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 1050,
-          }}
-        >
-          <div className="container-fluid px-4 d-flex justify-content-between align-items-center">
+             <nav
+        className="navbar bg-secondary shadow-sm px-3 py-2"
+        style={{
+          backgroundColor: "#343a40", // Dark grey background
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          zIndex: 1050,
+          borderBottom: "1px solid #222",
+        }}
+      >
+        <div className="container-fluid d-flex justify-content-between align-items-center position-relative">
+          {/* Logo (left-aligned) */}
+          <div className="d-flex align-items-center">
             <img
               src={tut25}
               alt="TUT Logo"
-              style={{ height: "40px", marginRight: "10px" }}
+              style={{
+                height: "45px",
+                marginRight: "10px",
+                objectFit: "contain",
+                filter: "invert(1)", // Visible on dark bg
+              }}
             />
-            <div className="form-check form-switch d-flex align-items-center ms-auto">
+          </div>
+
+          {/* Centered Title */}
+          <div
+            className="position-absolute top-50 start-50 translate-middle-x"
+            style={{ transform: "translate(-50%, -50%)" }}
+          >
+            <span
+              className="fw-semibold text-white"
+              style={{ fontSize: "1.25rem" }}
+            >
+              TUT Student Portal
+            </span>
+          </div>
+
+          {/* Theme toggle (right-aligned) */}
+          <div className="d-flex align-items-center">
+            <FaSun color="#f39c12" className="me-2" />
+            <div className="form-check form-switch mb-0">
               <input
                 className="form-check-input"
                 type="checkbox"
                 checked={darkMode}
                 onChange={() => setDarkMode(!darkMode)}
                 id="themeSwitch"
-              />
-              <label
-                htmlFor="themeSwitch"
-                className="ms-2 mb-0"
                 style={{ cursor: "pointer" }}
-              >
-                {darkMode ? (
-                  <FaMoon size={20} className="text-white" />
-                ) : (
-                  <FaSun size={20} className="text-warning" />
-                )}
-              </label>
+              />
             </div>
+            <FaMoon color="#f1c40f" className="ms-2" />
           </div>
-        </nav>
+        </div>
+      </nav>
 
         {/* Back and Logout Buttons */}
         <div className="position-fixed bottom-0 start-0 p-3">
@@ -212,19 +229,22 @@ const TrackApplication = () => {
           <h2 className="mb-3 text-center" style={{ color: "#d52235" }}>
             Track Your Application
           </h2>
-          <p className="text-center mb-4">
+          <p className="text-center mb-3">
             Monitor the status of your laptop application below:
           </p>
 
           {progress?.error ? (
-            <div className="alert alert-warning text-center">{progress.error}</div>
+            <div className="alert alert-warning text-center">
+              {progress.error}
+            </div>
           ) : (
             <>
               <div className="d-flex flex-wrap justify-content-center gap-4">
                 {applicationSteps.map(renderStep)}
               </div>
               <div className="text-center mt-4">
-                <strong>Current Status:</strong> {progress?.finalStatus || "In Progress"}
+                <strong>Current Status:</strong>{" "}
+                {progress?.finalStatus || "In Progress"}
               </div>
             </>
           )}
