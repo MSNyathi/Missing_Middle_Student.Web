@@ -65,6 +65,16 @@ function AddReceivedDevices() {
                                                     placeholder="Enter brand"
                                                 />
                                             </div>
+                    <div className="form-group mb-2">
+                        {/*<label htmlFor="Model">Model</label>*/}
+                                                <input
+                                                    type="text"
+                                                    id="model"
+                                                    name="model"
+                                                    className="form-control"
+                                                    placeholder="Enter model"
+                                                />
+                                            </div>
                                             <button type="submit" className="btn btn-primary w-100 mt-2">
                                                 Add Device
                                             </button>

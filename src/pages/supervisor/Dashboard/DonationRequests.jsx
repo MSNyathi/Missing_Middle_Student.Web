@@ -117,7 +117,7 @@ function DonationRequests() {
                                     <td>{request.pickupDate}</td>
                                     <td>
                                         <button style={{ marginRight: '15px' }}>Accept</button>
-                                        <button className="reject-btn">Reject</button>
+                                        
                                     </td>
                                 </tr>
                             ))}
