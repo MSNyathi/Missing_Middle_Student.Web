@@ -19,7 +19,7 @@ import AdminLogin from '../pages/admin/login/adminLogin';
 import ViewDevices from '../pages/admin/devices/viewDevices/viewDevice';
 import ForgotPassword from '../pages/admin/login/forgotPassword'; // forgot password page
 import StudentForgotPassword from '../pages/student/login/studentforgotPassword'; // forgot password page
-import Students from '../pages/admin/students/students';
+import Collection from '../pages/admin/collect/deviceCollection';
 import AssignDevicePage from '../pages/admin/devices/AssignDevices/assignDevice'; // assign device page
 
 
@@ -86,7 +86,7 @@ const AppRoutes = () => {
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/admin/devices/view-devices" element={<ViewDevices />} />      
       <Route path="/admin/forgot-password" element={<ForgotPassword />} />
-      <Route path="/admin/students" element={<Students />} />
+      <Route path="/admin/collection" element={<Collection />} />
       <Route path="/admin/technicians" element={<TechnicianProfile />} />
       
       {/* TECHNICIAN */}
