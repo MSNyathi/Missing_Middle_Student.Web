@@ -27,7 +27,7 @@ function SupervisorLogin() {
                 localStorage.setItem('authToken', 'supervisor-demo-token');
                 // Redirect to dashboard
                 window.location.href = '/supervisor/dashboard';
-            }            localStorage.setItem('authToken', 'supervisor-demo-token');
+            }            localStorage.setItem('authToken', 'supervisor-demo-token');            
         }
     };
 

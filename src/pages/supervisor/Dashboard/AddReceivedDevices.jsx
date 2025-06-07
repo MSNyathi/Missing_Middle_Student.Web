@@ -5,6 +5,30 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 
 function AddReceivedDevices() {
+    const [serialNumber, setSerialNumber] = React.useState('');
+    const [brand, setBrand] = React.useState('');
+    const [model, setModel] = React.useState('');
+    const [devices, setDevices] = React.useState([]);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'serialNumber') setSerialNumber(value);
+        if (name === 'brand') setBrand(value);
+        if (name === 'model') setModel(value);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (serialNumber && brand && model) {
+            setDevices([
+                ...devices,
+                { serialNumber, brand, model }
+            ]);
+            setSerialNumber('');
+            setBrand('');
+            setModel('');
+        }
+    };
     return (
         <div
             className="d-flex flex-column justify-content-start align-items-center vh-100 overflow-hidden"
@@ -97,7 +121,21 @@ function AddReceivedDevices() {
                                             <i className="bi bi-arrow-left"></i> Back
                                         </Link>
                                     </div>
-                                    {/* Custom styles for the back button */}
+                                    {/* Success message after adding device */}
+                                    {devices.length > 0 && (
+                                        <div
+                                            className="alert alert-success position-fixed"
+                                            style={{
+                                                bottom: '90px',
+                                                left: '24px',
+                                                zIndex: 1100,
+                                                minWidth: '220px'
+                                            }}
+                                            role="alert"
+                                        >
+                                            Device added successfully!
+                                        </div>
+                                    )}
             <style>
                 {`
                     .custom-back-btn {
