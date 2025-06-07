@@ -22,7 +22,12 @@ function SupervisorLogin() {
         if (password !== '123123') newErrors.password = 'Invalid password';
         if (Object.keys(newErrors).length === 0) {
             // Redirect to dashboard
-            window.location.href = '/supervisor/dashboard';
+            window.location.href = '/supervisor/dashboard';            if (Object.keys(newErrors).length === 0) {
+                // Set a token in localStorage
+                localStorage.setItem('authToken', 'supervisor-demo-token');
+                // Redirect to dashboard
+                window.location.href = '/supervisor/dashboard';
+            }            localStorage.setItem('authToken', 'supervisor-demo-token');
         }
     };
 

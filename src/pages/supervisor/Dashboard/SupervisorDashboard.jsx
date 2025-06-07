@@ -4,11 +4,29 @@ import '../../../landingPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SupervisorDashboard() {
+    function AuthRedirect() {
+                const navigate = useNavigate();
+                useEffect(() => {
+                    const isAuthenticated = !!localStorage.getItem('authToken'); // Adjust key as needed
+                    if (!isAuthenticated) {
+                        navigate('/supervisor/login', { replace: true });
+                    }
+                }, [navigate]);
+                return null;
+            }
     return (
+        <>
         <div className="d-flex flex-column vh-100" style={{ overflow: 'hidden' }}>
+
             {/* Navbar */}
+            
+
+            <AuthRedirect />
+
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary px-4" style={{ borderRadius: 0 }}>
                 <Link className="navbar-brand d-flex align-items-center" to="/">
                     <img src={tut25} alt="Logo" height="40" className="me-2" />
@@ -18,8 +36,6 @@ function SupervisorDashboard() {
                     Supervisor Dashboard
                 </span>
             </nav>
-
-            {/* Layout: Sidebar + Content */}
             <div className="d-flex flex-grow-1 overflow-hidden">
                 <div
                     className="d-flex flex-column justify-content-between bg-primary text-white p-3"
@@ -89,6 +105,7 @@ function SupervisorDashboard() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 
