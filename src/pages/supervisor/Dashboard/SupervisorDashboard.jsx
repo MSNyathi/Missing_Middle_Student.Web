@@ -53,7 +53,10 @@ function SupervisorDashboard() {
                                         className="btn btn-danger w-100"
                                         onClick={() => {
                                             localStorage.removeItem('authToken');
-                                            window.location.href = "/";
+                                                localStorage.removeItem('authToken');   // Remove authentication token
+                                                localStorage.removeItem('devices');     // Remove saved devices
+                                                // Optionally, redirect to login page
+                                                window.location.href = '/supervisor/login';
                                         }}                            
                                     >
                                         <i className="bi bi-box-arrow-right me-2"></i> Logout
