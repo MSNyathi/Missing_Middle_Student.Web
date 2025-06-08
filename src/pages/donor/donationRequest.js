@@ -30,19 +30,26 @@ export default function DonationRequest() {
   };
   const handleConfirmSubmit = async () => {
     const API_URL = process.env.REACT_APP_API_URL;
+    const donorData = JSON.parse(localStorage.getItem("donorData"));
 
     const stored = localStorage.getItem("donorData");
     if (!stored) {
       toast.error("Donor information not found. Please log in again.");
       return;
     }
+    const payload = {
+      donorId: donorData.donorId,
+      devNum: parseInt(formData.devNum, 10),
+      notes: formData.notes,
+      pickUpDate: formData.pickUpDate,
+    };
 
     const donor = JSON.parse(stored);
     const donorId = donor?.donorId;
 
     try {
       const response = await axios.post(
-        `${API_URL}/api/Donation/DonationRequest`,
+        `${API_URL}api/Donation/DonationRequest`,
         {
           donorId: donorId,
           numberOfDevices: formData.devNum,
@@ -50,6 +57,19 @@ export default function DonationRequest() {
           notes: formData.notes,
         }
       );
+
+      const newDonation = response.data; // or manually create object like payload if backend returns nothing useful
+      const updatedDonor = {
+        ...donorData,
+        donations: [...(donorData.donations || []), newDonation],
+        stats: {
+          ...donorData.stats,
+          laptopsDonated: donorData.stats.laptopsDonated + payload.devNum,
+          pendingPickup: donorData.stats.pendingPickup + payload.devNum,
+        },
+      };
+
+      localStorage.setItem("donorData", JSON.stringify(updatedDonor));
 
       toast.success("Donation request submitted successfully!");
 
