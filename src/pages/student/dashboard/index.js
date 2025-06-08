@@ -117,70 +117,62 @@ const StudentDashboard = () => {
               )}
             </div>
           </div>
-          {/* Action Buttons */}
-          {/* Action Buttons */}
-          <div className="col-md-4 mb-3 d-flex flex-column align-items-center justify-content-center">
-            <div className="row w-100">
-              <div className="col-12 mb-3">
-                <Link to="/student/apply" className="text-decoration-none">
-                  <div
-                    className="card p-4 shadow-lg text-center card-hover-glow interactive-card"
-                    style={{
-                      backgroundColor: "#2aa9e2",
-                      color: "black",
-                    }}
-                  >
-                    <FaLaptopCode
-                      size={100}
-                      className="mb-3 text-light glow-icon interactive-icon"
-                    />
-                    <h5>APPLY FOR LAPTOP</h5>
-                  </div>
-                </Link>
-              </div>
+          {/* Action Buttons - Responsive and clean */}
+          <div className="col-lg-4 col-md-12 mb-4">
+            <div className="d-flex flex-wrap gap-3 justify-content-center">
+              {/* Apply for Laptop */}
+              <Link to="/student/apply" className="text-decoration-none">
+                <div
+                  className="card p-3 shadow text-center card-hover-glow interactive-card"
+                  style={{
+                    backgroundColor: "#2aa9e2",
+                    width: "220px",
+                    color: "black",
+                  }}
+                >
+                  <FaLaptopCode
+                    size={60}
+                    className="mb-2 text-light glow-icon interactive-icon"
+                  />
+                  <h6>APPLY FOR LAPTOP</h6>
+                </div>
+              </Link>
 
-              <div className="col-12 mb-3">
-                <Link to="/student/track" className="text-decoration-none">
-                  <div
-                    className="card p-4 shadow-lg text-center card-hover-glow interactive-card"
-                    style={{
-                      backgroundColor: "#b46e0b",
-                      color: "black",
-                    }}
-                  >
-                    <FaMapMarkedAlt
-                      size={70}
-                      className="mb-2 text-light glow-icon interactive-icon"
-                    />
-                    <h6>TRACK APPLICATION</h6>
-                  </div>
-                </Link>
-              </div>
+              {/* Track Application */}
+              <Link to="/student/track" className="text-decoration-none">
+                <div
+                  className="card p-3 shadow text-center card-hover-glow interactive-card"
+                  style={{
+                    backgroundColor: "#b46e0b",
+                    width: "220px",
+                    color: "black",
+                  }}
+                >
+                  <FaMapMarkedAlt
+                    size={50}
+                    className="mb-2 text-light glow-icon interactive-icon"
+                  />
+                  <h6>TRACK APPLICATION</h6>
+                </div>
+              </Link>
 
-              <div className="col-12 mb-3">
-                <Link to="/student/contract" className="text-decoration-none">
-                  <div
-                    className="card p-3 shadow text-center card-hover-glow interactive-card"
-                    style={{
-                      backgroundColor: "#198754",
-                      color: "black",
-                      transform: "scale(0.95)", // slightly smaller
-                    }}
-                  >
-                    <FaSignature
-                      size={30}
-                      className="mb-2 text-light glow-icon interactive-icon"
-                    />
-                    <h6>SIGN DOCUMENT</h6>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </div>
-          {/* Action Buttons */}
-          <div className="col-lg-4 col-md-12 mb-3 order-lg-2 d-flex flex-column align-items-center justify-content-center">
-            <div className="row w-100">
-              {/* Cards for apply, track, contract go here as is */}
+              {/* Sign Contract */}
+              <Link to="/student/contract" className="text-decoration-none">
+                <div
+                  className="card p-3 shadow text-center card-hover-glow interactive-card"
+                  style={{
+                    backgroundColor: "#198754",
+                    width: "220px",
+                    color: "black",
+                  }}
+                >
+                  <FaSignature
+                    size={40}
+                    className="mb-2 text-light glow-icon interactive-icon"
+                  />
+                  <h6>SIGN DOCUMENT</h6>
+                </div>
+              </Link>
             </div>
           </div>
 
