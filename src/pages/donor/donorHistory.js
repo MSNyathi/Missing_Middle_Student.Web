@@ -55,10 +55,10 @@ export default function DonorHistory() {
     <div className="container">
       <DonorNavbar />
       <main className="main-content">
-        <h2>
+        <h2 style={{paddingLeft:"0"}}>
           <b>DONATION HISTORY</b>
         </h2>
-        <div className="header-controls">
+        <div className="header-controls" style={{marginLeft: "83%"}}>
           <div className="controls">
             <select onChange={(e) => handleFilter(e.target.value)}>
               <option value="">All Statuses</option>

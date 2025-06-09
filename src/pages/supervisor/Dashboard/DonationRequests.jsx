@@ -8,55 +8,82 @@ function DonationRequests() {
     const [donationRequests, setDonationRequests] = React.useState([
         {
             id: 1,
-            creationDate: "2025-05-20",
-            email: "220649857@tut4life.ac.za",
+            creationDate: "2025-06-09",
+            email: "SetukeT@gmail.com",
             devices: 2,
-            pickupDate: "2025-06-10",
+            pickupDate: "2025-08-06",
             status: "Pending",
-            notes: "Urgent request"
+            notes: "To Support Students with online Learning"
         },
         {
             id: 2,
-            creationDate: "2025-06-01",
+            creationDate: "2025-06-03",
             email: "220625915@tut4life.ac.za",
             devices: 1,
-            pickupDate: "2025-07-05",
+            pickupDate: "2025-07-24",
             status: "Pending",
             notes: ""
         },
         {
             id: 3,
-            creationDate: "2025-06-15",
+            creationDate: "2025-05-28",
             email: "220688314@tut4life.ac.za",
             devices: 3,
-            pickupDate: "2025-08-15",
+            pickupDate: "2025-07-20",
             status: "Pending",
             notes: "Needs for group project"
         },
         {
             id: 4,
-            creationDate: "2025-07-02",
+            creationDate: "2025-05-22",
             email: "215638998@tut4life.ac.za",
             devices: 1,
-            pickupDate: "2025-09-20",
+            pickupDate: "2025-07-16",
             status: "Pending",
             notes: ""
         },
         {
             id: 5,
-            creationDate: "2025-07-18",
+            creationDate: "2025-05-18",
             email: "223645865@tut4life.ac.za",
             devices: 4,
-            pickupDate: "2025-10-30",
+            pickupDate: "2025-07-11",
             status: "Pending",
             notes: "For club event"
         },
         {
             id: 6,
-            creationDate: "2025-08-05",
-            email: "247536598@tut4life.ac.za",
+            creationDate: "2025-05-13",
+            email: "MabundaB@tut.ac.za",
             devices: 2,
-            pickupDate: "2025-11-25",
+            pickupDate: "2025-07-05",
+            status: "Pending",
+            notes: "Support Student Success"
+        },
+        {
+            id: 7,
+            creationDate: "2025-05-07",
+            email: "MabasaT@gmail.com",
+            devices: 2,
+            pickupDate: "2025-06-29",
+            status: "Pending",
+            notes: "Empower Future Generations"
+        },
+        {
+            id: 8,
+            creationDate: "2025-05-04",
+            email: "220649857@tut4life.ac.za",
+            devices: 2,
+            pickupDate: "2025-06-24",
+            status: "Pending",
+            notes: ""
+        },
+        {
+            id: 9,
+            creationDate: "2025-04-30",
+            email: "220649857@tut4life.ac.za",
+            devices: 2,
+            pickupDate: "2025-06-19",
             status: "Pending",
             notes: ""
         }
@@ -105,14 +132,14 @@ function DonationRequests() {
                     <table className="table table-striped table-hover align-middle text-center">
                         <thead className="table-primary">
                             <tr>
-                                <th>ID</th>
+                                <th>#</th>
                                 <th>Creation Date</th>
                                 <th>Email</th>
                                 <th>Number of Devices</th>
                                 <th>Status</th>
                                 <th>Notes</th>
                                 <th>Pickup Date</th>
-                                <th>Accept Requests</th>
+                                <th>Mark As Received</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -130,7 +157,7 @@ function DonationRequests() {
                                             style={{ marginRight: '15px' }}
                                             onClick={() => handleAccept(request.id)}
                                         >
-                                            Accept
+                                            Received
                                         </button>
                                     </td>
                                 </tr>
@@ -151,7 +178,7 @@ function DonationRequests() {
                     }}
                     role="alert"
                 >
-                    Donation request accepted!
+                    Donation request received!
                 </div>
             )}
             {/* Back button fixed to bottom left */}

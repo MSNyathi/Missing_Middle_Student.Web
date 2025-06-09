@@ -50,6 +50,7 @@ import DonorDashboard from '../pages/donor/donorDashboard';
 import DonationRequest from '../pages/donor/donationRequest';
 import DonationHistory from '../pages/donor/donorHistory';
 import DonorLogin from '../pages/donor/donorLogin';
+import DonorRegister from '../pages/donor/donorRegister';
 
 
 const AppRoutes = () => {
@@ -115,6 +116,7 @@ const AppRoutes = () => {
       <Route path='/donor/request' element={<DonationRequest/>}/>
       <Route path='/donor/history' element={<DonationHistory/>}/>
       <Route path='/donor/login' element={<DonorLogin/>}/>
+      <Route path='/donor/register' element={<DonorRegister/>}/>
     </Routes>
   );
 };

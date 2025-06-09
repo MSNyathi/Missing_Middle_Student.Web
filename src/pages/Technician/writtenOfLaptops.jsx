@@ -1,27 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../../commponents/Sidebar';
 import './devicesTable.css';
+import axios from 'axios';
 
 function WrittenOfLaptops() {
-  const initialLaptops = [
-    { id: 1, brand: 'HP', model: 'XPS 13', donor: 'Stuke', status: 'Written Off' },
-    { id: 2, brand: 'Acer', model: 'EliteBook', donor: 'Lucky', status: 'Written Off' },
-    { id: 3, brand: 'Apple', model: 'MacBook Pro', donor: 'Charlie', status: 'Written Off' }
-  ];
-
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('');
-  const [laptopData, setLaptopData] = useState(initialLaptops);
+  const [laptopData, setLaptopData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('https://localhost:7102/AllDevices?page=1&pageSize=10')
+      .then((response) => {
+        const writtenOffDevices = response.data.devices.filter(
+          (device) => device.fixedStatus.toLowerCase() === 'written_off'
+        );
+        setLaptopData(writtenOffDevices);
+      })
+      .catch((error) => {
+        console.error('Error fetching devices:', error);
+      });
+  }, []);
 
   const filteredLaptops = laptopData
     .filter((laptop) =>
-      [laptop.brand, laptop.model, laptop.donor].some((field) =>
+      [laptop.brand, laptop.model, laptop.serialNumber].some((field) =>
         field.toLowerCase().includes(search.toLowerCase())
       )
     )
     .sort((a, b) => {
-      if (sortBy === 'donor') return a.donor.localeCompare(b.donor);
       if (sortBy === 'brand') return a.brand.localeCompare(b.brand);
+      if (sortBy === 'serialNumber') return a.serialNumber.localeCompare(b.serialNumber);
       return 0;
     });
 
@@ -34,17 +43,15 @@ function WrittenOfLaptops() {
         <h2>Written OFF Laptops</h2>
 
         <div className="d-flex justify-content-between align-items-center mb-3">
-          {/* Search bar */}
           <input
             type="text"
-            placeholder="Search by brand, model, or donor"
+            placeholder="Search by brand, model, or serial number"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="form-control"
             style={{ width: '250px' }}
           />
 
-          {/* Sort dropdown */}
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
@@ -52,8 +59,8 @@ function WrittenOfLaptops() {
             style={{ width: '200px' }}
           >
             <option value="">Sort By</option>
-            <option value="donor">Donor</option>
             <option value="brand">Brand</option>
+            <option value="serialNumber">Serial No.</option>
           </select>
         </div>
 
@@ -75,19 +82,19 @@ function WrittenOfLaptops() {
                 <th>Serial No.</th>
                 <th>Brand</th>
                 <th>Model</th>
-                <th>Donor</th>
-                <th>Status</th>
+                <th>Condition</th>
+                <th>Fixed_Status</th>
               </tr>
             </thead>
             <tbody>
               {filteredLaptops.length > 0 ? (
-                filteredLaptops.map((laptop) => (
-                  <tr key={laptop.id}>
-                    <td>{laptop.id}</td>
+                filteredLaptops.map((laptop, index) => (
+                  <tr key={index}>
+                    <td>{laptop.serialNumber}</td>
                     <td>{laptop.brand}</td>
                     <td>{laptop.model}</td>
-                    <td>{laptop.donor}</td>
-                    <td>{laptop.status}</td>
+                    <td>{laptop.condition}</td>
+                    <td>{laptop.fixedStatus}</td>
                   </tr>
                 ))
               ) : (
