@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './reset.css'; // Make sure to include this CSS
 
 export default function ResetPassword() {
-  const [step, setStep] = useState('email'); // email → otp → reset → done
+  const [step, setStep] = useState('email');
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [password, setPassword] = useState('');
@@ -11,7 +12,7 @@ export default function ResetPassword() {
   const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const apiBase = 'https://localhost:7102/api/'; // Replace if needed
+  const apiBase = 'https://localhost:7102/api/';
 
   const clearMessages = () => {
     setError('');
@@ -38,7 +39,7 @@ export default function ResetPassword() {
     try {
       await axios.post(`${apiBase}account/verify-otp`, { email, otp });
       setStep('reset');
-      setSuccessMsg('OTP verified successfully. Enter your new password.');
+      setSuccessMsg('OTP verified. Enter your new password.');
     } catch (err) {
       setError('Invalid or expired OTP. Please try again.');
     } finally {
@@ -65,16 +66,16 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="container py-5 d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-      <div className="card shadow-lg p-4 w-100" style={{ maxWidth: '500px' }}>
-        <h3 className="text-center mb-4">Reset Your Password</h3>
+    <div className="reset-wrapper">
+      <div className="reset-glass-card">
+        <h3>Reset Your Password</h3>
 
         {error && <div className="alert alert-danger text-center">{error}</div>}
         {successMsg && <div className="alert alert-success text-center">{successMsg}</div>}
 
         {step === 'email' && (
           <>
-            <label className="form-label">Email address</label>
+            <label>Email address</label>
             <input
               type="email"
               className="form-control mb-3"
@@ -94,13 +95,13 @@ export default function ResetPassword() {
 
         {step === 'otp' && (
           <>
-            <label className="form-label">Email address</label>
+            <label>Email address</label>
             <input type="email" className="form-control mb-3" value={email} readOnly />
-            <label className="form-label">Enter OTP</label>
+            <label>Enter OTP</label>
             <input
               type="text"
               className="form-control mb-3"
-              placeholder="Enter the code sent to your email"
+              placeholder="Code sent to your email"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
             />
@@ -116,7 +117,7 @@ export default function ResetPassword() {
 
         {step === 'reset' && (
           <>
-            <label className="form-label">New Password</label>
+            <label>New Password</label>
             <input
               type="password"
               className="form-control mb-3"
@@ -124,7 +125,7 @@ export default function ResetPassword() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <label className="form-label">Confirm New Password</label>
+            <label>Confirm New Password</label>
             <input
               type="password"
               className="form-control mb-3"
