@@ -6,50 +6,86 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 import '../../admin/login/adminLogin.css';
 import backgroundImage from '../../../assets/backgroundAdmin.jpeg';
+import './supervisor.css'
 
 function SupervisorLogin() {
-    return (
-        <>
-            <div
-                className="glass-bg d-flex flex-column align-items-center justify-content-center min-vh-100 text-white"
-                style={{
-                    backgroundImage: `url(${backgroundImage})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                }}
-            >
-                <nav className="d-flex justify-content-between align-items-center w-100 px-4 py-3" id="mynav">
-                    <Link to="/" className="d-flex align-items-center text-white text-decoration-none">
-                        <img src={tut25} alt="EduConnect Logo" height="40" className="me-2" />
-                        <h1 className="h4 mb-0">EduConnect</h1>
-                    </Link>
-                </nav>
+    const [username, setUsername] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [errors, setErrors] = React.useState({});
 
-                <div className="glass-card p-4 rounded shadow text-center" style={{ maxWidth: '400px', width: '100%' }}>
-                    <i className="bi bi-person-circle mb-3" style={{ fontSize: '4rem' }}></i>
-                    <h2 id="myh1" className="mb-2">Welcome, Supervisor</h2>
-                    <p className="mb-4">Please enter your login details below.</p>
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const newErrors = {};
+        if (!username.trim()) newErrors.username = 'Username is required';
+        if (!password) newErrors.password = 'Password is required';
+        setErrors(newErrors);
+        if (username !== '220625915') newErrors.username = 'Invalid username';
+        if (password !== '123123') newErrors.password = 'Invalid password';
+        if (Object.keys(newErrors).length === 0) {
+            // Redirect to dashboard
+            window.location.href = '/supervisor/dashboard';            if (Object.keys(newErrors).length === 0) {
+                // Set a token in localStorage
+                localStorage.setItem('authToken', 'supervisor-demo-token');
+                // Redirect to dashboard
+                window.location.href = '/supervisor/dashboard';
+            }            localStorage.setItem('authToken', 'supervisor-demo-token');            
+        }
+    };
 
-                    <form>
-                        <div className="mb-3 text-start">
-                            <label htmlFor="username" className="form-label">Username</label>
-                            <input type="text" className="form-control" id="username" required />
-                        </div>
-                        <div className="mb-4 text-start">
-                            <label htmlFor="password" className="form-label">Password</label>
-                            <input type="password" className="form-control" id="password" required />
-                        </div>
-                        <div className="d-grid">
-                            <Link to="/supervisor/dashboard">
-                                <button type="button" className="btn btn-primary w-100">LOGIN</button>
-                            </Link>
-                        </div>
-                    </form>
-                </div>
-            </div>
+   return (
+  <div className="donor-container">
+    {/* Left Panel */}
+    <div className="donor-left">
+      <div className="donor-navbar">
+        <Link to="/" className="logo-link">
+          <img src={tut25} alt="TUT Logo" className="tut-logo" />
+          </Link>
+          <h1 className="brand-title">EduConnect</h1>
+        
+      </div>
+      <div className="left-text d-flex flex-column justify-content-center align-items-center text-center h-100">
+        <h2>
+          EduConnect a multi-user platform, to manage and streamline the donation, refurbishment, and allocation of laptops.
+        </h2>
+        <p>
+          To financially vulnerable students at Tshwane University of Technology.
+        </p>
+      </div>
+    </div>
 
-        </>
-    );
+    {/* Right Panel */}
+    <div className="donor-right">
+      <div className="login-box">
+        <h2>Welcome, Supervisor</h2>
+        <form onSubmit={handleSubmit} noValidate>
+          <input
+            type="text"
+            placeholder="Username"
+            className={`form-control mb-3 ${errors.username ? 'is-invalid' : ''}`}
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+          />
+          {errors.username && <div className="invalid-feedback d-block">{errors.username}</div>}
+
+          <input
+            type="password"
+            placeholder="Password"
+            className={`form-control mb-3 ${errors.password ? 'is-invalid' : ''}`}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+          {errors.password && <div className="invalid-feedback d-block">{errors.password}</div>}
+
+          <button type="submit" className="btn btn-dark w-100">Login</button>
+        </form>
+        <div className="login-options mt-3">
+          <Link to="/admin/forgot-password" className="forgot">Forgot password?</Link>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 }
 
 export default SupervisorLogin;

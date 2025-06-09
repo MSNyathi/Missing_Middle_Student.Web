@@ -5,7 +5,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 
 function DonationRequests() {
-    const donationRequests = [
+    const [donationRequests, setDonationRequests] = React.useState([
         {
             id: 1,
             creationDate: "2025-05-20",
@@ -60,7 +60,17 @@ function DonationRequests() {
             status: "Pending",
             notes: ""
         }
-    ];
+    ]);
+
+    const [showSuccess, setShowSuccess] = React.useState(false);
+
+    // Handler to remove a request when accepted
+    const handleAccept = (id) => {
+        setDonationRequests(prev => prev.filter(request => request.id !== id));
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 2000);
+    };
+
     return (
         <>
             {/* Navbar */}
@@ -77,8 +87,8 @@ function DonationRequests() {
             </nav>
 
             {/* Page Content */}
-                        <div className="container d-flex flex-column align-items-center mt-0">
-                            {/* Intro Text */}
+            <div className="container d-flex flex-column align-items-center mt-0">
+                {/* Intro Text */}
                 <p className="fw-bold fs-5 text-center mb-4" style={{ color: 'black', margin: '40px' }}>
                     Here you can view and manage pending laptop donation requests.
                 </p>
@@ -116,51 +126,70 @@ function DonationRequests() {
                                     <td>{request.notes || 'N/A'}</td>
                                     <td>{request.pickupDate}</td>
                                     <td>
-                                        <button style={{ marginRight: '15px' }}>Accept</button>
-                                        <button className="reject-btn">Reject</button>
+                                        <button
+                                            style={{ marginRight: '15px' }}
+                                            onClick={() => handleAccept(request.id)}
+                                        >
+                                            Accept
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
-                </div>
-                {/* Back button fixed to bottom left */}
+            </div>
+            {/* Success message after accepting */}
+            {showSuccess && (
                 <div
+                    className="alert alert-success position-fixed"
                     style={{
-                        position: 'fixed',
-                        bottom: '24px',
+                        bottom: '90px',
                         left: '24px',
-                        zIndex: 1000
+                        zIndex: 1100,
+                        minWidth: '220px'
                     }}
+                    role="alert"
                 >
-                    <Link
-                        to="/supervisor/dashboard"
-                        className="btn custom-back-btn"
-                        style={{ backgroundColor: '#6c757d', color: '#fff', border: 'none' }}
-                    >
-                        <i className="bi bi-arrow-left"></i> Back
-                    </Link>
+                    Donation request accepted!
                 </div>
-                {/* Custom styles for the back button */}
-                                                <style>
-                                                    {`
-                                                        .reject-btn {
-                                                            background-color: #f8f9fa;
-                                                            color: #dc3545;
-                                                            border: 1px solid #dc3545;
-                                                            transition: background 0.2s, color 0.2s;
-                                                            padding: 6px 16px;
-                                                            border-radius: 4px;
-                                                            font-weight: 500;
-                                                        }
-                                                        .reject-btn:hover, .reject-btn:focus {
-                                                            background-color: #dc3545 !important;
-                                                            color: #fff !important;
-                                                            border-color: #dc3545 !important;
-                                                        }
-                                                    `}
-                                                </style>
+            )}
+            {/* Back button fixed to bottom left */}
+            <div
+                style={{
+                    position: 'fixed',
+                    bottom: '24px',
+                    left: '24px',
+                    zIndex: 1000
+                }}
+            >
+                <Link
+                    to="/supervisor/dashboard"
+                    className="btn custom-back-btn"
+                    style={{ backgroundColor: '#6c757d', color: '#fff', border: 'none' }}
+                >
+                    <i className="bi bi-arrow-left"></i> Back
+                </Link>
+            </div>
+            {/* Custom styles for the back button */}
+            <style>
+                {`
+                    .reject-btn {
+                        background-color: #f8f9fa;
+                        color: #dc3545;
+                        border: 1px solid #dc3545;
+                        transition: background 0.2s, color 0.2s;
+                        padding: 6px 16px;
+                        border-radius: 4px;
+                        font-weight: 500;
+                    }
+                    .reject-btn:hover, .reject-btn:focus {
+                        background-color: #dc3545 !important;
+                        color: #fff !important;
+                        border-color: #dc3545 !important;
+                    }
+                `}
+            </style>
             <style>
                 {`
                     .custom-back-btn {

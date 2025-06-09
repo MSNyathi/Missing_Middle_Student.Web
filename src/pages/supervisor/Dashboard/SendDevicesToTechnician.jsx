@@ -5,19 +5,56 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 
 function SendDevicesToTechnician() {
-    const devices = [
-        { id: 'device1', name: 'Huawei', model: 'MateBook D15' },
-        { id: 'device2', name: 'Apple', model: 'iPad Pro' },
-        { id: 'device3', name: 'Dell', model: 'Inspiron 15' },
-        { id: 'device4', name: 'Samsung', model: 'Galaxy Tab S7' },
-        { id: 'device5', name: 'Lenovo', model: 'ThinkPad X1' },
-        { id: 'device6', name: 'HP', model: 'Pavilion 15' }
-        
+    // Hardcoded default devices
+    const defaultDevices = [
+        { id: 'device1', sn:'123', name: 'Huawei', model: 'MateBook D15' },
+        { id: 'device2', sn:'456', name: 'Apple', model: 'iPad Pro' },
+        { id: 'device3', sn:'789', name: 'Dell', model: 'Inspiron 15' },
+        { id: 'device4', sn:'101', name: 'Samsung', model: 'Galaxy Tab S7' },
+        { id: 'device5', sn:'234', name: 'Lenovo', model: 'ThinkPad X1' },
+        { id: 'device6', sn:'567', name: 'HP', model: 'Pavilion 15' }
     ];
+
+    // Load devices from localStorage and merge with default devices
+    const [devices, setDevices] = React.useState(() => {
+        const stored = JSON.parse(localStorage.getItem('devices') || '[]');
+        return [
+            ...defaultDevices,
+            ...stored.filter(
+                d => !defaultDevices.some(def => def.id === d.id)
+            )
+        ];
+    });
+
+    // State to keep track of selected devices (all selected by default)
+    const [selectedDevices, setSelectedDevices] = React.useState(
+        devices.map(d => d.id)
+    );
+
+    // If devices in localStorage change, update state
+    React.useEffect(() => {
+        const stored = JSON.parse(localStorage.getItem('devices') || '[]');
+        setDevices([
+            ...defaultDevices,
+            ...stored.filter(
+                d => !defaultDevices.some(def => def.id === d.id)
+            )
+        ]);
+    }, []);
+
+    const handleCheckboxChange = (event) => {
+        const { id, checked } = event.target;
+        setSelectedDevices(prev =>
+            checked
+                ? [...prev, id]
+                : prev.filter(deviceId => deviceId !== id)
+        );
+    };
+
     return (
         <div
             className="d-flex flex-column justify-content-start align-items-center vh-100 overflow-hidden"
-            style={{ backgroundColor: '#f8f9fa' }} // optional light background
+            style={{ backgroundColor: '#f8f9fa' }}
         >
             {/* Top Navbar */}
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary w-100">
@@ -56,6 +93,8 @@ function SendDevicesToTechnician() {
                                 type="checkbox"
                                 id={device.id}
                                 name={device.id}
+                                checked={selectedDevices.includes(device.id)}
+                                onChange={handleCheckboxChange}
                                 style={{ color: 'black' }}
                             />
                             <label

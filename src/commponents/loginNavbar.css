@@ -1,15 +1,16 @@
-/* loginNavbar.css */
+/* Navbar Container */
 #login-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffcc00; /* Yellow */
+ 
   color: black;
   padding: 12px 20px;
   border-radius: 10px;
   z-index: 1000;
 }
 
+/* Left Side: Logo and Title */
 .navbar-left {
   display: flex;
   align-items: center;
@@ -28,17 +29,27 @@
   margin: 0;
 }
 
-/* Switch user button */
+/* Switch User Button */
 .switch-user-btn {
   background-color: transparent;
   border: 1px solid black;
   color: black;
-  padding: 6px 12px;
+  padding: 10px 20px; /* More space for icon + text */
   border-radius: 25px;
   cursor: pointer;
   display: flex;
   align-items: center;
   font-weight: 500;
+  font-size: 0.95rem;
+  margin-left: 12px; /* Shift right */
+  min-width: 140px;  /* Ensure button is wide enough */
+  justify-content: space-between; /* Spread text + icons */
+  gap: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.switch-user-btn i {
+  font-size: 1.1rem;
 }
 
 .switch-user-btn:hover {
@@ -46,7 +57,11 @@
   color: yellow;
 }
 
-/* Dropdown styling */
+/* Dropdown Menu */
+.dropdown {
+  position: relative;
+}
+
 .dropdown-content {
   position: absolute;
   top: 60px;

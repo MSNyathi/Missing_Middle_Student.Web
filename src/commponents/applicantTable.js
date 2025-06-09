@@ -42,10 +42,7 @@ const ApplicantsTable = ({ applicants, onRowClick }) => {
     applicant.recommendation ? "Yes" : "No",
     applicant.nsfasStatus ? "Funded" : "Unfunded",
     `${applicant.avagerageMark}%`,
-    applicant.applicationStatus
-      ? applicant.applicationStatus.charAt(0).toUpperCase() +
-        applicant.applicationStatus.slice(1)
-      : "Pending",
+    getStatusText(applicant.applicationStatus),
   ];
 
   const exportPDF = (filteredApplicants, fileName) => {
@@ -117,17 +114,15 @@ const ApplicantsTable = ({ applicants, onRowClick }) => {
     doc.save(fileName);
   };
   const getStatusText = (status) => {
-    if(status === null || status === "pending") return "Pending";
-    if (status === true || status === "approved" ) return "Approved";
-    if (status === false || status === "rejected" ) return "Rejected";
-
+    if (status === null || status === "pending") return "Pending";
+    if (status === true || status === "approved") return "Approved";
+    if (status === false || status === "rejected") return "Rejected";
   };
 
   const getStatusBadgeClass = (status) => {
     if (status === null) return "bg-warning";
     if (status === true || status === "approved") return "bg-success";
     if (status === false || status === "rejected") return "bg-danger";
-   
   };
 
   return (
@@ -140,27 +135,37 @@ const ApplicantsTable = ({ applicants, onRowClick }) => {
         >
           Export All
         </button>
+
         <button
           className="btn btn-success"
           onClick={() =>
             exportPDF(
-              applicants.filter((a) => a.eligible),
-              "Applicants_Eligible.pdf"
+              applicants.filter((a) =>
+                a.status
+                  ? a.status.toLowerCase() === "approved"
+                  : a.applicationStatus === true
+              ),
+              "Applicants_Approved_Only.pdf"
             )
           }
         >
-          Export Eligible Only
+          Export Approved Only
         </button>
+
         <button
           className="btn btn-danger"
           onClick={() =>
             exportPDF(
-              applicants.filter((a) => !a.eligible),
-              "Applicants_Not_Eligible.pdf"
+              applicants.filter((a) =>
+                a.status
+                  ? a.status.toLowerCase() === "rejected"
+                  : a.applicationStatus === false
+              ),
+              "Applicants_Rejected_Only.pdf"
             )
           }
         >
-          Export Not Eligible Only
+          Export Rejected Only
         </button>
       </div>
 

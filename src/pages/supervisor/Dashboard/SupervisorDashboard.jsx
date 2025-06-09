@@ -4,45 +4,67 @@ import '../../../landingPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SupervisorDashboard() {
+    function AuthRedirect() {
+                const navigate = useNavigate();
+                useEffect(() => {
+                    const isAuthenticated = !!localStorage.getItem('authToken'); // Adjust key as needed
+                    if (!isAuthenticated) {
+                        navigate('/supervisor/login', { replace: true });
+                    }
+                }, [navigate]);
+                return null;
+            }
     return (
+        <>
         <div className="d-flex flex-column vh-100" style={{ overflow: 'hidden' }}>
+
             {/* Navbar */}
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary px-4" style={{ borderRadius: 0 }}>
-                <Link className="navbar-brand d-flex align-items-center" to="/">
-                    <img src={tut25} alt="Logo" height="40" className="me-2" />
-                    <span className="fw-bold">EduConnect</span>
-                </Link>
-                <span className="navbar-text ms-auto h5 text-white">
-                    Supervisor Dashboard
-                </span>
-            </nav>
+                        
 
-            {/* Layout: Sidebar + Content */}
-            <div className="d-flex flex-grow-1 overflow-hidden">
-                <div
-                    className="d-flex flex-column justify-content-between bg-primary text-white p-3"
-                    style={{ width: '250px' }}>
-                    <div>
-                        <Link to="/Supervisor/Dashboard" className="d-block mb-3 text-white fw-semibold text-decoration-none">
-                            <i className="bi bi-house-door me-2"></i> Home
-                        </Link>
-                        <Link to="/Supervisor/notifications" className="d-block mb-3 text-white fw-semibold text-decoration-none">
-                            <i className="bi bi-bell me-2"></i> Notifications
-                        </Link>
-                    </div>
-                    <div>
-                        <button
-                            className="btn btn-danger w-100"
-                            onClick={() => (window.location.href = "/")}
-                        >
-                            <i className="bi bi-box-arrow-right me-2"></i> Logout
-                        </button>
-                    </div>
-                </div>
+                        <AuthRedirect />
 
-                {/* Main Content - Centered and Scroll-Free */}
+                        <nav className="navbar navbar-expand-lg navbar-dark bg-primary px-4" style={{ borderRadius: 0 }}>
+                            <Link className="navbar-brand d-flex align-items-center" to="/">
+                                <img src={tut25} alt="Logo" height="40" className="me-2" />
+                                <span className="fw-bold">EduConnect</span>
+                            </Link>
+                            <span className="navbar-text ms-auto h5 text-white">
+                                Supervisor Dashboard
+                            </span>
+                        </nav>
+                        <div className="d-flex flex-grow-1 overflow-hidden">
+                            <div
+                                className="d-flex flex-column justify-content-between bg-primary text-white p-3"
+                                style={{ width: '250px' }}>
+                                <div>
+                                    <Link to="/Supervisor/Dashboard" className="d-block mb-3 text-white fw-semibold text-decoration-none">
+                                        <i className="bi bi-house-door me-2"></i> Home
+                                    </Link>
+                                    <Link to="/Supervisor/notifications" className="d-block mb-3 text-white fw-semibold text-decoration-none">
+                                        <i className="bi bi-bell me-2"></i> Notifications
+                                    </Link>
+                                </div>
+                                <div>
+                                    <button
+                                        className="btn btn-danger w-100"
+                                        onClick={() => {
+                                            localStorage.removeItem('authToken');
+                                                localStorage.removeItem('authToken');   // Remove authentication token
+                                                localStorage.removeItem('devices');     // Remove saved devices
+                                                // Optionally, redirect to login page
+                                                window.location.href = '/supervisor/login';
+                                        }}                            
+                                    >
+                                        <i className="bi bi-box-arrow-right me-2"></i> Logout
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Main Content - Centered and Scroll-Free */}
                 <div className="flex-grow-1 bg-light d-flex align-items-center justify-content-center">
                     <div className="row g-4 justify-content-center w-75">
                         <div className="col-md-6">
@@ -89,7 +111,7 @@ function SupervisorDashboard() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
-
 export default SupervisorDashboard;

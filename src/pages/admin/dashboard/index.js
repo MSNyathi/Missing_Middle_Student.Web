@@ -104,30 +104,29 @@ const Dashboard = () => {
   });
   //Getting the total Devices from the API
   useEffect(() => {
-  const fetchTotalDevices = async () => {
-    try {
-      const response = await axios.get("https://localhost:7102/AllDevices", {
-        params: {
-          page: 1,
-          pageSize: 10, // large number to get all devices
-        },
-      });
+    const fetchTotalDevices = async () => {
+      try {
+        const response = await axios.get("https://localhost:7102/AllDevices", {
+          params: {
+            page: 1,
+            pageSize: 10, // large number to get all devices
+          },
+        });
 
-      if (Array.isArray(response.data)) {
-        setTotalDevices(response.data.length);
-      } else if (Array.isArray(response.data.devices)) {
-        setTotalDevices(response.data.devices.length);
-      } else {
-        console.warn("Unexpected response format", response.data);
+        if (Array.isArray(response.data)) {
+          setTotalDevices(response.data.length);
+        } else if (Array.isArray(response.data.devices)) {
+          setTotalDevices(response.data.devices.length);
+        } else {
+          console.warn("Unexpected response format", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching devices:", error);
       }
-    } catch (error) {
-      console.error("Error fetching devices:", error);
-    }
-  };
+    };
 
-  fetchTotalDevices();
-}, []);
-
+    fetchTotalDevices();
+  }, []);
 
   const [adminInfo, setAdminInfo] = useState({
     surname: "",
@@ -150,34 +149,46 @@ const Dashboard = () => {
       ? rawData
       : { data: fallbackData };
 
-  useEffect(() => {
-    const safeData = data.data || {};
-    const approved = safeData.applicants_Data?.Approved_Applicants || 0;
-    const total = safeData.applicants_Data?.Total_Applicants || 0;
+ useEffect(() => {
+  const safeData = data.data || {};
+  const approved = safeData.applicants_Data?.Approved_Applicants || 0;
+  const total = safeData.applicants_Data?.Total_Applicants || 0;
 
-    const unapproved = Math.max(total - approved, 0);
+  const unapproved = Math.max(total - approved, 0);
 
-    setTotalDevices(safeData.device_Info?.Total_devices || 0);
-    setAllocatedDevices(safeData.device_Info?.Allocated_devices || 0);
-    setApprovedApplicants(approved || 0);
-    setUnapprovedApplicants(unapproved || 0);
-    setTotalApplicants( total || 0);
-    const monthlyData = safeData.applicants_Montly_Data;
-    if (Array.isArray(monthlyData)) {
-      setMonthlyApplicants(monthlyData);
-    } else {
-      setMonthlyApplicants(Array(12).fill(0));
-    }
+  setTotalDevices(safeData.device_Info?.Total_devices || 0);
+  setAllocatedDevices(safeData.device_Info?.Allocated_devices || 0);
+  setApprovedApplicants(approved);
+  setUnapprovedApplicants(unapproved);
+  setTotalApplicants(total);
 
-    if (safeData.profile?.profile) {
-      setAdminInfo({
-        surname: safeData.profile.profile.surname || "",
-        initails: safeData.profile.profile.initails || "",
-        email: safeData.profile.profile.email || "",
-        contact: safeData.profile.profile.contact || "",
-      });
-    }
-  }, []);
+  const monthOrder = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+
+  const monthlyData = safeData.applicants_Montly_Data; // ✅ Corrected name
+  console.log("Monthly applicants raw:", monthlyData);
+
+  if (Array.isArray(monthlyData)) {
+    setMonthlyApplicants(monthlyData);
+  } else if (typeof monthlyData === "object" && monthlyData !== null) {
+    const monthlyArray = monthOrder.map((month) => monthlyData[month] || 0);
+    setMonthlyApplicants(monthlyArray);
+  } else {
+    setMonthlyApplicants(Array(12).fill(0));
+  }
+
+  if (safeData.profile?.profile) {
+    setAdminInfo({
+      surname: safeData.profile.profile.surname || "",
+      initails: safeData.profile.profile.initails || "",
+      email: safeData.profile.profile.email || "",
+      contact: safeData.profile.profile.contact || "",
+    });
+  }
+}, []);
+
 
   const handleEmailChange = () => {
     const { currentPassword, newEmail } = formData;
@@ -234,12 +245,7 @@ const Dashboard = () => {
       <div style={backgroundStyle} className="flex-grow-1 p-4">
         {/* Header: Search + Time + Notifications + Profile */}
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <input
-            type="text"
-            className="form-control w-50"
-            placeholder="Search by Student Number, Surname or initials"
-            style={{ borderRadius: "20px" }}
-          />
+          <h2></h2>
           <div className="d-flex align-items-center gap-3">
             <span style={{ color: "black" }}>
               {new Date().toLocaleTimeString([], {

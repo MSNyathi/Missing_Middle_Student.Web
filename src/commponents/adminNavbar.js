@@ -81,8 +81,8 @@ const AdminNavbar = () => {
           </div>
         )}
 
-        <Link to="/admin/students" className="custom-link">
-          <FaUsers /> Students
+        <Link to="/admin/collection" className="custom-link">
+          <FaUsers /> Device Collection
         </Link>
 
         <button

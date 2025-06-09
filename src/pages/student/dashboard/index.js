@@ -1,3 +1,4 @@
+import { FaSignature } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -12,6 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./index.css";
 import tut25 from "../../../assets/tut25.png";
+import StudentLaptopForm from "../../student/contract/studentContract";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -23,14 +25,14 @@ const StudentDashboard = () => {
     const fetchStudentInfo = async () => {
       const studentNumber = localStorage.getItem("studentNumber");
 
-      
       if (!studentNumber) {
         navigate("/student/dashboard");
         return;
       }
 
       try {
-        const response = await axios.get(`https://localhost:7102/api/Student/student/${studentNumber}`
+        const response = await axios.get(
+          `https://localhost:7102/api/Student/student/${studentNumber}`
         );
         setStudent(response.data);
       } catch (error) {
@@ -68,14 +70,6 @@ const StudentDashboard = () => {
             style={{ height: "45px", objectFit: "contain" }}
           />
         </div>
-
-        <button
-          className="btn btn-outline-danger d-flex align-items-center"
-          onClick={() => setShowModal(true)}
-        >
-          <FaSignOutAlt className="me-2" />
-          Logout
-        </button>
       </nav>
 
       {/* Main Content */}
@@ -108,57 +102,82 @@ const StudentDashboard = () => {
                 <p>Loading...</p>
               ) : student ? (
                 <>
-                  <p><strong>Name:</strong> {student.name} {student.surname}</p>
-                  <p><strong>Email:</strong> {student.email}</p>
-                  <p><strong>Student ID:</strong> {student.studentNum}</p>
+                  <p>
+                    <strong>Name:</strong> {student.name} {student.surname}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {student.email}
+                  </p>
+                  <p>
+                    <strong>Student ID:</strong> {student.studentNum}
+                  </p>
                 </>
               ) : (
                 <p className="text-danger">Unable to load student data.</p>
               )}
             </div>
           </div>
+          {/* Action Buttons - Responsive and clean */}
+          <div className="col-lg-4 col-md-12 mb-4">
+            <div className="d-flex flex-wrap gap-3 justify-content-center">
+              {/* Apply for Laptop */}
+              <Link to="/student/apply" className="text-decoration-none">
+                <div
+                  className="card p-3 shadow text-center card-hover-glow interactive-card"
+                  style={{
+                    backgroundColor: "#2aa9e2",
+                    width: "220px",
+                    color: "black",
+                  }}
+                >
+                  <FaLaptopCode
+                    size={60}
+                    className="mb-2 text-light glow-icon interactive-icon"
+                  />
+                  <h6>APPLY FOR LAPTOP</h6>
+                </div>
+              </Link>
 
-          {/* Action Buttons */}
-          <div className="col-md-4 mb-3 d-flex flex-column align-items-center justify-content-center">
-            <div className="row w-100">
-              <div className="col-12 mb-3">
-                <Link to="/student/apply" className="text-decoration-none">
-                  <div
-                    className="card p-4 shadow-lg text-center card-hover-glow interactive-card"
-                    style={{
-                      backgroundColor: "#2aa9e2",
-                      color: "black",
-                    }}
-                  >
-                    <FaLaptopCode
-                      size={100}
-                      className="mb-3 text-light glow-icon interactive-icon"
-                    />
-                    <h5>APPLY FOR LAPTOP</h5>
-                  </div>
-                </Link>
+              {/* Track Application */}
+              <Link to="/student/track" className="text-decoration-none">
+                <div
+                  className="card p-3 shadow text-center card-hover-glow interactive-card"
+                  style={{
+                    backgroundColor: "#b46e0b",
+                    width: "220px",
+                    color: "black",
+                  }}
+                >
+                  <FaMapMarkedAlt
+                    size={50}
+                    className="mb-2 text-light glow-icon interactive-icon"
+                  />
+                  <h6>TRACK APPLICATION</h6>
+                </div>
+              </Link>
 
-                <Link to="/student/track" className="text-decoration-none">
-                  <div
-                    className="card p-4 shadow-lg text-center mt-3 card-hover-glow interactive-card"
-                    style={{
-                      backgroundColor: "#b46e0b",
-                      color: "black",
-                    }}
-                  >
-                    <FaMapMarkedAlt
-                      size={100}
-                      className="mb-3 text-light glow-icon interactive-icon"
-                    />
-                    <h5>TRACK APPLICATION</h5>
-                  </div>
-                </Link>
-              </div>
+              {/* Sign Contract */}
+              <Link to="/student/contract" className="text-decoration-none">
+                <div
+                  className="card p-3 shadow text-center card-hover-glow interactive-card"
+                  style={{
+                    backgroundColor: "#198754",
+                    width: "220px",
+                    color: "black",
+                  }}
+                >
+                  <FaSignature
+                    size={40}
+                    className="mb-2 text-light glow-icon interactive-icon"
+                  />
+                  <h6>SIGN DOCUMENT</h6>
+                </div>
+              </Link>
             </div>
           </div>
 
           {/* Recent Activity */}
-          <div className="col-md-4 mb-3">
+          <div className="col-lg-4 col-md-12 mb-3 order-lg-3">
             <div
               className="card shadow-sm p-3"
               style={{ borderLeft: "5px solid #d52235" }}
