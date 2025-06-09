@@ -15,11 +15,53 @@
     rgba(255, 255, 255, 0.02)
   );
   border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgb(255, 255, 255);
   box-shadow:
     0 4px 30px rgba(0, 0, 0, 0.5),
     inset 0 0 10px rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 1;
+}
+.slanted-left-panel {
+   clip-path: polygon(0 0, 80% 0, 100% 100%, 0% 100%);
+   width: 55vw;
+}
+
+@media (min-width: 768px) {
+  .slanted-left-panel {
+    width: 48vw;
+    min-width: 340px;
+  }
+}
+
+.floating-shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.2;
+  z-index: 1;
+}
+
+.shape-blue {
+  width: 100px;
+  height: 100px;
+  background-color: #007bff;
+  top: 20%;
+  left: 10%;
+}
+
+.shape-yellow {
+  width: 80px;
+  height: 80px;
+  background-color: #ffc107;
+  top: 50%;
+  left: 20%;
+}
+
+.shape-black {
+  width: 60px;
+  height: 60px;
+  background-color: #000;
+  top: 70%;
+  left: 5%;
 }

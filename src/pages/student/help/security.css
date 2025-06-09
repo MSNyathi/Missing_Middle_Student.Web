@@ -1,6 +1,6 @@
-.contact-container {
+.security-container {
   background-image: url('/src/assets/tut13.jpeg');
- background-size: cover;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   min-height: 100vh;
@@ -35,50 +35,21 @@
 }
 
 .description,
-.contact-info p {
-  margin-bottom: 0.5rem;
+.list {
+  margin-bottom: 1rem;
+  line-height: 1.6;
 }
 
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.list {
+  list-style-type: disc;
+  padding-left: 1.5rem;
 }
 
-.contact-form label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-bottom: 0.3rem;
-  display: block;
-}
-
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  padding: 0.6rem;
-  border-radius: 6px;
-  border: none;
-  font-size: 1rem;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-  outline: 2px solid #ccc;
-}
-
-.contact-form button {
-  background-color: #ffcc00;
-  color: #000;
-  font-weight: bold;
-  padding: 0.7rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.contact-form button:hover {
-  background-color: #e6b800;
+.italic {
+  font-style: italic;
+  color: #ccc;
+  font-size: 0.875rem;
+  margin-top: 1rem;
 }
 
 .back-btn {
@@ -94,7 +65,7 @@
   text-decoration: underline;
 }
 
-/* ✅ Mobile Responsive */
+/* Mobile Responsive */
 @media (max-width: 600px) {
   .content-box {
     padding: 1rem;

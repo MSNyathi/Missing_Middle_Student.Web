@@ -109,16 +109,3 @@
   height: 100%;
   padding: 2rem;
 }
-.input-icon-wrapper {
-  position: relative;
-}
-.input-with-icon {
-  padding-right: 40px;
-}
-.password-icon {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  cursor: pointer;
-}

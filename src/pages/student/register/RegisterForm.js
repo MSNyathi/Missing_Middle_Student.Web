@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./student.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import tut25 from "./tut25.png";
@@ -86,92 +86,102 @@ function RegisterForm() {
   };
 
   return (
-    <>
-      <div className="App">
-        <nav id="mynav">
-          <img
-            src={tut25}
-            alt="TUT Logo"
-            style={{ height: "45px", objectFit: "contain" }}
-          />
-        </nav>
+  <div className="donor-container">
+    {/* Left Panel */}
+    <div className="donor-left">
+      <div className="donor-navbar">
+        <Link to="/" className="navbar-brand">
+          <img src={tut25} alt="TUT Logo" className="tut-logo" />
+        </Link>
+        <h1 className="brand-title">EduConnect</h1>
       </div>
+      <div className="left-text d-flex flex-column justify-content-center align-items-center text-center h-100">
+        <h2>
+          You must be a registered TUT student,. You must be under any TUT STEM course.You must not be funded by NSFAS.You must have an academic average of 60%.You must be either doing your Diploma or be a first year as an Advanced Diploma STEM student.
+        </h2>
+        <p>You must submit the latest Statement of income and expenditure.You must be a South African Citizen</p>
+      </div>
+    </div>
 
-     <div className="StudentRegister-wrapper">
-     <div className="register-container glass-card">
-        <h2>Register</h2>
-        <p>Please enter the details below</p>
+    {/* Right Panel */}
+    <div className="donor-right">
+      <div className="login-box">
+        <h2>Student Registration</h2>
         <form className="register-form" onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="studentNumber">Student Number:</label>
+          <div className="mb-3">
             <input
               type="text"
               name="studentNumber"
+              placeholder="Student Number"
+              className={`form-control ${errors.studentNumber ? 'is-invalid' : ''}`}
               value={formData.studentNumber}
               onChange={handleChange}
             />
-            {errors.studentNumber && <span>{errors.studentNumber}</span>}
+            {errors.studentNumber && (
+              <div className="invalid-feedback d-block">{errors.studentNumber}</div>
+            )}
           </div>
 
-          <div>
-            <label htmlFor="password">Password:</label>
-            <div className="input-icon-wrapper">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="input-with-icon"
-              />
-              <i
-                className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}
-                onClick={() => setShowPassword(!showPassword)}
-              ></i>
-            </div>
-            {errors.password && <span>{errors.password}</span>}
+          <div className="mb-3 input-icon-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              className={`form-control input-with-icon ${errors.password ? 'is-invalid' : ''}`}
+              value={formData.password}
+              onChange={handleChange}
+            />
+            <i
+              className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"} password-icon`}
+              onClick={() => setShowPassword(!showPassword)}
+            ></i>
+            {errors.password && (
+              <div className="invalid-feedback d-block">{errors.password}</div>
+            )}
           </div>
 
-          <div>
-            <label htmlFor="confirmPassword">Confirm Password:</label>
-            <div className="input-icon-wrapper">
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                className="input-with-icon"
-              />
-              <i
-                className={`bi ${showConfirmPassword ? "bi-eye-slash" : "bi-eye"}`}
-                onClick={() =>
-                  setShowConfirmPassword(!showConfirmPassword)
-                }
-              ></i>
-            </div>
-            {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
+          <div className="mb-3 input-icon-wrapper">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              className={`form-control input-with-icon ${errors.confirmPassword ? 'is-invalid' : ''}`}
+              value={formData.confirmPassword}
+              onChange={handleChange}
+            />
+            <i
+              className={`bi ${showConfirmPassword ? "bi-eye-slash" : "bi-eye"} password-icon`}
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            ></i>
+            {errors.confirmPassword && (
+              <div className="invalid-feedback d-block">{errors.confirmPassword}</div>
+            )}
           </div>
 
-          <div className="buttons">
+          <div className="d-flex justify-content-between">
             <button
               type="button"
-              className="cancel-btn"
+              className="btn btn-outline-secondary w-45"
               onClick={() => navigate("/student/login")}
             >
               Cancel
             </button>
-            <button type="submit" className="next-btn">
+            <button type="submit" className="btn btn-dark w-45">
               Register
             </button>
           </div>
 
-          {errors.api && <div className="error-message">{errors.api}</div>}
+          {errors.api && (
+            <div className="alert alert-danger mt-3" role="alert">
+              {errors.api}
+            </div>
+          )}
         </form>
       </div>
+    </div>
+  </div>
+);
 
-
-     </div>
-    </>
-  );
 }
 
 export default RegisterForm;

@@ -10,7 +10,7 @@ export default function LandingPage() {
   
   return (
     <div style={{background:'white'}}>
-      <nav>
+      <nav className="top-navbar">
         <div class="logo">
           <img src={BgImg} alt="logo" height="50px" width="180px" />
         </div>
@@ -27,7 +27,7 @@ export default function LandingPage() {
 
       <section class="hero" style={{ color: 'black' }}>
         <div id="herodiv">
-          <h1>EMPOWERING STUDENTS. ONE LAPTOP AT A TIME.</h1>
+          <h1 >EMPOWERING STUDENTS. ONE LAPTOP AT A TIME.</h1>
           <p>
             Bridging the digital divide for TUT’s Missing Middle through
             refurbished technology and community support.
@@ -202,19 +202,19 @@ export default function LandingPage() {
           </p>
           <ul>
             <li>
-              <strong>Scrum Master</strong>
+              <strong style={{ color: "red" }}>Scrum Master</strong>
             </li>
             <li>
-              <strong>Business Analyst</strong>
+              <strong style={{ color: "red" }}>Business Analyst</strong>
             </li>
             <li>
-              <strong>Developers</strong>
+              <strong style={{ color: "red" }}>Developers</strong>
             </li>
             <li>
-              <strong>Front Developers</strong>
+              <strong style={{ color: "red" }}>Front Developers</strong>
             </li>
             <li>
-              <strong>Back Developers</strong>
+              <strong style={{ color: "red" }}>Back Developers</strong>
             </li>
           </ul>
         </div>

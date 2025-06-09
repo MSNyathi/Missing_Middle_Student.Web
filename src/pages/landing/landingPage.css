@@ -84,16 +84,16 @@ body {
 }
 
 
-/* Emphasis and Quotes */
+/* Emphasis and Quotes 
 strong {
   color: #cc0000;
-}
+}*/
 
 em {
   color: #000;
   font-style: italic;
 }
-nav {
+nav.top-navbar {
       background-color: black;
       overflow: hidden;
       color: white;

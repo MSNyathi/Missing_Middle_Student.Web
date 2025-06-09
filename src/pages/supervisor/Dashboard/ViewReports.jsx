@@ -46,31 +46,37 @@ function ViewReports() {
             </nav>
 
             {/* Content Section */}
-            <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center w-100 px-3">
-                <p className="fw-bold fs-6 mb-4" style={{ color: 'black' }}>
-                    Here you can view various reports related to the system.
-                </p>
+                        <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center w-100 px-3 position-relative">
+                            <p className="fw-bold fs-6 mb-4" style={{ color: 'black' }}>
+                                Here you can view various reports related to the system.
+                            </p>
 
-                <div style={{ maxWidth: '500px', width: '100%', boxShadow: '8px 4px 16px rgba(0, 0, 0, 0.58)', borderRadius: '12px', background: '#fff', padding: '2rem' }}>
-                    <h4 className="mb-3 text-start" style={{ color: 'black' }}>Laptop Donation Reports</h4>
-                    <ul className="list-group mb-4 text-start">
-                        {reportData.map((report, idx) => (
-                            <li key={idx} className="list-group-item d-flex justify-content-between align-items-center">
-                                {report.label}
-                                <span className={`badge ${report.badgeClass} rounded-pill`}>{report.value}</span>
-                            </li>
-                        ))}
-                    </ul>
-
-                    <Link
-                        to="/supervisor/dashboard"
-                        className="btn custom-back-btn"
-                        style={{ backgroundColor: '#6c757d', color: '#fff', border: 'none' }}
-                    >
-                        <i className="bi bi-arrow-left"></i> Back
-                    </Link>
-                </div>
-                {/* Custom styles for the back button */}
+                            <div style={{ maxWidth: '500px', width: '100%', boxShadow: '8px 4px 16px rgba(0, 0, 0, 0.58)', borderRadius: '12px', background: '#fff', padding: '2rem' }}>
+                                <h4 className="mb-3 text-start" style={{ color: 'black' }}>Laptop Donation Reports</h4>
+                                <ul className="list-group mb-4 text-start">
+                                    {reportData.map((report, idx) => (
+                                        <li key={idx} className="list-group-item d-flex justify-content-between align-items-center">
+                                            {report.label}
+                                            <span className={`badge ${report.badgeClass} rounded-pill`}>{report.value}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            {/* Custom styles for the back button */}
+                            <Link
+                                to="/supervisor/dashboard"
+                                className="btn custom-back-btn position-absolute"
+                                style={{
+                                    left: 0,
+                                    bottom: 0,
+                                    margin: '2rem',
+                                    backgroundColor: '#6c757d',
+                                    color: '#fff',
+                                    border: 'none'
+                                }}
+                            >
+                                <i className="bi bi-arrow-left"></i> Back
+                            </Link>
             <style>
                 {`
                     .custom-back-btn {

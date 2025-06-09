@@ -95,11 +95,12 @@ export default function AssignDevicePage() {
     setShowModal(true);
   };
 
-  const handleAssignDevice = () => {
+  const handleAssignDevice = async () => {
     if (!selectedDeviceOption || !selectedApplicant) return;
-
+  
     const assignedDate = new Date().toISOString().split('T')[0];
-
+  
+    // 1. Update the UI state
     setDevices((prev) =>
       prev.map((d) =>
         d.id === selectedDeviceOption.value
@@ -107,10 +108,37 @@ export default function AssignDevicePage() {
           : d
       )
     );
-
+  
+    // 2. Close modal
     setShowModal(false);
-    MySwal.fire('Assigned!', 'Device has been assigned successfully.', 'success');
+  
+    // 3. Prepare payload
+    const selectedDevice = devices.find((d) => d.id === selectedDeviceOption.value);
+    const payload = {
+      studentNumber: selectedApplicant,
+      serialNumber: selectedDevice?.serialNumber,
+    };
+  
+    // 4. Send to backend
+    try {
+      const baseUrl = process.env.REACT_APP_API_URL;
+      const response = await fetch(`${baseUrl}assignDaDevice`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      if (!response.ok) throw new Error('Failed to assign device');
+  
+      MySwal.fire('Assigned!', 'Device has been assigned successfully.', 'success');
+    } catch (error) {
+      console.error('Assignment error:', error);
+      MySwal.fire('Error', 'Failed to assign device to backend.', 'error');
+    }
   };
+  
 
   // Updated handleAssignAll to assign partial if not enough devices
   const handleAssignAll = () => {

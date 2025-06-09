@@ -1,6 +1,5 @@
-"use client";
-
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import AdminNavbar from "../../../../commponents/adminNavbar";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,106 +10,10 @@ import backgroundImage from "../../../../assets/backgroundAdmin.jpeg";
 import useNotification from "../../../../commponents/hooks/notificationHook";
 import NotificationPanel from "../../../../commponents/notificationPanel";
 
-// Mock data for technicians
-const mockTechnicians = [
-  {
-    id: 1,
-    name: "John Smith",
-    email: "john.smith@educonnect.com",
-    phone: "071 234 5678",
-    specialization: "Hardware Repair",
-    campus: "Pretoria",
-    department: "ICT Support",
-    employeeId: "TECH001",
-    joinDate: "2023-01-15",
-    rating: 4.8,
-    casesResolved: 127,
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    status: "Active",
-    skills: [
-      "Laptop Repair",
-      "Network Troubleshooting",
-      "Software Installation",
-    ],
-    availability: "Weekdays 8AM-5PM",
-    bio: "Experienced hardware technician with over 5 years in educational IT support.",
-  },
-  {
-    id: 2,
-    name: "Sarah Johnson",
-    email: "sarah.j@educonnect.com",
-    phone: "082 345 6789",
-    specialization: "Network Administration",
-    campus: "Soshanguve South",
-    department: "Network Infrastructure",
-    employeeId: "TECH002",
-    joinDate: "2022-08-10",
-    rating: 4.6,
-    casesResolved: 98,
-    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-    status: "Active",
-    skills: ["Network Configuration", "Firewall Management", "VPN Setup"],
-    availability: "Weekdays 9AM-6PM",
-    bio: "Network specialist focused on maintaining secure campus-wide connectivity.",
-  },
-  {
-    id: 3,
-    name: "David Mokoena",
-    email: "d.mokoena@educonnect.com",
-    phone: "060 456 7890",
-    specialization: "Software Support",
-    campus: "Soshanguve North",
-    department: "Software Solutions",
-    employeeId: "TECH003",
-    joinDate: "2023-03-22",
-    rating: 4.9,
-    casesResolved: 156,
-    avatar: "https://randomuser.me/api/portraits/men/67.jpg",
-    status: "Active",
-    skills: ["OS Troubleshooting", "Software Deployment", "Data Recovery"],
-    availability: "Flexible Hours",
-    bio: "Software expert specializing in academic applications and system optimization.",
-  },
-  {
-    id: 4,
-    name: "Thandi Nkosi",
-    email: "t.nkosi@educonnect.com",
-    phone: "073 567 8901",
-    specialization: "User Support",
-    campus: "Pretoria",
-    department: "Help Desk",
-    employeeId: "TECH004",
-    joinDate: "2022-11-05",
-    rating: 4.7,
-    casesResolved: 203,
-    avatar: "https://randomuser.me/api/portraits/women/22.jpg",
-    status: "On Leave",
-    skills: ["Customer Service", "Troubleshooting", "Technical Documentation"],
-    availability: "Weekdays 7AM-4PM",
-    bio: "Dedicated support specialist with excellent communication skills and technical knowledge.",
-  },
-  {
-    id: 5,
-    name: "Michael van der Merwe",
-    email: "m.vandermerwe@educonnect.com",
-    phone: "084 678 9012",
-    specialization: "Security Systems",
-    campus: "Arcadia",
-    department: "IT Security",
-    employeeId: "TECH005",
-    joinDate: "2023-02-18",
-    rating: 4.5,
-    casesResolved: 87,
-    avatar: "https://randomuser.me/api/portraits/men/52.jpg",
-    status: "Active",
-    skills: ["Security Auditing", "Penetration Testing", "Security Training"],
-    availability: "Weekdays 8AM-5PM",
-    bio: "Cybersecurity expert focused on protecting campus data and infrastructure.",
-  },
-];
-
 const ViewTechnicians = () => {
-  const [technicians, setTechnicians] = useState(mockTechnicians);
+  const [technicians, setTechnicians] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCampus, setFilterCampus] = useState("all");
   const [filterSpecialization, setFilterSpecialization] = useState("all");
@@ -136,24 +39,33 @@ const ViewTechnicians = () => {
     }
   };
 
-  // Get unique campuses and specializations for filters
-  const campuses = [...new Set(mockTechnicians.map((tech) => tech.campus))];
-  const specializations = [
-    ...new Set(mockTechnicians.map((tech) => tech.specialization)),
-  ];
+  // Fetch technicians from the API
+  useEffect(() => {
+    const fetchTechnicians = async () => {
+      try {
+        const response = await axios.get('https://localhost:7102/staff/AllTechnicians');
+        setTechnicians(response.data.technicians);
+      } catch (err) {
+        setError("Failed to fetch technicians");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Filter technicians
+    fetchTechnicians();
+  }, []);
+
+  // Filter technicians based on search and filters
   const filteredTechnicians = technicians.filter((tech) => {
     const matchesSearch =
-      tech.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tech.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tech.employeeId.toLowerCase().includes(searchTerm.toLowerCase());
+      tech.surname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tech.email.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesCampus =
       filterCampus === "all" || tech.campus === filterCampus;
     const matchesSpecialization =
-      filterSpecialization === "all" ||
-      tech.specialization === filterSpecialization;
+      filterSpecialization === "all" || tech.specialization === filterSpecialization;
 
     return matchesSearch && matchesCampus && matchesSpecialization;
   });
@@ -165,7 +77,7 @@ const ViewTechnicians = () => {
 
   const handleDeleteTechnician = (id) => {
     // In a real app, you would call an API to delete the technician
-    setTechnicians(technicians.filter((tech) => tech.id !== id));
+    setTechnicians(technicians.filter((tech) => tech.staffId !== id));
     setShowProfileModal(false);
 
     toast.success("Technician removed successfully", {
@@ -177,16 +89,21 @@ const ViewTechnicians = () => {
       draggable: true,
     });
   };
+
   const backgroundStyle = {
     backgroundColor: "rgb(228, 235, 255)",
     backdropFilter: "blur(8px)",
-    //backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
     minHeight: "100vh",
     color: "white",
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="d-flex">
@@ -195,7 +112,6 @@ const ViewTechnicians = () => {
         <div className="d-flex justify-content-between align-items-center mb-3" style={{ paddingTop: "20px" }}>
           <div className="d-flex align-items-center">
             <img
-              
               alt="eLogo"
               style={{ width: "40px", height: "40px", objectFit: "contain" }}
             />
@@ -293,8 +209,7 @@ const ViewTechnicians = () => {
                   <div className="stat-item">
                     <div className="stat-value" style={{ color: "green" }}>
                       {
-                        technicians.filter((tech) => tech.status === "Active")
-                          .length
+                        technicians.filter((tech) => tech.active).length
                       }
                     </div>
                     <div className="stat-label" style={{ color: "green" }}>
@@ -332,11 +247,7 @@ const ViewTechnicians = () => {
                     className="filter-select glass-input"
                   >
                     <option value="all">All Campuses</option>
-                    {campuses.map((campus, index) => (
-                      <option key={index} value={campus}>
-                        {campus}
-                      </option>
-                    ))}
+                    {/* Add campuses dynamically if needed */}
                   </select>
                 </div>
                 <div className="filter-item">
@@ -346,11 +257,7 @@ const ViewTechnicians = () => {
                     className="filter-select glass-input"
                   >
                     <option value="all">All Specializations</option>
-                    {specializations.map((spec, index) => (
-                      <option key={index} value={spec}>
-                        {spec}
-                      </option>
-                    ))}
+                    {/* Add specializations dynamically if needed */}
                   </select>
                 </div>
                 <button
@@ -370,7 +277,7 @@ const ViewTechnicians = () => {
               {filteredTechnicians.length > 0 ? (
                 filteredTechnicians.map((technician, index) => (
                   <motion.div
-                    key={technician.id}
+                    key={technician.staffId}
                     className="technician-card glass-effect"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -384,15 +291,15 @@ const ViewTechnicians = () => {
                     <div className="technician-status">
                       <span
                         className={`status-dot ${
-                          technician.status === "Active" ? "active" : "inactive"
+                          technician.active ? "active" : "inactive"
                         }`}
                       ></span>
-                      {technician.status}
+                      {technician.active ? "Active" : "Inactive"}
                     </div>
                     <div className="technician-info">
-                      <h3 className="technician-name">{technician.name}</h3>
+                      <h3 className="technician-name">{technician.surname}</h3>
                       <p className="technician-specialization">
-                        {technician.specialization}
+                        {technician.role}
                       </p>
                       <p className="technician-campus">
                         {technician.campus} Campus
@@ -401,13 +308,13 @@ const ViewTechnicians = () => {
                       <div className="technician-stats">
                         <div className="tech-stat glass-stat">
                           <div className="tech-stat-value">
-                            {technician.rating}
+                            {technician.rating || "N/A"}
                           </div>
                           <div className="tech-stat-label">Rating</div>
                         </div>
                         <div className="tech-stat glass-stat">
                           <div className="tech-stat-value">
-                            {technician.casesResolved}
+                            {technician.casesResolved || "N/A"}
                           </div>
                           <div className="tech-stat-label">Cases</div>
                         </div>
@@ -469,8 +376,8 @@ const ViewTechnicians = () => {
                   <div className="profile-header">
                     <div className="profile-avatar">
                       <motion.img
-                        src={selectedTechnician.avatar}
-                        alt={selectedTechnician.name}
+                        src={selectedTechnician.avatar || "default-avatar.png"}
+                        alt={selectedTechnician.surname}
                         initial={{ scale: 0.8 }}
                         animate={{ scale: 1 }}
                         transition={{
@@ -481,9 +388,7 @@ const ViewTechnicians = () => {
                       />
                       <span
                         className={`status-dot ${
-                          selectedTechnician.status === "Active"
-                            ? "active"
-                            : "inactive"
+                          selectedTechnician.active ? "active" : "inactive"
                         }`}
                       ></span>
                     </div>
@@ -493,7 +398,7 @@ const ViewTechnicians = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
                       >
-                        {selectedTechnician.name}
+                        {selectedTechnician.surname}
                       </motion.h2>
                       <motion.p
                         className="employee-id"
@@ -501,7 +406,7 @@ const ViewTechnicians = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 }}
                       >
-                        ID: {selectedTechnician.employeeId}
+                        ID: {selectedTechnician.staffId}
                       </motion.p>
                       <motion.div
                         className="specialization-badge"
@@ -509,7 +414,7 @@ const ViewTechnicians = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 }}
                       >
-                        {selectedTechnician.specialization}
+                        {selectedTechnician.role}
                       </motion.div>
                     </div>
                   </div>
@@ -517,23 +422,21 @@ const ViewTechnicians = () => {
                   <div className="profile-stats">
                     <div className="stat-box glass-stat">
                       <span className="stat-value text-black">
-                        {selectedTechnician.rating}
+                        {selectedTechnician.rating || "N/A"}
                       </span>
                       <span className="stat-label text-black">Rating</span>
                     </div>
                     <div className="stat-box glass-stat">
                       <span className="stat-value text-black">
-                        {selectedTechnician.casesResolved}
+                        {selectedTechnician.casesResolved || "N/A"}
                       </span>
-                      <span className="stat-label text-black">
-                        Cases Resolved
-                      </span>
+                      <span className="stat-label text-black">Cases Resolved</span>
                     </div>
                     <div className="stat-box glass-stat">
                       <span className="stat-value text-black">
                         {new Date(
                           selectedTechnician.joinDate
-                        ).toLocaleDateString()}
+                        ).toLocaleDateString() || "N/A"}
                       </span>
                       <span className="stat-label text-black">Join Date</span>
                     </div>
@@ -551,7 +454,7 @@ const ViewTechnicians = () => {
                       <div className="detail-row">
                         <div className="detail-label">Phone:</div>
                         <div className="detail-value">
-                          {selectedTechnician.phone}
+                          {selectedTechnician.contact}
                         </div>
                       </div>
                     </div>
@@ -561,19 +464,19 @@ const ViewTechnicians = () => {
                       <div className="detail-row">
                         <div className="detail-label">Department:</div>
                         <div className="detail-value">
-                          {selectedTechnician.department}
+                          {selectedTechnician.department || "N/A"}
                         </div>
                       </div>
                       <div className="detail-row">
                         <div className="detail-label">Campus:</div>
                         <div className="detail-value">
-                          {selectedTechnician.campus}
+                          {selectedTechnician.campus || "N/A"}
                         </div>
                       </div>
                       <div className="detail-row">
                         <div className="detail-label">Availability:</div>
                         <div className="detail-value">
-                          {selectedTechnician.availability}
+                          {selectedTechnician.availabilty || "N/A"}
                         </div>
                       </div>
                     </div>
@@ -581,7 +484,7 @@ const ViewTechnicians = () => {
                     <div className="detail-section glass-section">
                       <h4>Skills</h4>
                       <div className="skills-container">
-                        {selectedTechnician.skills.map((skill, index) => (
+                        {selectedTechnician.skills.split(",").map((skill, index) => (
                           <motion.span
                             key={index}
                             className="skill-badge"
@@ -597,7 +500,7 @@ const ViewTechnicians = () => {
 
                     <div className="detail-section glass-section">
                       <h4>Bio</h4>
-                      <p className="bio-text">{selectedTechnician.bio}</p>
+                      <p className="bio-text">{selectedTechnician.bio || "N/A"}</p>
                     </div>
                   </div>
                 </div>
@@ -612,7 +515,7 @@ const ViewTechnicians = () => {
                   <button
                     className="btn-danger btn-glass"
                     onClick={() =>
-                      handleDeleteTechnician(selectedTechnician.id)
+                      handleDeleteTechnician(selectedTechnician.staffId)
                     }
                   >
                     Remove Technician

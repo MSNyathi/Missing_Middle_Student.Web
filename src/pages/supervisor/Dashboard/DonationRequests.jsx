@@ -5,7 +5,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom';
 
 function DonationRequests() {
-    const donationRequests = [
+    const [donationRequests, setDonationRequests] = React.useState([
         {
             id: 1,
             creationDate: "2025-05-20",
@@ -60,7 +60,17 @@ function DonationRequests() {
             status: "Pending",
             notes: ""
         }
-    ];
+    ]);
+
+    const [showSuccess, setShowSuccess] = React.useState(false);
+
+    // Handler to remove a request when accepted
+    const handleAccept = (id) => {
+        setDonationRequests(prev => prev.filter(request => request.id !== id));
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 2000);
+    };
+
     return (
         <>
             {/* Navbar */}
@@ -77,82 +87,109 @@ function DonationRequests() {
             </nav>
 
             {/* Page Content */}
-                        <div className="container d-flex flex-column align-items-center mt-0">
-                            {/* Intro Text */}
+            <div className="container d-flex flex-column align-items-center mt-0">
+                {/* Intro Text */}
                 <p className="fw-bold fs-5 text-center mb-4" style={{ color: 'black', margin: '40px' }}>
                     Here you can view and manage pending laptop donation requests.
                 </p>
 
                 {/* Donation Requests Table */}
-                                                <div
-                                                    className="table-responsive w-100"
-                                                    style={{
-                                                        maxWidth: '1200px',
-                                                        borderRadius: '8px',
-                                                        boxShadow: '8px 4px 16px rgba(0, 0, 0, 0.53), 0 1.5px 4px rgba(0,0,0,0.08)'
-                                                    }}
-                                                >
-                                                    <table className="table table-striped table-hover align-middle text-center">
-                                                        <thead className="table-primary">
-                                                            <tr>
-                                                                <th>ID</th>
-                                                                <th>Creation Date</th>
-                                                                <th>Email</th>
-                                                                <th>Number of Devices</th>
-                                                                <th>Status</th>
-                                                                <th>Notes</th>
-                                                                <th>Pickup Date</th>
-                                                                <th>Accept Requests</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {donationRequests.map((request, idx) => (
-                                                                <tr key={request.id}>
-                                                                    <td>{idx + 1}</td>
-                                                                    <td>{request.creationDate}</td>
-                                                                    <td>{request.email}</td>
-                                                                    <td>{request.devices}</td>
-                                                                    <td>{request.status}</td>
-                                                                    <td>{request.notes || 'N/A'}</td>
-                                                                    <td>{request.pickupDate}</td>
-                                                                    <td>
-                                                                        <button style={{ marginRight: '15px' }}>Accept</button>
-                                                                        <button className="reject-btn">Reject</button>
-                                                                    </td>
-                                                                </tr>
-                                                            ))}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div className="w-100 d-flex justify-content-start mt-4" style={{ maxWidth: '1200px' }}>
-                                                    <Link
-                                                        to="/supervisor/dashboard"
-                                                        className="btn custom-back-btn"
-                                                        style={{ backgroundColor: '#6c757d', color: '#fff', border: 'none' }}
-                                                    >
-                                                        <i className="bi bi-arrow-left"></i> Back
-                                                    </Link>
-                                                </div>
-                                                </div>
-                                                {/* Custom styles for the back button */}
-                                                <style>
-                                                    {`
-                                                        .reject-btn {
-                                                            background-color: #f8f9fa;
-                                                            color: #dc3545;
-                                                            border: 1px solid #dc3545;
-                                                            transition: background 0.2s, color 0.2s;
-                                                            padding: 6px 16px;
-                                                            border-radius: 4px;
-                                                            font-weight: 500;
-                                                        }
-                                                        .reject-btn:hover, .reject-btn:focus {
-                                                            background-color: #dc3545 !important;
-                                                            color: #fff !important;
-                                                            border-color: #dc3545 !important;
-                                                        }
-                                                    `}
-                                                </style>
+                <div
+                    className="table-responsive w-100"
+                    style={{
+                        maxWidth: '1200px',
+                        borderRadius: '8px',
+                        boxShadow: '8px 4px 16px rgba(0, 0, 0, 0.53), 0 1.5px 4px rgba(0,0,0,0.08)'
+                    }}
+                >
+                    <table className="table table-striped table-hover align-middle text-center">
+                        <thead className="table-primary">
+                            <tr>
+                                <th>ID</th>
+                                <th>Creation Date</th>
+                                <th>Email</th>
+                                <th>Number of Devices</th>
+                                <th>Status</th>
+                                <th>Notes</th>
+                                <th>Pickup Date</th>
+                                <th>Accept Requests</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {donationRequests.map((request, idx) => (
+                                <tr key={request.id}>
+                                    <td>{idx + 1}</td>
+                                    <td>{request.creationDate}</td>
+                                    <td>{request.email}</td>
+                                    <td>{request.devices}</td>
+                                    <td>{request.status}</td>
+                                    <td>{request.notes || 'N/A'}</td>
+                                    <td>{request.pickupDate}</td>
+                                    <td>
+                                        <button
+                                            style={{ marginRight: '15px' }}
+                                            onClick={() => handleAccept(request.id)}
+                                        >
+                                            Accept
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {/* Success message after accepting */}
+            {showSuccess && (
+                <div
+                    className="alert alert-success position-fixed"
+                    style={{
+                        bottom: '90px',
+                        left: '24px',
+                        zIndex: 1100,
+                        minWidth: '220px'
+                    }}
+                    role="alert"
+                >
+                    Donation request accepted!
+                </div>
+            )}
+            {/* Back button fixed to bottom left */}
+            <div
+                style={{
+                    position: 'fixed',
+                    bottom: '24px',
+                    left: '24px',
+                    zIndex: 1000
+                }}
+            >
+                <Link
+                    to="/supervisor/dashboard"
+                    className="btn custom-back-btn"
+                    style={{ backgroundColor: '#6c757d', color: '#fff', border: 'none' }}
+                >
+                    <i className="bi bi-arrow-left"></i> Back
+                </Link>
+            </div>
+            {/* Custom styles for the back button */}
+            <style>
+                {`
+                    .reject-btn {
+                        background-color: #f8f9fa;
+                        color: #dc3545;
+                        border: 1px solid #dc3545;
+                        transition: background 0.2s, color 0.2s;
+                        padding: 6px 16px;
+                        border-radius: 4px;
+                        font-weight: 500;
+                    }
+                    .reject-btn:hover, .reject-btn:focus {
+                        background-color: #dc3545 !important;
+                        color: #fff !important;
+                        border-color: #dc3545 !important;
+                    }
+                `}
+            </style>
             <style>
                 {`
                     .custom-back-btn {

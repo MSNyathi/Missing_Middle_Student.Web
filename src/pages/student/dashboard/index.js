@@ -1,7 +1,7 @@
+import { FaSignature } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import {
   FaLaptopCode,
   FaMapMarkedAlt,
@@ -13,6 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./index.css";
 import tut25 from "../../../assets/tut25.png";
+import StudentLaptopForm from "../../student/contract/studentContract";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -23,13 +24,16 @@ const StudentDashboard = () => {
   useEffect(() => {
     const fetchStudentInfo = async () => {
       const studentNumber = localStorage.getItem("studentNumber");
+
       if (!studentNumber) {
         navigate("/student/dashboard");
         return;
       }
 
       try {
-        const response = await axios.get(`https://localhost:7102/api/Student/student/${studentNumber}`);
+        const response = await axios.get(
+          `https://localhost:7102/api/Student/student/${studentNumber}`
+        );
         setStudent(response.data);
       } catch (error) {
         console.error("Failed to fetch student info", error);
@@ -49,90 +53,152 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh", paddingTop: "90px" }}>
+    <div
+      style={{
+        backgroundColor: "white",
+        minHeight: "100vh",
+        paddingTop: "90px",
+        //color: "black",
+      }}
+    >
       {/* Navbar */}
       <nav className="navbar bg-secondary shadow-sm px-3 py-2 fixed-top d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
-          <img src={tut25} alt="TUT Logo" style={{ height: "45px", objectFit: "contain" }} />
+          <img
+            src={tut25}
+            alt="TUT Logo"
+            style={{ height: "45px", objectFit: "contain" }}
+          />
         </div>
-
-        <button
-          className="btn btn-outline-danger d-flex align-items-center"
-          onClick={() => setShowModal(true)}
-        >
-          <FaSignOutAlt className="me-2" />
-          Logout
-        </button>
       </nav>
 
       {/* Main Content */}
       <div className="container-fluid">
         <div className="text-center mb-4">
-          <h2>WELCOME TO EduConnect</h2>
+          <h2 style={{ color: "#d52235" }}>WELCOME TO EduConnect</h2>
           <p className="text-success">
             Latest Application Status: <strong>Under Review</strong>
           </p>
         </div>
 
-        <div className="alert alert-info text-center" role="alert">
-          <FaInfoCircle className="me-2 text-primary" />
+        <div
+          className="alert text-center"
+          style={{ backgroundColor: "#2aa9e2", color: "white" }}
+          role="alert"
+        >
+          <FaInfoCircle className="me-2" />
           Application submissions close on <strong>June 15, 2025!</strong>
         </div>
 
         <div className="row mb-4">
           {/* Student Profile */}
           <div className="col-md-4 mb-3">
-            <div className="card shadow-sm p-3">
-              <h5>Student Profile</h5>
+            <div
+              className="card shadow-sm p-3"
+              style={{ borderLeft: "5px solid #b46e0b" }}
+            >
+              <h5 style={{ color: "#b46e0b" }}>Student Profile</h5>
               {loading ? (
                 <p>Loading...</p>
               ) : student ? (
                 <>
-                  <p><strong>Name:</strong> {student.name} {student.surname}</p>
-                  <p><strong>Email:</strong> {student.email}</p>
-                  <p><strong>Student ID:</strong> {student.studentNum}</p>
+                  <p>
+                    <strong>Name:</strong> {student.name} {student.surname}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {student.email}
+                  </p>
+                  <p>
+                    <strong>Student ID:</strong> {student.studentNum}
+                  </p>
                 </>
               ) : (
                 <p className="text-danger">Unable to load student data.</p>
               )}
             </div>
           </div>
+          {/* Action Buttons - Responsive and clean */}
+          <div className="col-lg-4 col-md-12 mb-4">
+            <div className="d-flex flex-wrap gap-3 justify-content-center">
+              {/* Apply for Laptop */}
+              <Link to="/student/apply" className="text-decoration-none">
+                <div
+                  className="card p-3 shadow text-center card-hover-glow interactive-card"
+                  style={{
+                    backgroundColor: "#2aa9e2",
+                    width: "220px",
+                    color: "black",
+                  }}
+                >
+                  <FaLaptopCode
+                    size={60}
+                    className="mb-2 text-light glow-icon interactive-icon"
+                  />
+                  <h6>APPLY FOR LAPTOP</h6>
+                </div>
+              </Link>
 
-          {/* Center Buttons */}
-          <div className="col-md-4 mb-3 d-flex flex-column align-items-center justify-content-center">
-            <div className="row w-100">
-              <div className="col-12 mb-3">
-                <Link to="/student/apply" className="text-decoration-none">
-                  <div className="card p-4 shadow-lg text-center card-hover-glow">
-                    <FaLaptopCode size={100} className="mb-3 text-dark glow-icon" />
-                    <h5 className="text-dark glow-icon">APPLY FOR LAPTOP</h5>
-                  </div>
-                </Link>
+              {/* Track Application */}
+              <Link to="/student/track" className="text-decoration-none">
+                <div
+                  className="card p-3 shadow text-center card-hover-glow interactive-card"
+                  style={{
+                    backgroundColor: "#b46e0b",
+                    width: "220px",
+                    color: "black",
+                  }}
+                >
+                  <FaMapMarkedAlt
+                    size={50}
+                    className="mb-2 text-light glow-icon interactive-icon"
+                  />
+                  <h6>TRACK APPLICATION</h6>
+                </div>
+              </Link>
 
-                <Link to="/student/track" className="text-decoration-none">
-                  <div className="card p-4 shadow-lg text-center card-hover-glow mt-3">
-                    <FaMapMarkedAlt size={100} className="mb-3 text-dark glow-icon" />
-                    <h5 className="text-dark glow-icon">TRACK APPLICATION</h5>
-                  </div>
-                </Link>
-              </div>
+              {/* Sign Contract */}
+              <Link to="/student/contract" className="text-decoration-none">
+                <div
+                  className="card p-3 shadow text-center card-hover-glow interactive-card"
+                  style={{
+                    backgroundColor: "#198754",
+                    width: "220px",
+                    color: "black",
+                  }}
+                >
+                  <FaSignature
+                    size={40}
+                    className="mb-2 text-light glow-icon interactive-icon"
+                  />
+                  <h6>SIGN DOCUMENT</h6>
+                </div>
+              </Link>
             </div>
           </div>
 
           {/* Recent Activity */}
-          <div className="col-md-4 mb-3">
-            <div className="card shadow-sm p-3">
-              <h5>Recent Activity</h5>
+          <div className="col-lg-4 col-md-12 mb-3 order-lg-3">
+            <div
+              className="card shadow-sm p-3"
+              style={{ borderLeft: "5px solid #d52235" }}
+            >
+              <h5 style={{ color: "#d52235" }}>Recent Activity</h5>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item bg-transparent text-dark">Applied for Laptop – May 5, 2025</li>
-                <li className="list-group-item bg-transparent text-dark">Checked Application Status</li>
-                <li className="list-group-item bg-transparent text-dark">Logged In</li>
+                <li className="list-group-item bg-transparent text-dark">
+                  Applied for Laptop – May 5, 2025
+                </li>
+                <li className="list-group-item bg-transparent text-dark">
+                  Checked Application Status
+                </li>
+                <li className="list-group-item bg-transparent text-dark">
+                  Logged In
+                </li>
               </ul>
             </div>
           </div>
         </div>
 
-        {/* Help Dropdown */}
+        {/* Help & Logout */}
         <div className="d-flex justify-content-between align-items-center mt-4 px-3">
           <div className="dropdown">
             <button
@@ -146,30 +212,72 @@ const StudentDashboard = () => {
               Help Topics
             </button>
             <ul className="dropdown-menu" aria-labelledby="helpDropdown">
-              <li><Link className="dropdown-item" to="/student/help/distribution">🧮 How are laptops distributed?</Link></li>
-              <li><Link className="dropdown-item" to="/student/help/warranty">🛠️ Warranty or support?</Link></li>
-              <li><Link className="dropdown-item" to="/student/help/contact">📍 Who do I contact?</Link></li>
-              <li><Link className="dropdown-item" to="/student/help/security">🔐 Security & support</Link></li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/distribution">
+                  🧮 How are laptops distributed?
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/warranty">
+                  🛠️ Warranty or support?
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/contact">
+                  📍 Who do I contact?
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/student/help/security">
+                  🔐 Security & support
+                </Link>
+              </li>
             </ul>
           </div>
+
+          <button
+            className="btn btn-outline-danger d-flex align-items-center"
+            onClick={() => setShowModal(true)}
+          >
+            <FaSignOutAlt className="me-2" />
+            Logout
+          </button>
         </div>
       </div>
 
-      {/* Logout Confirmation Modal */}
+      {/* Logout Modal */}
       {showModal && (
-        <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+        <div
+          className="modal fade show d-block"
+          tabIndex="-1"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Confirm Logout</h5>
-                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowModal(false)}
+                ></button>
               </div>
               <div className="modal-body">
                 <p>Are you sure you want to logout?</p>
               </div>
               <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
-                <button className="btn btn-danger" onClick={handleConfirmLogout}>Yes, Logout</button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={handleConfirmLogout}
+                >
+                  Yes, Logout
+                </button>
               </div>
             </div>
           </div>
