@@ -22,12 +22,11 @@ const Profile = ({
     skills: "",
   });
 
-  // Update localStorage helper
   const updateLocalStorage = (field, value) => {
-    const storedProfile = localStorage.getItem("techData");
-    if (storedProfile) {
+    const stored = localStorage.getItem("techData");
+    if (stored) {
       try {
-        const parsed = JSON.parse(storedProfile);
+        const parsed = JSON.parse(stored);
         if (parsed.data?.profile) {
           parsed.data.profile[field] = value;
           localStorage.setItem("techData", JSON.stringify(parsed));
@@ -43,11 +42,11 @@ const Profile = ({
     if (storedProfile) {
       try {
         const parsed = JSON.parse(storedProfile);
-        console.log('Parsed localStorage techData:', parsed); // For debugging, remove in prod
         const profile = parsed?.data?.profile || {};
+        const techId = parsed?.data?.techId || "";
 
         setTechInfo({
-          techId: profile.techId || "",
+          techId: techId,
           initails: profile.initails || "",
           surname: profile.surname || "",
           email: profile.email || "",
@@ -71,57 +70,18 @@ const Profile = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Update Bio handler
-  const handleBio = async () => {
+  const handleUpdate = async (fieldName, fieldValue, endpoint) => {
     try {
       if (!techInfo.techId) throw new Error("Tech ID not found");
-      const response = await fetch('https://localhost:7102/update/bio', {
+      const response = await fetch(`https://localhost:7102/update/${endpoint}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ TechId: techInfo.techId, Field: formData.newBio }),
+        body: JSON.stringify({ TechId: techInfo.techId, Field: fieldValue }),
       });
-      if (!response.ok) throw new Error('Failed to update bio');
-      alert('Bio updated successfully!');
-      setTechInfo(prev => ({ ...prev, bio: formData.newBio }));
-      updateLocalStorage("bio", formData.newBio);
-      setSettingsMode("");
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-
-  // Update Availability handler
-  const handleAvailability = async () => {
-    try {
-      if (!techInfo.techId) throw new Error("Tech ID not found");
-      const response = await fetch('https://localhost:7102/update/availability', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ TechId: techInfo.techId, Field: formData.newAvailability }),
-      });
-      if (!response.ok) throw new Error('Failed to update availability');
-      alert('Availability updated successfully!');
-      setTechInfo(prev => ({ ...prev, availability: formData.newAvailability }));
-      updateLocalStorage("availability", formData.newAvailability);
-      setSettingsMode("");
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-
-  // Update Skills handler
-  const handleSkills = async () => {
-    try {
-      if (!techInfo.techId) throw new Error("Tech ID not found");
-      const response = await fetch('https://localhost:7102/update/skills', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ TechId: techInfo.techId, Field: formData.skills }),
-      });
-      if (!response.ok) throw new Error('Failed to update skills');
-      alert('Skills updated successfully!');
-      setTechInfo(prev => ({ ...prev, skills: formData.skills }));
-      updateLocalStorage("skills", formData.skills);
+      if (!response.ok) throw new Error(`Failed to update ${fieldName}`);
+      alert(`${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} updated successfully!`);
+      setTechInfo(prev => ({ ...prev, [fieldName]: fieldValue }));
+      updateLocalStorage(fieldName, fieldValue);
       setSettingsMode("");
     } catch (error) {
       alert(error.message);
@@ -154,7 +114,6 @@ const Profile = ({
         style={{
           width: "380px",
           background: "#000000",
-          backdropFilter: "blur(10px)",
           borderRadius: "20px",
           color: "#fff",
         }}
@@ -203,7 +162,7 @@ const Profile = ({
               onChange={(e) => setFormData({ ...formData, newBio: e.target.value })}
             ></textarea>
             <div className="d-grid gap-2">
-              <button className="btn btn-success" onClick={handleBio}>Save Bio</button>
+              <button className="btn btn-success" onClick={() => handleUpdate("bio", formData.newBio, "bio")}>Save Bio</button>
               <button className="btn btn-outline-light" onClick={() => setSettingsMode("options")}>Back</button>
             </div>
           </>
@@ -219,7 +178,7 @@ const Profile = ({
               onChange={(e) => setFormData({ ...formData, newAvailability: e.target.value })}
             />
             <div className="d-grid gap-2">
-              <button className="btn btn-success" onClick={handleAvailability}>Save Availability</button>
+              <button className="btn btn-success" onClick={() => handleUpdate("availability", formData.newAvailability, "availability")}>Save Availability</button>
               <button className="btn btn-outline-light" onClick={() => setSettingsMode("options")}>Back</button>
             </div>
           </>
@@ -235,7 +194,7 @@ const Profile = ({
               onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
             />
             <div className="d-grid gap-2">
-              <button className="btn btn-success" onClick={handleSkills}>Save Skills</button>
+              <button className="btn btn-success" onClick={() => handleUpdate("skills", formData.skills, "skills")}>Save Skills</button>
               <button className="btn btn-outline-light" onClick={() => setSettingsMode("options")}>Back</button>
             </div>
           </>
