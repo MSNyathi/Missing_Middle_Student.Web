@@ -1,0 +1,45 @@
+#summarySidenav {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 1100;
+  }
+  
+  #summarySidenav a {
+    background-color: #333;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px 0 0 8px;
+    width: 180px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: default;
+  
+    /* Initially partially hidden */
+    transform: translateX(140px);
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  
+  #summarySidenav a:hover {
+    transform: translateX(0); /* Slide fully in on hover */
+  }
+  
+  #collected {
+    background-color: #28a745;
+  }
+  
+  #notCollected {
+    background-color: #ffc107;
+    color: black;
+  }
+  
+  #collectedToday {
+    background-color: #007bff;
+  }
+  
