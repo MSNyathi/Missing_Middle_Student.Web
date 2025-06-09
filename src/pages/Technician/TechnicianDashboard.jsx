@@ -8,7 +8,6 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
 const Dashboard = () => {
-  const [dashboardData, setDashboardData] = useState(null);
   const [deviceInfo, setDeviceInfo] = useState([]);
   const [sortOrder, setSortOrder] = useState('latest');
   const [filter, setFilter] = useState('monthly');
@@ -16,6 +15,10 @@ const Dashboard = () => {
   const [key, setKey] = useState('');
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [settingsMode, setSettingsMode] = useState('');
+  const [totDevices, setTotDevices] = useState(0);
+  const [in_progress, setInProgress] = useState(0);
+  const [completed, setCompleted] = useState(0);
+
   const [formData, setFormData] = useState({
     currentPassword: '',
     newPassword: '',
@@ -25,21 +28,32 @@ const Dashboard = () => {
     newAvailability: '',
     skills: '',
   });
+
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 4;
+  const location = useLocation();
+
+useEffect(() => {
+  const rawData = location.state?.mydata || JSON.parse(localStorage.getItem("techData"));
+  const safeData = typeof rawData === 'object' && rawData?.data ? rawData.data : {
+    laptop_Info: {},
+    serial_Details: {},
+    Devices: {},
+  };
+
+  const laptopInfo = safeData.laptop_Info || {};
+  setTotDevices(laptopInfo.Total_devices || 0);
+  setInProgress(laptopInfo.in_progress || 0);
+  setCompleted(laptopInfo.Completed || 0);
+
+  const devicesList = safeData.serial_Details?.Devices || [];
+  setDeviceInfo(devicesList);
+}, []);
+
+
   const totalPages = Math.ceil(deviceInfo.length / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
   const currentDevices = deviceInfo.slice(startIndex, startIndex + rowsPerPage);
-
-  const location = useLocation();
-  const my_data = location.state?.mydata?.data;
-
-  useEffect(() => {
-    if (my_data?.serial_Details?.Devices) {
-      setDeviceInfo(my_data.serial_Details.Devices);
-    }
-    setDashboardData(my_data);
-  }, [my_data]);
 
   const handleStatusChange = async (serialNo, event) => {
     const newStatus = event.target.value;
@@ -58,7 +72,6 @@ const Dashboard = () => {
   const handleSkills = () => alert(`Skills updated to: ${formData.skills}`);
 
   const getPieDataByFilter = (filter) => {
-    const completed = dashboardData?.laptop_Info?.Completed || 0;
     switch (filter) {
       case 'daily': return [{ name: 'Completed', value: completed }, { name: 'Written Off', value: 1 }];
       case 'weekly': return [{ name: 'Completed', value: completed }, { name: 'Written Off', value: 4 }];
@@ -81,11 +94,9 @@ const Dashboard = () => {
     { message: 'Device TLS124458 not collected', date: '2025-04-13' },
   ];
 
-  const sortedNotifications = [...notifications].sort((a, b) => {
-    return sortOrder === 'latest'
-      ? new Date(b.date) - new Date(a.date)
-      : new Date(a.date) - new Date(b.date);
-  });
+  const sortedNotifications = [...notifications].sort((a, b) =>
+    sortOrder === 'latest' ? new Date(b.date) - new Date(a.date) : new Date(a.date) - new Date(b.date)
+  );
 
   return (
     <div className="d-flex">
@@ -103,14 +114,19 @@ const Dashboard = () => {
               <img src="" alt="Profile" className="rounded-circle" style={{ width: '32px', height: '32px', backgroundColor: '#ccc' }} />
               <span style={{ fontWeight: '500', color: '#003366' }}>Technician</span>
             </div>
-            <Button variant="outline-primary" size="sm" style={{ borderColor: '#003366', color: '#003366' }}>Log out</Button>
+            <Button onClick={() => {
+              localStorage.clear();
+              window.location.href = "/admin/login";
+            }}>
+              Log out
+            </Button>
           </Col>
         </Row>
 
         <Row className="mt-4">
-          <Col><Card body><div>Total Laptops Received</div><strong>{my_data?.laptop_Info?.Total_devices || 0}</strong></Card></Col>
-          <Col><Card body style={{ backgroundColor: '#f1fbfc' }}><div>In Progress</div><strong>{my_data?.laptop_Info?.in_progress || 0}</strong></Card></Col>
-          <Col><Card body style={{ backgroundColor: '#409cf7', color: '#fff' }}><div>Completed</div><strong>{my_data?.laptop_Info?.Completed || 0}</strong></Card></Col>
+          <Col><Card body><div>Total Laptops Received</div><strong>{totDevices}</strong></Card></Col>
+          <Col><Card body style={{ backgroundColor: '#f1fbfc' }}><div>In Progress</div><strong>{in_progress}</strong></Card></Col>
+          <Col><Card body style={{ backgroundColor: '#409cf7', color: '#fff' }}><div>Completed</div><strong>{completed}</strong></Card></Col>
           <Col><Card body><div>Collected</div><strong>20</strong></Card></Col>
         </Row>
 
