@@ -86,7 +86,7 @@ export default function DonationRequest() {
   };
 
   return (
-    <div className="request-container">
+    <div className="request-container" style={{padding:"0", margin:"0"}}>
       <DonorNavbar />
       <main className="main-contents">
         <div className="main-heading">
