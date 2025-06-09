@@ -245,12 +245,7 @@ const Dashboard = () => {
       <div style={backgroundStyle} className="flex-grow-1 p-4">
         {/* Header: Search + Time + Notifications + Profile */}
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <input
-            type="text"
-            className="form-control w-50"
-            placeholder="Search by Student Number, Surname or initials"
-            style={{ borderRadius: "20px" }}
-          />
+          <h2></h2>
           <div className="d-flex align-items-center gap-3">
             <span style={{ color: "black" }}>
               {new Date().toLocaleTimeString([], {

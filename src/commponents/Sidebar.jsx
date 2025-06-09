@@ -8,7 +8,7 @@ import {
 } from 'react-icons/fa';
 
 const Sidebar = () => (
-  <div className="sidebar bg-primary text-white p-3" style={{ minHeight: '100vh', width: '250px', padding: 0 }}>
+  <div className="sidebar bg-primary text-white p-3" style={{ minHeight: '118vh', width: '250px', padding: 0 }}>
     <div className="mb-4">
       <img
         src={logo}

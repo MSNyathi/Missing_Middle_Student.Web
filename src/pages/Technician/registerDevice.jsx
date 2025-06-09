@@ -43,7 +43,7 @@ function RegisterDevice() {
   
   const after_scan = async ()=>{
  try{
-var res =   await axios.post(`https://localhost:7102/ScanDevice`,{serialNumber:scannedInput});
+var res =   await axios.put(`https://localhost:7102/ScanDevice?serialNum=${scannedInput}`);
 if(res.status === 201){
 console.log("device scanned ")
 setServerResponse(res.data.device)

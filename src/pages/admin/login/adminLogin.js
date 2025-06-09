@@ -7,13 +7,11 @@ import backgroundImage from "../../../assets/backgroundAdmin.jpeg";
 import LoginNavbar from "../../../commponents/loginNavbar";
 import axios from "axios";
 
-
 export default function AdminLogin() {
   const navigate = useNavigate();
   const [user, setUser] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
-  
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -21,100 +19,119 @@ export default function AdminLogin() {
     setButtonDisabled(!(user.email && user.password));
   }, [user]);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+const handleLogin = async (e) => {
+  e.preventDefault();
 
-    if (!validateEmail(user.email)) {
-      toast.error("Please enter a valid email.", { position: "top-center" });
-      return;
-    }
+  if (!validateEmail(user.email)) {
+    toast.error("Please enter a valid email.", { position: "top-center" });
+    return;
+  }
 
-    setLoading(true);
-    const API_URL = process.env.REACT_APP_API_URL;
+  setLoading(true);
+  const API_URL = process.env.REACT_APP_API_URL;
 
-    try {
-      const response = await axios.post(`${API_URL}loginAdmin`, {
-        email: user.email,
-        password: user.password,
-      });
-      console.log("Login response:", response.data);
-      console.log("User password:",user.password);
+  try {
+    // Try logging in with technician endpoint first
+   const techResponse = await axios.post(`${API_URL}loginTechnician`, {
+  email: user.email,
+  password: user.password,
+});
+console.log("Response", techResponse);
 
-      const role = response.data?.data?.profile?.profile?.role?.toLowerCase();
+// ✅ Correct structure
+const techProfile = techResponse.data?.data?.profile;
+const techRole = techProfile?.role?.trim().toLowerCase();
+console.log("Tech role:", techRole);
 
-      if (!role || (role !== "admin" && role !== "technician")) {
-        throw new Error("Invalid role detected.");
-      }
+if (techRole === "technician") {
+  toast.success("Technician login successful!", { position: "top-center" });
 
-      toast.success("Login successful!", { position: "top-center" });
-      localStorage.setItem("adminData", JSON.stringify(response.data));
+  localStorage.setItem("techData", JSON.stringify(techResponse.data));
+  localStorage.setItem("techPassword", user.password);
+
+  setTimeout(() => {
+    navigate(`/technician/dashboard`, {
+      state: { mydata: techResponse.data },
+    });
+  }, 1000);
+
+  return;
+}
+  } catch (err) {
+    
+  console.error("Technician login error:", err.response?.data || err.message);
+   if (err.response) {
+    console.error("Server responded with:", err.response.data);
+  } else if (err.request) {
+    console.error("No response received. Request was:", err.request);
+  } else {
+    console.error("Error setting up request:", err.message);
+  }
+
+  }
+
+  try {
+    // Try logging in as admin
+    const adminResponse = await axios.post(`${API_URL}loginAdmin`, {
+      email: user.email,
+      password: user.password,
+    });
+    console.log("Response", adminResponse);
+
+    const adminRole =
+      adminResponse.data?.data?.profile?.profile?.role?.toLowerCase();
+
+    if (adminRole === "admin") {
+      toast.success("Admin login successful!", { position: "top-center" });
+
+      localStorage.setItem("adminData", JSON.stringify(adminResponse.data));
       localStorage.setItem("adminPassword", user.password);
 
       setTimeout(() => {
-        navigate(`/${role}/dashboard`, { state: { mydata: response.data } });
+        navigate(`/admin/dashboard`, {
+          state: { mydata: adminResponse.data },
+        });
       }, 1000);
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Login failed. Please try again.";
-      toast.error(errorMessage, { position: "top-center" });
-    } finally {
-      setLoading(false);
+
+      return;
     }
-  };
+  } catch (err) {
+    console.error("Admin login error:", err.response?.data || err.message);
+  }
+
+  toast.error("Login failed. Please check your credentials.", {
+    position: "top-center",
+  });
+  setLoading(false);
+};
+
+  
+
   return (
-    <div
-      className="w-100 min-vh-100 d-flex flex-column"
-      style={{ overflow: "hidden" }}
-    >
+    <div className="w-100 min-vh-100 d-flex flex-column" style={{ overflow: "hidden" }}>
       <ToastContainer />
-
       <div className="row flex-grow-1 w-100 m-0">
-        {/* Left Side - Background Image/Video */}
-        {/* Left Side - Blue background with LoginNavbar + floating objects */}
-        <div
-          className="col-md-6 d-none d-md-block p-0 position-relative slanted-left-panel"
-          style={{
-            backgroundColor: "#2BA9E3",
-            overflow: "hidden",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            position: "relative",
-          }}
-        >
+        {/* Left Side - Info */}
+        <div className="col-md-6 d-none d-md-block p-0 position-relative slanted-left-panel" style={{ backgroundColor: "#2BA9E3", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "flex-start", position: "relative" }}>
           <div style={{ width: "85%", textAlign: "center" }}>
-            <div
-              className="py-2 px-3"
-              style={{
-                backgroundColor: "#ffc107",
-                marginBottom: "2rem", // space below navbar
-                borderRadius: "4px",
-              }}
-            >
-            <LoginNavbar />
-          </div>
+            <div className="py-2 px-3" style={{ backgroundColor: "#ffc107", marginBottom: "2rem", borderRadius: "4px" }}>
+              <LoginNavbar />
+            </div>
 
-          {/* Floating shapes (optional) */}
-          <div className="floating-shape shape-blue" />
-          <div className="floating-shape shape-yellow" />
-          <div className="floating-shape shape-black" />
+            <div className="floating-shape shape-blue" />
+            <div className="floating-shape shape-yellow" />
+            <div className="floating-shape shape-black" />
 
-          {/* Centered welcome text */}
-          <div
-            className="text-white position-absolute top-50 start-50 translate-middle text-center px-4"
-            style={{ zIndex: 2 }}
-          >
-            <h2 className="fw-bold" style={{ fontSize: "2rem" }}>
-              EduConnect a multi-user platform,
-              <br />
-              to manage and streamline the donation, refurbishment, and
-              allocation of laptops.
-            </h2>
-            <p className="mt-3" style={{ fontSize: "0.95rem" }}>
-              To financially vulnerable students at Tshwane University of
-              Technology.
-            </p>
-          </div>
+            <div className="text-white position-absolute top-50 start-50 translate-middle text-center px-4" style={{ zIndex: 2 }}>
+              <h2 className="fw-bold" style={{ fontSize: "2rem" }}>
+                EduConnect: a multi-user platform,
+                <br />
+                to manage and streamline the donation, refurbishment, and allocation of laptops.
+              </h2>
+              <p className="mt-3" style={{ fontSize: "0.95rem" }}>
+                To financially vulnerable students at Tshwane University of Technology.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -143,9 +160,7 @@ export default function AdminLogin() {
                   className="form-control rounded-pill py-2"
                   placeholder="Password"
                   value={user.password}
-                  onChange={(e) =>
-                    setUser({ ...user, password: e.target.value })
-                  }
+                  onChange={(e) => setUser({ ...user, password: e.target.value })}
                   required
                 />
               </div>
@@ -162,9 +177,7 @@ export default function AdminLogin() {
 
               <button
                 type="submit"
-                className={`btn w-100 rounded-pill py-2 ${
-                  buttonDisabled || loading ? "btn-secondary" : "btn-dark"
-                }`}
+                className={`btn w-100 rounded-pill py-2 ${buttonDisabled || loading ? "btn-secondary" : "btn-dark"}`}
                 disabled={buttonDisabled || loading}
               >
                 {loading
