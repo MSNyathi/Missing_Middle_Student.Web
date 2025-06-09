@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./DonorLogin.css";
@@ -167,6 +167,12 @@ export default function DonorLogin() {
                   : "Login"}
               </button>
             </form>
+            <p className="text-center mt-3" style={{ color: "black" }}>
+              Don’t have an account?{" "}
+              <Link to="/donor/register" className="text-decoration-none">
+                Sign up
+              </Link>
+            </p>
           </div>
         </div>
       </div>
