@@ -16,7 +16,7 @@ const DonorNavbar = () => {
   return (
     <div className="d-flex flex-column vh-100 p-3 bg-primary text-white" style={{ width: '220px' }}>
       <img src={tutLogo} alt="TUT Logo" style={{ width: "100%", marginBottom: "10px" }} />
-      <h2 className="mb-4">EduConnect</h2>
+      <h2 className="mb-4" style={{paddingLeft:"0"}}>EduConnect</h2>
       <ul className="nav nav-pills flex-column">
         <li className="nav-item">
           <Link to="/donor/dashboard" className="nav-link text-white"><FaHome className="me-2"/>Home</Link>
