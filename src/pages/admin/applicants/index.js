@@ -211,85 +211,94 @@ const ApplicantsPage = () => {
     setSettingsMode("");
   };
 
-  const handlePasswordPrompt = (action, applicant) => {
-    Swal.fire({
-      title: `Confirm ${action === "approve" ? "Approval" : "Rejection"}`,
-      input: "password",
-      inputLabel: "Enter your admin password",
-      inputPlaceholder: "Password",
-      inputAttributes: {
-        autocapitalize: "off",
-        autocorrect: "off",
-        type: "password",
-      },
-      showCancelButton: true,
-      confirmButtonText: "Confirm",
-      showLoaderOnConfirm: true,
-      preConfirm: (inputPassword) => {
-        return new Promise((resolve, reject) => {
-          const storedPassword =
-            location.state?.adminPassword ||
-            localStorage.getItem("adminPassword");
+const handlePasswordPrompt = (action, applicant) => {
+  Swal.fire({
+    title: `Confirm ${action === "approve" ? "Approval" : "Rejection"}`,
+    input: "password",
+    inputLabel: "Enter your admin password",
+    inputPlaceholder: "Password",
+    inputAttributes: {
+      autocapitalize: "off",
+      autocorrect: "off",
+      type: "password",
+    },
+    showCancelButton: true,
+    confirmButtonText: "Confirm",
+    showLoaderOnConfirm: true,
+    preConfirm: (inputPassword) => {
+      return new Promise((resolve, reject) => {
+        const storedPassword =
+          location.state?.adminPassword || localStorage.getItem("adminPassword");
 
-          if (inputPassword === storedPassword) {
-            resolve(true);
-          } else {
-            reject(new Error("Incorrect password"));
-          }
-        });
-      },
-      allowOutsideClick: () => !Swal.isLoading(),
-    })
-      .then(async (result) => {
-        if (result.isConfirmed) {
-          const updatedStatus = action === "approve" ? "approved" : "rejected";
-
-          // 🔁 Make sure this sends API request and updates UI
-          updateApplicantStatus(applicant.id, updatedStatus);
-
-          Swal.fire({
-            icon: "success",
-            title: `Applicant ${updatedStatus}`,
-            text: `You have successfully ${updatedStatus} this application.`,
-          });
-
-          toast.success(`${applicant.id} has been ${updatedStatus}.`, {
-            position: "top-right",
-            autoClose: 3000,
-            theme: "dark",
-          });
-          const handleApprove = async () => {
-            try {
-              await axios.put(
-                `https://localhost:7102/approve?ApplicantId=${applicant.id}`
-              );
-            } catch (err) {
-              console.error("Error approving applicant:", err);
-              alert("Failed to approve applicant. Please try again.");
-            }
-          };
-          await handleApprove();
+        if (inputPassword === storedPassword) {
+          resolve(true);
+        } else {
+          reject(new Error("Incorrect password"));
         }
-        const handleReject = async () => {
+      });
+    },
+    allowOutsideClick: () => !Swal.isLoading(),
+  })
+    .then(async (result) => {
+      if (result.isConfirmed) {
+        const updatedStatus = action === "approve" ? "approved" : "rejected";
+
+        // Optional: Update UI before sending API
+        updateApplicantStatus(applicant.id, updatedStatus);
+
+        Swal.fire({
+          icon: "success",
+          title: `Applicant ${updatedStatus}`,
+          text: `You have successfully ${updatedStatus} this application.`,
+        });
+
+        toast.success(`${applicant.id} has been ${updatedStatus}.`, {
+          position: "top-right",
+          autoClose: 3000,
+          theme: "dark",
+        });
+
+        // 🔁 Call only one of these based on action
+        if (action === "approve") {
+          try {
+            await axios.put(
+              `https://localhost:7102/approve?ApplicantId=${applicant.id}`
+            );
+            setApplicants((prev) =>
+              prev.map((app) =>
+                app.id === applicant.id ? { ...app, status: "approved" } : app
+              )
+            );
+          } catch (err) {
+            console.error("Error approving applicant:", err);
+            alert("Failed to approve applicant. Please try again.");
+          }
+        } else if (action === "reject") {
           try {
             await axios.put(
               `https://localhost:7102/reject?ApplicantId=${applicant.id}`
+            );
+            setApplicants((prev) =>
+              prev.map((app) =>
+                app.id === applicant.id ? { ...app, status: "rejected" } : app
+              )
             );
           } catch (err) {
             console.error("Error rejecting applicant:", err);
             alert("Failed to reject applicant. Please try again.");
           }
-        };
-        await handleReject();
-      })
-      .catch((error) => {
-        Swal.fire({
-          icon: "error",
-          title: "Authentication Failed",
-          text: error.message,
-        });
+        }
+      }
+    })
+    .catch((error) => {
+      Swal.fire({
+        icon: "error",
+        title: "Authentication Failed",
+        text: error.message,
       });
-  };
+    });
+};
+
 
   const updateApplicantStatus = (applicantId, status) => {
     setApplicants((prev) => {
